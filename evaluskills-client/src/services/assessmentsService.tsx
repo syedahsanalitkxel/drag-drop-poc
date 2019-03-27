@@ -1,8 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import API from '../API';
-import { ASSESSMENTS } from '../API/endpoints';
-import ErrorObject from '../API/ErrorObject';
+import API from '../api';
+import { ASSESSMENTS } from '../api/endpoints';
+import ErrorObject from '../api/ErrorObject';
 import AssessmentItemInterface from '../interfaces/AssessmentItem';
 
 const api = new API();
