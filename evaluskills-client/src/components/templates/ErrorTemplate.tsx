@@ -8,7 +8,7 @@ const ErrorTemplate: React.FunctionComponent<Props> = ({ children }) => (
   <div className="row">
     <div className="col-md-12">
       Error Page
-      { children }
+      {children}
     </div>
   </div>
 );

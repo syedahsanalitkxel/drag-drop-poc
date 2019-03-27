@@ -7,24 +7,23 @@ import { getAssessments } from '../services/assessmentsService';
 
 const AssessmentItems: IAssessmentItem[] = [
   {
-    category: "Character",
-    competency: "Team Player",
-    definition: "Receive feedback from others and uses the feedback to improve performance",
-    id: "uuid-12-321",
-    type: "Competency",
+    category: 'Character',
+    competency: 'Team Player',
+    definition: 'Receive feedback from others and uses the feedback to improve performance',
+    id: 'uuid-12-321',
+    type: 'Competency',
   },
   {
-    category: "Action",
-    competency: "Good Coder",
-    definition: "Has a set of moral principles used in job in accordance with the culture of organization",
-    id: "uuid-11-111",
-    type: "Influential",
-  }
+    category: 'Action',
+    competency: 'Good Coder',
+    definition:
+      'Has a set of moral principles used in job in accordance with the culture of organization',
+    id: 'uuid-11-111',
+    type: 'Influential',
+  },
 ];
 
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
-  history
-}) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [assessments, setAssessments] = useState(AssessmentItems);
   // TODO: Try moving filters to context
   const [filters, setFilters] = useState({});
@@ -36,7 +35,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
     return function cleanup() {
       setAssessments(AssessmentItems);
       setFilters({});
-    }
+    };
   }, []);
 
   async function fetchAssessments() {

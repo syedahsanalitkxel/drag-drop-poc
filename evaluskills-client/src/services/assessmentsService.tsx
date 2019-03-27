@@ -3,8 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import API from '../API';
 import { ASSESSMENTS } from '../API/endpoints';
 import ErrorObject from '../API/ErrorObject';
-import AssessmentItemInterface from "../interfaces/AssessmentItem";
-
+import AssessmentItemInterface from '../interfaces/AssessmentItem';
 
 const api = new API();
 
@@ -15,7 +14,7 @@ export async function getAssessments() {
     },
     (error: AxiosError) => {
       return new ErrorObject(error);
-    },
+    }
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
-import Spinner from './components/atoms/Spinner'
+import Spinner from './components/atoms/Spinner';
 
 const Home = lazy(() => import('./components/pages/Home'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard/Home'));
@@ -34,7 +34,6 @@ const Routes = () => (
       <Route exact={true} path="/assessment-items/edit/:id">
         <EditAssessment />
       </Route>
-
 
       <Route exact={true} path="/clients">
         <ClientContainer />

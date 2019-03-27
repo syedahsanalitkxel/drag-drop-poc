@@ -6,12 +6,8 @@ interface Props {
 
 const LoginTemplate: React.FunctionComponent<Props> = ({ children }) => (
   <div className="row">
-    <div className="col-md-6">
-      Background Image goes here
-    </div>
-    <div className="col-md-6">
-      { children }
-    </div>
+    <div className="col-md-6">Background Image goes here</div>
+    <div className="col-md-6">{children}</div>
   </div>
 );
 

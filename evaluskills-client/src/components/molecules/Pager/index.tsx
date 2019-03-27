@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 const Pager: React.FunctionComponent = () => (
   <Pagination aria-label="Page navigation example">

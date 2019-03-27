@@ -47,7 +47,9 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
         <div className="hr-line-dashed" />
         <FormGroup className="row">
           <div className="col-md-6">
-            <Label for="competency-select" className="font-bold">Competency</Label>
+            <Label for="competency-select" className="font-bold">
+              Competency
+            </Label>
             <Input type="select" name="competency" id="competency-select" onChange={changeHandler}>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -56,7 +58,9 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             </Input>
           </div>
           <div className="col-md-6">
-            <Label for="category-select" className="font-bold">Category</Label>
+            <Label for="category-select" className="font-bold">
+              Category
+            </Label>
             <Input type="select" name="category" id="category-select" onChange={changeHandler}>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -71,13 +75,28 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
           <div className="col-md-6">
             <Label className="font-bold">Accreditation and Usage</Label>
             <div className="d-flex align-items-center">
-              <RadioButton name="accreditation" value="all" currentSelection={formState.accreditation} onChange={esChangeHandler}>
+              <RadioButton
+                name="accreditation"
+                value="all"
+                currentSelection={formState.accreditation}
+                onChange={esChangeHandler}
+              >
                 All
               </RadioButton>
-              <RadioButton name="accreditation" value="yes" currentSelection={formState.accreditation} onChange={esChangeHandler}>
+              <RadioButton
+                name="accreditation"
+                value="yes"
+                currentSelection={formState.accreditation}
+                onChange={esChangeHandler}
+              >
                 Yes
               </RadioButton>
-              <RadioButton name="accreditation" value="no" currentSelection={formState.accreditation} onChange={esChangeHandler}>
+              <RadioButton
+                name="accreditation"
+                value="no"
+                currentSelection={formState.accreditation}
+                onChange={esChangeHandler}
+              >
                 No
               </RadioButton>
             </div>
@@ -85,13 +104,28 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
           <div className="col-md-6">
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
-              <RadioButton name="status" value="all" currentSelection={formState.status} onChange={esChangeHandler}>
+              <RadioButton
+                name="status"
+                value="all"
+                currentSelection={formState.status}
+                onChange={esChangeHandler}
+              >
                 All
               </RadioButton>
-              <RadioButton name="status" value="published" currentSelection={formState.status} onChange={esChangeHandler}>
+              <RadioButton
+                name="status"
+                value="published"
+                currentSelection={formState.status}
+                onChange={esChangeHandler}
+              >
                 Published
               </RadioButton>
-              <RadioButton name="status" value="drafted" currentSelection={formState.status} onChange={esChangeHandler}>
+              <RadioButton
+                name="status"
+                value="drafted"
+                currentSelection={formState.status}
+                onChange={esChangeHandler}
+              >
                 Drafted
               </RadioButton>
             </div>
@@ -103,13 +137,28 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
           <div className="col-md-12">
             <Label className="font-bold">Industry And Recommended Application</Label>
             <div className="d-flex align-items-center">
-              <RadioButton name="application" value="both" currentSelection={formState.application} onChange={esChangeHandler}>
+              <RadioButton
+                name="application"
+                value="both"
+                currentSelection={formState.application}
+                onChange={esChangeHandler}
+              >
                 Both
               </RadioButton>
-              <RadioButton name="application" value="corporate" currentSelection={formState.application} onChange={esChangeHandler}>
+              <RadioButton
+                name="application"
+                value="corporate"
+                currentSelection={formState.application}
+                onChange={esChangeHandler}
+              >
                 Corporate
               </RadioButton>
-              <RadioButton name="application" value="educational" currentSelection={formState.application} onChange={esChangeHandler}>
+              <RadioButton
+                name="application"
+                value="educational"
+                currentSelection={formState.application}
+                onChange={esChangeHandler}
+              >
                 Educational Institute
               </RadioButton>
             </div>

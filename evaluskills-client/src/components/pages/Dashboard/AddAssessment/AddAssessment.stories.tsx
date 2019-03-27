@@ -4,8 +4,4 @@ import { storiesOf } from '@storybook/react';
 
 import AddAssessment from '.';
 
-storiesOf('AddAssessment', module)
-  .add(
-    'AddAssessment',
-    () => <AddAssessment />
-  )
+storiesOf('AddAssessment', module).add('AddAssessment', () => <AddAssessment />);

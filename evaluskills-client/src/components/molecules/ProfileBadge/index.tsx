@@ -14,13 +14,23 @@ const StyledName = styled.span`
 
 const ProfileBadge: React.FunctionComponent<Props> = ({ name, designation, profilePicture }) => {
   if (!name && !designation && !profilePicture) {
-    return <div>No Profile Data</div>
+    return <div>No Profile Data</div>;
   }
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => {
     setDropdownOpen(!dropdownOpen);
-  }
+  };
+
+  const renderDesignation = () => {
+    if (designation) {
+      return (
+        <span className="text-muted text-xs block">
+          {designation} <b className="caret" />
+        </span>
+      );
+    }
+  };
 
   return (
     <React.Fragment>
@@ -29,7 +39,7 @@ const ProfileBadge: React.FunctionComponent<Props> = ({ name, designation, profi
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle caret={true} tag="a">
             {name && <StyledName className="block m-t-xs font-bold">{name}</StyledName>}
-            {designation && <span className="text-muted text-xs block">{designation} <b className="caret" /></span>}
+            {renderDesignation()}
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem>Profile</DropdownItem>
@@ -41,7 +51,7 @@ const ProfileBadge: React.FunctionComponent<Props> = ({ name, designation, profi
         </Dropdown>
       </div>
       <div className="logo-element">IN+</div>
-    </React.Fragment >
+    </React.Fragment>
   );
-}
+};
 export default ProfileBadge;

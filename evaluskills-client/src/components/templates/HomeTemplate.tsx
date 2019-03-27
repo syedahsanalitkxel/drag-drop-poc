@@ -8,7 +8,7 @@ const HomeTemplate: React.FunctionComponent<Props> = ({ children }) => (
   <div className="row">
     <div className="col-md-12">
       Home Page
-      { children }
+      {children}
     </div>
   </div>
 );

@@ -1,10 +1,12 @@
 import React from 'react';
-import { ErrorContextInterface } from "../interfaces/ErrorContext";
-import ModalContextInterface from "../interfaces/ModalContext";
+import { ErrorContextInterface } from '../interfaces/ErrorContext';
+import ModalContextInterface from '../interfaces/ModalContext';
 
 // Modal Context
 export const ModalContext = React.createContext<ModalContextInterface>({
-  setModalState: (formState: any) => { alert() }
+  setModalState: (formState: any) => {
+    alert();
+  },
 });
 export const ModalContextProvider = ModalContext.Provider;
 export const ModalContextConsumer = ModalContext.Consumer;
