@@ -7,6 +7,7 @@ import RadioButton from '../../atoms/RadioButton';
 import Assessmentelement from '../../organisms/AssesmentElement';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import { styles } from './style';
+
 interface State {
   countAssetelement: number;
   categorySelected: string;
@@ -47,9 +48,9 @@ class AddAssessment extends Component<any, State> {
         { id: 10, value: 'AUPHA', isChecked: false },
         { id: 11, value: 'NACE', isChecked: false },
       ],
+      entityCheckedAll: false,
       entitySelect: 0,
       expstatement: [{ expstatement: '' }],
-      entityCheckedAll: false,
       fathSelected: '',
       itemsElements: [
         { statement: '', behaviur: '', scaling: '' },
@@ -78,9 +79,9 @@ class AddAssessment extends Component<any, State> {
     this.allEntityhandleChange = this.allEntityhandleChange.bind(this);
   }
   public onClickassetelement() {
-    let length = Object.getOwnPropertyNames(this.state.lists).length;
-    let obj = { expstatement: '' };
-    let exps = this.state.expstatement;
+    const length = Object.getOwnPropertyNames(this.state.lists).length;
+    const obj = { expstatement: '' };
+    const exps = this.state.expstatement;
     exps.push(obj);
     this.setState({ expstatement: exps });
 
@@ -106,7 +107,7 @@ class AddAssessment extends Component<any, State> {
     }
   }
   public entityhandleChange(event: any) {
-    let entities = this.state.entityCheck;
+    const entities = this.state.entityCheck;
     entities.forEach((entity: any) => {
       if (entity.value === event.target.value) {
         if (entity.isChecked === true) {
@@ -120,7 +121,7 @@ class AddAssessment extends Component<any, State> {
     this.setState({ entityCheck: entities });
   }
   public allEntityhandleChange(event: any) {
-    let entities = this.state.entityCheck;
+    const entities = this.state.entityCheck;
     if (this.state.entityCheckedAll === true) {
       entities.forEach((entity: any) => (entity.isChecked = false));
       this.setState({ entityCheckedAll: false });
@@ -143,9 +144,9 @@ class AddAssessment extends Component<any, State> {
     this.setState({ competency: event.target.value });
   }
   public onelementhandleChange(event: any, key: number) {
-    let list = this.state.lists;
+    const list = this.state.lists;
     list[key][0].statement = event.target.value;
-    //	list[key] = this.state.itemsElements
+    // list[key] = this.state.itemsElements
   }
   public componentWillMount() {
     if (Object.getOwnPropertyNames(this.state.lists).length === 0) {
@@ -155,43 +156,15 @@ class AddAssessment extends Component<any, State> {
 
       // Object.values(list2[0][0]).
       // this.setState({lists:list})
-      //console.log('list ' + this.state.lists[0][0].statement);
+      // console.log('list ' + this.state.lists[0][0].statement);
     }
   }
   public render() {
-    ///validation schema which wapply on element card textbox
+    // validation schema which wapply on element card textbox
     const addAssessmentSchema = Yup.object().shape({
-      definiation: Yup.string()
-        .min(2, 'Too Short!')
+      categorySelected: Yup.string()
+        .min(1, 'Too Short!')
         .max(250, 'Too Long!')
-        .required('Required'),
-      // expstatement: Yup.string()
-      // 	.min(2, "Too Short!")
-      // 	.max(50, "Too Long!")
-      // 	.required("Required"),
-      expBehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      expscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excbehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      comstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
         .required('Required'),
       combehavior: Yup.string()
         .min(2, 'Too Short!')
@@ -201,7 +174,35 @@ class AddAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      marstatement: Yup.string()
+      comstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      definiation: Yup.string()
+        .min(2, 'Too Short!')
+        .max(250, 'Too Long!')
+        .required('Required'),
+      // expstatement: Yup.string()
+      // 	.min(2, "Too Short!")
+      // 	.max(50, "Too Long!")
+      // 	.required("Required"),
+      excbehaviour: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      excscaling: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      excstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      expBehaviour: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      expscaling: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
@@ -213,7 +214,7 @@ class AddAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      unstatement: Yup.string()
+      marstatement: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
@@ -225,9 +226,9 @@ class AddAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      categorySelected: Yup.string()
-        .min(1, 'Too Short!')
-        .max(250, 'Too Long!')
+      unstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
         .required('Required'),
 
       expstatement: Yup.array().of(
@@ -290,8 +291,7 @@ class AddAssessment extends Component<any, State> {
                             currentSelection={this.state.categorySelected}
                             onChange={this.catehandleChange}
                           >
-                            {' '}
-                            Character{' '}
+                            Character
                           </RadioButton>
                           <RadioButton
                             name="skill"
@@ -358,24 +358,21 @@ class AddAssessment extends Component<any, State> {
                   {this.state.typeSelected === 'comtval' ? (
                     <Fragment>
                       <div className="form-group row">
-                        {' '}
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
-                          {' '}
                           <select
                             className="form-control m-b col-sm-4"
                             name="account"
                             value={this.state.competency}
                             onChange={this.competencyhandleChange}
                           >
-                            {' '}
                             <option>Add Competency</option>
                             <option>option 2</option>
                             <option>option 3</option>
                             <option>option 4</option>
                           </select>
                         </div>
-                      </div>{' '}
+                      </div>
                       <div className="hr-line-dashed" />
                     </Fragment>
                   ) : null}
@@ -617,7 +614,6 @@ class AddAssessment extends Component<any, State> {
                       />
                       {this.state.countAssetelement > 0 ? (
                         <Fragment>
-                          {' '}
                           {(function(count, handle) {
                             let arr = [];
                             for (var i = 0; i < count; i++) {

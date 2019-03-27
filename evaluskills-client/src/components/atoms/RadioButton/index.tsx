@@ -36,15 +36,15 @@ const RadioButton: React.FunctionComponent<Props> = ({
     }
   }
 
+  const radioClasses = classnames([
+    'iradio_square-green',
+    { hover, checked: currentSelection === value },
+  ]);
+
   return (
     <div className="i-checks d-inline m-r-25">
       <label onMouseEnter={mouseEvent} onMouseLeave={mouseEvent}>
-        <div
-          className={classnames([
-            'iradio_square-green',
-            { hover: hover, checked: currentSelection === value },
-          ])}
-        >
+        <div className={radioClasses}>
           <input
             type="radio"
             value={value}
