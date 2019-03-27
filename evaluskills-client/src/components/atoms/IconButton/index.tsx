@@ -15,20 +15,20 @@ interface Props {
 
 const StyledButton = styled.button`
   margin-left: 5px;
-`
+`;
 
 const IconButton: React.FunctionComponent<Props> = ({
-  icon, className, id, actionHandler, children,
+  icon,
+  className,
+  id,
+  actionHandler,
+  children,
 }) => (
-    <StyledButton
-      className={classNames(["btn", className])}
-      onClick={actionHandler}
-      id={id}
-    >
-      {icon && <FontAwesomeIcon icon={icon} />}
-      &nbsp;
+  <StyledButton className={classNames(['btn', className])} onClick={actionHandler} id={id}>
+    {icon && <FontAwesomeIcon icon={icon} />}
+    &nbsp;
     {children}
-    </StyledButton>
-  );
+  </StyledButton>
+);
 
 export default IconButton;

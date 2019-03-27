@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { contentType } from '../enums';
-import AssessmentItemInterface from "../interfaces/AssessmentItem";
+import AssessmentItemInterface from '../interfaces/AssessmentItem';
 import { BASE_URL } from './endpoints';
 import errorResponseHandler from './errorHandler';
 
@@ -9,9 +9,11 @@ export default class API {
   private config: AxiosRequestConfig;
   private instance: AxiosInstance;
 
-  constructor(config: AxiosRequestConfig = {
-    headers: { contentType: contentType.json }
-  }) {
+  constructor(
+    config: AxiosRequestConfig = {
+      headers: { contentType: contentType.json },
+    }
+  ) {
     this.config = {
       baseURL: config.baseURL || BASE_URL,
       headers: {

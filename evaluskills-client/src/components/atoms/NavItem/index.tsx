@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,35 +11,27 @@ interface Props {
   label: string;
   icon?: IconProp;
   active?: boolean;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 const NavItem: React.FC<Props> = ({ to, label, children, active, icon }) => {
-  const renderCollapse = () => (
-    children && (
-      <Collapse className="nav nav-second-level">
-        {children}
-      </Collapse>
-    )
-  )
+  const renderCollapse = () =>
+    children && <Collapse className="nav nav-second-level">{children}</Collapse>;
 
   return (
-    <li className={classNames({ 'active': active })}>
+    <li className={classNames({ active: active })}>
       <NavLink to={to}>
         {icon && <FontAwesomeIcon icon={icon} />}
         &nbsp;
-        <span className="nav-label">
-          {label}
-        </span>
+        <span className="nav-label">{label}</span>
       </NavLink>
       {renderCollapse()}
     </li>
-  )
-}
+  );
+};
 
 NavItem.defaultProps = {
   active: false,
-}
+};
 
 export default NavItem;
-

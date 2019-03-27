@@ -3,11 +3,10 @@ import { get } from 'lodash-es';
 
 const errorResponseHandler = (error: any) => {
   if (
-    error && (
-      get(error, 'status') === 401
-      || get(error, 'status') === 403
-      || get(error, 'response.status') === 403
-    )
+    error &&
+    (get(error, 'status') === 401 ||
+      get(error, 'status') === 403 ||
+      get(error, 'response.status') === 403)
   ) {
     // Logout
   }

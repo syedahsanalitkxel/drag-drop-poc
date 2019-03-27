@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
-import './CheckBox.scss'
+import './CheckBox.scss';
 
 interface Props {
   name: string;
@@ -10,11 +10,15 @@ interface Props {
   children: string;
   currentSelection?: string;
   onChange?: (event: any) => void;
-  isChecked?: boolean
+  isChecked?: boolean;
 }
 
 const CheckBox: React.FunctionComponent<Props> = ({
-  name, value, children, currentSelection, onChange, isChecked
+  name,
+  value,
+  children,
+  onChange,
+  isChecked,
 }) => {
   const [hover, setHover] = useState(false);
 
@@ -25,12 +29,12 @@ const CheckBox: React.FunctionComponent<Props> = ({
     } else if (event.type === 'mouseleave') {
       setHover(false);
     }
-  }
+  };
 
   return (
     <div className="i-checks d-inline m-r-25">
-      <label onMouseEnter={mouseEvent} onMouseLeave={mouseEvent} >
-        <div className={classnames(['icheckbox_square-green', { 'hover': hover, 'checked': isChecked }])}>
+      <label onMouseEnter={mouseEvent} onMouseLeave={mouseEvent}>
+        <div className={classnames(['icheckbox_square-green', { hover, checked: isChecked }])}>
           <input
             type="checkbox"
             value={value}
@@ -43,7 +47,7 @@ const CheckBox: React.FunctionComponent<Props> = ({
         <span className="iradio-text">{children}</span>
       </label>
     </div>
-  )
-}
+  );
+};
 
 export default CheckBox;
