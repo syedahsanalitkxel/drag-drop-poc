@@ -10,11 +10,18 @@ interface ModalProps {
   primaryText: string;
   primaryAction: (data: any) => void;
   secondaryText: string;
-  secondaryAction: "reset" | "dismiss";
+  secondaryAction: 'reset' | 'dismiss';
 }
 
 const ESModal: React.FunctionComponent<ModalProps> = ({
-  title, children, visible, toggle, primaryAction, secondaryAction, primaryText, secondaryText
+  title,
+  children,
+  visible,
+  toggle,
+  primaryAction,
+  secondaryAction,
+  primaryText,
+  secondaryText,
 }) => {
   const initialState = {};
   const [modalState, setModalState] = useState(initialState);
@@ -36,12 +43,19 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
     <Modal isOpen={visible} toggle={toggle}>
       <ModalContextProvider value={{ modalState, setModalState }}>
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
-        <ModalBody>
-          {children}
-        </ModalBody>
+        <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <button type="button" onClick={handleSecondaryAction} className="btn btn-default" data-dismiss="modal">{secondaryText}</button>
-          <button type="button" onClick={handlePrimaryAction} className="btn btn-primary">{primaryText}</button>
+          <button
+            type="button"
+            onClick={handleSecondaryAction}
+            className="btn btn-default"
+            data-dismiss="modal"
+          >
+            {secondaryText}
+          </button>
+          <button type="button" onClick={handlePrimaryAction} className="btn btn-primary">
+            {primaryText}
+          </button>
         </ModalFooter>
       </ModalContextProvider>
     </Modal>

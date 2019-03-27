@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-// import Client from "../../../interfaces/Client";
-import DashboardTemplate from '../../templates/DashboardTemplate';
+import React, { useState } from 'react';
+import ClientList from '../../../interfaces/Client';
+import { IClientFilters } from '../../../interfaces/ClientFilter';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
-import ClientList from "../../../interfaces/Client";
-import ClientFilters from "../../organisms/ClientFilters";
-import {IClientFilters} from "../../../interfaces/ClientFilter";
-import ClientsList from '../../organisms/ClientsList'
+import ClientFilters from '../../organisms/ClientFilters';
+import ClientsList from '../../organisms/ClientsList';
+// import Client from "../../../interfaces/Client";
+import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   clients: ClientList[];
@@ -18,9 +18,13 @@ interface Props {
   remove: (clientId: string) => void;
 }
 
-const DashboardHome : React.FunctionComponent<Props> = ({
-                                                          clients, filterClients, add, edit, remove
-                                                        }) => {
+const DashboardHome: React.FunctionComponent<Props> = ({
+  clients,
+  filterClients,
+  add,
+  edit,
+  remove,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleFilterModal = () => {
@@ -29,7 +33,7 @@ const DashboardHome : React.FunctionComponent<Props> = ({
 
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    toggleFilterModal()
+    toggleFilterModal();
   };
 
   const applyFilters = (filters: IClientFilters) => {
@@ -48,7 +52,7 @@ const DashboardHome : React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <ClientsList listData={clients}/>
+            <ClientsList listData={clients} />
             <Pager />
           </PageBody>
         </div>

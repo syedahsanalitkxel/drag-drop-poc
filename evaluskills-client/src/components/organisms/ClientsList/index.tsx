@@ -3,11 +3,10 @@ import React from 'react';
 import Client from '../../../interfaces/Client';
 
 interface Props {
-  listData: Client[]
+  listData: Client[];
 }
 
 const ClientsList: React.FunctionComponent<Props> = ({ listData }) => {
-
   const renderClientData = (ClientData: Client) => {
     return (
       <React.Fragment key={ClientData.id}>
@@ -32,16 +31,16 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData }) => {
             <strong className="number">{ClientData.noOfEvaluators}</strong>
           </td>
           <td>
-            { ClientData.status === 'Active' ?
+            {ClientData.status === 'Active' ? (
               <span className="label label-primary">{ClientData.status}</span>
-              :
+            ) : (
               <span className="label label-primary label-inactive">{ClientData.status}</span>
-            }
+            )}
           </td>
         </tr>
       </React.Fragment>
     );
-  }
+  };
 
   return (
     <React.Fragment>
@@ -49,21 +48,19 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData }) => {
         <div className="table-holder">
           <table className="table">
             <thead>
-            <tr>
-              <th>Logo</th>
-              <th>Client Name</th>
-              <th>Contact Number</th>
-              <th>Email</th>
-              <th>Plan</th>
-              <th>No. of Assessments</th>
-              <th>No. of Participants</th>
-              <th>No. of Evaluators</th>
-              <th>Status</th>
-            </tr>
+              <tr>
+                <th>Logo</th>
+                <th>Client Name</th>
+                <th>Contact Number</th>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>No. of Assessments</th>
+                <th>No. of Participants</th>
+                <th>No. of Evaluators</th>
+                <th>Status</th>
+              </tr>
             </thead>
-            <tbody>
-            {listData && listData.map(renderClientData)}
-            </tbody>
+            <tbody>{listData && listData.map(renderClientData)}</tbody>
           </table>
         </div>
       </div>

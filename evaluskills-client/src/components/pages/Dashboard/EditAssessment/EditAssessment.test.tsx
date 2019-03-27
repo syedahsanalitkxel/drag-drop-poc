@@ -6,13 +6,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import EditAssessment from '.';
 
-
 import ReactDOM from 'react-dom';
 
-configure({ adapter: new Adapter() })
-const catehandleChange = (event?: any) => {
+configure({ adapter: new Adapter() });
+const catehandleChange = (event?: any) => {};
 
-}
 describe('MyComponent', () => {
   it('should render correctly in "debug" mode', () => {
     const component = shallow(<EditAssessment />);
@@ -22,7 +20,12 @@ describe('MyComponent', () => {
 });
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Router><EditAssessment /></Router>, div);
+  ReactDOM.render(
+    <Router>
+      <EditAssessment />
+    </Router>,
+    div
+  );
   ReactDOM.unmountComponentAtNode(div);
 });
 // it('Radio button Render ', () => {
@@ -40,26 +43,42 @@ it('renders without crashing', () => {
 it('to be defind of form control `.form-control`s', () => {
   const wrapper = shallow(<EditAssessment />);
   expect(wrapper.find('.form-control')).toBeDefined();
-
 });
 it('19 form control `.form-control`s', () => {
-  const wrapper = mount(<Router><EditAssessment /></Router>);
+  const wrapper = mount(
+    <Router>
+      <EditAssessment />
+    </Router>
+  );
   expect(wrapper.find('.form-control')).toHaveLength(19);
   expect(wrapper.find('.form-control')).toBeDefined();
-
 });
 it('Defination label exist ', () => {
-  const wrapper = render(<Router><EditAssessment /></Router>);
+  const wrapper = render(
+    <Router>
+      <EditAssessment />
+    </Router>
+  );
   expect(wrapper.text()).toContain('Defination');
 });
 
 it('submit form ', () => {
-  const wrapper = mount(<Router><EditAssessment /></Router>);
-  wrapper.find('form').simulate('submit')
-
+  const wrapper = mount(
+    <Router>
+      <EditAssessment />
+    </Router>
+  );
+  wrapper.find('form').simulate('submit');
 });
 it('submit form ', () => {
-  const wrapper = mount(<Router><EditAssessment /></Router>);
-  wrapper.find('form').simulate('submit', { preventDefault: (props: any) => { console.log('propssss', props) } });
-
+  const wrapper = mount(
+    <Router>
+      <EditAssessment />
+    </Router>
+  );
+  wrapper.find('form').simulate('submit', {
+    preventDefault: (props: any) => {
+      console.log('propssss', props);
+    },
+  });
 });

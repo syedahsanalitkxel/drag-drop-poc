@@ -19,7 +19,11 @@ interface Props {
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
-  assessments, filterAssessments, add, edit, remove
+  assessments,
+  filterAssessments,
+  add,
+  edit,
+  remove,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,7 +33,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
 
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    toggleFilterModal()
+    toggleFilterModal();
   };
 
   const applyFilters = (filters: AssessmentFiltersInterface) => {

@@ -10,5 +10,5 @@ export interface AssessmentFiltersInterface {
     number: number;
     size: number;
     total: number;
-  }
+  };
 }

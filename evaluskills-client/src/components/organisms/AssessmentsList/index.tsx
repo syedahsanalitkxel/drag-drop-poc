@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { BadgeTypes } from "../../../enums";
+import { BadgeTypes } from '../../../enums';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import IconButton from '../../atoms/IconButton';
-import LabelGroup from "../../atoms/LabelGroup";
+import LabelGroup from '../../atoms/LabelGroup';
 import AssessmentCard from '../../molecules/AssessmentCard';
 
 interface Props {
-  listData: AssessmentItemInterface[],
+  listData: AssessmentItemInterface[];
   edit: (assessmentId: string) => void;
   remove: (assessmentId: string) => void;
 }
@@ -39,31 +39,41 @@ const AssessmentsList: React.FunctionComponent<Props> = ({ listData, edit, remov
 
   const renderActions = (assessmentId: string) => (
     <React.Fragment>
-      <IconButton id="edit" icon="edit" className="btn-outline btn-primary" actionHandler={actionHandler(assessmentId)}>
+      <IconButton
+        id="edit"
+        icon="edit"
+        className="btn-outline btn-primary"
+        actionHandler={actionHandler(assessmentId)}
+      >
         Edit
       </IconButton>
-      <IconButton id="delete" icon="trash" className="btn-default" actionHandler={actionHandler(assessmentId)}>
+      <IconButton
+        id="delete"
+        icon="trash"
+        className="btn-default"
+        actionHandler={actionHandler(assessmentId)}
+      >
         Delete
       </IconButton>
     </React.Fragment>
   );
 
   const renderAssessmentItem = (assessmentItem: AssessmentItemInterface) => {
-    const content = renderContent(assessmentItem.category, assessmentItem.type, assessmentItem.competency);
+    const content = renderContent(
+      assessmentItem.category,
+      assessmentItem.type,
+      assessmentItem.competency
+    );
     const actions = renderActions(assessmentItem.id);
 
     return (
       <AssessmentCard key={assessmentItem.id} header={assessmentItem.definition}>
         {{ content, actions }}
       </AssessmentCard>
-    )
+    );
   };
 
-  return (
-    <React.Fragment>
-      {listData.map(renderAssessmentItem)}
-    </React.Fragment>
-  );
+  return <React.Fragment>{listData.map(renderAssessmentItem)}</React.Fragment>;
 };
 
 export default AssessmentsList;
