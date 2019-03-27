@@ -5,9 +5,7 @@ interface Props {
 }
 
 const Card: React.FunctionComponent<Props> = ({ children }) => (
-  <div className="es-card">
-    {children}
-  </div>
+  <div className="es-card">{children}</div>
 );
 
 export default Card;
