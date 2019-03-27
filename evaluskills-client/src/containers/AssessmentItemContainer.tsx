@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import AssessmentItem from '../components/pages/AssessmentItem';
+import { ErrorContext } from '../context';
 import IAssessmentItem from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
 
@@ -24,6 +25,8 @@ const AssessmentItems: IAssessmentItem[] = [
 ];
 
 const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+  const errorContext = useContext(ErrorContext);
+
   const [assessments, setAssessments] = useState(AssessmentItems);
   // TODO: Try moving filters to context
   const [filters, setFilters] = useState({});
@@ -39,11 +42,12 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
   }, []);
 
   async function fetchAssessments() {
-    const data = await getAssessments();
-    if (data.fail) {
-      // TODO: Implement Error boundary in future;
-    } else {
+    try {
+      const data = await getAssessments();
       setAssessments(data);
+    } catch (error) {
+      // TODO: Implement Error boundary in future;
+      errorContext.setError(error);
     }
   }
 

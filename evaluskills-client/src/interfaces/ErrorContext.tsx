@@ -1,4 +1,6 @@
+import { ErrorObjectInterface } from './ErrorObject';
+
 export interface ErrorContextInterface {
-  status: string;
-  message: string;
+  error: ErrorObjectInterface;
+  setError: (error: ErrorObjectInterface) => void;
 }
