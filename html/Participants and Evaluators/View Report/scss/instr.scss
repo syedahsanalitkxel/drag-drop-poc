@@ -1,0 +1,26 @@
+// Variables, Mixins
+@import "variables.scss";
+@import "mixins.scss";
+
+.label-inactive {
+	background-color: #a2acbd;
+}
+.label-primary {
+	display: block;
+	text-align: center;
+	width: 50px;
+	padding: 3px 5px;
+}
+.table {
+	.progress {
+		width: 180px;
+	}
+}
+.assesment-item {
+	a {
+		color: #676a6c;
+	}
+}
+.btn-primary {
+	color: #fff !important;
+}

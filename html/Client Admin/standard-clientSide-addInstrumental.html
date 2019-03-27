@@ -1,0 +1,696 @@
+﻿<!--
+*
+*  INSPINIA - Responsive Admin Theme
+*  version 2.8
+*
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>INSPINIA | Dashboard</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <!-- Gritter -->
+    <!-- <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet"> -->
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link href="css/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Nav on left side Starts from here -->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <img alt="image" class="rounded-circle" src="img/profile_small.jpg" />
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="block m-t-xs font-bold">Client User</span>
+                                <span class="text-muted text-xs block">Development Director <b class="caret"></b></span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
+                                <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            IN+
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="clientSide-assessment.html"><i class="fa fa-th-large"></i> <span class="nav-label">Assesment Items</span></a>
+                    </li>
+                    <li class="">
+                        <a href="clientSide-instrument-template.html"><i class="fa fa-sitemap"></i> <span class="nav-label">Instrument Template</span></a>
+                    </li>
+
+                    <li class="">
+                        <a href="client-instrument.html"><i class="fa fa-list"></i> <span class="nav-label">Instrument</span></a>
+                    </li>
+                    <li class="">
+                        <a href="client-evaluators.html"><i class="fa fa-user"></i> <span class="nav-label">Evaluators</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Setting</span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="settingUser.html">User</a></li>
+                            <li><a href="emailTemplate.html">Email Template</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Nav on left side Ends here -->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <!-- Header of all pages starts from here -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="mailbox.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                            <span class="float-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="profile.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                            <span class="float-right text-muted small">12 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="grid_options.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                            <span class="float-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="notifications.html" class="dropdown-item">
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="login.html">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+            <!-- Header of all pages Ends here -->
+            <!-- Content Area starts from here -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="PageHeader">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">
+                                <h2 class="font-weight-light">Start Evaluation</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-2 col-form-label font-bold">Title</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" placeholder="Add Title" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col-sm-2 col-form-label font-bold">Status</label>
+                                        <div class="col-sm-10">
+                                            <div class="i-checks d-inline m-r-25">
+                                                <label class="">
+                                                    <div class="iradio_square-green" style="position: relative;">
+                                                        <input type="radio" value="option1" name="a"
+                                                               style="position: absolute; opacity: 0;"><ins class="iCheck-helper"
+                                                                                                            style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                                    </div> <i></i> <span class="iradio-text">Active</span>
+                                                </label>
+                                            </div>
+                                            <div class="i-checks d-inline m-r-25">
+                                                <label class="">
+                                                    <div class="iradio_square-green" style="position: relative;">
+                                                        <input type="radio" value="option2" name="a" style="position: absolute; opacity: 0;"><ins class="iCheck-helper"
+                                                                                                                                                  style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                                    </div> <i></i> <span class="iradio-text">Inactive</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Instrument&nbsp;&nbsp;
+                                            Application
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Higher Education</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col-md-12 col-form-label font-bold">
+                                            Due Date
+                                        </label>
+                                        <input type="date" name="bday" max="3000-12-31"
+                                               min="1000-01-01" class="form-control col-md-10">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Min. Number of
+                                            Evaluations
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <input type="text" placeholder="Add Min. Number" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Participant Invitation
+                                            Email Template
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Select Template</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Evaluator Invitation
+                                            Email Template
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Select Template</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-header row">
+                            <div class="col-sm-6">
+                                <h3>Participants</h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-primary float-right">Add Participants</button>
+                            </div>
+                        </div>
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="form-group row">
+                                    <div class="col-sm-2 font-bold">
+                                        Participant 1
+                                    </div>
+                                    <div class="col-sm-10 row">
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="Add Email" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="First Name" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="Last Name" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="col-sm-12 p-l-0 p-r-0">
+                                                <select class="form-control m-t-15 col-sm-12" name="account" value="">
+                                                    <option>Select Role</option>
+                                                    <option>option 2</option>
+                                                    <option>option 3</option>
+                                                    <option>option 4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 font-bold">
+                                        Evaluators
+                                    </div>
+                                    <div class="col-sm-10 row">
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="Add Email" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="First Name" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="Last Name" class="form-control">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="col-sm-12 p-l-0 p-r-0">
+                                                <select class="form-control m-t-15 col-sm-12" name="account" value="">
+                                                    <option>Select Role</option>
+                                                    <option>option 2</option>
+                                                    <option>option 3</option>
+                                                    <option>option 4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-header row">
+                            <div class="col-sm-6">
+                                <h3>Set Reminder</h3>
+                            </div>
+                        </div>
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Email Template
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Higher Education</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col-md-12 col-form-label font-bold">
+                                            Reminder 1
+                                        </label>
+                                        <input type="date" name="bday" max="3000-12-31" min="1000-01-01" class="form-control col-md-10">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Email Template
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Higher Education</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col-md-12 col-form-label font-bold">
+                                            Reminder 2
+                                        </label>
+                                        <input type="date" name="bday" max="3000-12-31" min="1000-01-01" class="form-control col-md-10">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-12 col-form-label font-bold">
+                                            Email Template
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control m-b col-sm-10" name="account" value="">
+                                                <option>Higher Education</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col-md-12 col-form-label font-bold">
+                                            Reminder 3
+                                        </label>
+                                        <input type="date" name="bday" max="3000-12-31" min="1000-01-01" class="form-control col-md-10">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-white" type="submit">Cancel</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+            <!-- Content Area ends here -->
+            <div class="footer">
+                <div class="float-right">
+                    Technology <strong>Accelerated</strong>.
+                </div>
+                <div>
+                    <strong>Copyright</strong> Tkxel &copy; 2019
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Assessment Modals -->
+    <div class="modal fade show" id="addassessModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header no-borders p-l-30">
+                    <h1 class="modal-title m-t-0 font-bold" id="exampleModalLabel">Add Assessment Items</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="assessmentModalheader p-l-15 d-flex">
+                    <label class="col-form-label p-l-15 p-r-5">Search:</label>
+                    <select class="form-control col-sm-2" name="account" value="">
+                        <option>type</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                    </select>
+                    <select class="form-control col-sm-2" name="account" value="">
+                        <option>Competency</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                    </select>
+                    <select class="form-control col-sm-2" name="account" value="">
+                        <option>Category</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                    </select>
+                    <select class="form-control col-sm-2" name="account" value="">
+                        <option>Fath Base</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                    </select>
+                    <div class="last d-flex">
+                        <input type="text" class="form-control col-sm-10 wCustom m-r-10" name="account" placeholder="Search" />
+                        <button class="btn btn-outline btn-primary" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="assesment-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <p class="assesment-item-title">
+                                    It is a long established fact that a reader will be distracted
+                                </p>
+                                <div class="row assesment-item-info">
+                                    <div class="col-md-3 p-l-0">
+                                        <span class="font-size-12">Category: </span>
+                                        <span class="font-size-12 font-weight-bold">Character</span>
+                                    </div>
+                                    <div class="col-md-3 border-left text-center">
+                                        <span class="font-size-12">Type: </span>
+                                        <span class="badge badge-primary">Competency</span>
+                                    </div>
+                                    <div class="col-md-4 border-left text-center">
+                                        <span class="font-size-12">Competency: </span>
+                                        <span class="font-size-12 font-weight-bold">Team player/Teamwork</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-end">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="option2" name="a" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assesment-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <p class="assesment-item-title">
+                                    It is a long established fact that a reader will be distracted
+                                </p>
+                                <div class="row assesment-item-info">
+                                    <div class="col-md-3 p-l-0">
+                                        <span class="font-size-12">Category: </span>
+                                        <span class="font-size-12 font-weight-bold">Character</span>
+                                    </div>
+                                    <div class="col-md-3 border-left text-center">
+                                        <span class="font-size-12">Type: </span>
+                                        <span class="badge badge-primary">Competency</span>
+                                    </div>
+                                    <div class="col-md-4 border-left text-center">
+                                        <span class="font-size-12">Competency: </span>
+                                        <span class="font-size-12 font-weight-bold">Team player/Teamwork</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-end">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="option2" name="a" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assesment-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <p class="assesment-item-title">
+                                    It is a long established fact that a reader will be distracted
+                                </p>
+                                <div class="row assesment-item-info">
+                                    <div class="col-md-3 p-l-0">
+                                        <span class="font-size-12">Category: </span>
+                                        <span class="font-size-12 font-weight-bold">Character</span>
+                                    </div>
+                                    <div class="col-md-3 border-left text-center">
+                                        <span class="font-size-12">Type: </span>
+                                        <span class="badge badge-primary">Competency</span>
+                                    </div>
+                                    <div class="col-md-4 border-left text-center">
+                                        <span class="font-size-12">Competency: </span>
+                                        <span class="font-size-12 font-weight-bold">Team player/Teamwork</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-end">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="option2" name="a" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">Next</a></li></ul></div>
+                </div>
+
+                <div class="modal-footer text-left justify-content-start">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Reset</button>
+                    <button type="button" class="btn btn-primary">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Filter Modals ends here -->
+    <!-- Mainly scripts -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="js/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    <script src="js/plugins/gritter/jquery.gritter.min.js"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Sparkline -->
+    <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="js/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="js/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.success('Responsive Admin Theme', 'Welcome to INSPINIA');
+
+            }, 1300);
+
+            $('[data-toggle="tooltip"]').tooltip({
+
+            });
+
+            $('.datepicker').datepicker();
+
+            var data1 = [
+                [0, 4], [1, 8], [2, 5], [3, 10], [4, 4], [5, 16], [6, 5], [7, 11], [8, 6], [9, 11], [10, 30], [11, 10], [12, 13], [13, 4], [14, 3], [15, 3], [16, 6]
+            ];
+            var data2 = [
+                [0, 1], [1, 0], [2, 2], [3, 0], [4, 1], [5, 3], [6, 1], [7, 5], [8, 2], [9, 3], [10, 2], [11, 1], [12, 0], [13, 2], [14, 8], [15, 0], [16, 0]
+            ];
+            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
+                data1, data2
+            ],
+                {
+                    series: {
+                        lines: {
+                            show: false,
+                            fill: true
+                        },
+                        splines: {
+                            show: true,
+                            tension: 0.4,
+                            lineWidth: 1,
+                            fill: 0.4
+                        },
+                        points: {
+                            radius: 0,
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#d5d5d5",
+                        borderWidth: 1,
+                        color: '#d5d5d5'
+                    },
+                    colors: ["#1ab394", "#1C84C6"],
+                    xaxis: {
+                    },
+                    yaxis: {
+                        ticks: 4
+                    },
+                    tooltip: false
+                }
+            );
+
+            var doughnutData = {
+                labels: ["App", "Software", "Laptop"],
+                datasets: [{
+                    data: [300, 50, 100],
+                    backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"]
+                }]
+            };
+
+
+            var doughnutOptions = {
+                responsive: false,
+                legend: {
+                    display: false
+                }
+            };
+
+
+            var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+            new Chart(ctx4, { type: 'doughnut', data: doughnutData, options: doughnutOptions });
+
+            var doughnutData = {
+                labels: ["App", "Software", "Laptop"],
+                datasets: [{
+                    data: [70, 27, 85],
+                    backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"]
+                }]
+            };
+
+
+            var doughnutOptions = {
+                responsive: false,
+                legend: {
+                    display: false
+                }
+            };
+
+
+            var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
+            new Chart(ctx4, { type: 'doughnut', data: doughnutData, options: doughnutOptions });
+
+        });
+    </script>
+</body>
+</html>
