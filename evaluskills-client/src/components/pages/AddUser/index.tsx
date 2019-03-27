@@ -2,8 +2,8 @@ import { Field, Formik } from 'formik';
 import React from 'react';
 import { FormFeedback, Input } from 'reactstrap';
 import * as Yup from 'yup';
-import DashboardTemplate from '../../../templates/DashboardTemplate';
-import { styles } from '../style';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+import { styles } from '../AddAssessment/style';
 
 interface MyFormValues {
   firstName: string;
@@ -12,7 +12,7 @@ interface MyFormValues {
   role: string;
 }
 
-export const AddUser: React.FunctionComponent = () => {
+export const Index: React.FunctionComponent = () => {
   const addUserSchema = Yup.object().shape({
     email: Yup.string().email(),
     firstName: Yup.string()
@@ -131,4 +131,4 @@ export const AddUser: React.FunctionComponent = () => {
   );
 };
 
-export default AddUser;
+export default Index;

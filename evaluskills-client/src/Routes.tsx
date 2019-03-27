@@ -2,16 +2,16 @@ import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
 
-const Home = lazy(() => import('./components/pages/Home'));
-const DashboardHome = lazy(() => import('./components/pages/Dashboard/Home'));
+const Home = lazy(() => import('./components/pages/LandingPage'));
+const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
-const AddAssessment = lazy(() => import('./components/pages/Dashboard/AddAssessment'));
-const EditAssessment = lazy(() => import('./components/pages/Dashboard/EditAssessment'));
+const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
+const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 
-const Client = lazy(() => import('./components/pages/Dashboard/Client'));
-const User = lazy(() => import('./components/pages/Dashboard/User'));
-const AddUser = lazy(() => import('./components/pages/Dashboard/AddUser/AddUser'));
+const Client = lazy(() => import('./components/pages/Client'));
+const User = lazy(() => import('./components/pages/User'));
+const AddUser = lazy(() => import('./components/pages/AddUser'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>

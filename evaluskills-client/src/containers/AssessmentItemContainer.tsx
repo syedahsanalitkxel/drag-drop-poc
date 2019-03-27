@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import AssessmentItem from '../components/pages/Dashboard/AssessmentItem';
+import AssessmentItem from '../components/pages/AssessmentItem';
 import IAssessmentItem from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
 

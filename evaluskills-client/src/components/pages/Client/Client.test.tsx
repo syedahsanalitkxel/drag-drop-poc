@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import IClientList from '../../../interfaces/Client';
-import Client from './Client';
+import Client from '.';
 
 configure({ adapter: new Adapter() });
 describe('Client', () => {
