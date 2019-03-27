@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import classnames from 'classnames';
 
@@ -9,7 +9,7 @@ interface Props {
   value: string;
   children: string;
   currentSelection?: string;
-  onChange?: (value: string, name?: string) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const RadioButton: React.FunctionComponent<Props> = ({
@@ -30,12 +30,6 @@ const RadioButton: React.FunctionComponent<Props> = ({
     }
   };
 
-  function select(event: React.ChangeEvent<HTMLInputElement>) {
-    if (onChange) {
-      onChange(event.target.value, event.target.name);
-    }
-  }
-
   const radioClasses = classnames([
     'iradio_square-green',
     { hover, checked: currentSelection === value },
@@ -50,7 +44,7 @@ const RadioButton: React.FunctionComponent<Props> = ({
             value={value}
             name={name}
             checked={currentSelection === value}
-            onChange={select}
+            onChange={onChange}
           />
           <ins className="iCheck-helper" />
         </div>

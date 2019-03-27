@@ -31,12 +31,6 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
     }
   });
 
-  function esChangeHandler(value: string, name?: string) {
-    if (name) {
-      setFormState({ ...formState, [name]: value });
-    }
-  }
-
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setFormState({ ...formState, [event.target.name]: event.target.value });
   }
@@ -79,7 +73,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="accreditation"
                 value="all"
                 currentSelection={formState.accreditation}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 All
               </RadioButton>
@@ -87,7 +81,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="accreditation"
                 value="yes"
                 currentSelection={formState.accreditation}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Yes
               </RadioButton>
@@ -95,7 +89,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="accreditation"
                 value="no"
                 currentSelection={formState.accreditation}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 No
               </RadioButton>
@@ -108,7 +102,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="status"
                 value="all"
                 currentSelection={formState.status}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 All
               </RadioButton>
@@ -116,7 +110,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="status"
                 value="published"
                 currentSelection={formState.status}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Published
               </RadioButton>
@@ -124,7 +118,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="status"
                 value="drafted"
                 currentSelection={formState.status}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Drafted
               </RadioButton>
@@ -141,7 +135,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="application"
                 value="both"
                 currentSelection={formState.application}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Both
               </RadioButton>
@@ -149,7 +143,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="application"
                 value="corporate"
                 currentSelection={formState.application}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Corporate
               </RadioButton>
@@ -157,7 +151,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
                 name="application"
                 value="educational"
                 currentSelection={formState.application}
-                onChange={esChangeHandler}
+                onChange={changeHandler}
               >
                 Educational Institute
               </RadioButton>
