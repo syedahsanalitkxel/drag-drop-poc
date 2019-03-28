@@ -6,11 +6,10 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
-const AddClient = lazy(() => import('./components/pages/Dashboard/AddClient/AddClient'));
+const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 
-const Client = lazy(() => import('./components/pages/Client'));
 const User = lazy(() => import('./components/pages/User'));
 const AddUser = lazy(() => import('./components/pages/AddUser'));
 

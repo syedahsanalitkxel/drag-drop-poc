@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from 'react';
 import { Field, Formik } from 'formik';
-import * as Yup from 'yup';
-import DashboardTemplate from '../../../templates/DashboardTemplate';
+import React, { Fragment, useState } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
-import { styles } from '../style';
-import { IClientFilters } from '../../../../interfaces/ClientFilter';
-import IAddClient from '../../../../interfaces/AddClient';
-import ClientContacts from '../../../organisms/ClientContacts/ClientContacts';
+import styled from 'styled-components';
+import * as Yup from 'yup';
+import IAddClient from '../../../interfaces/AddClient';
+import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
+import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   changeListener?: (formValues: IAddClient) => void;
@@ -19,9 +18,9 @@ const initialState = {
   clientType: 'Type 1',
   contact: [
     {
-      id: 1,
       email: 'Ali@tkxel.com',
       firstName: 'Ali',
+      id: 1,
       lastName: 'Raza',
       phone: '+923334567891',
       role: 'user',
@@ -31,6 +30,11 @@ const initialState = {
   userFirstName: 'rizwan',
   userLastName: 'shah',
 };
+
+const StyledButton = styled.button`
+    marginLeft: 2,
+    marginRight: 2,
+`;
 
 export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [formState, setFormState] = useState(initialState);
@@ -52,7 +56,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     // this.setState({ countAssetelement: this.state.countAssetelement + 1 })
 
     const { contact } = formState;
-    let contactObj: any = {};
+    const contactObj: any = {};
     contact.push(contactObj);
     setFormState({ ...formState, contact });
   };
@@ -294,21 +298,20 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
         </div>
 
         <div className="m-t-15 m-b-15">
-          <button type="button" style={styles.btn} className="btn btn-default btn-lg">
+          <StyledButton type="button" className="btn btn-default btn-lg">
             Cancel
-          </button>
-          <button
+          </StyledButton>
+          <StyledButton
             type="button"
-            style={styles.btn}
             id={'submit'}
             name="submit"
             className="btn btn-primary btn-lg"
           >
             Save
-          </button>
-          <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
+          </StyledButton>
+          <StyledButton type="button" className="btn btn-primary btn-lg">
             Save &amp; Add More
-          </button>
+          </StyledButton>
         </div>
       </div>
     </form>
