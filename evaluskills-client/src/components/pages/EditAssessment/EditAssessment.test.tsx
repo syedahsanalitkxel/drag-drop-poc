@@ -10,7 +10,6 @@ import ReactDOM from 'react-dom';
 
 configure({ adapter: new Adapter() });
 const catehandleChange = (event?: any) => {};
-
 describe('MyComponent', () => {
   it('should render correctly in "debug" mode', () => {
     const component = shallow(<EditAssessment />);

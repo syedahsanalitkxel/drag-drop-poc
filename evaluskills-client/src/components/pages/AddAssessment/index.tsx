@@ -1,13 +1,12 @@
 import { Field, Formik } from 'formik';
 import React, { Component, Fragment } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
-import * as Yup from 'yup';
 import Checkbox from '../../atoms/CheckBox';
-import RadioButton from '../../atoms/RadioButton';
 import Assessmentelement from '../../organisms/AssesmentElement';
+import RadioButton from '../../atoms/RadioButton';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
-
 interface State {
   countAssetelement: number;
   categorySelected: string;
@@ -26,6 +25,9 @@ interface State {
   lists: any;
   validateArray: any;
   expstatement: any;
+  expstatementList: any;
+  expBehaviour: any;
+  componenetName: any;
 }
 class AddAssessment extends Component<any, State> {
   constructor(props: any) {
@@ -48,12 +50,15 @@ class AddAssessment extends Component<any, State> {
         { id: 10, value: 'AUPHA', isChecked: false },
         { id: 11, value: 'NACE', isChecked: false },
       ],
-      entityCheckedAll: false,
+      componenetName: 'Add Assesment Items',
       entitySelect: 0,
-      expstatement: [{ expstatement: '' }],
+      expstatement: [{ statement: '' }],
+      expBehaviour: [{ behaviour: '' }],
+      expstatementList: {},
+      entityCheckedAll: false,
       fathSelected: '',
       itemsElements: [
-        { statement: '', behaviur: '', scaling: '' },
+        { statement: 'ali', behaviur: '', scaling: '' },
         { statement: '', behaviur: '', scaling: '' },
         { statement: '', behaviur: '', scaling: '' },
         { statement: '', behaviur: '', scaling: '' },
@@ -82,11 +87,13 @@ class AddAssessment extends Component<any, State> {
     const length = Object.getOwnPropertyNames(this.state.lists).length;
     const obj = { expstatement: '' };
     const exps = this.state.expstatement;
+
     exps.push(obj);
     this.setState({ expstatement: exps });
 
     const list = this.state.lists;
-    list[length] = this.state.itemsElements;
+    const clonedArray = JSON.parse(JSON.stringify(this.state.itemsElements));
+    list[length] = clonedArray;
     this.setState({ lists: list });
     this.setState({ countAssetelement: this.state.countAssetelement + 1 });
   }
@@ -146,101 +153,20 @@ class AddAssessment extends Component<any, State> {
   public onelementhandleChange(event: any, key: number) {
     const list = this.state.lists;
     list[key][0].statement = event.target.value;
-    // list[key] = this.state.itemsElements
+    //	list[key] = this.state.itemsElements
   }
   public componentWillMount() {
     if (Object.getOwnPropertyNames(this.state.lists).length === 0) {
       const list = this.state.lists;
       list[0] = this.state.itemsElements;
       this.setState({ lists: list });
-
-      // Object.values(list2[0][0]).
-      // this.setState({lists:list})
-      // console.log('list ' + this.state.lists[0][0].statement);
+    }
+    if (this.props.edit) {
+      this.setState({ componenetName: 'Edit Assessment' });
     }
   }
   public render() {
-    // validation schema which wapply on element card textbox
-    const addAssessmentSchema = Yup.object().shape({
-      categorySelected: Yup.string()
-        .min(1, 'Too Short!')
-        .max(250, 'Too Long!')
-        .required('Required'),
-      combehavior: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      comscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      comstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      definiation: Yup.string()
-        .min(2, 'Too Short!')
-        .max(250, 'Too Long!')
-        .required('Required'),
-      // expstatement: Yup.string()
-      // 	.min(2, "Too Short!")
-      // 	.max(50, "Too Long!")
-      // 	.required("Required"),
-      excbehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      expBehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      expscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      marbehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      marscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      marstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      unbehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      unscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      unstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-
-      expstatement: Yup.array().of(
-        Yup.object().shape({
-          expstatement: Yup.string()
-            .min(1, 'Too Short!')
-            .max(250, 'Too Long!')
-            .required('Required'),
-        })
-      ),
-    });
-
+    //  validation schema which wapply on element card textbox
     const renderForm = (formikprops: any) => (
       <form onSubmit={formikprops.handleSubmit} className={'form'}>
         <div className="row">
@@ -248,7 +174,7 @@ class AddAssessment extends Component<any, State> {
             <div className="PageHeader">
               <div className="row">
                 <div className="col-lg-5 col-md-5">
-                  <h2 className="font-weight-light">Add Assesment Items</h2>
+                  <h2 className="font-weight-light">{this.state.componenetName}</h2>
                 </div>
               </div>
             </div>
@@ -285,12 +211,14 @@ class AddAssessment extends Component<any, State> {
                           >
                             None
                           </RadioButton>
+
                           <RadioButton
                             name="character"
                             value="val2"
                             currentSelection={this.state.categorySelected}
                             onChange={this.catehandleChange}
                           >
+                            {' '}
                             Character
                           </RadioButton>
                           <RadioButton
@@ -358,21 +286,24 @@ class AddAssessment extends Component<any, State> {
                   {this.state.typeSelected === 'comtval' ? (
                     <Fragment>
                       <div className="form-group row">
+                        {' '}
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
+                          {' '}
                           <select
                             className="form-control m-b col-sm-4"
                             name="account"
                             value={this.state.competency}
                             onChange={this.competencyhandleChange}
                           >
+                            {' '}
                             <option>Add Competency</option>
                             <option>option 2</option>
                             <option>option 3</option>
                             <option>option 4</option>
                           </select>
                         </div>
-                      </div>
+                      </div>{' '}
                       <div className="hr-line-dashed" />
                     </Fragment>
                   ) : null}
@@ -425,7 +356,6 @@ class AddAssessment extends Component<any, State> {
                       >
                         Corporate
                       </Checkbox>
-
                       {this.state.recommendAppCorporate ? null : this.state
                           .recommendAppHigher ? null : (
                         <div className="isa_error">
@@ -602,7 +532,6 @@ class AddAssessment extends Component<any, State> {
                     </span>
                   </div>
                   <div className="hr-line-dashed" />
-
                   {this.state.assessmentType === 'rubricval' ? (
                     <Fragment>
                       <Assessmentelement
@@ -614,6 +543,7 @@ class AddAssessment extends Component<any, State> {
                       />
                       {this.state.countAssetelement > 0 ? (
                         <Fragment>
+                          {' '}
                           {(function(count, handle) {
                             let arr = [];
                             for (var i = 0; i < count; i++) {
@@ -689,13 +619,15 @@ class AddAssessment extends Component<any, State> {
     return (
       <DashboardTemplate>
         <Formik
+          enableReinitialize={true}
           initialValues={{
+            lists: this.state.lists,
             categorySelected: this.state.categorySelected,
             definiation: '',
             expstatement: this.state.expstatement,
-            expBehaviour: '',
+            expBehaviour: this.state.expBehaviour,
             expscaling: '',
-            excstatement: '',
+            excstatement: this.state.expstatement,
             excbehaviour: '',
             excscaling: '',
             comstatement: '',
@@ -708,7 +640,7 @@ class AddAssessment extends Component<any, State> {
             unbehaviour: '',
             unscaling: '',
           }}
-          validationSchema={addAssessmentSchema}
+          validationSchema={AddAssessmentSchema}
           onSubmit={() => {}}
         >
           {formikprops => renderForm(formikprops)}
