@@ -19,8 +19,8 @@ storiesOf('Atoms.RadioButton', module)
   .add('Working group', () => {
     const [selected, setSelected] = useState('val1');
 
-    const handleChange = (value: string) => {
-      setSelected(value);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSelected(event.target.value);
     };
 
     return (

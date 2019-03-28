@@ -2,6 +2,6 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import User from './User';
+import User from '.';
 
 storiesOf('Dashboard', module).add('User', () => <User>User Content</User>);

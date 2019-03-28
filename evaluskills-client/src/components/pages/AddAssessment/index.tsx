@@ -2,11 +2,11 @@ import { Field, Formik } from 'formik';
 import React, { Component, Fragment } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
 import * as Yup from 'yup';
-import Checkbox from '../../../atoms/CheckBox';
-import RadioButton from '../../../atoms/RadioButton';
-import Assessmentelement from '../../../organisms/AssesmentElement';
-import DashboardTemplate from '../../../templates/DashboardTemplate';
-import { styles } from '../style';
+import Checkbox from '../../atoms/CheckBox';
+import RadioButton from '../../atoms/RadioButton';
+import Assessmentelement from '../../organisms/AssesmentElement';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+import { styles } from './style';
 
 interface State {
   countAssetelement: number;
@@ -25,8 +25,9 @@ interface State {
   itemsElements: any;
   lists: any;
   validateArray: any;
+  expstatement: any;
 }
-class EditAssessment extends Component<any, State> {
+class AddAssessment extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -47,8 +48,9 @@ class EditAssessment extends Component<any, State> {
         { id: 10, value: 'AUPHA', isChecked: false },
         { id: 11, value: 'NACE', isChecked: false },
       ],
-      entitySelect: 0,
       entityCheckedAll: false,
+      entitySelect: 0,
+      expstatement: [{ expstatement: '' }],
       fathSelected: '',
       itemsElements: [
         { statement: '', behaviur: '', scaling: '' },
@@ -77,7 +79,11 @@ class EditAssessment extends Component<any, State> {
     this.allEntityhandleChange = this.allEntityhandleChange.bind(this);
   }
   public onClickassetelement() {
-    let length = Object.getOwnPropertyNames(this.state.lists).length;
+    const length = Object.getOwnPropertyNames(this.state.lists).length;
+    const obj = { expstatement: '' };
+    const exps = this.state.expstatement;
+    exps.push(obj);
+    this.setState({ expstatement: exps });
 
     const list = this.state.lists;
     list[length] = this.state.itemsElements;
@@ -101,7 +107,7 @@ class EditAssessment extends Component<any, State> {
     }
   }
   public entityhandleChange(event: any) {
-    let entities = this.state.entityCheck;
+    const entities = this.state.entityCheck;
     entities.forEach((entity: any) => {
       if (entity.value === event.target.value) {
         if (entity.isChecked === true) {
@@ -115,7 +121,7 @@ class EditAssessment extends Component<any, State> {
     this.setState({ entityCheck: entities });
   }
   public allEntityhandleChange(event: any) {
-    let entities = this.state.entityCheck;
+    const entities = this.state.entityCheck;
     if (this.state.entityCheckedAll === true) {
       entities.forEach((entity: any) => (entity.isChecked = false));
       this.setState({ entityCheckedAll: false });
@@ -138,9 +144,9 @@ class EditAssessment extends Component<any, State> {
     this.setState({ competency: event.target.value });
   }
   public onelementhandleChange(event: any, key: number) {
-    let list = this.state.lists;
+    const list = this.state.lists;
     list[key][0].statement = event.target.value;
-    //	list[key] = this.state.itemsElements
+    // list[key] = this.state.itemsElements
   }
   public componentWillMount() {
     if (Object.getOwnPropertyNames(this.state.lists).length === 0) {
@@ -150,17 +156,45 @@ class EditAssessment extends Component<any, State> {
 
       // Object.values(list2[0][0]).
       // this.setState({lists:list})
-      //console.log('list ' + this.state.lists[0][0].statement);
+      // console.log('list ' + this.state.lists[0][0].statement);
     }
   }
   public render() {
-    ///validation schema which wapply on element card textbox
+    // validation schema which wapply on element card textbox
     const addAssessmentSchema = Yup.object().shape({
+      categorySelected: Yup.string()
+        .min(1, 'Too Short!')
+        .max(250, 'Too Long!')
+        .required('Required'),
+      combehavior: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      comscaling: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      comstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
       definiation: Yup.string()
         .min(2, 'Too Short!')
         .max(250, 'Too Long!')
         .required('Required'),
-      expstatement: Yup.string()
+      // expstatement: Yup.string()
+      // 	.min(2, "Too Short!")
+      // 	.max(50, "Too Long!")
+      // 	.required("Required"),
+      excbehaviour: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      excscaling: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      excstatement: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
@@ -172,34 +206,6 @@ class EditAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      excstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excbehaviour: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      excscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      comstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      combehavior: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      comscaling: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-      marstatement: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
       marbehaviour: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
@@ -208,7 +214,7 @@ class EditAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      unstatement: Yup.string()
+      marstatement: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
@@ -220,10 +226,19 @@ class EditAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-      categorySelected: Yup.string()
-        .min(1, 'Too Short!')
-        .max(250, 'Too Long!')
+      unstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
         .required('Required'),
+
+      expstatement: Yup.array().of(
+        Yup.object().shape({
+          expstatement: Yup.string()
+            .min(1, 'Too Short!')
+            .max(250, 'Too Long!')
+            .required('Required'),
+        })
+      ),
     });
 
     const renderForm = (formikprops: any) => (
@@ -233,7 +248,7 @@ class EditAssessment extends Component<any, State> {
             <div className="PageHeader">
               <div className="row">
                 <div className="col-lg-5 col-md-5">
-                  <h2 className="font-weight-light">Edit Assesment Items</h2>
+                  <h2 className="font-weight-light">Add Assesment Items</h2>
                 </div>
               </div>
             </div>
@@ -276,8 +291,7 @@ class EditAssessment extends Component<any, State> {
                             currentSelection={this.state.categorySelected}
                             onChange={this.catehandleChange}
                           >
-                            {' '}
-                            Character{' '}
+                            Character
                           </RadioButton>
                           <RadioButton
                             name="skill"
@@ -344,24 +358,21 @@ class EditAssessment extends Component<any, State> {
                   {this.state.typeSelected === 'comtval' ? (
                     <Fragment>
                       <div className="form-group row">
-                        {' '}
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
-                          {' '}
                           <select
                             className="form-control m-b col-sm-4"
                             name="account"
                             value={this.state.competency}
                             onChange={this.competencyhandleChange}
                           >
-                            {' '}
                             <option>Add Competency</option>
                             <option>option 2</option>
                             <option>option 3</option>
                             <option>option 4</option>
                           </select>
                         </div>
-                      </div>{' '}
+                      </div>
                       <div className="hr-line-dashed" />
                     </Fragment>
                   ) : null}
@@ -603,7 +614,6 @@ class EditAssessment extends Component<any, State> {
                       />
                       {this.state.countAssetelement > 0 ? (
                         <Fragment>
-                          {' '}
                           {(function(count, handle) {
                             let arr = [];
                             for (var i = 0; i < count; i++) {
@@ -682,7 +692,7 @@ class EditAssessment extends Component<any, State> {
           initialValues={{
             categorySelected: this.state.categorySelected,
             definiation: '',
-            expstatement: '',
+            expstatement: this.state.expstatement,
             expBehaviour: '',
             expscaling: '',
             excstatement: '',
@@ -708,4 +718,4 @@ class EditAssessment extends Component<any, State> {
   }
 }
 
-export default EditAssessment;
+export default AddAssessment;

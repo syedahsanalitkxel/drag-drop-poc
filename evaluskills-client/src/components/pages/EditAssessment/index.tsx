@@ -2,11 +2,12 @@ import { Field, Formik } from 'formik';
 import React, { Component, Fragment } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
 import * as Yup from 'yup';
-import Checkbox from '../../../atoms/CheckBox';
-import RadioButton from '../../../atoms/RadioButton';
-import Assessmentelement from '../../../organisms/AssesmentElement';
-import DashboardTemplate from '../../../templates/DashboardTemplate';
-import { styles } from '../style';
+import Checkbox from '../../atoms/CheckBox';
+import RadioButton from '../../atoms/RadioButton';
+import Assessmentelement from '../../organisms/AssesmentElement';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+import { styles } from '../AddAssessment/style';
+
 interface State {
   countAssetelement: number;
   categorySelected: string;
@@ -24,9 +25,8 @@ interface State {
   itemsElements: any;
   lists: any;
   validateArray: any;
-  expstatement: any;
 }
-class AddAssessment extends Component<any, State> {
+class EditAssessment extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -48,7 +48,6 @@ class AddAssessment extends Component<any, State> {
         { id: 11, value: 'NACE', isChecked: false },
       ],
       entitySelect: 0,
-      expstatement: [{ expstatement: '' }],
       entityCheckedAll: false,
       fathSelected: '',
       itemsElements: [
@@ -79,10 +78,6 @@ class AddAssessment extends Component<any, State> {
   }
   public onClickassetelement() {
     let length = Object.getOwnPropertyNames(this.state.lists).length;
-    let obj = { expstatement: '' };
-    let exps = this.state.expstatement;
-    exps.push(obj);
-    this.setState({ expstatement: exps });
 
     const list = this.state.lists;
     list[length] = this.state.itemsElements;
@@ -165,10 +160,10 @@ class AddAssessment extends Component<any, State> {
         .min(2, 'Too Short!')
         .max(250, 'Too Long!')
         .required('Required'),
-      // expstatement: Yup.string()
-      // 	.min(2, "Too Short!")
-      // 	.max(50, "Too Long!")
-      // 	.required("Required"),
+      expstatement: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
       expBehaviour: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
@@ -229,15 +224,6 @@ class AddAssessment extends Component<any, State> {
         .min(1, 'Too Short!')
         .max(250, 'Too Long!')
         .required('Required'),
-
-      expstatement: Yup.array().of(
-        Yup.object().shape({
-          expstatement: Yup.string()
-            .min(1, 'Too Short!')
-            .max(250, 'Too Long!')
-            .required('Required'),
-        })
-      ),
     });
 
     const renderForm = (formikprops: any) => (
@@ -247,7 +233,7 @@ class AddAssessment extends Component<any, State> {
             <div className="PageHeader">
               <div className="row">
                 <div className="col-lg-5 col-md-5">
-                  <h2 className="font-weight-light">Add Assesment Items</h2>
+                  <h2 className="font-weight-light">Edit Assesment Items</h2>
                 </div>
               </div>
             </div>
@@ -290,8 +276,7 @@ class AddAssessment extends Component<any, State> {
                             currentSelection={this.state.categorySelected}
                             onChange={this.catehandleChange}
                           >
-                            {' '}
-                            Character{' '}
+                            Character
                           </RadioButton>
                           <RadioButton
                             name="skill"
@@ -358,24 +343,21 @@ class AddAssessment extends Component<any, State> {
                   {this.state.typeSelected === 'comtval' ? (
                     <Fragment>
                       <div className="form-group row">
-                        {' '}
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
-                          {' '}
                           <select
                             className="form-control m-b col-sm-4"
                             name="account"
                             value={this.state.competency}
                             onChange={this.competencyhandleChange}
                           >
-                            {' '}
                             <option>Add Competency</option>
                             <option>option 2</option>
                             <option>option 3</option>
                             <option>option 4</option>
                           </select>
                         </div>
-                      </div>{' '}
+                      </div>
                       <div className="hr-line-dashed" />
                     </Fragment>
                   ) : null}
@@ -617,7 +599,6 @@ class AddAssessment extends Component<any, State> {
                       />
                       {this.state.countAssetelement > 0 ? (
                         <Fragment>
-                          {' '}
                           {(function(count, handle) {
                             let arr = [];
                             for (var i = 0; i < count; i++) {
@@ -696,7 +677,7 @@ class AddAssessment extends Component<any, State> {
           initialValues={{
             categorySelected: this.state.categorySelected,
             definiation: '',
-            expstatement: this.state.expstatement,
+            expstatement: '',
             expBehaviour: '',
             expscaling: '',
             excstatement: '',
@@ -722,4 +703,4 @@ class AddAssessment extends Component<any, State> {
   }
 }
 
-export default AddAssessment;
+export default EditAssessment;
