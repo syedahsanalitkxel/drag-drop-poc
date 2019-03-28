@@ -11,7 +11,6 @@ const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 
 const User = lazy(() => import('./components/pages/User'));
-const AddUser = lazy(() => import('./components/pages/AddUser'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -45,10 +44,6 @@ const Routes = () => (
 
       <Route exact={true} path="/users">
         <User />
-      </Route>
-
-      <Route exact={true} path="/users/add">
-        <AddUser />
       </Route>
     </Switch>
   </Suspense>
