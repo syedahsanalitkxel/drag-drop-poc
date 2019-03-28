@@ -1,5 +1,5 @@
 import { Field, Formik } from 'formik';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -12,23 +12,28 @@ interface Props {
 }
 
 const initialState = {
+  address: ' ',
   billing: 'plan 2',
+  city: ' ',
+  clientInformation: ' ',
   clientName: 'Maria Gracia',
-  clientPhone: '+888 667 999 ',
   clientType: 'Type 1',
   contact: [
     {
       email: 'Ali@tkxel.com',
       firstName: 'Ali',
-      id: 1,
       lastName: 'Raza',
       phone: '+923334567891',
       role: 'user',
     },
   ],
+  phone: '+888 667 999 ',
+  school: ' ',
+  state: ' ',
   userEmail: 'rizwan@tkxel.com',
   userFirstName: 'rizwan',
   userLastName: 'shah',
+  zip: ' ',
 };
 
 const StyledButton = styled.button`
@@ -39,7 +44,15 @@ const StyledButton = styled.button`
 export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
+  useEffect(() => {
+    if (changeListener) {
+      changeListener(formState);
+    }
+  });
+
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log(event.target.value);
+    console.log(event.target.name);
     if (event.target.name) {
       setFormState({ ...formState, [event.target.name]: event.target.value });
     }
@@ -62,12 +75,36 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
   };
 
   const addClientSchema = Yup.object().shape({
+    address: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
     billing: Yup.string().required('Required'),
+    city: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
+    clientInformation: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
     clientName: Yup.string()
       .min(2, 'Too Short!')
       .max(250, 'Too Long!')
       .required('Required'),
-    clientPhone: Yup.string()
+    school: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
+    state: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
+    zip: Yup.string()
+      .min(2, 'Too Short!')
+      .max(250, 'Too Long!')
+      .required('Required'),
+    phone: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
@@ -141,19 +178,118 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
             <div className="hr-line-dashed" />
 
             <div className="form-group  row">
-              <label className="col-sm-2 col-form-label font-bold">Client Phone</label>
+              <label className="col-sm-2 col-form-label font-bold">Address</label>
               <div className="col-sm-3">
                 <Input
                   type="text"
-                  name="clientPhone"
+                  name="address"
                   className="form-control"
-                  placeholder="Add Clients Phone"
+                  placeholder="Add Address"
                   tag={Field}
                   onChange={changeHandler}
-                  invalid={!!(formikprops.touched.clientPhone && formikprops.errors.clientPhone)}
+                  invalid={!!(formikprops.touched.address && formikprops.errors.address)}
                 />
 
-                <FormFeedback tooltip={true}>{formikprops.errors.clientPhone}</FormFeedback>
+                <FormFeedback tooltip={true}>{formikprops.errors.address}</FormFeedback>
+              </div>
+            </div>
+
+            <div className="hr-line-dashed" />
+
+            <div className="form-group  row">
+              <label className="col-sm-2 col-form-label font-bold">City</label>
+              <div className="col-sm-3">
+                <Input
+                  type="text"
+                  name="city"
+                  className="form-control"
+                  placeholder="Add City"
+                  tag={Field}
+                  onChange={changeHandler}
+                  invalid={!!(formikprops.touched.city && formikprops.errors.city)}
+                />
+
+                <FormFeedback tooltip={true}>{formikprops.errors.city}</FormFeedback>
+              </div>
+            </div>
+
+            <div className="hr-line-dashed" />
+
+            <div className="form-group  row">
+              <label className="col-sm-2 col-form-label font-bold">State</label>
+              <div className="col-sm-3">
+                <Input
+                  type="text"
+                  name="state"
+                  className="form-control"
+                  placeholder="Add State"
+                  tag={Field}
+                  onChange={changeHandler}
+                  invalid={!!(formikprops.touched.state && formikprops.errors.state)}
+                />
+
+                <FormFeedback tooltip={true}>{formikprops.errors.state}</FormFeedback>
+              </div>
+            </div>
+
+            <div className="hr-line-dashed" />
+
+            <div className="form-group  row">
+              <label className="col-sm-2 col-form-label font-bold">Zip</label>
+              <div className="col-sm-3">
+                <Input
+                  type="text"
+                  name="zip"
+                  className="form-control"
+                  placeholder="Add Zip"
+                  tag={Field}
+                  onChange={changeHandler}
+                  invalid={!!(formikprops.touched.zip && formikprops.errors.zip)}
+                />
+
+                <FormFeedback tooltip={true}>{formikprops.errors.zip}</FormFeedback>
+              </div>
+            </div>
+
+            <div className="hr-line-dashed" />
+
+            <div className="form-group  row">
+              <label className="col-sm-2 col-form-label font-bold">School/Subsidiary</label>
+              <div className="col-sm-3">
+                <Input
+                  type="text"
+                  name="school"
+                  className="form-control"
+                  placeholder="school"
+                  tag={Field}
+                  onChange={changeHandler}
+                  invalid={!!(formikprops.touched.school && formikprops.errors.school)}
+                />
+
+                <FormFeedback tooltip={true}>{formikprops.errors.school}</FormFeedback>
+              </div>
+            </div>
+
+            <div className="hr-line-dashed" />
+
+            <div className="form-group  row">
+              <label className="col-sm-2 col-form-label font-bold">Client Information</label>
+              <div className="col-sm-3">
+                <Input
+                  type="text"
+                  name="clientInformation"
+                  className="form-control"
+                  placeholder="Add Clients Information"
+                  tag={Field}
+                  onChange={changeHandler}
+                  invalid={
+                    !!(
+                      formikprops.touched.clientInformation && formikprops.errors.clientInformation
+                    )
+                  }
+                />
+
+                <FormFeedback tooltip={true}>{formikprops.errors.clientInformation}</FormFeedback>
               </div>
             </div>
 

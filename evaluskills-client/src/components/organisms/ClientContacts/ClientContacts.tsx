@@ -1,19 +1,16 @@
 import React, { PureComponent, Component, Fragment } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-import { faThList } from '@fortawesome/free-solid-svg-icons';
-
 import { Formik, Field } from 'formik';
-//
-// interface props {
-//     key: number,
-//     comNumber: number,
-//     tag?: any,
-//     onChange: (event: any, key: number) => void;
-//     formikprops: any;
-//
-// }
-const ClientContacts: React.FunctionComponent = () => {
+
+interface props {
+  key: number;
+  comNumber: number;
+  tag?: any;
+  onChange: (event: any, key: number) => void;
+  formikprops: any;
+}
+
+const ClientContacts: React.FunctionComponent = (formikprops: any) => {
   return (
     <Fragment>
       <div className="ibox">
@@ -24,7 +21,7 @@ const ClientContacts: React.FunctionComponent = () => {
               <div className="col-sm-12">
                 <Input
                   type="text"
-                  name="contactFirstName"
+                  name="firstName"
                   className="form-control"
                   placeholder="Add First Name"
                   tag={Field}
@@ -37,7 +34,7 @@ const ClientContacts: React.FunctionComponent = () => {
               <div className="col-sm-12">
                 <Input
                   type="text"
-                  name="contactLastName"
+                  name="lastName"
                   className="form-control"
                   placeholder="Add Last Name"
                   tag={Field}
@@ -54,7 +51,7 @@ const ClientContacts: React.FunctionComponent = () => {
               <div className="col-sm-12">
                 <Input
                   type="text"
-                  name="contactEmail"
+                  name="email"
                   className="form-control"
                   placeholder="Add Email"
                   tag={Field}
@@ -82,7 +79,7 @@ const ClientContacts: React.FunctionComponent = () => {
             <div className="col-md-6">
               <label className="col-sm-12 col-form-label font-bold">Role</label>
               <div className="col-sm-12">
-                <Input type="select" name="contactRole" placeholder="role" id="role-select">
+                <Input type="select" name="role" placeholder="role" id="role-select">
                   <option value="Selected">Select Role</option>
                   <option value="role1">Role 1</option>
                   <option value="role2">Role 2</option>
