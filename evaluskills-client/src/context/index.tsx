@@ -1,6 +1,6 @@
 import React from 'react';
-import { ErrorContextInterface } from '../interfaces/ErrorContext';
-import { ErrorObjectInterface } from '../interfaces/ErrorObject';
+import ErrorContextInterface from '../interfaces/ErrorContext';
+import ErrorObjectInterface from '../interfaces/ErrorObject';
 import ModalContextInterface from '../interfaces/ModalContext';
 
 // Modal Context
