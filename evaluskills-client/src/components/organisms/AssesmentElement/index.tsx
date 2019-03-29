@@ -66,14 +66,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber][0] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0].hasOwnProperty(
@@ -101,13 +93,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][0] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][0] !== undefined &&
@@ -130,13 +115,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0].hasOwnProperty(
@@ -161,13 +139,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][0] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][0] !== undefined &&
@@ -190,13 +161,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][0].hasOwnProperty('scaling')
@@ -224,13 +188,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][1] !== undefined &&
@@ -253,13 +210,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1].hasOwnProperty(
@@ -284,13 +234,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][1] !== undefined &&
@@ -313,13 +256,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1].hasOwnProperty(
@@ -344,13 +280,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][1] !== undefined &&
@@ -373,13 +302,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][1].hasOwnProperty('scaling')
@@ -407,13 +329,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][2] !== undefined &&
@@ -436,14 +351,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2].hasOwnProperty(
                 'statement'
@@ -467,14 +374,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][2] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][2].hasOwnProperty(
@@ -496,14 +395,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2].hasOwnProperty(
                 'behaviur'
@@ -527,14 +418,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][2] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][2].hasOwnProperty(
@@ -556,14 +439,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][2].hasOwnProperty('scaling')
                 ? this.props.formikprops.errors.lists[this.props.comNumber][2].scaling
@@ -590,14 +465,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty(
@@ -619,14 +486,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty(
                 'statement'
@@ -650,14 +509,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty(
@@ -679,14 +530,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty(
                 'behaviur'
@@ -710,14 +553,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][3] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty(
@@ -739,14 +574,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][3].hasOwnProperty('scaling')
                 ? this.props.formikprops.errors.lists[this.props.comNumber][3].scaling
@@ -773,14 +600,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty(
@@ -802,14 +621,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty(
                 'statement'
@@ -833,14 +644,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty(
@@ -862,14 +665,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty(
                 'behaviur'
@@ -893,14 +688,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
                 this.props.formikprops.touched.hasOwnProperty('lists') &&
                 this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-                this.props.formikprops.errors !== undefined &&
-                this.props.formikprops.errors.hasOwnProperty('lists') &&
-                this.props.formikprops.touched.hasOwnProperty('lists') &&
-                this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.touched.lists[this.props.comNumber][4] !== undefined &&
                 this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty(
@@ -922,14 +709,6 @@ class AssessmentElement extends PureComponent<AssessmentElementProps, any> {
               this.props.formikprops.touched.hasOwnProperty('lists') &&
               this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.touched.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
-              this.props.formikprops.errors !== undefined &&
-              this.props.formikprops.errors.hasOwnProperty('lists') &&
-              this.props.formikprops.touched.hasOwnProperty('lists') &&
-              this.props.formikprops.errors.lists[this.props.comNumber] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4] !== undefined &&
               this.props.formikprops.errors.lists[this.props.comNumber][4].hasOwnProperty('scaling')
                 ? this.props.formikprops.errors.lists[this.props.comNumber][4].scaling

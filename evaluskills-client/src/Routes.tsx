@@ -9,7 +9,7 @@ const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
-
+const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
 const User = lazy(() => import('./components/pages/User'));
 
 const Routes = () => (
@@ -40,6 +40,9 @@ const Routes = () => (
 
       <Route exact={true} path="/clients/add">
         <AddClient />
+      </Route>
+      <Route exact={true} path="/setting/email">
+        <AddEmailTemplate />
       </Route>
 
       <Route exact={true} path="/users">

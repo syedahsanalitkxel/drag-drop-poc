@@ -218,7 +218,6 @@ class AddAssessment extends Component<any, State> {
                             currentSelection={this.state.categorySelected}
                             onChange={this.catehandleChange}
                           >
-                            {' '}
                             Character
                           </RadioButton>
                           <RadioButton
@@ -286,17 +285,14 @@ class AddAssessment extends Component<any, State> {
                   {this.state.typeSelected === 'comtval' ? (
                     <Fragment>
                       <div className="form-group row">
-                        {' '}
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
-                          {' '}
                           <select
                             className="form-control m-b col-sm-4"
                             name="account"
                             value={this.state.competency}
                             onChange={this.competencyhandleChange}
                           >
-                            {' '}
                             <option>Add Competency</option>
                             <option>option 2</option>
                             <option>option 3</option>
@@ -543,7 +539,6 @@ class AddAssessment extends Component<any, State> {
                       />
                       {this.state.countAssetelement > 0 ? (
                         <Fragment>
-                          {' '}
                           {(function(count, handle) {
                             let arr = [];
                             for (var i = 0; i < count; i++) {
