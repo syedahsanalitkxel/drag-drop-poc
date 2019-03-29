@@ -2,41 +2,25 @@ import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
-import AddClientInterface from '../../../interfaces/AddClient';
+import AddEmailInterface from '../../../interfaces/Email';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
-import EmailTemplateHeader from '../../organisms/EmailTemplateHeader';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 interface Props {
-  changeListener?: (formValues: AddClientInterface) => void;
+  changeListener?: (formValues: AddEmailInterface) => void;
 }
 
-const initialState: AddClientInterface = {
-  address: '',
-  billing: 'plan 2',
-  city: '',
-  clientInformation: '',
-  clientName: 'Maria Gracia',
-  clientType: 'Type 1',
-  contact: [
-    {
-      email: 'Ali@tkxel.com',
-      firstName: 'Ali',
-      lastName: 'Raza',
-      phone: '+923334567891',
-      role: 'user',
-    },
-  ],
-  phone: '+888 667 999 ',
-  school: '',
-  state: '',
-  userEmail: 'rizwan@tkxel.com',
-  userFirstName: 'rizwan',
-  userLastName: 'shah',
-  zip: '',
+const initialState: AddEmailInterface = {
+  subject: '',
+  title: '',
+  type: '',
+  editorState: '',
+  // editorState:
+  //   "Lorem Ipsum is simply  dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with Remaining essentially unchanged Make a type specimen bookUnknown printer",
 };
 
 const StyledButton = styled(Button)`
@@ -44,7 +28,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) => {
+export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
   useEffect(() => {
@@ -53,73 +37,96 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     }
   });
 
-  function submitForm(
-    values: AddClientInterface,
-    formikActions: FormikActions<AddClientInterface>
-  ) {
+  function submitForm(values: AddEmailInterface, formikActions: FormikActions<AddEmailInterface>) {
     setFormState({ ...formState, ...values });
   }
 
-  const onClickAddContact = (event: React.MouseEvent) => {
-    event.preventDefault();
+  // const onClickAddContact = (event: React.MouseEvent) => {
+  //   event.preventDefault();
 
-    const { contact } = formState;
-    const contactObj: any = {};
-    if (contact) {
-      contact.push(contactObj);
-    }
-    setFormState({ ...formState, contact });
-  };
+  //   const { contact } = formState;
+  //   const contactObj: any = {};
+  //   if (contact) {
+  //     contact.push(contactObj);
+  //   }
+  //   setFormState({ ...formState, contact });
+  // };
+  function onEditorStateChange(editorState: any) {
+    setFormState({ ...formState, editorState });
+  }
 
   const renderContactList = (contact: any, index: number) => <Fragment key={index} />;
 
   const renderForm = (formikprops: FormikBag) => {
     // TODO: Create render from group component and suppoert select, radio and checkbox
-    const renderFormGroup = (label: string, name: string, placeholder: string, last?: boolean) => {
-      return (
-        <React.Fragment>
-          <FormGroup className="row">
-            <Label for={name} className="col-sm-12 col-form-label font-bold">
-              {label}
-            </Label>
-            <div className="col-sm-6">
-              <Input
-                name={name}
-                placeholder={placeholder}
-                tag={Field}
-                id={name}
-                invalid={!!(formikprops.touched[name] && formikprops.errors[name])}
-              />
-              <FormFeedback tooltip={true}>{formikprops.errors[name]}</FormFeedback>
-            </div>
-          </FormGroup>
-          {!last && <div className="hr-line-dashed" />}
-        </React.Fragment>
-      );
-    };
+    const { editorState } = formState;
 
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
-        <EmailTemplateHeader />
+        <div className="PageHeader">
+          <div className="row">
+            <div className="col-lg-12 col-md-12">
+              <h2 className="font-weight-light">Email Template</h2>
+            </div>
+          </div>
+        </div>
+        <PageBody card={true} className="m-t-15">
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Title"
+                name="title"
+                placeholder="Add Email Title"
+                formikprops={formikprops}
+                inline={true}
+                last={true}
+              />
+            </div>
+
+            <div className="col-md-6">
+              <FormElement
+                label="Type"
+                name="type"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+                last={true}
+              >
+                <option value="billing-1">Biling 1</option>
+                <option value="billing-2">Biling 2</option>
+              </FormElement>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Subject"
+                name="subject"
+                placeholder="Subject"
+                formikprops={formikprops}
+                inline={true}
+                last={true}
+              />
+            </div>
+          </div>
+        </PageBody>
         <PageBody card={true} className="m-t-15">
           <Editor
-            // editorState={editorState}
+            editorState={editorState}
             toolbarClassName="toolbarClassName"
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
-            // onEditorStateChange={this.onEditorStateChange}
+            onEditorStateChange={onEditorStateChange}
           />
         </PageBody>
         <PageBody>
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
-              Cancel
+              cancel
             </StyledButton>
+
             <StyledButton type="submit" color="primary" size="lg">
-              Save
-            </StyledButton>
-            <StyledButton type="button" color="primary" size="lg">
-              Save &amp; Add More
+              Save &amp; changes
             </StyledButton>
           </div>
         </PageBody>
@@ -136,4 +143,4 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
   );
 };
 
-export default AddClient;
+export default AddEmailTemplate;
