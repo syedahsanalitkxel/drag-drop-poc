@@ -108,11 +108,11 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     history.push('/clients/add');
   }
 
-  function editClient(clientId: string) {
+  function editClient(clientId: number) {
     history.push(`/clients/edit/${clientId}`);
   }
 
-  function deleteClient(clientId: string) {
+  function deleteClient(clientId: number) {
     alert(`deleting => ${clientId}`);
   }
 
@@ -121,8 +121,8 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       clients={clients}
       filterClients={filterClients}
       add={addClient}
-      remove={editClient}
-      edit={deleteClient}
+      remove={deleteClient}
+      edit={editClient}
     />
   );
 };

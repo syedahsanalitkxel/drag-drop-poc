@@ -14,8 +14,8 @@ interface Props {
   clients: ClientList[];
   filterClients: (searchQuery: string) => void;
   add: () => void;
-  edit: (clientId: string) => void;
-  remove: (clientId: string) => void;
+  edit: (clientId: number) => void;
+  remove: (clientId: number) => void;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -52,7 +52,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <ClientsList listData={clients} />
+            <ClientsList listData={clients} edit={edit} remove={remove} />
             <Pager />
           </PageBody>
         </div>
