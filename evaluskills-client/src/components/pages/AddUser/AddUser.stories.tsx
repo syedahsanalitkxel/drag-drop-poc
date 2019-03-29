@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import Index from '.';
+import AddUser from '.';
 
-storiesOf('Index', module).add('Index', () => <Index />);
+interface ModalProps {
+  visible?: boolean;
+  toggle: () => void;
+  name?: string;
+  FormValues: any;
+}
+
+const modalValues = {
+  email: 'maria@evaluskills.com',
+  firstName: 'maria',
+  id: '1',
+  lastName: 'gracia',
+  role: 'admin',
+};
+
+const [addUserModalVisible, setAddUserModalVisible] = useState(false);
+
+const toggleAddUserModal = () => {
+  setAddUserModalVisible(!addUserModalVisible);
+};
+
+const props: ModalProps = {
+  visible: true,
+  toggle: toggleAddUserModal,
+  name: 'Add',
+  FormValues: modalValues,
+};
+
+storiesOf('AddAssessment', module).add('AddAssessment', () => <AddUser {...props} />);
