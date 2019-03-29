@@ -1,6 +1,6 @@
-import { ErrorObjectInterface } from './ErrorObject';
+import ErrorObjectInterface from './ErrorObject';
 
-export interface ErrorContextInterface {
+export default interface ErrorContextInterface {
   error: ErrorObjectInterface;
   setError: (error: ErrorObjectInterface) => void;
 }
