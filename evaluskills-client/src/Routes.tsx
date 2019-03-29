@@ -42,10 +42,6 @@ const Routes = () => (
       <Route exact={true} path="/users">
         <User />
       </Route>
-
-      <Route exact={true} path="/users/add">
-        <AddUser />
-      </Route>
     </Switch>
   </Suspense>
 );
