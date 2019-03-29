@@ -4,7 +4,7 @@ import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
 
-import AddClientInterface from '../../../interfaces/AddClient';
+import AddClientInterface, { ContactInterface } from '../../../interfaces/AddClient';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
@@ -14,6 +14,7 @@ import clientFormSchema from './clientFormSchema';
 
 interface Props {
   changeListener?: (formValues: AddClientInterface) => void;
+  defaultValues?: AddClientInterface;
 }
 
 const initialState: AddClientInterface = {
@@ -46,8 +47,9 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
+export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues }) => {
+  const [formState, setFormState] = useState(defaultValues || initialState);
+  console.log(formState);
 
   useEffect(() => {
     if (changeListener) {
@@ -55,10 +57,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     }
   });
 
-  function submitForm(
-    values: AddClientInterface,
-    formikActions: FormikActions<AddClientInterface>
-  ) {
+  function submitForm(values: AddClientInterface) {
     setFormState({ ...formState, ...values });
   }
 
@@ -66,7 +65,13 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     event.preventDefault();
 
     const { contact } = formState;
-    const contactObj: any = {};
+    const contactObj: ContactInterface = {
+      email: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
+      role: '',
+    };
     if (contact) {
       contact.push(contactObj);
     }
@@ -82,7 +87,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
 
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
-        <PageBody card={true} className="m-t-15">
+        <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
             name="clientName"
@@ -176,7 +181,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
           </div>
         </div>
 
-        <PageBody card={true}>
+        <PageBody card={true} wrapper={true}>
           <FormElement
             label="First Name"
             name="userFirstName"

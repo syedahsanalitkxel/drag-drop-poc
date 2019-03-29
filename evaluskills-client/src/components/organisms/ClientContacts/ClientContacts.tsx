@@ -11,7 +11,7 @@ interface Props {
 
 const ClientContacts: React.FunctionComponent<Props> = ({ formikprops }) => {
   return (
-    <PageBody card={true} className="m-t-15">
+    <PageBody card={true} wrapper={true} className="m-t-15">
       <FormElement
         label="First Name"
         name="firstName"

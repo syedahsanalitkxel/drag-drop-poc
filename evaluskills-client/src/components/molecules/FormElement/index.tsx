@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import { Field } from 'formik';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
@@ -25,6 +26,7 @@ interface Props {
   changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
   validation?: boolean;
+  inline?: boolean;
 }
 
 const FormElement: React.FunctionComponent<Props> = ({
@@ -37,6 +39,7 @@ const FormElement: React.FunctionComponent<Props> = ({
   formikprops,
   children,
   validation,
+  inline,
 }) => {
   function getValidation() {
     if (validation === undefined) {
@@ -87,20 +90,38 @@ const FormElement: React.FunctionComponent<Props> = ({
 
   function getValidationFeedback() {
     if (noValidate || type !== FormElementTypes.IMAGE_UPLOAD) {
-      return <FormFeedback tooltip={true}>{formikprops.errors[name]}</FormFeedback>;
+      return <FormFeedback>{formikprops.errors[name]}</FormFeedback>;
     }
+  }
+
+  function getInputContainer() {
+    if (inline) {
+      return (
+        <React.Fragment>
+          {getInputByType()}
+          {getValidationFeedback()}
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <div className={classNames({ 'col-sm-3': !inline })}>
+        {getInputByType()}
+        {getValidationFeedback()}
+      </div>
+    );
   }
 
   return (
     <React.Fragment>
-      <FormGroup className="row">
-        <Label for={name} className="col-sm-2 col-form-label font-bold">
+      <FormGroup className={classNames({ row: !inline })}>
+        <Label
+          for={name}
+          className={classNames({ 'col-sm-2 col-form-label': !inline }, 'font-bold')}
+        >
           {label}
         </Label>
-        <div className="col-sm-3">
-          {getInputByType()}
-          {getValidationFeedback()}
-        </div>
+        {getInputContainer()}
       </FormGroup>
       {!last && <div className="hr-line-dashed" />}
     </React.Fragment>
