@@ -42,6 +42,9 @@ const FormElement: React.FunctionComponent<Props> = ({
   inline,
 }) => {
   function getValidation() {
+    if (noValidate) {
+      return;
+    }
     if (validation === undefined) {
       return !!(formikprops.touched[name] && formikprops.errors[name]);
     }
@@ -50,7 +53,7 @@ const FormElement: React.FunctionComponent<Props> = ({
 
   function getInputByType() {
     // TODO: Integrate NoValidate with every type
-    // TODO: Fix select validation
+    // TODO: Fix select validation color
     switch (type) {
       case FormElementTypes.IMAGE_UPLOAD:
         return (

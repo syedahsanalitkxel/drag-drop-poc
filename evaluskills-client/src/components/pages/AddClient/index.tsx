@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Field, Formik, FormikActions, FormikValues } from 'formik';
-import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Formik } from 'formik';
+import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 
 import AddClientInterface, { ContactInterface } from '../../../interfaces/AddClient';
@@ -19,26 +19,26 @@ interface Props {
 
 const initialState: AddClientInterface = {
   address: '',
-  billing: 'plan 2',
+  billing: '',
   city: '',
   clientInformation: '',
-  clientName: 'Maria Gracia',
-  clientType: 'Type 1',
+  clientName: '',
+  clientType: '',
   contact: [
     {
-      email: 'Ali@tkxel.com',
-      firstName: 'Ali',
-      lastName: 'Raza',
-      phone: '+923334567891',
+      email: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
       role: '',
     },
   ],
-  phone: '+888 667 999 ',
+  phone: '',
   school: '',
   state: '',
-  userEmail: 'rizwan@tkxel.com',
-  userFirstName: 'rizwan',
-  userLastName: 'shah',
+  userEmail: '',
+  userFirstName: '',
+  userLastName: '',
   zip: '',
 };
 
@@ -49,7 +49,6 @@ const StyledButton = styled(Button)`
 
 export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
-  console.log(formState);
 
   useEffect(() => {
     if (changeListener) {
@@ -81,7 +80,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
   const renderForm = (formikprops: FormikBag) => {
     const renderContactList = (contact: any, index: number) => (
       <Fragment key={index}>
-        <ClientContacts formikprops={formikprops} />
+        <ClientContacts formikprops={formikprops} index={index} />
       </Fragment>
     );
 
