@@ -29,7 +29,7 @@ const initialState: AddClientInterface = {
       firstName: 'Ali',
       lastName: 'Raza',
       phone: '+923334567891',
-      role: 'user',
+      role: '',
     },
   ],
   phone: '+888 667 999 ',
@@ -73,140 +73,147 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     setFormState({ ...formState, contact });
   };
 
-  const renderContactList = (contact: any, index: number) => (
-    <Fragment key={index}>
-      <ClientContacts />
-    </Fragment>
-  );
+  const renderForm = (formikprops: FormikBag) => {
+    const renderContactList = (contact: any, index: number) => (
+      <Fragment key={index}>
+        <ClientContacts formikprops={formikprops} />
+      </Fragment>
+    );
 
-  const renderForm = (formikprops: FormikBag) => (
-    <Form onSubmit={formikprops.handleSubmit} className="form">
-      <PageBody card={true} className="m-t-15">
-        <FormElement
-          label="Client Name"
-          name="clientName"
-          placeholder="Add Client Name"
-          formikprops={formikprops}
-        />
+    return (
+      <Form onSubmit={formikprops.handleSubmit} className="form">
+        <PageBody card={true} className="m-t-15">
+          <FormElement
+            label="Client Name"
+            name="clientName"
+            placeholder="Add Client Name"
+            formikprops={formikprops}
+          />
 
-        <FormElement
-          label="Logo"
-          name="logo"
-          formikprops={formikprops}
-          noValidate={true}
-          type={FormElementTypes.IMAGE_UPLOAD}
-        />
+          <FormElement
+            label="Logo"
+            name="logo"
+            formikprops={formikprops}
+            noValidate={true}
+            type={FormElementTypes.IMAGE_UPLOAD}
+          />
 
-        <FormElement
-          label="Address"
-          name="address"
-          placeholder="Add Address"
-          formikprops={formikprops}
-        />
+          <FormElement
+            label="Address"
+            name="address"
+            placeholder="Add Address"
+            formikprops={formikprops}
+          />
 
-        <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
+          <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
 
-        <FormElement label="State" name="state" placeholder="Add State" formikprops={formikprops} />
+          <FormElement
+            label="State"
+            name="state"
+            placeholder="Add State"
+            formikprops={formikprops}
+          />
 
-        <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
+          <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
 
-        <FormElement
-          label="School/Subsidiary"
-          name="school"
-          placeholder="Add School"
-          formikprops={formikprops}
-        />
+          <FormElement
+            label="School/Subsidiary"
+            name="school"
+            placeholder="Add School"
+            formikprops={formikprops}
+          />
 
-        <FormElement
-          label="Client Information"
-          name="clientInformation"
-          placeholder="Add Client Information"
-          formikprops={formikprops}
-        />
+          <FormElement
+            label="Client Information"
+            name="clientInformation"
+            placeholder="Add Client Information"
+            formikprops={formikprops}
+          />
 
-        <FormElement
-          label="Billing"
-          name="billing"
-          formikprops={formikprops}
-          type={FormElementTypes.SELECT}
-        >
-          <option value="billing-1">Biling 1</option>
-          <option value="billing-2">Biling 2</option>
-        </FormElement>
-
-        <FormElement
-          label="Client Type"
-          name="clientType"
-          formikprops={formikprops}
-          type={FormElementTypes.SELECT}
-        >
-          <option value="selected">Select Type</option>
-          <option value="co-oprate">Co-oprate</option>
-          <option value="Educational Institute">Educational Institute</option>
-        </FormElement>
-      </PageBody>
-
-      <div className="form-header row">
-        <div className="col-sm-6">
-          <h2>Contact</h2>
-        </div>
-        <div className="col-sm-6">
-          <Button
-            className="mt-3 float-right"
-            color="primary"
-            size="lg"
-            onClick={onClickAddContact}
+          <FormElement
+            label="Billing"
+            name="billing"
+            formikprops={formikprops}
+            type={FormElementTypes.SELECT}
           >
-            Add Contact
-          </Button>
+            <option value="billing-1">Biling 1</option>
+            <option value="billing-2">Biling 2</option>
+          </FormElement>
+
+          <FormElement
+            label="Client Type"
+            name="clientType"
+            formikprops={formikprops}
+            type={FormElementTypes.SELECT}
+          >
+            <option value="selected">Select Type</option>
+            <option value="co-oprate">Co-oprate</option>
+            <option value="Educational Institute">Educational Institute</option>
+          </FormElement>
+        </PageBody>
+
+        <div className="form-header row">
+          <div className="col-sm-6">
+            <h2>Contact</h2>
+          </div>
+          <div className="col-sm-6">
+            <Button
+              className="mt-3 float-right"
+              color="primary"
+              size="lg"
+              onClick={onClickAddContact}
+            >
+              Add Contact
+            </Button>
+          </div>
         </div>
-      </div>
 
-      <div>{formState.contact && formState.contact.map(renderContactList)}</div>
+        <div>{formState.contact && formState.contact.map(renderContactList)}</div>
 
-      <div className="form-header row">
-        <div className="col-sm-6">
-          <h2>User Information</h2>
+        <div className="form-header row">
+          <div className="col-sm-6">
+            <h2>User Information</h2>
+          </div>
         </div>
-      </div>
 
-      <PageBody card={true}>
-        <FormElement
-          label="First Name"
-          name="userFirstName"
-          placeholder="Add First Name"
-          formikprops={formikprops}
-        />
-        <FormElement
-          label="Last Name"
-          name="userLastName"
-          placeholder="Add Last Name"
-          formikprops={formikprops}
-        />
-        <FormElement
-          label="Email"
-          name="userEmail"
-          placeholder="Add Email"
-          formikprops={formikprops}
-          last={true}
-        />
-      </PageBody>
+        <PageBody card={true}>
+          <FormElement
+            label="First Name"
+            name="userFirstName"
+            placeholder="Add First Name"
+            formikprops={formikprops}
+          />
+          <FormElement
+            label="Last Name"
+            name="userLastName"
+            placeholder="Add Last Name"
+            formikprops={formikprops}
+          />
+          <FormElement
+            label="Email"
+            name="userEmail"
+            placeholder="Add Email"
+            formikprops={formikprops}
+            last={true}
+          />
+        </PageBody>
 
-      <PageBody>
-        <div className="row m-b-25">
-          <StyledButton type="button" size="lg">
-            Cancel
-          </StyledButton>
-          <StyledButton type="submit" color="primary" size="lg">
-            Save
-          </StyledButton>
-          <StyledButton type="button" color="primary" size="lg">
-            Save &amp; Add More
-          </StyledButton>
-        </div>
-      </PageBody>
-    </Form>
-  );
+        <PageBody>
+          <div className="row m-b-25">
+            <StyledButton type="button" size="lg">
+              Cancel
+            </StyledButton>
+            <StyledButton type="submit" color="primary" size="lg">
+              Save
+            </StyledButton>
+            <StyledButton type="button" color="primary" size="lg">
+              Save &amp; Add More
+            </StyledButton>
+          </div>
+        </PageBody>
+      </Form>
+    );
+  };
 
   return (
     <DashboardTemplate>

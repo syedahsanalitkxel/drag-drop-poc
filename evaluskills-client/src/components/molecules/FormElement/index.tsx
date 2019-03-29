@@ -24,6 +24,7 @@ interface Props {
   noValidate?: boolean;
   changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
+  validation?: boolean;
 }
 
 const FormElement: React.FunctionComponent<Props> = ({
@@ -35,10 +36,18 @@ const FormElement: React.FunctionComponent<Props> = ({
   noValidate,
   formikprops,
   children,
+  validation,
 }) => {
+  function getValidation() {
+    if (validation === undefined) {
+      return !!(formikprops.touched[name] && formikprops.errors[name]);
+    }
+    return validation;
+  }
+
   function getInputByType() {
     // TODO: Integrate NoValidate with every type
-    // TODO: Integrate Additional or overriding validations support
+    // TODO: Fix select validation
     switch (type) {
       case FormElementTypes.IMAGE_UPLOAD:
         return (
@@ -55,7 +64,9 @@ const FormElement: React.FunctionComponent<Props> = ({
             name={name}
             placeholder={placeholder}
             id="billing"
-            invalid={!!(formikprops.touched.billing && formikprops.errors.billing)}
+            tag={Field}
+            component="select"
+            invalid={getValidation()}
           >
             {children}
           </Input>
@@ -68,14 +79,14 @@ const FormElement: React.FunctionComponent<Props> = ({
             placeholder={placeholder}
             tag={Field}
             id={name}
-            invalid={!!(formikprops.touched[name] && formikprops.errors[name])}
+            invalid={getValidation()}
           />
         );
     }
   }
 
-  function getValidation() {
-    if (noValidate || type === FormElementTypes.IMAGE_UPLOAD) {
+  function getValidationFeedback() {
+    if (noValidate || type !== FormElementTypes.IMAGE_UPLOAD) {
       return <FormFeedback tooltip={true}>{formikprops.errors[name]}</FormFeedback>;
     }
   }
@@ -88,7 +99,7 @@ const FormElement: React.FunctionComponent<Props> = ({
         </Label>
         <div className="col-sm-3">
           {getInputByType()}
-          {getValidation()}
+          {getValidationFeedback()}
         </div>
       </FormGroup>
       {!last && <div className="hr-line-dashed" />}
@@ -98,6 +109,7 @@ const FormElement: React.FunctionComponent<Props> = ({
 
 FormElement.defaultProps = {
   type: FormElementTypes.TEXT,
+  validation: undefined,
 };
 
 export default FormElement;
