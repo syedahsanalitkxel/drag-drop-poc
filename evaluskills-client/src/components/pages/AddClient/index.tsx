@@ -1,10 +1,13 @@
-import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import React, { Fragment, useEffect, useState } from 'react';
+
+import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
+
 import AddClientInterface from '../../../interfaces/AddClient';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
@@ -26,7 +29,7 @@ const initialState: AddClientInterface = {
       firstName: 'Ali',
       lastName: 'Raza',
       phone: '+923334567891',
-      role: 'user',
+      role: '',
     },
   ],
   phone: '+888 667 999 ',
@@ -70,96 +73,83 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
     setFormState({ ...formState, contact });
   };
 
-  const renderContactList = (contact: any, index: number) => (
-    <Fragment key={index}>
-      <ClientContacts />
-    </Fragment>
-  );
-
   const renderForm = (formikprops: FormikBag) => {
-    // TODO: Create render from group component and suppoert select, radio and checkbox
-    const renderFormGroup = (label: string, name: string, placeholder: string, last?: boolean) => {
-      return (
-        <React.Fragment>
-          <FormGroup className="row">
-            <Label for={name} className="col-sm-2 col-form-label font-bold">
-              {label}
-            </Label>
-            <div className="col-sm-3">
-              <Input
-                name={name}
-                placeholder={placeholder}
-                tag={Field}
-                id={name}
-                invalid={!!(formikprops.touched[name] && formikprops.errors[name])}
-              />
-              <FormFeedback tooltip={true}>{formikprops.errors[name]}</FormFeedback>
-            </div>
-          </FormGroup>
-          {!last && <div className="hr-line-dashed" />}
-        </React.Fragment>
-      );
-    };
+    const renderContactList = (contact: any, index: number) => (
+      <Fragment key={index}>
+        <ClientContacts formikprops={formikprops} />
+      </Fragment>
+    );
 
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <PageBody card={true} className="m-t-15">
-          {renderFormGroup('Client Name', 'clientName', 'Add Client Name')}
+          <FormElement
+            label="Client Name"
+            name="clientName"
+            placeholder="Add Client Name"
+            formikprops={formikprops}
+          />
 
-          <FormGroup className="row">
-            <Label className="col-sm-2 col-form-label font-bold">Logo</Label>
-            <div className="col-sm-3">
-              <img src="/img/Logo.svg" alt="logo" />
-              <span className="txt">Upload Photo</span>
-            </div>
-          </FormGroup>
-          <div className="hr-line-dashed" />
+          <FormElement
+            label="Logo"
+            name="logo"
+            formikprops={formikprops}
+            noValidate={true}
+            type={FormElementTypes.IMAGE_UPLOAD}
+          />
 
-          {renderFormGroup('Address', 'address', 'Add Address')}
-          {renderFormGroup('City', 'city', 'Add City')}
-          {renderFormGroup('State', 'state', 'Add State')}
-          {renderFormGroup('Zip', 'zip', 'Add Zip')}
-          {renderFormGroup('School/Subsidiary', 'school', 'Add School')}
-          {renderFormGroup('Client Information', 'clientInformation', 'Add Client Information')}
+          <FormElement
+            label="Address"
+            name="address"
+            placeholder="Add Address"
+            formikprops={formikprops}
+          />
 
-          <FormGroup className="row">
-            <Label for="billing" className="col-sm-2 col-form-label font-bold">
-              Billing
-            </Label>
-            <div className="col-sm-3">
-              <Input
-                type="select"
-                name="billing"
-                placeholder="Add Biling"
-                id="billing"
-                invalid={!!(formikprops.touched.billing && formikprops.errors.billing)}
-              >
-                <option value="billing-1">Biling 1</option>
-                <option value="billing-2">Biling 2</option>
-              </Input>
+          <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
 
-              <FormFeedback tooltip={true}>{formikprops.errors.billing}</FormFeedback>
-            </div>
-          </FormGroup>
-          <div className="hr-line-dashed" />
+          <FormElement
+            label="State"
+            name="state"
+            placeholder="Add State"
+            formikprops={formikprops}
+          />
 
-          <FormGroup className="row">
-            <label className="col-sm-2 col-form-label font-bold">Client Type</label>
-            <div className="col-sm-3">
-              <Input
-                type="select"
-                name="clientType"
-                placeholder="Client Type"
-                id="clientType"
-                invalid={!!(formikprops.touched.clientType && formikprops.errors.clientType)}
-              >
-                <option value="selected">Select Type</option>
-                <option value="co-oprate">Co-oprate</option>
-                <option value="Educational Institute">Educational Institute</option>
-              </Input>
-              <FormFeedback tooltip={true}>{formikprops.errors.clientType}</FormFeedback>
-            </div>
-          </FormGroup>
+          <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
+
+          <FormElement
+            label="School/Subsidiary"
+            name="school"
+            placeholder="Add School"
+            formikprops={formikprops}
+          />
+
+          <FormElement
+            label="Client Information"
+            name="clientInformation"
+            placeholder="Add Client Information"
+            formikprops={formikprops}
+          />
+
+          <FormElement
+            label="Billing"
+            name="billing"
+            formikprops={formikprops}
+            type={FormElementTypes.SELECT}
+          >
+            <option value="billing-1">Biling 1</option>
+            <option value="billing-2">Biling 2</option>
+          </FormElement>
+
+          <FormElement
+            label="Client Type"
+            name="clientType"
+            formikprops={formikprops}
+            type={FormElementTypes.SELECT}
+          >
+            <option value="selected">Select Type</option>
+            <option value="co-oprate">Co-oprate</option>
+            <option value="Educational Institute">Educational Institute</option>
+          </FormElement>
         </PageBody>
 
         <div className="form-header row">
@@ -187,9 +177,25 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener }) =>
         </div>
 
         <PageBody card={true}>
-          {renderFormGroup('First Name', 'userFirstName', 'Add First Name')}
-          {renderFormGroup('Last Name', 'userLastName', 'Add Last Name')}
-          {renderFormGroup('Email', 'userEmail', 'Add Email', true)}
+          <FormElement
+            label="First Name"
+            name="userFirstName"
+            placeholder="Add First Name"
+            formikprops={formikprops}
+          />
+          <FormElement
+            label="Last Name"
+            name="userLastName"
+            placeholder="Add Last Name"
+            formikprops={formikprops}
+          />
+          <FormElement
+            label="Email"
+            name="userEmail"
+            placeholder="Add Email"
+            formikprops={formikprops}
+            last={true}
+          />
         </PageBody>
 
         <PageBody>

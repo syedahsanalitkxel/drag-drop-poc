@@ -1,95 +1,46 @@
-import React, { PureComponent, Component, Fragment } from 'react';
-import { FormFeedback, Input } from 'reactstrap';
-import { Formik, Field } from 'formik';
+import React from 'react';
 
-interface props {
-  key: number;
-  comNumber: number;
-  tag?: any;
-  onChange: (event: any, key: number) => void;
-  formikprops: any;
+import FormikBag from '../../../interfaces/FormikBag';
+import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+
+interface Props {
+  formikprops: FormikBag;
+  children?: React.ReactNode;
 }
 
-const ClientContacts: React.FunctionComponent = (formikprops: any) => {
+const ClientContacts: React.FunctionComponent<Props> = ({ formikprops }) => {
   return (
-    <Fragment>
-      <div className="ibox">
-        <div className="ibox-content">
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label className="col-sm-12 col-form-label font-bold">First Name</label>
-              <div className="col-sm-12">
-                <Input
-                  type="text"
-                  name="firstName"
-                  className="form-control"
-                  placeholder="Add First Name"
-                  tag={Field}
-                />
-              </div>
-            </div>
+    <PageBody card={true} className="m-t-15">
+      <FormElement
+        label="First Name"
+        name="firstName"
+        placeholder="Add First Name"
+        formikprops={formikprops}
+      />
 
-            <div className="col-md-6">
-              <label className="col-sm-12 col-form-label font-bold">Last Name</label>
-              <div className="col-sm-12">
-                <Input
-                  type="text"
-                  name="lastName"
-                  className="form-control"
-                  placeholder="Add Last Name"
-                  tag={Field}
-                />
-              </div>
-            </div>
-          </div>
+      <FormElement
+        label="Last Name"
+        name="lastName"
+        placeholder="Add Last Name"
+        formikprops={formikprops}
+      />
 
-          <div className="hr-line-dashed" />
+      <FormElement label="Email" name="email" placeholder="Add Email" formikprops={formikprops} />
 
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label className="col-sm-12 col-form-label font-bold">Email</label>
-              <div className="col-sm-12">
-                <Input
-                  type="text"
-                  name="email"
-                  className="form-control"
-                  placeholder="Add Email"
-                  tag={Field}
-                />
-              </div>
-            </div>
+      <FormElement label="Phone" name="phone" placeholder="Add Phone" formikprops={formikprops} />
 
-            <div className="col-md-6">
-              <label className="col-sm-12 col-form-label font-bold">Phone</label>
-              <div className="col-sm-12">
-                <Input
-                  type="text"
-                  name="phone"
-                  className="form-control"
-                  placeholder="Add Phone"
-                  tag={Field}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="hr-line-dashed" />
-
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label className="col-sm-12 col-form-label font-bold">Role</label>
-              <div className="col-sm-12">
-                <Input type="select" name="role" placeholder="role" id="role-select">
-                  <option value="Selected">Select Role</option>
-                  <option value="role1">Role 1</option>
-                  <option value="role2">Role 2</option>
-                </Input>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Fragment>
+      <FormElement
+        label="Role"
+        name="role"
+        formikprops={formikprops}
+        type={FormElementTypes.SELECT}
+      >
+        <option value="">Select Role</option>
+        <option value="role1">Role 1</option>
+        <option value="role2">Role 2</option>
+      </FormElement>
+    </PageBody>
   );
 };
 
