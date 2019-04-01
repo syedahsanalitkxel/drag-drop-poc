@@ -7,7 +7,6 @@ import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import ClientFilters from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
-// import Client from "../../../interfaces/Client";
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
@@ -52,7 +51,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <ClientsList listData={clients} />
+            <ClientsList listData={clients} edit={edit} remove={remove} />
             <Pager />
           </PageBody>
         </div>
