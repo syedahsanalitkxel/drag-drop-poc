@@ -624,16 +624,6 @@ class AddAssessment extends Component<any, State> {
             expscaling: '',
             excstatement: this.state.expstatement,
             excbehaviour: '',
-            excscaling: '',
-            comstatement: '',
-            combehavior: '',
-            comscaling: '',
-            marstatement: '',
-            marbehaviour: '',
-            marscaling: '',
-            unstatement: '',
-            unbehaviour: '',
-            unscaling: '',
           }}
           validationSchema={AddAssessmentSchema}
           onSubmit={() => {}}

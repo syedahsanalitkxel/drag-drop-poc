@@ -2,7 +2,7 @@ import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
-import AddEmailInterface from '../../../interfaces/Email';
+import { AddEmailInterface } from '../../../interfaces/Email';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import DashboardTemplate from '../../templates/DashboardTemplate';
@@ -54,8 +54,6 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListene
   function onEditorStateChange(editorState: any) {
     setFormState({ ...formState, editorState });
   }
-
-  const renderContactList = (contact: any, index: number) => <Fragment key={index} />;
 
   const renderForm = (formikprops: FormikBag) => {
     // TODO: Create render from group component and suppoert select, radio and checkbox

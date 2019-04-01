@@ -11,6 +11,7 @@ const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
 const User = lazy(() => import('./components/pages/User'));
+const Email = lazy(() => import('./components/pages/Email'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -41,10 +42,12 @@ const Routes = () => (
       <Route exact={true} path="/clients/add">
         <AddClient />
       </Route>
-      <Route exact={true} path="/setting/email">
+      <Route exact={true} path="/setting/addemail">
         <AddEmailTemplate />
       </Route>
-
+      <Route exact={true} path="/setting">
+        <Email />
+      </Route>
       <Route exact={true} path="/users">
         <User />
       </Route>
