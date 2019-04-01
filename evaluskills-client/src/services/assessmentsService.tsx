@@ -1,19 +1,19 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import API from '../API';
-import { ASSESSMENTS } from '../API/endpoints';
-import ErrorObject from '../API/ErrorObject';
+import API from '../api';
+import { ASSESSMENTS } from '../api/endpoints';
+import errorObject from '../api/ErrorObject';
 import AssessmentItemInterface from '../interfaces/AssessmentItem';
 
 const api = new API();
 
-export async function getAssessments() {
+export async function getAssessments(): Promise<AssessmentItemInterface[]> {
   return api.get(ASSESSMENTS).then(
     (res: AxiosResponse) => {
       return res.data;
     },
     (error: AxiosError) => {
-      return new ErrorObject(error);
+      throw errorObject(error);
     }
   );
 }
@@ -24,7 +24,7 @@ export async function addAssessment(assessment: AssessmentItemInterface) {
       return res.data;
     },
     (error: AxiosError) => {
-      return new ErrorObject(error);
+      throw errorObject(error);
     }
   );
 }

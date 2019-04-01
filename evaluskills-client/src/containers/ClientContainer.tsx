@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import ClientsList from '../components/pages/Dashboard/Client';
+import ClientsList from '../components/pages/Client';
 import IClientList from '../interfaces/Client';
 import { getClients } from '../services/clientsService';
 

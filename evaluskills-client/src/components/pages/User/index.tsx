@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import AddUser from '../../pages/AddUser';
 import User from '../../../interfaces/User';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
+import ESModal from '../Client';
 
 const usersData = [
   { id: 1, name: 'Robby Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
@@ -16,9 +18,14 @@ const usersData = [
 
 const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [addUserModalVisible, setAddUserModalVisible] = useState(false);
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const toggleAddUserModal = () => {
+    setAddUserModalVisible(!addUserModalVisible);
   };
 
   const filterAction = (event: React.MouseEvent) => {
@@ -32,7 +39,9 @@ const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }
   };
 
   const addAction = (event: React.MouseEvent) => {
-    history.push('/users/add');
+    event.preventDefault();
+    toggleAddUserModal();
+    // history.push('/users/add');
     // alert(`add button clicked ${event.timeStamp}`);
   };
 
@@ -117,13 +126,15 @@ const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }
           <ModalFooter>
             <Button color="primary" onClick={toggleFilterModal}>
               Reset
-            </Button>{' '}
+            </Button>
             <Button color="secondary" onClick={toggleFilterModal}>
               Apply
             </Button>
           </ModalFooter>
         </Modal>
       </div>
+
+      <AddUser visible={addUserModalVisible} toggle={toggleAddUserModal} />
     </DashboardTemplate>
   );
 };

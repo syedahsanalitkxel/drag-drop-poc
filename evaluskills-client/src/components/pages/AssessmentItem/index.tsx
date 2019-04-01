@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { AssessmentFiltersInterface } from '../../../interfaces/AssessmentFilters';
+import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
