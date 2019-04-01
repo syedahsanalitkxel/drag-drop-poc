@@ -4,42 +4,52 @@ import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 
-import AddClientInterface, { ContactInterface } from '../../../interfaces/AddClient';
+import AddClientInterface, { ContactInterface } from '../../../interfaces/Client';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
+import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
+import ClientsList from '../Client';
 
 interface Props {
   changeListener?: (formValues: AddClientInterface) => void;
   defaultValues?: AddClientInterface;
+  action?: string;
 }
 
 const initialState: AddClientInterface = {
-  address: '',
-  billing: '',
-  city: '',
-  clientInformation: '',
-  clientName: '',
-  clientType: '',
+  address: ' ',
+  billing: ' ',
+  city: ' ',
+  clientInformation: ' ',
+  clientName: ' ',
+  clientType: ' ',
   contact: [
     {
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      role: '',
+      id: ' ',
+      email: ' ',
+      firstName: ' ',
+      lastName: ' ',
+      phone: ' ',
+      role: ' ',
     },
   ],
-  phone: '',
-  school: '',
-  state: '',
-  userEmail: '',
-  userFirstName: '',
-  userLastName: '',
-  zip: '',
+  id: ' ',
+  noOfAssessments: ' ',
+  noOfEvaluators: ' ',
+  noOfParticipants: ' ',
+  phone: ' ',
+  plan: ' ',
+  school: ' ',
+  state: ' ',
+  status: ' ',
+  userEmail: ' ',
+  userFirstName: ' ',
+  userLastName: ' ',
+  zip: ' ',
 };
 
 const StyledButton = styled(Button)`
@@ -47,7 +57,11 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues }) => {
+export const AddClient: React.FunctionComponent<Props> = ({
+  changeListener,
+  defaultValues,
+  action,
+}) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
 
   useEffect(() => {
@@ -65,6 +79,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
 
     const { contact } = formState;
     const contactObj: ContactInterface = {
+      id: '',
       email: '',
       firstName: '',
       lastName: '',
@@ -81,6 +96,12 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
     const renderContactList = (contact: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
+      </Fragment>
+    );
+
+    const renderList = (contact: any, index: number) => (
+      <Fragment key={index}>
+        <ClientContactsList listData={contact} />
       </Fragment>
     );
 
@@ -171,8 +192,12 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
             </Button>
           </div>
         </div>
-
-        <div>{formState.contact && formState.contact.map(renderContactList)}</div>
+        {/*formState.contact && <ClientContactsList listData={formState.contact} />*/}
+        <div>
+          {action === 'edit'
+            ? formState.contact && <ClientContactsList listData={formState.contact} />
+            : formState.contact && formState.contact.map(renderContactList)}
+        </div>
 
         <div className="form-header row">
           <div className="col-sm-6">

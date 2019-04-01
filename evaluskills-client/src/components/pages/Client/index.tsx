@@ -7,15 +7,14 @@ import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import ClientFilters from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
-// import Client from "../../../interfaces/Client";
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   clients: ClientList[];
   filterClients: (searchQuery: string) => void;
   add: () => void;
-  edit: (clientId: number) => void;
-  remove: (clientId: number) => void;
+  edit: (clientId: string) => void;
+  remove: (clientId: string) => void;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({

@@ -6,12 +6,12 @@ import ClientCard from '../../molecules/ClientCard';
 
 interface Props {
   listData: Client[];
-  edit: (userId: number) => void;
-  remove: (userId: number) => void;
+  edit: (clientId: string) => void;
+  remove: (clientId: string) => void;
 }
 
 const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove }) => {
-  const actionHandler = (clientId: number) => (event: React.MouseEvent) => {
+  const actionHandler = (clientId: string) => (event: React.MouseEvent) => {
     if (event.currentTarget.id === 'edit') {
       edit(clientId);
     } else if (event.currentTarget.id === 'delete') {
@@ -21,14 +21,15 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
 
   const renderContent = (
     clientName: string,
-    plan: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    contactName: string,
-    clientNumber: string,
+    phone: string,
+    plan: string,
     noOfAssessments: string,
     noOfEvaluators: string,
     noOfParticipants: string,
-    id: number,
+    id: string,
     status: string
   ) => (
     <React.Fragment>
@@ -40,10 +41,10 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
           <strong className="client">{clientName}</strong>
         </td>
         <td>
-          <a href="tel:+18884521505">{clientNumber}</a>
+          <a href="tel:+18884521505">{phone}</a>
         </td>
         <td>
-          <strong className="title">{contactName}</strong>
+          <strong className="title">{firstName}</strong>
           <a href="mailto:maria@evalueskills.com">{email}</a>
         </td>
         <td>{plan}</td>
@@ -82,18 +83,22 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
   );
 
   const renderClientItem = (clientItem: Client) => {
-    const content = renderContent(
-      clientItem.clientName,
-      clientItem.plan,
-      clientItem.email,
-      clientItem.contactName,
-      clientItem.clientNumber,
-      clientItem.noOfAssessments,
-      clientItem.noOfEvaluators,
-      clientItem.noOfParticipants,
-      clientItem.id,
-      clientItem.status
-    );
+    let content: any;
+    if (clientItem.contact && clientItem.clientName) {
+      content = renderContent(
+        clientItem.clientName,
+        clientItem.contact[0].firstName,
+        clientItem.contact[0].lastName,
+        clientItem.contact[0].email,
+        clientItem.contact[0].phone,
+        clientItem.plan,
+        clientItem.noOfAssessments,
+        clientItem.noOfEvaluators,
+        clientItem.noOfParticipants,
+        clientItem.id,
+        clientItem.status
+      );
+    }
 
     return <ClientCard key={clientItem.id}>{{ content }}</ClientCard>;
   };

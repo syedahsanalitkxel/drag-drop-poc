@@ -8,33 +8,43 @@ import AddClient from './index';
 configure({ adapter: new Adapter() });
 
 const formValues = {
-  address: ' ',
-  billing: 'plan 2',
-  city: ' ',
-  clientInformation: ' ',
-  clientName: 'Maria Gracia',
-  clientType: 'Type 1',
+  address: 'Cantt. MughalPura Lahore',
+  billing: '',
+  city: 'Lahore',
+  clientInformation: '',
+  clientName: 'TkXel',
+  clientType: '',
   contact: [
     {
-      email: 'Ali@tkxel.com',
-      firstName: 'Ali',
-      lastName: 'Raza',
-      phone: '+923334567891',
-      role: 'user',
+      id: '1',
+      email: 'maria@evaluskills.com',
+      firstName: 'Maria',
+      lastName: ' Garcia',
+      phone: '+1 818-452-1505',
+      role: '',
     },
   ],
-  phone: '+888 667 999 ',
-  school: ' ',
-  state: ' ',
-  userEmail: 'rizwan@tkxel.com',
-  userFirstName: 'rizwan',
-  userLastName: 'shah',
-  zip: ' ',
+  id: '2',
+  noOfAssessments: '25',
+  noOfEvaluators: '28',
+  noOfParticipants: '30',
+  phone: '+1 818-452-1505',
+  plan: 'Plan 01',
+  school: 'P.R Boys high school',
+  state: 'punjab',
+  status: 'Active',
+  userEmail: 'ali@tkxel.com',
+  userFirstName: 'ali',
+  userLastName: 'raza',
+  zip: '54000',
 };
 
 describe('MyComponent', () => {
+  const mockChangeListener = jest.fn();
+  const action = 'edit';
+  const props = { defaultValue: { formValues }, action: { action } };
   it('should render correctly in "debug" mode', () => {
-    const component = shallow(<AddClient {...formValues} />);
+    const component = shallow(<AddClient />);
     expect(component).toMatchSnapshot();
   });
   it('renders without crashing', () => {
@@ -65,7 +75,7 @@ describe('MyComponent', () => {
         <AddClient />
       </Router>
     );
-    expect(wrapper.find('FormFeedback')).toHaveLength(12);
+    expect(wrapper.find('FormFeedback')).toHaveLength(18);
   });
   it('49 form control `.form-control`s', () => {
     const wrapper = mount(
@@ -73,7 +83,7 @@ describe('MyComponent', () => {
         <AddClient />
       </Router>
     );
-    expect(wrapper.find('.form-control')).toHaveLength(49);
+    expect(wrapper.find('.form-control')).toHaveLength(51);
     expect(wrapper.find('.form-control')).toBeDefined();
   });
   it('First Name label exist ', () => {
@@ -239,10 +249,35 @@ describe('MyComponent', () => {
   describe('Component functionality', () => {
     it('should not submit if required fields are empty', () => {
       const badFormValues = {
-        email: 'aa',
-        firstName: ' ',
-        lastName: ' ',
-        role: ' ',
+        address: ' ',
+        billing: '',
+        city: '',
+        clientInformation: '',
+        clientName: '',
+        clientType: '',
+        contact: [
+          {
+            id: '',
+            email: '',
+            firstName: '',
+            lastName: ' ',
+            phone: '',
+            role: '',
+          },
+        ],
+        id: '',
+        noOfAssessments: '',
+        noOfEvaluators: '',
+        noOfParticipants: '',
+        phone: '',
+        plan: '',
+        school: '',
+        state: '',
+        status: '',
+        userEmail: '',
+        userFirstName: '',
+        userLastName: '',
+        zip: '',
       };
       const resetForm = jest.fn();
       const componentRender = mount(
