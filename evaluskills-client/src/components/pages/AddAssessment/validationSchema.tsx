@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+let i = 1;
 export const AddAssessmentSchema = Yup.object().shape({
   definiation: Yup.string()
     .min(2, 'Too Short!')
@@ -83,6 +84,7 @@ export const AddAssessmentSchema = Yup.object().shape({
       scaling: Yup.string().required('Required'),
     })
   ),
+
   lists: Yup.object().shape({
     0: Yup.array().of(
       Yup.object().shape({
