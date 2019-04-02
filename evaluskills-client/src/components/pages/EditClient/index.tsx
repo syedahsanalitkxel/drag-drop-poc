@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import IClientList from '../../../interfaces/Client';
+import RouteParams from '../../../interfaces/RouteParams';
+import EditComponent from '../AddClient';
 
-import ClientsList from '../components/pages/Client';
-import IClientList from '../interfaces/Client';
-import { getClients } from '../services/clientsService';
-
-const ClientList: IClientList[] = [
+const ClientData: IClientList[] = [
   {
     address: 'Cantt. MughalPura Lahore',
     billing: 'Biling 2',
@@ -187,51 +186,13 @@ const ClientList: IClientList[] = [
   },
 ];
 
-const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
-  const [clients, setClients] = useState(ClientList);
-  // TODO: Try moving filters to context
-  const [filters, setFilters] = useState({});
-
-  // https://www.andreasreiterer.at/react-useeffect-hook-loop/
-  // https://overreacted.io/a-complete-guide-to-useeffect/
-  useEffect(() => {
-    // fetchClients();
-    return function cleanup() {
-      setClients(ClientList);
-      setFilters({});
-    };
-  }, []);
-
-  // async function fetchClients() {
-  //     const data = await getClients();
-  //     setClients(data);
-  // }
-
-  function filterClients(searchQuery: string) {
-    alert(searchQuery);
-  }
-
-  function addClient() {
-    history.push('/clients/add');
-  }
-
-  function editClient(clientId: string) {
-    history.push(`/clients/edit/${clientId}`);
-  }
-
-  function deleteClient(clientId: string) {
-    alert(`deleting => ${clientId}`);
-  }
-
-  return (
-    <ClientsList
-      clients={clients}
-      filterClients={filterClients}
-      add={addClient}
-      remove={deleteClient}
-      edit={editClient}
-    />
-  );
+const EditClient: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
+  history,
+  location,
+  match,
+}) => {
+  const clientData: any = ClientData.find(client => client.id === match.params.id);
+  return <EditComponent defaultValues={clientData} action="edit" />;
 };
 
-export default withRouter(ClientListContainer);
+export default withRouter(EditClient);

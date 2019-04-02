@@ -9,6 +9,7 @@ const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
+const EditClient = lazy(() => import('./components/pages/EditClient'));
 
 const User = lazy(() => import('./components/pages/User'));
 
@@ -40,6 +41,10 @@ const Routes = () => (
 
       <Route exact={true} path="/clients/add">
         <AddClient />
+      </Route>
+
+      <Route exact={true} path="/clients/edit/:id">
+        <EditClient />
       </Route>
 
       <Route exact={true} path="/users">

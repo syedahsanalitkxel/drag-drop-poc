@@ -18,6 +18,7 @@ describe('Client', () => {
     { header: 'No. of Participants', name: 'noOfParticipants' },
     { header: 'No. of Evaluators', name: 'noOfEvaluators' },
     { header: 'Status', name: 'status' },
+    { header: '', name: '' },
   ];
 
   const data = [
@@ -149,7 +150,7 @@ describe('Client', () => {
       </Router>
     );
     const thead = wrapper.find('thead');
-    expect(thead.find('th')).toHaveLength(9);
+    expect(thead.find('th')).toHaveLength(10);
     expect(wrapper.find('.table')).toBeDefined();
   });
 

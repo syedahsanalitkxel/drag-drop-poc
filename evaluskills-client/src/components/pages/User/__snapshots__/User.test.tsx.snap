@@ -22,7 +22,7 @@ exports[`User render successfully 1`] = `
           className="ibox m-b-15"
         >
           <div
-            className="ibox-content"
+            className="table-holder"
           >
             <UsersList
               edit={[Function]}
