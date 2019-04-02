@@ -10,7 +10,6 @@ const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntCo
 
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
-const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const User = lazy(() => import('./components/pages/User'));
