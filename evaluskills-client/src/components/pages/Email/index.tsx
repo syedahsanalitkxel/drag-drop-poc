@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import AddUser from '../../pages/AddUser';
 import { emailListing } from '../../../interfaces/Email';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
-import ESModal from '../Client';
-import EmailListItems from '../../organisms/EmailListItems';
-import CardTitle from 'reactstrap/lib/CardTitle';
 import IconButton from '../../atoms/IconButton';
 const usersData = [
   { id: 1, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
@@ -111,8 +107,6 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
           </PageBody>
         </div>
       </div>
-
-      <AddUser visible={addUserModalVisible} toggle={toggleAddUserModal} />
     </DashboardTemplate>
   );
 };
