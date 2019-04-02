@@ -110,12 +110,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
       </Fragment>
     );
 
-    const renderList = (contact: any, index: number) => (
-      <Fragment key={index}>
-        <ClientContactsList listData={contact} />
-      </Fragment>
-    );
-
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <PageBody card={true} wrapper={true} className="m-t-15">
