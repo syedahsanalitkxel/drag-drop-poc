@@ -2,27 +2,24 @@ import { Field, Formik, FormikActions, FormikValues } from 'formik';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
-import { AddEmailInterface } from '../../../interfaces/Email';
+import InsturmentsInterface from '../../../interfaces/Instruments';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, Modifier } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 interface Props {
-  changeListener?: (formValues: AddEmailInterface) => void;
+  changeListener?: (formValues: InsturmentsInterface) => void;
   edit?: boolean;
   list?: any;
 }
 
-const initialState: AddEmailInterface = {
-  subject: '',
-  title: '',
-  type: '',
+const initialState: InsturmentsInterface = {
+  instrumentsTitle: '',
   editorState: '',
-  componentName: 'Add Email',
+  componentName: '',
   // editorState:
   //   "Lorem Ipsum is simply  dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with Remaining essentially unchanged Make a type specimen bookUnknown printer",
 };
@@ -32,11 +29,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddEmailTemplate: React.FunctionComponent<Props> = ({
-  list,
-  edit,
-  changeListener,
-}) => {
+export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
   useEffect(() => {
@@ -44,25 +37,20 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
       changeListener(formState);
     }
     if (edit) {
-      setFormState({ ...formState, subject: 'update subject' });
-      setFormState({ ...formState, subject: 'update title' });
-      setFormState({ ...formState, type: 'billing-1' });
+      setFormState({ ...formState, instrumentsTitle: 'update subject' });
       setFormState({ ...formState, editorState: 'billing-1' });
-      setFormState({ ...formState, componentName: 'Edit Email' });
+      setFormState({ ...formState, componentName: 'Edit Instruments' });
     }
   });
 
-  function submitForm(values: AddEmailInterface, formikActions: FormikActions<AddEmailInterface>) {
+  function submitForm(
+    values: InsturmentsInterface,
+    formikActions: FormikActions<InsturmentsInterface>
+  ) {
     setFormState({ ...formState, ...values });
   }
 
   function onEditorStateChange(editorState: any) {
-    const contentState = Modifier.replaceText(
-      editorState.getCurrentContent(),
-      editorState.getSelection(),
-      '⭐',
-      editorState.getCurrentInlineStyle()
-    );
     setFormState({ ...formState, editorState });
   }
 
@@ -81,39 +69,12 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
         </div>
         <PageBody card={true} className="m-t-15">
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-10">
               <FormElement
-                label="Title"
+                label="Instruments Title"
                 name="title"
                 placeholder="Add Email Title"
                 formikprops={formikprops}
-                inline={true}
-                last={true}
-              />
-            </div>
-
-            <div className="col-md-6">
-              <FormElement
-                label="Type"
-                name="type"
-                formikprops={formikprops}
-                type={FormElementTypes.SELECT}
-                inline={true}
-                last={true}
-              >
-                <option value="billing-1">Biling 1</option>
-                <option value="billing-2">Biling 2</option>
-              </FormElement>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6">
-              <FormElement
-                label="Subject"
-                name="subject"
-                placeholder="Subject"
-                formikprops={formikprops}
-                inline={true}
                 last={true}
               />
             </div>
@@ -128,7 +89,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
             onEditorStateChange={onEditorStateChange}
           />
         </PageBody>
-        <PageBody card={true} className="m-t-15">
+        <PageBody card={true}>
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
               cancel
@@ -157,4 +118,4 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
   );
 };
 
-export default AddEmailTemplate;
+export default AddInstructions;

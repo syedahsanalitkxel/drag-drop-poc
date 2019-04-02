@@ -13,6 +13,7 @@ const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const EditClient = lazy(() => import('./components/pages/EditClient'));
+const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
 const User = lazy(() => import('./components/pages/User'));
 const Email = lazy(() => import('./components/pages/Email'));
@@ -55,7 +56,9 @@ const Routes = () => (
       <Route exact={true} path="/setting">
         <Email />
       </Route>
-
+      <Route exact={true} path="/setting/instructions">
+        <InstructionsContainer />
+      </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
       </Route>
