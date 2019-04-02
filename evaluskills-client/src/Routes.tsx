@@ -6,10 +6,13 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
+const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
 const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
+const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const User = lazy(() => import('./components/pages/User'));
 const Email = lazy(() => import('./components/pages/Email'));
 
@@ -29,10 +32,10 @@ const Routes = () => (
       </Route>
 
       <Route exact={true} path="/assessment-items/add">
-        <AddAssessment />
+        <AssessmentContainer />
       </Route>
       <Route exact={true} path="/assessment-items/edit/:id">
-        <EditAssessment />
+        <AssessmentContainer />
       </Route>
 
       <Route exact={true} path="/clients">
@@ -42,8 +45,11 @@ const Routes = () => (
       <Route exact={true} path="/clients/add">
         <AddClient />
       </Route>
-      <Route exact={true} path="/setting/addemail">
-        <AddEmailTemplate />
+      <Route exact={true} path="/setting/email/add">
+        <EmailTemplateContainer />
+      </Route>
+      <Route exact={true} path="/setting/email/edit/:id">
+        <EmailTemplateContainer />
       </Route>
       <Route exact={true} path="/setting">
         <Email />

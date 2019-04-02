@@ -3,6 +3,7 @@ export interface AddEmailInterface {
   type?: string;
   subject?: string;
   editorState?: any;
+  componentName: string;
 }
 export interface emailListing {
   title?: string;

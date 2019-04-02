@@ -47,7 +47,13 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
   const addAction = (event: React.MouseEvent) => {
     event.preventDefault();
     //toggleAddUserModal();
-    history.push('/setting/addEmail');
+    history.push('/setting/email/add');
+    // alert(`add button clicked ${event.timeStamp}`);
+  };
+  const editAction = (event: React.MouseEvent) => {
+    event.preventDefault();
+    //toggleAddUserModal();
+    history.push('/setting/email/edit/1');
     // alert(`add button clicked ${event.timeStamp}`);
   };
 
@@ -65,6 +71,9 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
           <td>
             <IconButton id="delete" icon="trash" className="btn-default" actionHandler={() => {}}>
               Delete
+            </IconButton>
+            <IconButton id="edit" icon="trash" className="btn-default" actionHandler={editAction}>
+              Edit
             </IconButton>
           </td>
         </tr>

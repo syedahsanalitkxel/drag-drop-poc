@@ -12,6 +12,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 interface Props {
   changeListener?: (formValues: AddEmailInterface) => void;
+  edit?: boolean;
+  list?: any;
 }
 
 const initialState: AddEmailInterface = {
@@ -19,6 +21,7 @@ const initialState: AddEmailInterface = {
   title: '',
   type: '',
   editorState: '',
+  componentName: 'Add Email',
   // editorState:
   //   "Lorem Ipsum is simply  dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with Remaining essentially unchanged Make a type specimen bookUnknown printer",
 };
@@ -28,12 +31,23 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListener }) => {
+export const AddEmailTemplate: React.FunctionComponent<Props> = ({
+  list,
+  edit,
+  changeListener,
+}) => {
   const [formState, setFormState] = useState(initialState);
 
   useEffect(() => {
     if (changeListener) {
       changeListener(formState);
+    }
+    if (edit) {
+      setFormState({ ...formState, subject: 'update subject' });
+      setFormState({ ...formState, subject: 'update title' });
+      setFormState({ ...formState, type: 'billing-1' });
+      setFormState({ ...formState, editorState: 'billing-1' });
+      setFormState({ ...formState, componentName: 'Edit Email' });
     }
   });
 
@@ -41,16 +55,6 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListene
     setFormState({ ...formState, ...values });
   }
 
-  // const onClickAddContact = (event: React.MouseEvent) => {
-  //   event.preventDefault();
-
-  //   const { contact } = formState;
-  //   const contactObj: any = {};
-  //   if (contact) {
-  //     contact.push(contactObj);
-  //   }
-  //   setFormState({ ...formState, contact });
-  // };
   function onEditorStateChange(editorState: any) {
     setFormState({ ...formState, editorState });
   }
@@ -64,7 +68,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListene
         <div className="PageHeader">
           <div className="row">
             <div className="col-lg-12 col-md-12">
-              <h2 className="font-weight-light">Email Template</h2>
+              <h2 className="font-weight-light">{formState.componentName}</h2>
             </div>
           </div>
         </div>
@@ -134,7 +138,12 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ changeListene
 
   return (
     <DashboardTemplate>
-      <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
+      <Formik
+        initialValues={formState}
+        enableReinitialize={true}
+        validationSchema={clientFormSchema}
+        onSubmit={submitForm}
+      >
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
     </DashboardTemplate>

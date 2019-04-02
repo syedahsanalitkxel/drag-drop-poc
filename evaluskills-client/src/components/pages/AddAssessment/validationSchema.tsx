@@ -5,10 +5,7 @@ export const AddAssessmentSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(250, 'Too Long!')
     .required('Required'),
-  expscaling: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+
   // excstatement: Yup.string()
   // 	.min(2, "Too Short!")
   // 	.max(50, "Too Long!")

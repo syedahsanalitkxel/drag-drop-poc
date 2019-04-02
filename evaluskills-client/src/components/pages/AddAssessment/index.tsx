@@ -7,46 +7,7 @@ import RadioButton from '../../atoms/RadioButton';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
-
-const initialState = {
-  assessmentType: 'rubricval',
-  categorySelected: '',
-  competency: '',
-  countAssetelement: 0,
-  entityCheck: [
-    { id: 1, value: 'SHRM', isChecked: false },
-    { id: 2, value: 'AACSB', isChecked: false },
-    { id: 3, value: 'ACBSP', isChecked: false },
-    { id: 4, value: 'IACBE', isChecked: false },
-    { id: 5, value: 'AMBA', isChecked: false },
-    { id: 6, value: 'ACJS', isChecked: false },
-    { id: 7, value: 'NASPAA', isChecked: false },
-    { id: 8, value: 'CAEP', isChecked: false },
-    { id: 9, value: 'CAHME', isChecked: false },
-    { id: 10, value: 'AUPHA', isChecked: false },
-    { id: 11, value: 'NACE', isChecked: false },
-  ],
-  componenetName: 'Add Assesment Items',
-  entitySelect: 0,
-  expstatement: [{ statement: '' }],
-  expBehaviour: [{ behaviour: '' }],
-  expstatementList: {},
-  entityCheckedAll: false,
-  fathSelected: '',
-  itemsElements: [
-    { statement: 'ali', behaviur: '', scaling: '' },
-    { statement: '', behaviur: '', scaling: '' },
-    { statement: '', behaviur: '', scaling: '' },
-    { statement: '', behaviur: '', scaling: '' },
-    { statement: '', behaviur: '', scaling: '' },
-  ],
-  lists: {},
-  recommendAppCorporate: false,
-  recommendAppHigher: false,
-  typeSelected: 'influval',
-  usage: '',
-  validateArray: {},
-};
+import { initialState } from './InitianalState';
 const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) => {
   const [formState, setFormState] = useState(initialState);
   useEffect(() => {
@@ -56,7 +17,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
       setFormState({ ...formState, lists: list });
     }
     if (edit) {
-      setFormState({ ...formState, componenetName: 'Eit Assesment Items ' });
+      setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
     }
   });
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -122,7 +83,6 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
                         !!(formikprops.touched.definiation && formikprops.errors.definiation)
                       }
                     />
-
                     <FormFeedback tooltip={true}>{formikprops.errors.definiation}</FormFeedback>
                   </div>
                 </div>
@@ -542,7 +502,6 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
       </div>
     </form>
   );
-
   return (
     <DashboardTemplate>
       <Formik
