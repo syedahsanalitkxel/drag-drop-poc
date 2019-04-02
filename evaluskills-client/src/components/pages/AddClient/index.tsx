@@ -9,6 +9,7 @@ import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
+import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
@@ -63,6 +64,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
 }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
+  const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
+
+  const toggleAddClientContactModal = () => {
+    setAddClientContactModalVisible(!addClientContactModalVisible);
+  };
 
   useEffect(() => {
     if (changeListener) {
@@ -75,21 +81,26 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   const onClickAddContact = (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    const { contact } = formState;
-    const contactObj: ContactInterface = {
-      id: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      role: '',
-    };
-    if (contact) {
-      contact.push(contactObj);
+    if (action === 'edit') {
+      event.preventDefault();
+      toggleAddClientContactModal();
     }
-    setFormState({ ...formState, contact });
+
+    if (action !== 'edit') {
+      const { contact } = formState;
+      const contactObj: ContactInterface = {
+        id: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        role: '',
+      };
+      if (contact) {
+        contact.push(contactObj);
+      }
+      setFormState({ ...formState, contact });
+    }
   };
 
   const renderForm = (formikprops: FormikBag) => {
@@ -198,6 +209,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
             ? formState.contact && <ClientContactsList listData={formState.contact} />
             : formState.contact && formState.contact.map(renderContactList)}
         </div>
+
+        <AddClientContacts
+          formikprops={formikprops}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+        />
 
         <div className="form-header row">
           <div className="col-sm-6">
