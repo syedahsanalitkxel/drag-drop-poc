@@ -6,6 +6,10 @@
     }
 }
 
+.bordered-card {
+    border-top: 6px solid #cfd1d48c;
+}
+
 .es-card {
     padding: 15px 25px;
     background: #ffffff; //border-top: 1px solid #e7eaec;
@@ -15,7 +19,7 @@
         display: block;
         font-size: 18px;
         font-weight: 600;
-        margin-top: 0px;
+        margin-top: 0;
         margin-bottom: 10px;
     }
 

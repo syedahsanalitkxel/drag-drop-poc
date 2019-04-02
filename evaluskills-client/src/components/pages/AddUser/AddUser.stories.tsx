@@ -32,4 +32,4 @@ const props: ModalProps = {
   FormValues: modalValues,
 };
 
-storiesOf('AddAssessment', module).add('AddAssessment', () => <AddUser {...props} />);
+storiesOf('AddUser', module).add('AddUser', () => <AddUser {...props} />);
