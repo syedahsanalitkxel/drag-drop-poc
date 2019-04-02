@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
+import InstrumentTemplateContainer from './containers/InstrumentContainer';
 
 const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
@@ -26,12 +27,21 @@ const Routes = () => (
       <Route exact={true} path="/assessment-items">
         <AssessmentItemContainer />
       </Route>
-
       <Route exact={true} path="/assessment-items/add">
         <AddAssessment />
       </Route>
       <Route exact={true} path="/assessment-items/edit/:id">
         <EditAssessment />
+      </Route>
+
+      <Route exact={true} path="/instrument-templates">
+        <InstrumentTemplateContainer />
+      </Route>
+      <Route exact={true} path="/instrument-templates/add">
+        <InstrumentTemplateContainer />
+      </Route>
+      <Route exact={true} path="/instrument-templates/edit/:id">
+        <InstrumentTemplateContainer />
       </Route>
 
       <Route exact={true} path="/clients">

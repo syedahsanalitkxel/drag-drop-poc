@@ -31,7 +31,7 @@ export default class API {
     return this.instance.get(url);
   }
 
-  public post(url: string, body: AssessmentItemInterface): AxiosPromise {
+  public post(url: string, body: any): AxiosPromise {
     return this.instance.post(url, body);
   }
 

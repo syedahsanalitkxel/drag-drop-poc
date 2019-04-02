@@ -9,7 +9,8 @@ interface Props {
   icon?: IconProp;
   className?: string;
   id?: string;
-  actionHandler: (event: React.MouseEvent) => void;
+  name?: string;
+  actionHandler: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: string;
 }
 
@@ -21,10 +22,16 @@ const IconButton: React.FunctionComponent<Props> = ({
   icon,
   className,
   id,
+  name,
   actionHandler,
   children,
 }) => (
-  <StyledButton className={classNames(['btn', className])} onClick={actionHandler} id={id}>
+  <StyledButton
+    name={name}
+    className={classNames(['btn', className])}
+    onClick={actionHandler}
+    id={id}
+  >
     {icon && <FontAwesomeIcon icon={icon} />}
     &nbsp;
     {children}
