@@ -1,24 +1,54 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import AddUser from '../../pages/AddUser';
 import User from '../../../interfaces/User';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
-import ESModal from '../Client';
+import UsersList from '../../organisms/UserList';
+import Editcomponent from '../../pages/AddUser';
+
+interface Props {
+  changeListener?: (formValues: User) => void;
+}
+
+const initialState = {
+  email: ' ',
+  firstName: ' ',
+  id: ' ',
+  lastName: ' ',
+  role: ' ',
+};
 
 const usersData = [
-  { id: 1, name: 'Robby Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
-  { id: 2, name: 'Jhon Doe', role: 'User', email: 'jhondoe@gmail.com' },
-  { id: 3, name: 'Bella William', role: 'Admin', email: 'bellawilliam@gmail.com' },
-  { id: 4, name: 'Rock Rash', role: 'User', email: 'rockrash@gmail.com' },
+  { id: '1', firstName: 'Robby', lastName: 'Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
+  { id: '2', firstName: 'Jhon', lastName: 'Doe', role: 'User', email: 'jhondoe@gmail.com' },
+  {
+    id: '3',
+    firstName: 'Bella',
+    lastName: 'William',
+    role: 'Admin',
+    email: 'bellawilliam@gmail.com',
+  },
+  { id: '4', firstName: 'Rash', lastName: 'Rash', role: 'User', email: 'rockrash@gmail.com' },
 ];
 
-const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
+  const [editUserModalVisible, setEditUserModalVisible] = useState(false);
+  const [formState, setFormState] = useState(initialState);
+
+  useEffect(() => {
+    if (changeListener) {
+      changeListener(formState);
+    }
+  });
+
+  const toggleEditUserModal = () => {
+    setEditUserModalVisible(!editUserModalVisible);
+  };
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
@@ -35,31 +65,27 @@ const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }
   };
 
   const searchHandler = (searchQuery: string) => {
-    alert(searchQuery);
+    // alert(searchQuery);
   };
 
   const addAction = (event: React.MouseEvent) => {
     event.preventDefault();
+    setFormState(initialState);
     toggleAddUserModal();
     // history.push('/users/add');
     // alert(`add button clicked ${event.timeStamp}`);
   };
 
-  const renderUserData = (userData: User) => {
-    return (
-      <React.Fragment key={userData.id}>
-        <tr>
-          <td>{userData.id}</td>
-          <td>
-            <strong>{userData.name}</strong>
-          </td>
-          <td>
-            <strong>{userData.role}</strong>
-          </td>
-          <td>{userData.email}</td>
-        </tr>
-      </React.Fragment>
-    );
+  const editAction = (userId: string) => {
+    // event.preventDefault();
+    const userD: any = usersData.find(user => user.id === userId);
+    setFormState(userD);
+    toggleEditUserModal();
+    // history.push(`/users/edit/${userId}`);
+  };
+
+  const removeAction = (userId: string) => {
+    // history.push(`/users/remove/${userId}`);
   };
 
   return (
@@ -75,25 +101,14 @@ const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }
           />
           <PageBody>
             <div className="ibox m-b-15">
-              <div className="ibox-content">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Role</th>
-                      <th>Email</th>
-                    </tr>
-                  </thead>
-                  <tbody>{usersData.map(renderUserData)}</tbody>
-                </table>
+              <div className="table-holder">
+                <UsersList listData={usersData} edit={editAction} remove={removeAction} />
               </div>
             </div>
             <Pager />
           </PageBody>
         </div>
       </div>
-
       {/* Filter Modal */}
       <div>
         <Modal isOpen={modalVisible} toggle={toggleFilterModal}>
@@ -133,10 +148,21 @@ const DashboardHome: React.FunctionComponent<RouteComponentProps> = ({ history }
           </ModalFooter>
         </Modal>
       </div>
-
-      <AddUser visible={addUserModalVisible} toggle={toggleAddUserModal} />
+      <AddUser
+        visible={addUserModalVisible}
+        toggle={toggleAddUserModal}
+        name="Add"
+        FormValues={formState}
+      />
+      <Editcomponent
+        visible={editUserModalVisible}
+        toggle={toggleEditUserModal}
+        name="Edit"
+        FormValues={formState}
+      />
+      ;
     </DashboardTemplate>
   );
 };
 
-export default withRouter(DashboardHome);
+export default DashboardHome;

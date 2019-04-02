@@ -3,7 +3,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AddClient from './index';
+import EditClient from './index';
 
 configure({ adapter: new Adapter() });
 
@@ -40,56 +40,55 @@ const formValues = {
 };
 
 describe('MyComponent', () => {
-  const mockChangeListener = jest.fn();
   const action = 'edit';
   const props = { defaultValue: { formValues }, action: { action } };
   it('should render correctly in "debug" mode', () => {
-    const component = shallow(<AddClient />);
+    const component = shallow(<EditClient {...props} />);
     expect(component).toMatchSnapshot();
   });
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>,
       div
     );
     ReactDOM.unmountComponentAtNode(div);
   });
   it('to be defined of form control `.form`s', () => {
-    const wrapper = shallow(<AddClient />);
+    const wrapper = shallow(<EditClient />);
     expect(wrapper.find('.form')).toBeDefined();
   });
-  it('16 Input fields in `.form`', () => {
+  it('11 Input fields in `.form`', () => {
     const wrapper = mount(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
-    expect(wrapper.find('Input')).toHaveLength(16);
+    expect(wrapper.find('Input')).toHaveLength(11);
   });
-  it('17 Form Feedback in `.form`', () => {
+  it('12 Form Feedback in `.form`', () => {
     const wrapper = mount(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
-    expect(wrapper.find('FormFeedback')).toHaveLength(17);
+    expect(wrapper.find('FormFeedback')).toHaveLength(12);
   });
-  it('48 form control `.form-control`s', () => {
+  it('33 form control `.form-control`s', () => {
     const wrapper = mount(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
-    expect(wrapper.find('.form-control')).toHaveLength(48);
+    expect(wrapper.find('.form-control')).toHaveLength(33);
     expect(wrapper.find('.form-control')).toBeDefined();
   });
   it('First Name label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('First Name');
@@ -97,7 +96,7 @@ describe('MyComponent', () => {
   it('Last Name label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Last Name');
@@ -105,7 +104,7 @@ describe('MyComponent', () => {
   it('Email label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Email');
@@ -113,7 +112,7 @@ describe('MyComponent', () => {
   it('Role label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Role');
@@ -121,7 +120,7 @@ describe('MyComponent', () => {
   it('Address label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Address');
@@ -129,7 +128,7 @@ describe('MyComponent', () => {
   it('City label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('City');
@@ -137,7 +136,7 @@ describe('MyComponent', () => {
   it('State label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('State');
@@ -145,7 +144,7 @@ describe('MyComponent', () => {
   it('Zip label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Zip');
@@ -153,7 +152,7 @@ describe('MyComponent', () => {
   it('Billing label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Billing');
@@ -161,7 +160,7 @@ describe('MyComponent', () => {
   it('School/Subsidiary label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('School/Subsidiary');
@@ -169,7 +168,7 @@ describe('MyComponent', () => {
   it('Client Name label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Client Name');
@@ -177,7 +176,7 @@ describe('MyComponent', () => {
   it('Client Type ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Client Type');
@@ -185,7 +184,7 @@ describe('MyComponent', () => {
   it('Contact label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('Contact');
@@ -193,7 +192,7 @@ describe('MyComponent', () => {
   it('User Information label exist ', () => {
     const wrapper = render(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     expect(wrapper.text()).toContain('User Information');
@@ -220,7 +219,7 @@ describe('MyComponent', () => {
   it('submit form ', () => {
     const wrapper = mount(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     wrapper.find('form').simulate('submit');
@@ -228,7 +227,7 @@ describe('MyComponent', () => {
   it('submit form ', () => {
     const wrapper = mount(
       <Router>
-        <AddClient />
+        <EditClient />
       </Router>
     );
     wrapper.find('form').simulate('submit', {
@@ -271,10 +270,11 @@ describe('MyComponent', () => {
         userLastName: '',
         zip: '',
       };
+      const badProps = { defaultValue: { badFormValues }, action: 'edit' };
       const resetForm = jest.fn();
       const componentRender = mount(
         <Router>
-          <AddClient {...badFormValues} />
+          <EditClient {...badProps} />
         </Router>
       );
       componentRender

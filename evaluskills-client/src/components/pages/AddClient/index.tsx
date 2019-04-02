@@ -4,42 +4,53 @@ import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 
-import AddClientInterface, { ContactInterface } from '../../../interfaces/AddClient';
+import AddClientInterface, { ContactInterface } from '../../../interfaces/Client';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
+import AddClientContacts from '../../organisms/AddClientContact/index';
+import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
+import ClientsList from '../Client';
 
 interface Props {
   changeListener?: (formValues: AddClientInterface) => void;
   defaultValues?: AddClientInterface;
+  action?: string;
 }
 
 const initialState: AddClientInterface = {
-  address: '',
-  billing: '',
-  city: '',
-  clientInformation: '',
-  clientName: '',
-  clientType: '',
+  address: ' ',
+  billing: ' ',
+  city: ' ',
+  clientInformation: ' ',
+  clientName: ' ',
+  clientType: ' ',
   contact: [
     {
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      role: '',
+      id: ' ',
+      email: ' ',
+      firstName: ' ',
+      lastName: ' ',
+      phone: ' ',
+      role: ' ',
     },
   ],
-  phone: '',
-  school: '',
-  state: '',
-  userEmail: '',
-  userFirstName: '',
-  userLastName: '',
-  zip: '',
+  id: ' ',
+  noOfAssessments: ' ',
+  noOfEvaluators: ' ',
+  noOfParticipants: ' ',
+  phone: ' ',
+  plan: ' ',
+  school: ' ',
+  state: ' ',
+  status: ' ',
+  userEmail: ' ',
+  userFirstName: ' ',
+  userLastName: ' ',
+  zip: ' ',
 };
 
 const StyledButton = styled(Button)`
@@ -47,8 +58,17 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues }) => {
+export const AddClient: React.FunctionComponent<Props> = ({
+  changeListener,
+  defaultValues,
+  action,
+}) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
+  const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
+
+  const toggleAddClientContactModal = () => {
+    setAddClientContactModalVisible(!addClientContactModalVisible);
+  };
 
   useEffect(() => {
     if (changeListener) {
@@ -61,20 +81,26 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
   }
 
   const onClickAddContact = (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    const { contact } = formState;
-    const contactObj: ContactInterface = {
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      role: '',
-    };
-    if (contact) {
-      contact.push(contactObj);
+    if (action === 'edit') {
+      event.preventDefault();
+      toggleAddClientContactModal();
     }
-    setFormState({ ...formState, contact });
+
+    if (action !== 'edit') {
+      const { contact } = formState;
+      const contactObj: ContactInterface = {
+        id: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        role: '',
+      };
+      if (contact) {
+        contact.push(contactObj);
+      }
+      setFormState({ ...formState, contact });
+    }
   };
 
   const renderForm = (formikprops: FormikBag) => {
@@ -102,58 +128,83 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
             type={FormElementTypes.IMAGE_UPLOAD}
           />
 
-          <FormElement
-            label="Address"
-            name="address"
-            placeholder="Add Address"
-            formikprops={formikprops}
-          />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Address"
+                name="address"
+                placeholder="Add Address"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="City"
+                name="city"
+                placeholder="Add City"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="State"
+                name="state"
+                placeholder="Add State"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Zip"
+                name="zip"
+                placeholder="Add Zip"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement
-            label="State"
-            name="state"
-            placeholder="Add State"
-            formikprops={formikprops}
-          />
-
-          <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Billing"
+                name="billing"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="billing-1">Biling 1</option>
+                <option value="billing-2">Biling 2</option>
+              </FormElement>
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Client Type"
+                name="clientType"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="selected">Select Type</option>
+                <option value="co-oprate">Co-oprate</option>
+                <option value="Educational Institute">Educational Institute</option>
+              </FormElement>
+            </div>
+          </div>
 
           <FormElement
             label="School/Subsidiary"
             name="school"
             placeholder="Add School"
             formikprops={formikprops}
+            last={true}
           />
-
-          <FormElement
-            label="Client Information"
-            name="clientInformation"
-            placeholder="Add Client Information"
-            formikprops={formikprops}
-          />
-
-          <FormElement
-            label="Billing"
-            name="billing"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="billing-1">Biling 1</option>
-            <option value="billing-2">Biling 2</option>
-          </FormElement>
-
-          <FormElement
-            label="Client Type"
-            name="clientType"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="selected">Select Type</option>
-            <option value="co-oprate">Co-oprate</option>
-            <option value="Educational Institute">Educational Institute</option>
-          </FormElement>
         </PageBody>
 
         <div className="form-header row">
@@ -171,8 +222,18 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
             </Button>
           </div>
         </div>
+        {/*formState.contact && <ClientContactsList listData={formState.contact} />*/}
+        <div>
+          {action === 'edit'
+            ? formState.contact && <ClientContactsList listData={formState.contact} />
+            : formState.contact && formState.contact.map(renderContactList)}
+        </div>
 
-        <div>{formState.contact && formState.contact.map(renderContactList)}</div>
+        <AddClientContacts
+          fprops={formikprops}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+        />
 
         <div className="form-header row">
           <div className="col-sm-6">
