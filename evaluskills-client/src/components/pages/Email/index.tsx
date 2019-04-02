@@ -68,7 +68,12 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
             <IconButton id="delete" icon="trash" className="btn-default" actionHandler={() => {}}>
               Delete
             </IconButton>
-            <IconButton id="edit" icon="trash" className="btn-default" actionHandler={editAction}>
+            <IconButton
+              id="edit"
+              icon="edit"
+              className="btn-outline btn-primary"
+              actionHandler={editAction}
+            >
               Edit
             </IconButton>
           </td>
