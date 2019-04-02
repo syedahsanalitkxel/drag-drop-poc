@@ -102,58 +102,83 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
             type={FormElementTypes.IMAGE_UPLOAD}
           />
 
-          <FormElement
-            label="Address"
-            name="address"
-            placeholder="Add Address"
-            formikprops={formikprops}
-          />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Address"
+                name="address"
+                placeholder="Add Address"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="City"
+                name="city"
+                placeholder="Add City"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="State"
+                name="state"
+                placeholder="Add State"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Zip"
+                name="zip"
+                placeholder="Add Zip"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement
-            label="State"
-            name="state"
-            placeholder="Add State"
-            formikprops={formikprops}
-          />
-
-          <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Billing"
+                name="billing"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="billing-1">Biling 1</option>
+                <option value="billing-2">Biling 2</option>
+              </FormElement>
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Client Type"
+                name="clientType"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="selected">Select Type</option>
+                <option value="co-oprate">Co-oprate</option>
+                <option value="Educational Institute">Educational Institute</option>
+              </FormElement>
+            </div>
+          </div>
 
           <FormElement
             label="School/Subsidiary"
             name="school"
             placeholder="Add School"
             formikprops={formikprops}
+            last={true}
           />
-
-          <FormElement
-            label="Client Information"
-            name="clientInformation"
-            placeholder="Add Client Information"
-            formikprops={formikprops}
-          />
-
-          <FormElement
-            label="Billing"
-            name="billing"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="billing-1">Biling 1</option>
-            <option value="billing-2">Biling 2</option>
-          </FormElement>
-
-          <FormElement
-            label="Client Type"
-            name="clientType"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="selected">Select Type</option>
-            <option value="co-oprate">Co-oprate</option>
-            <option value="Educational Institute">Educational Institute</option>
-          </FormElement>
         </PageBody>
 
         <div className="form-header row">
