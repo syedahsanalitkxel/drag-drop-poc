@@ -211,7 +211,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
         </div>
 
         <AddClientContacts
-          formikprops={formikprops}
+          fprops={formikprops}
           visible={addClientContactModalVisible}
           toggle={toggleAddClientContactModal}
         />
