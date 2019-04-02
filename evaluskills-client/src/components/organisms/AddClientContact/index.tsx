@@ -21,9 +21,6 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
   formikprops,
 }) => {
   function getContactField(key: string) {
-    if (formikprops.touched.contact) {
-      console.log(formikprops.touched.contact);
-    }
     if (index !== undefined) {
       return `contact[${index}].${key}`;
     }
@@ -41,7 +38,6 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
               name={getContactField('firstName')}
               placeholder="Add First Name"
               formikprops={formikprops}
-              nested={true}
               inline={true}
             />
           </div>
