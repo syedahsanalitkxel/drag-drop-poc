@@ -101,7 +101,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
           />
           <PageBody>
             <div className="ibox m-b-15">
-              <div className="ibox-content">
+              <div className="table-holder">
                 <UsersList listData={usersData} edit={editAction} remove={removeAction} />
               </div>
             </div>
