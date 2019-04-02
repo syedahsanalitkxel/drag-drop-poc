@@ -3,40 +3,55 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Index from '.';
+import AddUser from './index';
 
 configure({ adapter: new Adapter() });
 
-const formValues = {
-  email: 'maria@evaluskills.com',
-  firstName: 'maria',
-  lastName: 'gracia',
-  role: 'admin',
-};
+interface ModalProps {
+  visible?: boolean;
+  toggle: () => void;
+  name?: string;
+  FormValues: any;
+}
 
 describe('MyComponent', () => {
+  const toggleModal = jest.fn();
+  const modalValues = {
+    email: 'maria@evaluskills.com',
+    firstName: 'maria',
+    id: '1',
+    lastName: 'gracia',
+    role: 'admin',
+  };
+  const props: ModalProps = {
+    visible: true,
+    toggle: toggleModal,
+    name: 'Add',
+    FormValues: modalValues,
+  };
+
   it('should render correctly in "debug" mode', () => {
-    const component = shallow(<Index {...formValues} />);
+    const component = shallow(<AddUser {...props} />);
     expect(component).toMatchSnapshot();
   });
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>,
       div
     );
     ReactDOM.unmountComponentAtNode(div);
   });
   it('to be defined of form control `.form`s', () => {
-    const wrapper = shallow(<Index />);
+    const wrapper = shallow(<AddUser {...props} />);
     expect(wrapper.find('.form')).toBeDefined();
   });
   it('4 Input fields in `.form`', () => {
     const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.find('Input')).toHaveLength(4);
@@ -44,7 +59,7 @@ describe('MyComponent', () => {
   it('4 Form Feedback in `.form`', () => {
     const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.find('FormFeedback')).toHaveLength(4);
@@ -52,40 +67,44 @@ describe('MyComponent', () => {
   it('16 form control `.form-control`s', () => {
     const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.find('.form-control')).toHaveLength(16);
     expect(wrapper.find('.form-control')).toBeDefined();
   });
+  it('Find Modal is running successfully ', () => {
+    const wrapper = shallow(<AddUser {...props} />);
+    expect(wrapper.find('Modal')).toBeDefined();
+  });
   it('First Name label exist ', () => {
-    const wrapper = render(
+    const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.text()).toContain('First Name');
   });
   it('Last Name label exist ', () => {
-    const wrapper = render(
+    const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.text()).toContain('Last Name');
   });
   it('Email label exist ', () => {
-    const wrapper = render(
+    const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.text()).toContain('Email');
   });
   it('Role label exist ', () => {
-    const wrapper = render(
+    const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     expect(wrapper.text()).toContain('Role');
@@ -94,7 +113,7 @@ describe('MyComponent', () => {
   it('submit form ', () => {
     const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     wrapper.find('form').simulate('submit');
@@ -102,7 +121,7 @@ describe('MyComponent', () => {
   it('submit form ', () => {
     const wrapper = mount(
       <Router>
-        <Index />
+        <AddUser {...props} />
       </Router>
     );
     wrapper.find('form').simulate('submit', {
@@ -117,13 +136,20 @@ describe('MyComponent', () => {
       const badFormValues = {
         email: 'aa',
         firstName: ' ',
+        id: ' ',
         lastName: ' ',
         role: ' ',
+      };
+      const badprops: ModalProps = {
+        visible: true,
+        toggle: toggleModal,
+        name: 'Add',
+        FormValues: badFormValues,
       };
       const resetForm = jest.fn();
       const componentRender = mount(
         <Router>
-          <Index {...badFormValues} />
+          <AddUser {...badprops} />
         </Router>
       );
       componentRender

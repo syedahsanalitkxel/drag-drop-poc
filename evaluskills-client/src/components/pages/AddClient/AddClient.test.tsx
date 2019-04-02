@@ -61,29 +61,29 @@ describe('MyComponent', () => {
     const wrapper = shallow(<AddClient />);
     expect(wrapper.find('.form')).toBeDefined();
   });
-  it('17 Input fields in `.form`', () => {
+  it('16 Input fields in `.form`', () => {
     const wrapper = mount(
       <Router>
         <AddClient />
       </Router>
     );
-    expect(wrapper.find('Input')).toHaveLength(17);
+    expect(wrapper.find('Input')).toHaveLength(16);
   });
-  it('12 Form Feedback in `.form`', () => {
+  it('17 Form Feedback in `.form`', () => {
     const wrapper = mount(
       <Router>
         <AddClient />
       </Router>
     );
-    expect(wrapper.find('FormFeedback')).toHaveLength(18);
+    expect(wrapper.find('FormFeedback')).toHaveLength(17);
   });
-  it('49 form control `.form-control`s', () => {
+  it('48 form control `.form-control`s', () => {
     const wrapper = mount(
       <Router>
         <AddClient />
       </Router>
     );
-    expect(wrapper.find('.form-control')).toHaveLength(51);
+    expect(wrapper.find('.form-control')).toHaveLength(48);
     expect(wrapper.find('.form-control')).toBeDefined();
   });
   it('First Name label exist ', () => {
@@ -181,14 +181,6 @@ describe('MyComponent', () => {
       </Router>
     );
     expect(wrapper.text()).toContain('Client Type');
-  });
-  it('Client Information label exist ', () => {
-    const wrapper = render(
-      <Router>
-        <AddClient />
-      </Router>
-    );
-    expect(wrapper.text()).toContain('Client Information');
   });
   it('Contact label exist ', () => {
     const wrapper = render(
