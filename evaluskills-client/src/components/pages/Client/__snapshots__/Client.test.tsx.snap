@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Client render successfully 1`] = `
+<DashboardTemplate>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-12"
+    >
+      <PageHeader
+        actionButtonText="Add Client"
+        filterAction={[Function]}
+        title="Client"
+      />
+      <PageBody
+        card={false}
+      >
+        <ClientsList />
+        <Pager />
+      </PageBody>
+    </div>
+  </div>
+  <ESModal
+    primaryAction={[Function]}
+    primaryText="Apply"
+    secondaryAction="reset"
+    secondaryText="Reset"
+    title="Filters"
+    toggle={[Function]}
+    visible={false}
+  >
+    <ClientFilters />
+  </ESModal>
+</DashboardTemplate>
+`;
