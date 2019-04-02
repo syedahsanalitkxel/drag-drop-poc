@@ -40,7 +40,6 @@ const formValues = {
 };
 
 describe('MyComponent', () => {
-  const mockChangeListener = jest.fn();
   const action = 'edit';
   const props = { defaultValue: { formValues }, action: { action } };
   it('should render correctly in "debug" mode', () => {
