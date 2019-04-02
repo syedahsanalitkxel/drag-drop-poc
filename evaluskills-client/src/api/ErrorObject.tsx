@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { get } from 'lodash-es';
-import { ErrorObjectInterface } from '../interfaces/ErrorObject';
+import ErrorObjectInterface from '../interfaces/ErrorObject';
 
 const errorObject = (error: AxiosError) => {
   const message = error.message;

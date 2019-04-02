@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Field, Formik, FormikActions, FormikValues } from 'formik';
-import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Formik } from 'formik';
+import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 
 import AddClientInterface, { ContactInterface } from '../../../interfaces/AddClient';
@@ -19,26 +19,26 @@ interface Props {
 
 const initialState: AddClientInterface = {
   address: '',
-  billing: 'plan 2',
+  billing: '',
   city: '',
   clientInformation: '',
-  clientName: 'Maria Gracia',
-  clientType: 'Type 1',
+  clientName: '',
+  clientType: '',
   contact: [
     {
-      email: 'Ali@tkxel.com',
-      firstName: 'Ali',
-      lastName: 'Raza',
-      phone: '+923334567891',
+      email: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
       role: '',
     },
   ],
-  phone: '+888 667 999 ',
+  phone: '',
   school: '',
   state: '',
-  userEmail: 'rizwan@tkxel.com',
-  userFirstName: 'rizwan',
-  userLastName: 'shah',
+  userEmail: '',
+  userFirstName: '',
+  userLastName: '',
   zip: '',
 };
 
@@ -49,7 +49,6 @@ const StyledButton = styled(Button)`
 
 export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
-  console.log(formState);
 
   useEffect(() => {
     if (changeListener) {
@@ -81,7 +80,7 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
   const renderForm = (formikprops: FormikBag) => {
     const renderContactList = (contact: any, index: number) => (
       <Fragment key={index}>
-        <ClientContacts formikprops={formikprops} />
+        <ClientContacts formikprops={formikprops} index={index} />
       </Fragment>
     );
 
@@ -103,58 +102,83 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
             type={FormElementTypes.IMAGE_UPLOAD}
           />
 
-          <FormElement
-            label="Address"
-            name="address"
-            placeholder="Add Address"
-            formikprops={formikprops}
-          />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Address"
+                name="address"
+                placeholder="Add Address"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="City"
+                name="city"
+                placeholder="Add City"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement label="City" name="city" placeholder="Add City" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="State"
+                name="state"
+                placeholder="Add State"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Zip"
+                name="zip"
+                placeholder="Add Zip"
+                formikprops={formikprops}
+                inline={true}
+              />
+            </div>
+          </div>
 
-          <FormElement
-            label="State"
-            name="state"
-            placeholder="Add State"
-            formikprops={formikprops}
-          />
-
-          <FormElement label="Zip" name="zip" placeholder="Add Zip" formikprops={formikprops} />
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Billing"
+                name="billing"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="billing-1">Biling 1</option>
+                <option value="billing-2">Biling 2</option>
+              </FormElement>
+            </div>
+            <div className="col-md-6">
+              <FormElement
+                label="Client Type"
+                name="clientType"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value="selected">Select Type</option>
+                <option value="co-oprate">Co-oprate</option>
+                <option value="Educational Institute">Educational Institute</option>
+              </FormElement>
+            </div>
+          </div>
 
           <FormElement
             label="School/Subsidiary"
             name="school"
             placeholder="Add School"
             formikprops={formikprops}
+            last={true}
           />
-
-          <FormElement
-            label="Client Information"
-            name="clientInformation"
-            placeholder="Add Client Information"
-            formikprops={formikprops}
-          />
-
-          <FormElement
-            label="Billing"
-            name="billing"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="billing-1">Biling 1</option>
-            <option value="billing-2">Biling 2</option>
-          </FormElement>
-
-          <FormElement
-            label="Client Type"
-            name="clientType"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-          >
-            <option value="selected">Select Type</option>
-            <option value="co-oprate">Co-oprate</option>
-            <option value="Educational Institute">Educational Institute</option>
-          </FormElement>
         </PageBody>
 
         <div className="form-header row">

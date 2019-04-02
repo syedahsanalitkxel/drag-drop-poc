@@ -4,19 +4,19 @@ import { FormFeedback, Input, Modal, ModalFooter, ModalHeader } from 'reactstrap
 import * as Yup from 'yup';
 import { styles } from './style';
 
-interface MyFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-}
-
 interface ModalProps {
   visible?: boolean;
   toggle: () => void;
+  name?: string;
+  FormValues: any;
 }
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle }) => {
+export const AddUser: React.FunctionComponent<ModalProps> = ({
+  visible,
+  toggle,
+  name,
+  FormValues,
+}) => {
   const addUserSchema = Yup.object().shape({
     email: Yup.string()
       .required()
@@ -131,9 +131,10 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle }
 
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
-      <ModalHeader toggle={toggle}>Add User</ModalHeader>
+      <ModalHeader toggle={toggle}>{name} User</ModalHeader>
       <Formik
-        initialValues={{ firstName: '', lastName: '', email: '', role: '' }}
+        enableReinitialize={true}
+        initialValues={FormValues}
         validationSchema={addUserSchema}
         onSubmit={() => {}}
       >

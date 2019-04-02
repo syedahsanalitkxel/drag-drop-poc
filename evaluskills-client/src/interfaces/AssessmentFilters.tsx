@@ -1,4 +1,4 @@
-export interface AssessmentFiltersInterface {
+export default interface AssessmentFiltersInterface {
   query?: string;
   type?: string;
   competency?: string;

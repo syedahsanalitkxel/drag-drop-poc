@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-export interface ErrorObjectInterface {
+export default interface ErrorObjectInterface {
   error?: AxiosError;
   fail: boolean;
   message: string;
