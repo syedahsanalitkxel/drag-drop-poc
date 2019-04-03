@@ -1,5 +1,5 @@
 export default interface Insturments {
-  instrumentsTitle: string;
+  instructionTitle: string;
   editorState?: any;
   componentName: string;
 }

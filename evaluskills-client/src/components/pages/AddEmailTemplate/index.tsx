@@ -50,7 +50,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
       setFormState({ ...formState, editorState: 'billing-1' });
       setFormState({ ...formState, componentName: 'Edit Email' });
     }
-  });
+  }, []);
 
   function submitForm(values: AddEmailInterface, formikActions: FormikActions<AddEmailInterface>) {
     setFormState({ ...formState, ...values });
@@ -69,7 +69,9 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
   const renderForm = (formikprops: FormikBag) => {
     // TODO: Create render from group component and suppoert select, radio and checkbox
     const { editorState } = formState;
-
+    const StyledPageBody = styled(PageBody)`
+      height: 355px;
+    `;
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <div className="PageHeader">
@@ -119,15 +121,13 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
             </div>
           </div>
         </PageBody>
-        <PageBody card={true} className="m-t-15">
+        <StyledPageBody card={true} className="m-t-15">
           <Editor
-            editorState={editorState}
             toolbarClassName="toolbarClassName"
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
-            onEditorStateChange={onEditorStateChange}
           />
-        </PageBody>
+        </StyledPageBody>
         <PageBody card={true} className="m-t-15">
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
