@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 import { Formik } from 'formik';
-
 import { Button, Form, FormGroup, Label } from 'reactstrap';
+import styled from 'styled-components';
+
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import FormikBag from '../../../interfaces/FormikBag';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
@@ -10,9 +11,12 @@ import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import RadioButton from '../../atoms/RadioButton';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import Pager from '../../molecules/Pager';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+
+const StyledButton = styled(Button)`
+  margin-right: 5px;
+`;
 
 interface Props {
   defaultValues?: InstrumentTemplateInterface;
@@ -54,12 +58,44 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
     setFormState({ ...formState, status: JSON.parse(event.target.value) });
   }
 
-  const showAssessmentSelector = (editable?: boolean) => (event: React.MouseEvent) => {
+  const showAssessmentSelector = (event: React.MouseEvent) => {
     event.preventDefault();
-    console.log('clicked', editable);
   };
 
   function renderForm(formikprops: FormikBag) {
+    const renderAddElements = () => (
+      <div className="row">
+        <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
+        <div className="col-sm-10">
+          <Button onClick={showAssessmentSelector} size="lg" color="primary">
+            Add Assessment Items
+          </Button>
+        </div>
+      </div>
+    );
+
+    const renderAssessmentList = () => (
+      <React.Fragment>
+        <div className="form-header row">
+          <div className="col-sm-6">
+            <h3 className="m-l-10 p-t-20">Assessment Items {formState.assessmentItemsCount}</h3>
+          </div>
+          <div className="col-sm-6">
+            <Button
+              className="mt-3 float-right"
+              color="primary"
+              size="lg"
+              onClick={showAssessmentSelector}
+            >
+              Edit Assessment Items
+            </Button>
+          </div>
+        </div>
+
+        <ListCardItems titleKey="definition" listData={assessments} />
+      </React.Fragment>
+    );
+
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <PageBody card={true} wrapper={true} className="m-t-15">
@@ -116,41 +152,51 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             <option value="Educational Institute">Educational Institute</option>
           </FormElement>
 
-          <div className="row">
-            <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
-            <div className="col-sm-10">
-              <Button onClick={showAssessmentSelector()} size="lg" color="primary">
-                Add Assessment Items
-              </Button>
-            </div>
-          </div>
+          {!defaultValues && renderAddElements()}
         </PageBody>
+
+        {!!defaultValues && renderAssessmentList()}
+
+        <div className="form-group row">
+          <div className="col-sm-4 col-sm-offset-2">
+            <StyledButton color="white">Cancel</StyledButton>
+            <StyledButton color="primary" type="submit">
+              Save Changes
+            </StyledButton>
+          </div>
+        </div>
       </Form>
     );
   }
 
+  function deleteInstrument(event: React.MouseEvent) {
+    event.preventDefault();
+    if (defaultValues) {
+      alert(defaultValues.id);
+    }
+  }
+
+  function getPageHeader() {
+    if (defaultValues && defaultValues.id) {
+      return (
+        <PageHeader
+          title="Instrument Template"
+          actionButtonText="Delete Template"
+          actionHandler={deleteInstrument}
+        />
+      );
+    }
+
+    return <PageHeader title="Instrument Template" />;
+  }
   return (
     <DashboardTemplate>
-      <PageHeader title="Instrument Template" />
-      <Formik initialValues={formState} onSubmit={submitForm}>
-        {(formikprops: FormikBag) => renderForm(formikprops)}
-      </Formik>
-      <div className="form-header row">
-        <div className="col-sm-6">
-          <h3 className="m-l-10 p-t-20">Assessment Items {formState.assessmentItemsCount}</h3>
-        </div>
-        <div className="col-sm-6">
-          <Button
-            className="mt-3 float-right"
-            color="primary"
-            size="lg"
-            onClick={showAssessmentSelector(true)}
-          >
-            Edit Assessment Items
-          </Button>
-        </div>
-      </div>
-      <ListCardItems titleKey="definition" listData={assessments} />
+      <PageBody>
+        {getPageHeader()}
+        <Formik initialValues={formState} onSubmit={submitForm}>
+          {(formikprops: FormikBag) => renderForm(formikprops)}
+        </Formik>
+      </PageBody>
     </DashboardTemplate>
   );
 };

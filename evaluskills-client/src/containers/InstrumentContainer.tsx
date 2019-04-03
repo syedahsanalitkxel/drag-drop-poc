@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
+import Spinner from '../components/atoms/Spinner';
 import AddEditInstrumentTemplate from '../components/pages/AddEditInstrumentTemplate';
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import { ErrorContext } from '../context';
@@ -73,7 +74,10 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   }
 
   if (isEdit(match.params)) {
-    return <AddEditInstrumentTemplate defaultValues={selectedTemplate} />;
+    if (Object.keys(selectedTemplate).length > 0) {
+      return <AddEditInstrumentTemplate defaultValues={selectedTemplate} />;
+    }
+    return <Spinner />;
   }
 
   if (isAdd(match.path)) {
