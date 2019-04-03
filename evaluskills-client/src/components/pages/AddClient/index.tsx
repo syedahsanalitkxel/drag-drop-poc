@@ -8,12 +8,11 @@ import AddClientInterface, { ContactInterface } from '../../../interfaces/Client
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import AddClientContacts from '../../organisms/AddClientContact/index';
+import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
-import ClientsList from '../Client';
 
 interface Props {
   changeListener?: (formValues: AddClientInterface) => void;
@@ -22,35 +21,35 @@ interface Props {
 }
 
 const initialState: AddClientInterface = {
-  address: ' ',
-  billing: ' ',
-  city: ' ',
-  clientInformation: ' ',
-  clientName: ' ',
-  clientType: ' ',
+  address: '',
+  billing: '',
+  city: '',
+  clientInformation: '',
+  clientName: '',
+  clientType: '',
   contact: [
     {
-      id: ' ',
-      email: ' ',
-      firstName: ' ',
-      lastName: ' ',
-      phone: ' ',
-      role: ' ',
+      email: '',
+      firstName: '',
+      id: '',
+      lastName: '',
+      phone: '',
+      role: '',
     },
   ],
-  id: ' ',
-  noOfAssessments: ' ',
-  noOfEvaluators: ' ',
-  noOfParticipants: ' ',
-  phone: ' ',
-  plan: ' ',
-  school: ' ',
-  state: ' ',
-  status: ' ',
-  userEmail: ' ',
-  userFirstName: ' ',
-  userLastName: ' ',
-  zip: ' ',
+  id: '',
+  noOfAssessments: '',
+  noOfEvaluators: '',
+  noOfParticipants: '',
+  phone: '',
+  plan: '',
+  school: '',
+  state: '',
+  status: '',
+  userEmail: '',
+  userFirstName: '',
+  userLastName: '',
+  zip: '',
 };
 
 const StyledButton = styled(Button)`
@@ -89,9 +88,9 @@ export const AddClient: React.FunctionComponent<Props> = ({
     if (action !== 'edit') {
       const { contact } = formState;
       const contactObj: ContactInterface = {
-        id: '',
         email: '',
         firstName: '',
+        id: '',
         lastName: '',
         phone: '',
         role: '',
