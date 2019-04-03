@@ -9,11 +9,18 @@ const api = new API();
 
 export async function getInstrumentTemplates(): Promise<InstrumentTemplateInterface[]> {
   return api.get(INSTRUMENT_TEMPLATES).then(
-    (res: AxiosResponse) => {
-      return res.data;
-    },
+    (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
-      // throw errorObject(error);
+      throw errorObject(error);
+    }
+  );
+}
+
+export async function getInstrumentTemplateById(id: string): Promise<InstrumentTemplateInterface> {
+  return api.get(INSTRUMENT_TEMPLATES, id).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw errorObject(error);
     }
   );
 }

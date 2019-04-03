@@ -27,7 +27,10 @@ export default class API {
     this.instance.interceptors.response.use(response => response, errorResponseHandler);
   }
 
-  public get(url: string): AxiosPromise {
+  public get(url: string, id?: string): AxiosPromise {
+    if (id) {
+      url += `/${id}`;
+    }
     return this.instance.get(url);
   }
 
