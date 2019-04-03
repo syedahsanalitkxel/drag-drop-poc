@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { FormGroup, Label } from 'reactstrap';
