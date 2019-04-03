@@ -43,7 +43,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
       setFormState({ ...formState, editorState: 'billing-1' });
       setFormState({ ...formState, componentName: 'Edit Instructions' });
     }
-  });
+  }, []);
 
   function submitForm(
     values: InsturmentsInterface,

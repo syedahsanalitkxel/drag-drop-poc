@@ -14,7 +14,7 @@ interface Props {
   edit: (instrumentTemplateId: number) => void;
 }
 const StyledPageBody = styled.div`
-  padding: 4px;
+  padding-bottom: 6px;
 `;
 const InstructionListing: React.FunctionComponent<Props> = ({
   filterInstrcutionsTemplates,
@@ -62,8 +62,8 @@ const InstructionListing: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <div className="Card">{InstrcutionsTemplate.map(renderInstructionData)}</div>
+            <Pager />
           </PageBody>
-          <Pager />
         </div>
       </div>
     </DashboardTemplate>
