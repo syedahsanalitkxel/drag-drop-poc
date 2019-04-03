@@ -10,27 +10,20 @@
 @import "theme/buttons";
 @import "theme/badges_labels";
 @import "theme/elements.scss";
-@import "theme/sidebar.scss";
+//@import "theme/sidebar.scss";
 @import "theme/base.scss";
-@import "theme/pages.scss";
-//@import "theme/chat.scss";
-//@import "theme/metismenu.scss";
+//@import "theme/pages.scss";
 @import "theme/spinners.scss";
-// Landing page styles
-@import "theme/landing.scss";
+
 // RTL Support
 @import "theme/rtl.scss";
-// For demo only - config box style
-@import "theme/theme-config.scss";
-// INSPINIA Skins
-@import "theme/skins.scss";
-@import "theme/md-skin.scss";
+
 // Media query style
 @import "theme/media.scss";
 @import "theme/iCheckbox";
-// Custom style
-// Your custom style to override base style
+
 @import "theme/custom.scss";
+
 // Clear layout on print mode
 @media print {
   nav.navbar-static-side {
