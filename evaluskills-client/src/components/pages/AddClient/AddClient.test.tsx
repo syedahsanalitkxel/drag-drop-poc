@@ -3,7 +3,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import AddClientContact from '../../organisms/AddClientContact/index';
 import AddClient from './index';
+import EditClientContact from '../../organisms/AddClientContact/index';
 
 configure({ adapter: new Adapter() });
 
@@ -16,9 +18,9 @@ const formValues = {
   clientType: '',
   contact: [
     {
-      id: '1',
       email: 'maria@evaluskills.com',
       firstName: 'Maria',
+      id: '1',
       lastName: ' Garcia',
       phone: '+1 818-452-1505',
       role: '',
@@ -40,7 +42,6 @@ const formValues = {
 };
 
 describe('MyComponent', () => {
-  const mockChangeListener = jest.fn();
   const action = 'edit';
   const props = { defaultValue: { formValues }, action: { action } };
   it('should render correctly in "debug" mode', () => {
@@ -60,6 +61,18 @@ describe('MyComponent', () => {
   it('to be defined of form control `.form`s', () => {
     const wrapper = shallow(<AddClient />);
     expect(wrapper.find('.form')).toBeDefined();
+  });
+  it('to be defined of AddClientContacts', () => {
+    const wrapper = shallow(<AddClient />);
+    expect(wrapper.find('AddClientContacts')).toBeDefined();
+  });
+  it('to be defined of EditClientContacts', () => {
+    const wrapper = shallow(<AddClient />);
+    expect(wrapper.find('EditClientContacts')).toBeDefined();
+  });
+  it('to be defined of Formik Form', () => {
+    const wrapper = shallow(<AddClient />);
+    expect(wrapper.find('Formik')).toBeDefined();
   });
   it('16 Input fields in `.form`', () => {
     const wrapper = mount(
@@ -232,8 +245,8 @@ describe('MyComponent', () => {
       </Router>
     );
     wrapper.find('form').simulate('submit', {
-      preventDefault: (props: any) => {
-        console.log('propssss', props);
+      preventDefault: (clientProps: any) => {
+        console.log(clientProps);
       },
     });
   });
@@ -249,9 +262,9 @@ describe('MyComponent', () => {
         clientType: '',
         contact: [
           {
-            id: '',
             email: '',
             firstName: '',
+            id: '',
             lastName: ' ',
             phone: '',
             role: '',
@@ -285,6 +298,140 @@ describe('MyComponent', () => {
       // console.log(componentRender.update().find('.validation-error'));
       // console.log(componentRender.find('Formik').instance());
       // expect(componentRender.find('.validation-error').text()).toEqual('Company Name is required');
+    });
+
+    describe('AddClientContact', () => {
+      interface ModalProps {
+        index?: number;
+        fprops: any;
+        children?: React.ReactNode;
+        visible?: boolean;
+        name?: string;
+        toggle?: () => void;
+        formValues?: any;
+      }
+      const toggleModal = jest.fn();
+      const modalValues = {
+        email: 'maria@evaluskills.com',
+        firstName: 'maria',
+        id: '1',
+        lastName: 'gracia',
+        role: 'admin',
+      };
+      const addContactProps: ModalProps = {
+        formValues: modalValues,
+        fprops: formValues,
+        name: 'Add',
+        toggle: toggleModal,
+        visible: true,
+      };
+
+      it('to be Contain of AddClientContacts render without crashing', () => {
+        const div = document.createElement('div');
+        ReactDOM.render(
+          <Router>
+            <AddClientContact {...addContactProps} />
+          </Router>,
+          div
+        );
+        ReactDOM.unmountComponentAtNode(div);
+      });
+      it('to be defined of form control `.form`s', () => {
+        const wrapper = shallow(<AddClientContact {...addContactProps} />);
+        expect(wrapper.find('.form')).toBeDefined();
+      });
+      it('5 Input fields in `.form`', () => {
+        const wrapper = mount(
+          <Router>
+            <AddClientContact {...addContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('Input')).toHaveLength(5);
+      });
+      it('5 Form Feedback in `.form`', () => {
+        const wrapper = mount(
+          <Router>
+            <AddClientContact {...addContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('FormFeedback')).toHaveLength(5);
+      });
+      it('15 form control `.form-control`s', () => {
+        const wrapper = mount(
+          <Router>
+            <AddClientContact {...addContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('.form-control')).toHaveLength(15);
+        expect(wrapper.find('.form-control')).toBeDefined();
+      });
+    });
+
+    describe('EditClientContact', () => {
+      interface ModalProps {
+        index?: number;
+        fprops: any;
+        children?: React.ReactNode;
+        visible?: boolean;
+        name?: string;
+        toggle?: () => void;
+        formValues?: any;
+      }
+      const toggleModal = jest.fn();
+      const modalValues = {
+        email: 'maria@evaluskills.com',
+        firstName: 'maria',
+        id: '1',
+        lastName: 'gracia',
+        role: 'admin',
+      };
+      const editContactProps: ModalProps = {
+        formValues: modalValues,
+        fprops: formValues,
+        name: 'Edit',
+        toggle: toggleModal,
+        visible: true,
+      };
+
+      it('to be Contain of EditClientContact render without crashing', () => {
+        const div = document.createElement('div');
+        ReactDOM.render(
+          <Router>
+            <EditClientContact {...editContactProps} />
+          </Router>,
+          div
+        );
+        ReactDOM.unmountComponentAtNode(div);
+      });
+      it('to be defined of form control `.form`s', () => {
+        const wrapper = shallow(<EditClientContact {...editContactProps} />);
+        expect(wrapper.find('.form')).toBeDefined();
+      });
+      it('5 Input fields in `.form`', () => {
+        const wrapper = mount(
+          <Router>
+            <EditClientContact {...editContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('Input')).toHaveLength(5);
+      });
+      it('5 Form Feedback in `.form`', () => {
+        const wrapper = mount(
+          <Router>
+            <EditClientContact {...editContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('FormFeedback')).toHaveLength(5);
+      });
+      it('15 form control `.form-control`s', () => {
+        const wrapper = mount(
+          <Router>
+            <EditClientContact {...editContactProps} />
+          </Router>
+        );
+        expect(wrapper.find('.form-control')).toHaveLength(15);
+        expect(wrapper.find('.form-control')).toBeDefined();
+      });
     });
   });
 });
