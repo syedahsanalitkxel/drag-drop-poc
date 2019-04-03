@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
+import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
@@ -11,17 +12,17 @@ import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
-  assessments: AssessmentItemInterface[];
-  filterAssessments: (searchQuery: string) => void;
+  instrumentTemplates: InstrumentTemplateInterface[];
   add: () => void;
-  edit: (assessmentId: string) => void;
-  remove: (assessmentId: string) => void;
+  filterInstrumentTemplates: (searchQuery: string) => void;
+  edit: (instrumentTemplateId: string) => void;
+  remove: (instrumentTemplateId: string) => void;
 }
 
-const AssessmentItem: React.FunctionComponent<Props> = ({
-  assessments,
-  filterAssessments,
+const InstrumentTemplate: React.FunctionComponent<Props> = ({
+  instrumentTemplates,
   add,
+  filterInstrumentTemplates,
   edit,
   remove,
 }) => {
@@ -45,16 +46,16 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
-            title="Assessment Items"
+            title="Instrument Templates"
             filterAction={filtersClickHandler}
-            searchHandler={filterAssessments}
-            actionButtonText="Add Assessment Item"
+            searchHandler={filterInstrumentTemplates}
+            actionButtonText="Add Instrument Template"
             actionHandler={add}
           />
           <PageBody>
             <ListCardItems
-              titleKey="definition"
-              listData={assessments}
+              titleKey="title"
+              listData={instrumentTemplates}
               edit={edit}
               remove={remove}
             />
@@ -78,4 +79,4 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   );
 };
 
-export default AssessmentItem;
+export default InstrumentTemplate;

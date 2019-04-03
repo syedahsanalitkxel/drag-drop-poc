@@ -3,10 +3,10 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import AssessmentItem from '../components/pages/AssessmentItem';
 import { ErrorContext } from '../context';
-import IAssessmentItem from '../interfaces/AssessmentItem';
+import AssessmentItemInterface from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
 
-const AssessmentItems: IAssessmentItem[] = [
+const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Character',
     competency: 'Team Player',
@@ -35,6 +35,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
     fetchAssessments();
+
     return function cleanup() {
       setAssessments(AssessmentItems);
       setFilters({});
