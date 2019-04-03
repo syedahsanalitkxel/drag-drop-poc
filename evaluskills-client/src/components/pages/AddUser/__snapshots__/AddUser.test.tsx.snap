@@ -1,15 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MyComponent should render correctly in "debug" mode 1`] = `
-<DashboardTemplate>
+<Modal
+  autoFocus={true}
+  backdrop={true}
+  backdropTransition={
+    Object {
+      "mountOnEnter": true,
+      "timeout": 150,
+    }
+  }
+  centered={false}
+  fade={true}
+  isOpen={true}
+  keyboard={true}
+  modalTransition={
+    Object {
+      "timeout": 300,
+    }
+  }
+  onClosed={[Function]}
+  onOpened={[Function]}
+  role="dialog"
+  style={
+    Object {
+      "maxWidth": "870px",
+    }
+  }
+  toggle={[MockFunction]}
+  zIndex={1050}
+>
+  <ModalHeader
+    charCode={215}
+    closeAriaLabel="Close"
+    tag="h5"
+    toggle={[MockFunction]}
+    wrapTag="div"
+  >
+    Add
+     User
+  </ModalHeader>
   <Formik
-    enableReinitialize={false}
+    enableReinitialize={true}
     initialValues={
       Object {
-        "email": "",
-        "firstName": "",
-        "lastName": "",
-        "role": "",
+        "email": "maria@evaluskills.com",
+        "firstName": "maria",
+        "id": "1",
+        "lastName": "gracia",
+        "role": "admin",
       }
     }
     isInitialValid={false}
@@ -53,6 +92,7 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
             "_conditions": Array [],
             "_deps": Array [],
             "_exclusive": Object {
+              "required": true,
               "undefined": false,
             },
             "_mutate": undefined,
@@ -67,6 +107,7 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
               "refs": Map {},
             },
             "tests": Array [
+              [Function],
               [Function],
             ],
             "transforms": Array [
@@ -179,5 +220,5 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
   >
     <Component />
   </Formik>
-</DashboardTemplate>
+</Modal>
 `;

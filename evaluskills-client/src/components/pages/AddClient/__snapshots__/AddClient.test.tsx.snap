@@ -6,28 +6,35 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
     enableReinitialize={false}
     initialValues={
       Object {
-        "address": "",
-        "billing": "plan 2",
-        "city": "",
-        "clientInformation": "",
-        "clientName": "Maria Gracia",
-        "clientType": "Type 1",
+        "address": " ",
+        "billing": " ",
+        "city": " ",
+        "clientInformation": " ",
+        "clientName": " ",
+        "clientType": " ",
         "contact": Array [
           Object {
-            "email": "Ali@tkxel.com",
-            "firstName": "Ali",
-            "lastName": "Raza",
-            "phone": "+923334567891",
-            "role": "user",
+            "email": " ",
+            "firstName": " ",
+            "id": " ",
+            "lastName": " ",
+            "phone": " ",
+            "role": " ",
           },
         ],
-        "phone": "+888 667 999 ",
-        "school": "",
-        "state": "",
-        "userEmail": "rizwan@tkxel.com",
-        "userFirstName": "rizwan",
-        "userLastName": "shah",
-        "zip": "",
+        "id": " ",
+        "noOfAssessments": " ",
+        "noOfEvaluators": " ",
+        "noOfParticipants": " ",
+        "phone": " ",
+        "plan": " ",
+        "school": " ",
+        "state": " ",
+        "status": " ",
+        "userEmail": " ",
+        "userFirstName": " ",
+        "userLastName": " ",
+        "zip": " ",
       }
     }
     isInitialValid={false}
@@ -54,11 +61,6 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
           "state",
           "school",
           "phone",
-          "contactRole",
-          "contactPhone",
-          "contactLastName",
-          "contactFirstName",
-          "contactEmail",
           "clientType",
           "clientName",
           "clientInformation",
@@ -238,166 +240,6 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
             ],
           },
           "clientType": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "max": true,
-              "min": true,
-              "required": true,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
-          "contactEmail": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "max": true,
-              "min": true,
-              "required": true,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
-          "contactFirstName": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "max": true,
-              "min": true,
-              "required": true,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
-          "contactLastName": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "max": true,
-              "min": true,
-              "required": true,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
-          "contactPhone": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "max": true,
-              "min": true,
-              "required": true,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
-          "contactRole": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
               "refs": Map {},

@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User render successfully 1`] = `
+<DashboardTemplate>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-12"
+    >
+      <PageHeader
+        actionButtonText="Add User"
+        actionHandler={[Function]}
+        filterAction={[Function]}
+        searchHandler={[Function]}
+        title="Users"
+      />
+      <PageBody
+        card={false}
+      >
+        <div
+          className="ibox m-b-15"
+        >
+          <div
+            className="table-holder"
+          >
+            <UsersList
+              edit={[Function]}
+              listData={
+                Array [
+                  Object {
+                    "email": "robbyrash@gmail.com",
+                    "firstName": "Robby",
+                    "id": "1",
+                    "lastName": "Rash",
+                    "role": "Admin",
+                  },
+                  Object {
+                    "email": "jhondoe@gmail.com",
+                    "firstName": "Jhon",
+                    "id": "2",
+                    "lastName": "Doe",
+                    "role": "User",
+                  },
+                  Object {
+                    "email": "bellawilliam@gmail.com",
+                    "firstName": "Bella",
+                    "id": "3",
+                    "lastName": "William",
+                    "role": "Admin",
+                  },
+                  Object {
+                    "email": "rockrash@gmail.com",
+                    "firstName": "Rash",
+                    "id": "4",
+                    "lastName": "Rash",
+                    "role": "User",
+                  },
+                ]
+              }
+              remove={[Function]}
+            />
+          </div>
+        </div>
+        <Pager />
+      </PageBody>
+    </div>
+  </div>
+  <div>
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropTransition={
+        Object {
+          "mountOnEnter": true,
+          "timeout": 150,
+        }
+      }
+      centered={false}
+      fade={true}
+      isOpen={false}
+      keyboard={true}
+      modalTransition={
+        Object {
+          "timeout": 300,
+        }
+      }
+      onClosed={[Function]}
+      onOpened={[Function]}
+      role="dialog"
+      toggle={[Function]}
+      zIndex={1050}
+    >
+      <ModalHeader
+        charCode={215}
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        Filters
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        <div
+          className="form-group row"
+        >
+          <label
+            className="col-sm-4 col-form-label font-bold"
+          >
+            Role
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <select
+              className="form-control m-b col-sm-12"
+              name="role"
+            >
+              <option>
+                Select Role
+              </option>
+              <option>
+                option 2
+              </option>
+              <option>
+                option 3
+              </option>
+              <option>
+                option 4
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          className="hr-line-dashed"
+        />
+        <div
+          className="form-group row"
+        >
+          <label
+            className="col-sm-4 col-form-label font-bold"
+          >
+            Clients
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <select
+              className="form-control m-b col-sm-12"
+              name="name"
+            >
+              <option>
+                Select Clients
+              </option>
+              <option>
+                option 2
+              </option>
+              <option>
+                option 3
+              </option>
+              <option>
+                option 4
+              </option>
+            </select>
+          </div>
+        </div>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Reset
+        </Button>
+        <Button
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Apply
+        </Button>
+      </ModalFooter>
+    </Modal>
+  </div>
+  <AddUser
+    FormValues={
+      Object {
+        "email": " ",
+        "firstName": " ",
+        "id": " ",
+        "lastName": " ",
+        "role": " ",
+      }
+    }
+    name="Add"
+    toggle={[Function]}
+    visible={false}
+  />
+  <AddUser
+    FormValues={
+      Object {
+        "email": " ",
+        "firstName": " ",
+        "id": " ",
+        "lastName": " ",
+        "role": " ",
+      }
+    }
+    name="Edit"
+    toggle={[Function]}
+    visible={false}
+  />
+  ;
+</DashboardTemplate>
+`;

@@ -6,6 +6,7 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
     enableReinitialize={false}
     initialValues={
       Object {
+        "categorySelected": "",
         "combehavior": "",
         "comscaling": "",
         "comstatement": "",
@@ -13,9 +14,13 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
         "excbehaviour": "",
         "excscaling": "",
         "excstatement": "",
-        "expbehaviour": "",
+        "expBehaviour": "",
         "expscaling": "",
-        "expstatement": "",
+        "expstatement": Array [
+          Object {
+            "expstatement": "",
+          },
+        ],
         "marbehaviour": "",
         "marscaling": "",
         "marstatement": "",
@@ -41,18 +46,23 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
         "_exclusive": Object {},
         "_mutate": undefined,
         "_nodes": Array [
-          "email",
+          "expstatement",
+          "unstatement",
+          "unscaling",
+          "unbehaviour",
           "marstatement",
-          "comscaling",
-          "combehavior",
-          "comstatement",
+          "marscaling",
+          "marbehaviour",
+          "expscaling",
+          "expBehaviour",
+          "excstatement",
           "excscaling",
           "excbehaviour",
-          "excstatement",
-          "expscaling",
-          "expbehaviour",
-          "expstatement",
           "definiation",
+          "comstatement",
+          "comscaling",
+          "combehavior",
+          "categorySelected",
         ],
         "_options": Object {
           "abortEarly": true,
@@ -65,6 +75,38 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
           "refs": Map {},
         },
         "fields": Object {
+          "categorySelected": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": true,
+            },
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
           "combehavior": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
@@ -193,36 +235,6 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
               [Function],
             ],
           },
-          "email": StringSchema {
-            "_blacklist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "_conditions": Array [],
-            "_deps": Array [],
-            "_exclusive": Object {
-              "required": true,
-              "undefined": false,
-            },
-            "_mutate": undefined,
-            "_options": Object {
-              "abortEarly": true,
-              "recursive": true,
-            },
-            "_type": "string",
-            "_typeError": [Function],
-            "_whitelist": RefSet {
-              "list": Set {},
-              "refs": Map {},
-            },
-            "tests": Array [
-              [Function],
-              [Function],
-            ],
-            "transforms": Array [
-              [Function],
-            ],
-          },
           "excbehaviour": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
@@ -319,7 +331,7 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
               [Function],
             ],
           },
-          "expbehaviour": StringSchema {
+          "expBehaviour": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
               "refs": Map {},
@@ -383,7 +395,126 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
               [Function],
             ],
           },
-          "expstatement": StringSchema {
+          "expstatement": ArraySchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {},
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_subType": ObjectSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_defaultDefault": [Function],
+              "_deps": Array [],
+              "_excludedEdges": Array [],
+              "_exclusive": Object {},
+              "_mutate": undefined,
+              "_nodes": Array [
+                "expstatement",
+              ],
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "object",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "fields": Object {
+                "expstatement": StringSchema {
+                  "_blacklist": RefSet {
+                    "list": Set {},
+                    "refs": Map {},
+                  },
+                  "_conditions": Array [],
+                  "_deps": Array [],
+                  "_exclusive": Object {
+                    "max": true,
+                    "min": true,
+                    "required": true,
+                  },
+                  "_mutate": undefined,
+                  "_options": Object {
+                    "abortEarly": true,
+                    "recursive": true,
+                  },
+                  "_type": "string",
+                  "_typeError": [Function],
+                  "_whitelist": RefSet {
+                    "list": Set {},
+                    "refs": Map {},
+                  },
+                  "tests": Array [
+                    [Function],
+                    [Function],
+                    [Function],
+                  ],
+                  "transforms": Array [
+                    [Function],
+                  ],
+                },
+              },
+              "tests": Array [],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "_type": "array",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "marbehaviour": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": true,
+            },
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "marscaling": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
               "refs": Map {},
@@ -416,6 +547,102 @@ exports[`MyComponent should render correctly in "debug" mode 1`] = `
             ],
           },
           "marstatement": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": true,
+            },
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "unbehaviour": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": true,
+            },
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "unscaling": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": true,
+            },
+            "_mutate": undefined,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "unstatement": StringSchema {
             "_blacklist": RefSet {
               "list": Set {},
               "refs": Map {},
