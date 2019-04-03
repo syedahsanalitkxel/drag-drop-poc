@@ -1,22 +1,12 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
-import {
-  Button,
-  Form,
-  FormFeedback,
-  Input,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { ContactInterface } from '../../../interfaces/Client';
 import { styles } from '../../pages/AddUser/style';
+import clientContactSchema from './clientContactSchema';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import { ModalContextProvider } from '../../../context';
-import * as Yup from 'yup';
-import AddClientInterface, { ContactInterface } from '../../../interfaces/Client';
 import styled from 'styled-components';
 
 interface Props {
@@ -24,7 +14,9 @@ interface Props {
   fprops: FormikBag;
   children?: React.ReactNode;
   visible?: boolean;
+  name?: string;
   toggle?: () => void;
+  formValues?: any;
 }
 
 const StyledButton = styled(Button)`
@@ -37,40 +29,26 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
   toggle,
   index,
   fprops,
+  formValues,
+  name,
 }) => {
-  const addContactSchema = Yup.object().shape({
-    email: Yup.string()
-      .required()
-      .email(),
-    firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(250, 'Too Long!')
-      .required('Required'),
-    lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    phone: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    role: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-  });
-
   const maxNumber = (value: any) => {
     return value.length > 0 ? Math.max(...value) : 0;
   };
 
   function submitForm(values: ContactInterface) {
-    if (fprops.initialValues.contact && toggle) {
+    if (fprops.initialValues.contact && toggle && name === 'Add' && values.id.length <= 0) {
       toggle();
       const id =
         maxNumber(fprops.initialValues.contact.map((contact: ContactInterface) => contact.id)) + 1;
       values.id = id.toString();
       fprops.initialValues.contact.push(values);
+    } else if (fprops.initialValues.contact && toggle && name === 'Edit' && values.id.length > 0) {
+      toggle();
+      const contactIndex = fprops.initialValues.contact.findIndex(
+        (contact: any) => contact.id === values.id
+      );
+      fprops.initialValues.contact[contactIndex] = values;
     }
   }
 
@@ -150,11 +128,11 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
 
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
-      <ModalHeader toggle={toggle}>Add Contact</ModalHeader>
+      <ModalHeader toggle={toggle}>{name} Contact</ModalHeader>
       <ModalBody>
         <Formik
-          initialValues={{ id: '', firstName: '', lastName: '', email: '', role: '', phone: '' }}
-          validationSchema={addContactSchema}
+          initialValues={formValues}
+          validationSchema={clientContactSchema}
           onSubmit={submitForm}
         >
           {formikprops => renderForm(formikprops)}
