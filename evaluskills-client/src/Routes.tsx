@@ -59,6 +59,9 @@ const Routes = () => (
       <Route exact={true} path="/setting/instructions">
         <InstructionsContainer />
       </Route>
+      <Route exact={true} path="/setting/instructions/edit/:id">
+        <InstructionsContainer />
+      </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
       </Route>
