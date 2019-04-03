@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
+import AddEditInstrumentTemplate from '../components/pages/AddEditInstrumentTemplate';
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import { ErrorContext } from '../context';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
@@ -21,15 +22,19 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
     if (isEdit(match.params)) {
+      console.log('edit');
       // fetch single assignment
     } else if (isList(match.path)) {
+      console.log('list');
       fetchInstruments();
+    } else {
+      console.log('add');
     }
 
     return function cleanup() {
       setInstrumentTemplates(InstrumentTemplates);
     };
-  }, []);
+  }, [setInstrumentTemplates]);
 
   async function fetchInstruments() {
     try {
@@ -58,11 +63,11 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   }
 
   if (isEdit(match.params)) {
-    return <h1 style={{ color: 'white' }}>Edit</h1>;
+    return <AddEditInstrumentTemplate />;
   }
 
   if (isAdd(match.path)) {
-    return <h1 style={{ color: 'white' }}>Add</h1>;
+    return <AddEditInstrumentTemplate />;
   }
 
   return (

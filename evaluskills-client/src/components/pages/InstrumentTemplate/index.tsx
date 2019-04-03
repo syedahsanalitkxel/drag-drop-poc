@@ -8,8 +8,8 @@ import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import AssessmentFilters from '../../organisms/AssessmentFilters';
-import DashboardTemplate from '../../templates/DashboardTemplate';
 import ListCardItems from '../../organisms/ListCardItems';
+import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
