@@ -69,7 +69,7 @@ const EmailListing: React.FunctionComponent<Props> = ({
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  {emailTemplates.map(renderEmailData)}
+                  <tbody>{emailTemplates.map(renderEmailData)}</tbody>
                 </table>
               </div>
             </div>
