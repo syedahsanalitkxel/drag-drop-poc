@@ -134,8 +134,13 @@
         max-width: calc(100vw - 180px);
         margin: 1.75rem auto;
     }
+    .addassessModal .modal-dialog {
+        max-width: calc(100vw - 180px);
+        margin: 1.75rem auto;
+    }
     #addUserModal {
         .modal-dialog {
+            z-index: 3000;
             max-width: 880px;
             margin: 1.75rem auto;
         }
@@ -145,6 +150,13 @@
         }
     }
 }
+
+.addassessModal {
+    div.modal-body, div.modal-header, div.modal-footer, div.assessmentModalheader {
+        background-color: #F3F3F4;
+    }
+}
+
 #addassessModal {
     div.modal-body, div.modal-header, div.modal-footer, div.assessmentModalheader {
         background-color: #F3F3F4;
@@ -216,7 +228,7 @@
 }
 
 .form-header {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 /*ClientInterface portion scss end here*/
 /*Evaluator View Scss*/

@@ -86,6 +86,7 @@ const FormElement: React.FunctionComponent<Props> = ({
           <Input
             type="textarea"
             name={name}
+            tag={Field}
             placeholder={placeholder}
             id={name}
             invalid={getValidation()}

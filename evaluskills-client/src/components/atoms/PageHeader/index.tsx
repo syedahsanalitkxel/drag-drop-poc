@@ -56,7 +56,7 @@ const PageHeader: React.FunctionComponent<Props> = ({
     <div className="PageHeader">
       <div className="row">
         <div className="col-lg-3 col-md-3">
-          <h2 className="font-weight-light">{title}</h2>
+          <h2>{title}</h2>
         </div>
         <div className="col-lg-9 col-md-9 text-right p-r-30">
           <div className="form-group row d-flex justify-content-end">
