@@ -6,7 +6,7 @@ import AddEditInstructionTemplate from '../components/pages/AddInstructions';
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import { ErrorContext } from '../context';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
-import RouterPropsInterface from '../interfaces/RouterPropsInterface';
+import RouterPropsInterface from '../interfaces/RouteParams';
 import { getInstrumentTemplates } from '../services/instrumentTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 

@@ -26,13 +26,9 @@ const EmailListing: React.FunctionComponent<Props> = ({
     return (
       <React.Fragment key={email.id}>
         <tr>
-          <td>
-            <strong>{email.title}</strong>
-          </td>
-          <td>
-            <strong>{email.type}</strong>
-          </td>
-          <td>{email.systemName}</td>
+          <td>{email.title}</td>
+          <td>{email.type}</td>
+
           <td>
             <IconButton id="delete" icon="trash" className="btn-default" actionHandler={() => {}}>
               Delete
@@ -40,7 +36,7 @@ const EmailListing: React.FunctionComponent<Props> = ({
             <IconButton
               id="edit"
               icon="edit"
-              className="btn-outline btn-primary"
+              className="btn-default"
               actionHandler={() => edit(email.id ? email.id : 1)}
             >
               Edit
@@ -69,7 +65,7 @@ const EmailListing: React.FunctionComponent<Props> = ({
                     <tr>
                       <th>Email Template Title</th>
                       <th>Type</th>
-                      <th>System Name</th>
+
                       <th>Actions</th>
                     </tr>
                   </thead>
