@@ -9,5 +9,5 @@ export interface emailListing {
   title?: string;
   type?: string;
   systemName?: string;
-  id: number;
+  id?: number;
 }

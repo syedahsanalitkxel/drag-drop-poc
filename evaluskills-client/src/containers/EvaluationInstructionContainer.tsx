@@ -1,77 +1,85 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import AddInstructions from '../components/pages/AddInstructions';
+
+import AddEditInstructionTemplate from '../components/pages/AddInstructions';
+
+import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import { ErrorContext } from '../context';
-import IAssessmentItem from '../interfaces/AssessmentItem';
-import { getAssessments } from '../services/assessmentsService';
+import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
+import RouterPropsInterface from '../interfaces/RouterPropsInterface';
+import { getInstrumentTemplates } from '../services/instrumentTemplateService';
+import { isAdd, isEdit, isList } from '../utils/routerUtils';
 
-const AssessmentItems: IAssessmentItem[] = [
-  {
-    category: 'Character',
-    competency: 'Team Player',
-    definition: 'Receive feedback from others and uses the feedback to improve performance',
-    id: 'uuid-12-321',
-    type: 'Competency',
-  },
-  {
-    category: 'Action',
-    competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
-    id: 'uuid-11-111',
-    type: 'Influential',
-  },
-];
+const InstrumentTemplates: InstrumentTemplateInterface[] = [];
 
-const InstructionsContainer: React.FunctionComponent<RouteComponentProps> = ({
-  match,
-  history,
-}) => {
+const InstrumentTemplateContainer: React.FunctionComponent<
+  RouteComponentProps<RouterPropsInterface>
+> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
 
-  const [assessments, setAssessments] = useState(AssessmentItems);
-  // TODO: Try moving filters to context
-  const [filters, setFilters] = useState({});
+  const [instrumentTemplates, setInstrumentTemplates] = useState(InstrumentTemplates);
 
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
-    fetchAssessments();
-    return function cleanup() {
-      setAssessments(AssessmentItems);
-      setFilters({});
-    };
-  }, []);
+    if (isEdit(match.params)) {
+      console.log('edit');
+      // fetch single assignment
+    } else if (isList(match.path)) {
+      console.log('list');
+      fetchInstruments();
+    } else {
+      console.log('add');
+    }
 
-  async function fetchAssessments() {
+    return function cleanup() {
+      setInstrumentTemplates(InstrumentTemplates);
+    };
+  }, [setInstrumentTemplates]);
+
+  async function fetchInstruments() {
     try {
-      const data = await getAssessments();
-      setAssessments(data);
+      const data = await getInstrumentTemplates();
+      setInstrumentTemplates(data);
     } catch (error) {
       // TODO: Implement Error boundary in future;
       errorContext.setError(error);
     }
   }
 
-  function filterAssessments(searchQuery: string) {
+  function filterInstrumentTemplates(searchQuery: string) {
     alert(searchQuery);
   }
 
-  function addAssessment() {
-    history.push('/assessment-items/add');
+  function addInstrumentTemplate() {
+    history.push('/evaluation-instructions/add');
   }
 
-  function editAssessment(assessmentId: string) {
-    history.push(`/assessment-items/edit/${assessmentId}`);
+  function editInstrumentTemplate(instrumentTemplate: string) {
+    history.push(`/evaluation-instructions/edit/${instrumentTemplate}`);
   }
 
-  function deleteAssessment(assessmentId: string) {
-    alert(`deleting => ${assessmentId}`);
+  function deleteInstrumentTemplate(instrumentTemplate: string) {
+    alert(`deleting => ${instrumentTemplate}`);
   }
-  if (Object.getOwnPropertyNames(match.params).length > 0) {
-    return <AddInstructions edit={true} />;
+
+  if (isEdit(match.params)) {
+    return <AddEditInstructionTemplate />;
   }
-  return <AddInstructions />;
+
+  if (isAdd(match.path)) {
+    return <AddEditInstructionTemplate />;
+  }
+
+  return (
+    <InstrumentTemplate
+      instrumentTemplates={instrumentTemplates}
+      add={addInstrumentTemplate}
+      edit={editInstrumentTemplate}
+      remove={deleteInstrumentTemplate}
+      filterInstrumentTemplates={fetchInstruments}
+    />
+  );
 };
 
-export default withRouter(InstructionsContainer);
+export default withRouter(InstrumentTemplateContainer);

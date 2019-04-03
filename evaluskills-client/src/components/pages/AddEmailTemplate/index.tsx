@@ -6,7 +6,7 @@ import { AddEmailInterface } from '../../../interfaces/Email';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import DashboardTemplate from '../../templates/DashboardTemplate';
-import clientFormSchema from './clientFormSchema';
+import emailFormSchema from './emailFormSchema';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, Modifier } from 'draft-js';
@@ -131,11 +131,11 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
         <PageBody card={true} className="m-t-15">
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
-              cancel
+              Cancel
             </StyledButton>
 
             <StyledButton type="submit" color="primary" size="lg">
-              Save &amp; changes
+              Save &amp; Changes
             </StyledButton>
           </div>
         </PageBody>
@@ -148,7 +148,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
       <Formik
         initialValues={formState}
         enableReinitialize={true}
-        validationSchema={clientFormSchema}
+        validationSchema={emailFormSchema}
         onSubmit={submitForm}
       >
         {(formikprops: FormikBag) => renderForm(formikprops)}

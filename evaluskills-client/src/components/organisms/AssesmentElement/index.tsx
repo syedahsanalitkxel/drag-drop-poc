@@ -21,6 +21,26 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
   console.log('formik ' + props.formikprops.errors.itemsElements);
   return (
     <Fragment>
+      {props.comNumber > 0 ? (
+        <Fragment>
+          <div className="row">
+            <label className="col-sm-2 col-form-label font-bold">
+              Element Title {props.comNumber + 1}
+            </label>
+            <div className="col-md-10">
+              <Input
+                type="text"
+                name="element"
+                className="form-control"
+                invalid={
+                  !!(props.formikprops.touched.definiation && props.formikprops.errors.definiation)
+                }
+              />
+              <FormFeedback tooltip={true}>{props.formikprops.errors.definiation}</FormFeedback>
+            </div>
+          </div>
+        </Fragment>
+      ) : null}
       <div className="form-group row m-b-0">
         <label className="col-sm-2 col-form-label font-bold">Rubric</label>
         <label className="col-sm-3 col-form-label font-bold">Statement</label>

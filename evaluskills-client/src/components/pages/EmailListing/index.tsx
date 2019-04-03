@@ -7,51 +7,20 @@ import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
 import IconButton from '../../atoms/IconButton';
-const usersData = [
-  { id: 1, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-  { id: 2, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-  { id: 3, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-  { id: 4, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-];
-
-const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+interface Props {
+  emailTemplates: emailListing[];
+  add: () => void;
+  filteremailTemplates: (searchQuery: string) => void;
+  edit: (instrumentTemplateId: number) => void;
+  remove: (instrumentTemplateId: string) => void;
+}
+const EmailListing: React.FunctionComponent<Props> = ({
+  filteremailTemplates,
+  emailTemplates,
+  add,
+  edit,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [addUserModalVisible, setAddUserModalVisible] = useState(false);
-
-  const toggleFilterModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const toggleAddUserModal = () => {
-    setAddUserModalVisible(!addUserModalVisible);
-  };
-
-  const filterAction = (event: React.MouseEvent) => {
-    // alert(`Filter button clicked ${event.timeStamp}`);
-    event.preventDefault();
-    toggleFilterModal();
-  };
-
-  const searchHandler = (searchQuery: string) => {
-    alert(searchQuery);
-  };
-  const deleteEmail = (name: any) => {
-    // this.setState({
-    //     todo: this.state.todo.filter(el => el !== name)
-    // })
-  };
-  const addAction = (event: React.MouseEvent) => {
-    event.preventDefault();
-    //toggleAddUserModal();
-    history.push('/setting/email/add');
-    // alert(`add button clicked ${event.timeStamp}`);
-  };
-  const editAction = (event: React.MouseEvent) => {
-    event.preventDefault();
-    //toggleAddUserModal();
-    history.push('/setting/email/edit/1');
-    // alert(`add button clicked ${event.timeStamp}`);
-  };
 
   const renderEmailData = (email: emailListing) => {
     return (
@@ -72,7 +41,7 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
               id="edit"
               icon="edit"
               className="btn-outline btn-primary"
-              actionHandler={editAction}
+              actionHandler={() => edit(email.id ? email.id : 1)}
             >
               Edit
             </IconButton>
@@ -87,10 +56,10 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
-            title="Users"
-            searchHandler={searchHandler}
+            title="Email"
+            searchHandler={filteremailTemplates}
             actionButtonText="Add Email"
-            actionHandler={addAction}
+            actionHandler={add}
           />
           <PageBody>
             <div className="ibox m-b-15">
@@ -104,7 +73,7 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  {usersData.map(renderEmailData)}
+                  {emailTemplates.map(renderEmailData)}
                 </table>
               </div>
             </div>
@@ -116,4 +85,4 @@ const EmailListing: React.FunctionComponent<RouteComponentProps> = ({ history })
   );
 };
 
-export default withRouter(EmailListing);
+export default EmailListing;
