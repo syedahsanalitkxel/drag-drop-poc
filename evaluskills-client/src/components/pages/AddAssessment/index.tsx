@@ -73,7 +73,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
               <div className="ibox-content">
                 <div className="form-group  row">
                   <label className="col-sm-2 col-form-label font-bold">Defination</label>
-                  <div className="col-sm-10">
+                  <div className="col-md-12">
                     <Input
                       type="text"
                       name="definiation"
@@ -436,14 +436,15 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
                               arr.push(
                                 <Fragment>
                                   <div className="ibox showMore">
-                                    <div className="ibox-title">
+                                    {/* <div className="ibox-title">
                                       <h5>Add Elements - {i + 1}</h5>
                                       <div className="ibox-tools">
                                         <a className="hide-link">
                                           <i className="fa fa-times" />
                                         </a>
                                       </div>
-                                    </div>
+                                    </div> */}
+                                    <div className="hr-line-dashed" />
                                     <Assessmentelement
                                       formikprops={formikprops}
                                       comNumber={i + 1}

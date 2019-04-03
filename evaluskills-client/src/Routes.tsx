@@ -14,9 +14,9 @@ const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
 const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const EditClient = lazy(() => import('./components/pages/EditClient'));
+const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
 const User = lazy(() => import('./components/pages/User'));
-const Email = lazy(() => import('./components/pages/Email'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -56,16 +56,24 @@ const Routes = () => (
       <Route exact={true} path="/clients/add">
         <AddClient />
       </Route>
-      <Route exact={true} path="/setting/email/add">
+      <Route exact={true} path="/email/add">
         <EmailTemplateContainer />
       </Route>
-      <Route exact={true} path="/setting/email/edit/:id">
+      <Route exact={true} path="/email/edit/:id">
         <EmailTemplateContainer />
       </Route>
-      <Route exact={true} path="/setting">
-        <Email />
+      <Route exact={true} path="/email">
+        <EmailTemplateContainer />
       </Route>
-
+      <Route exact={true} path="/evaluation-instructions/add">
+        <InstructionsContainer />
+      </Route>
+      <Route exact={true} path="/evaluation-instructions/edit/:id">
+        <InstructionsContainer />
+      </Route>
+      <Route exact={true} path="/evaluation-instructions">
+        <InstructionsContainer />
+      </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
       </Route>

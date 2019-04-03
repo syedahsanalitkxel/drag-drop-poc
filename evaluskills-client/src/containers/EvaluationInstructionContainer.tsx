@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import AddEmailTemplate from '../components/pages/AddEmailTemplate';
-import EmailListing from '../components/pages/EmailListing';
+import AddEditInstructionTemplate from '../components/pages/AddInstructions';
+
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import { ErrorContext } from '../context';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
@@ -18,12 +18,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   const errorContext = useContext(ErrorContext);
 
   const [instrumentTemplates, setInstrumentTemplates] = useState(InstrumentTemplates);
-  const usersData = [
-    { id: 1, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-    { id: 2, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-    { id: 3, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-    { id: 4, title: 'Evaluation complete', type: 'Lorem Ipsum', systemName: 'Lorem Ipsum' },
-  ];
+
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
@@ -57,11 +52,11 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   }
 
   function addInstrumentTemplate() {
-    history.push('/email/add');
+    history.push('/evaluation-instructions/add');
   }
 
-  function editInstrumentTemplate(instrumentTemplate: number) {
-    history.push(`/email/edit/${instrumentTemplate}`);
+  function editInstrumentTemplate(instrumentTemplate: string) {
+    history.push(`/evaluation-instructions/edit/${instrumentTemplate}`);
   }
 
   function deleteInstrumentTemplate(instrumentTemplate: string) {
@@ -69,20 +64,20 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   }
 
   if (isEdit(match.params)) {
-    return <AddEmailTemplate edit={true} />;
+    return <AddEditInstructionTemplate />;
   }
 
   if (isAdd(match.path)) {
-    return <AddEmailTemplate />;
+    return <AddEditInstructionTemplate />;
   }
 
   return (
-    <EmailListing
-      emailTemplates={usersData}
+    <InstrumentTemplate
+      instrumentTemplates={instrumentTemplates}
       add={addInstrumentTemplate}
       edit={editInstrumentTemplate}
       remove={deleteInstrumentTemplate}
-      filteremailTemplates={fetchInstruments}
+      filterInstrumentTemplates={fetchInstruments}
     />
   );
 };
