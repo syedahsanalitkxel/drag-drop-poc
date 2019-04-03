@@ -6,12 +6,13 @@ import styled from 'styled-components';
 
 import AddClientInterface, { ContactInterface } from '../../../interfaces/Client';
 import FormikBag from '../../../interfaces/FormikBag';
-import PageBody from '../../atoms/PageBody';
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import EditClientContacts from '../../organisms/AddClientContact/index';
+import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
 
 interface Props {
@@ -52,6 +53,15 @@ const initialState: AddClientInterface = {
   zip: '',
 };
 
+const initialContactState: ContactInterface = {
+  email: '',
+  firstName: '',
+  id: '',
+  lastName: '',
+  phone: '',
+  role: '',
+};
+
 const StyledButton = styled(Button)`
   margin-left: 5px;
   margin-right: 5px;
@@ -63,10 +73,17 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
 }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
+  const [contactFormState, setContactFormState] = useState(initialContactState);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
+  const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
   const toggleAddClientContactModal = () => {
+    setContactFormState(initialContactState);
     setAddClientContactModalVisible(!addClientContactModalVisible);
+  };
+
+  const toggleEditClientContactModal = () => {
+    setEditClientContactModalVisible(!editClientContactModalVisible);
   };
 
   useEffect(() => {
@@ -74,6 +91,18 @@ export const AddClient: React.FunctionComponent<Props> = ({
       changeListener(formState);
     }
   });
+
+  function editContact(contactId: string) {
+    if (defaultValues && defaultValues.contact) {
+      const contactData: any = defaultValues.contact.find(client => client.id === contactId);
+      setContactFormState(contactData);
+      toggleEditClientContactModal();
+    }
+  }
+
+  function removeContact(contactId: string) {
+    alert(`deleting => ${contactId}`);
+  }
 
   function submitForm(values: AddClientInterface) {
     setFormState({ ...formState, ...values });
@@ -221,10 +250,16 @@ export const AddClient: React.FunctionComponent<Props> = ({
             </Button>
           </div>
         </div>
-        {/*formState.contact && <ClientContactsList listData={formState.contact} />*/}
+
         <div>
           {action === 'edit'
-            ? formState.contact && <ClientContactsList listData={formState.contact} />
+            ? formState.contact && (
+                <ClientContactsList
+                  listData={formState.contact}
+                  edit={editContact}
+                  remove={removeContact}
+                />
+              )
             : formState.contact && formState.contact.map(renderContactList)}
         </div>
 
@@ -232,6 +267,16 @@ export const AddClient: React.FunctionComponent<Props> = ({
           fprops={formikprops}
           visible={addClientContactModalVisible}
           toggle={toggleAddClientContactModal}
+          formValues={contactFormState}
+          name={'Add'}
+        />
+
+        <EditClientContacts
+          fprops={formikprops}
+          visible={editClientContactModalVisible}
+          toggle={toggleEditClientContactModal}
+          formValues={contactFormState}
+          name="Edit"
         />
 
         <div className="form-header row">
@@ -270,9 +315,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
-            <StyledButton type="button" color="primary" size="lg">
-              Save &amp; Add More
-            </StyledButton>
+            {!action && (
+              <StyledButton type="button" color="primary" size="lg">
+                Save &amp; Add More
+              </StyledButton>
+            )}
           </div>
         </PageBody>
       </Form>
