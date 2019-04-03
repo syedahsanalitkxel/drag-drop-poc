@@ -7,10 +7,14 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
+const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
-const EditAssessment = lazy(() => import('./components/pages/EditAssessment'));
+const AddEmailTemplate = lazy(() => import('./components/pages/AddEmailTemplate'));
+const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const EditClient = lazy(() => import('./components/pages/EditClient'));
+const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
 const User = lazy(() => import('./components/pages/User'));
 
@@ -29,10 +33,10 @@ const Routes = () => (
         <AssessmentItemContainer />
       </Route>
       <Route exact={true} path="/assessment-items/add">
-        <AddAssessment />
+        <AssessmentContainer />
       </Route>
       <Route exact={true} path="/assessment-items/edit/:id">
-        <EditAssessment />
+        <AssessmentContainer />
       </Route>
 
       <Route exact={true} path="/instrument-templates">
@@ -52,7 +56,24 @@ const Routes = () => (
       <Route exact={true} path="/clients/add">
         <AddClient />
       </Route>
-
+      <Route exact={true} path="/email/add">
+        <EmailTemplateContainer />
+      </Route>
+      <Route exact={true} path="/email/edit/:id">
+        <EmailTemplateContainer />
+      </Route>
+      <Route exact={true} path="/email">
+        <EmailTemplateContainer />
+      </Route>
+      <Route exact={true} path="/evaluation-instructions/add">
+        <InstructionsContainer />
+      </Route>
+      <Route exact={true} path="/evaluation-instructions/edit/:id">
+        <InstructionsContainer />
+      </Route>
+      <Route exact={true} path="/evaluation-instructions">
+        <InstructionsContainer />
+      </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
       </Route>

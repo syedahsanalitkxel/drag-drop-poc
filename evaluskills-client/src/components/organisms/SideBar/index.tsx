@@ -43,6 +43,14 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         />
 
         <NavItem to="/users" icon="user" label="Users" active={location.pathname === '/users'} />
+        <NavItem to="/email" icon="user" label="Email" active={location.pathname === '/email'} />
+        <NavItem
+          to="/evaluation-instructions"
+          icon="user"
+          label="Instructions"
+          active={location.pathname === '/evaluation-instructions'}
+        />
+
         <NavItem to="/setting" icon="cog" label="Setting">
           <ul>
             <li>

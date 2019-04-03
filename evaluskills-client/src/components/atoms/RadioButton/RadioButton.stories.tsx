@@ -54,4 +54,43 @@ storiesOf('Atoms.RadioButton', module)
         </div>
       </FormGroup>
     );
+  })
+  .add('Working group with multiple', () => {
+    const [selected, setSelected] = useState('val1');
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSelected(event.target.value);
+    };
+
+    return (
+      <FormGroup className="row">
+        <Label className="col-sm-1 col-form-label font-bold">Type</Label>
+        <div className="col-sm-5">
+          <RadioButton
+            name="example"
+            value="val1"
+            currentSelection={selected}
+            onChange={handleChange}
+          >
+            Selected Item
+          </RadioButton>
+          <RadioButton
+            name="example"
+            value="val2"
+            currentSelection={selected}
+            onChange={handleChange}
+          >
+            Another Item
+          </RadioButton>
+          <RadioButton
+            name="example"
+            value="val3"
+            currentSelection={selected}
+            onChange={handleChange}
+          >
+            Item 3
+          </RadioButton>
+        </div>
+      </FormGroup>
+    );
   });
