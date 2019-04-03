@@ -1,20 +1,22 @@
 import React from 'react';
 
-import Client, { ContactInterface } from '../../../interfaces/Client';
+import { ContactInterface } from '../../../interfaces/Client';
 import IconButton from '../../atoms/IconButton';
 import ClientCard from '../../molecules/ClientCard';
 
 interface Props {
   listData: ContactInterface[];
+  edit: (clientId: string) => void;
+  remove: (clientId: string) => void;
 }
 
-const ClientsList: React.FunctionComponent<Props> = ({ listData }) => {
-  const actionHandler = (clientId: string) => (event: React.MouseEvent) => {
-    // if (event.currentTarget.id === 'edit') {
-    //     edit(clientId);
-    // } else if (event.currentTarget.id === 'delete') {
-    //     remove(clientId);
-    // }
+const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove }) => {
+  const actionHandler = (contactId: string) => (event: React.MouseEvent) => {
+    if (event.currentTarget.id === 'edit') {
+      edit(contactId);
+    } else if (event.currentTarget.id === 'delete') {
+      remove(contactId);
+    }
   };
 
   const renderContent = (
@@ -28,7 +30,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData }) => {
     <React.Fragment>
       <tr>
         <td className="font-bold">{firstName}</td>
-        <td>Business Client</td>
+        <td>{role}</td>
         <td>
           <a href="mailto:robbyrash@gmail.com">{email}</a>
         </td>
