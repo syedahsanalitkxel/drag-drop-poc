@@ -8,12 +8,11 @@ import FormikBag from '../../../interfaces/FormikBag';
 import styles from './FormElement.module.scss';
 
 export enum FormElementTypes {
-  CHECKBOX = 'checkbox',
-  RADIO = 'radio',
   TEXT = 'text',
   TEXT_AREA = 'text-area',
   SELECT = 'select',
   IMAGE_UPLOAD = 'upload',
+  PASSWORD = 'password',
 }
 
 interface Props {
@@ -79,6 +78,18 @@ const FormElement: React.FunctionComponent<Props> = ({
           >
             {children}
           </Input>
+        );
+
+      case FormElementTypes.PASSWORD:
+        return (
+          <Input
+            type="password"
+            name={name}
+            tag={Field}
+            placeholder={placeholder}
+            id={name}
+            invalid={getValidation()}
+          />
         );
 
       case FormElementTypes.TEXT_AREA:
