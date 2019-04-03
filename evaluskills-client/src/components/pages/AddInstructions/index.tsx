@@ -17,7 +17,7 @@ interface Props {
 }
 
 const initialState: InsturmentsInterface = {
-  instrumentsTitle: '',
+  instructionTitle: '',
   editorState: '',
   componentName: 'Add Instructions',
   // editorState:
@@ -39,7 +39,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
       changeListener(formState);
     }
     if (edit) {
-      setFormState({ ...formState, instrumentsTitle: 'update subject' });
+      setFormState({ ...formState, instructionTitle: 'update subject' });
       setFormState({ ...formState, editorState: 'billing-1' });
       setFormState({ ...formState, componentName: 'Edit Instructions' });
     }
