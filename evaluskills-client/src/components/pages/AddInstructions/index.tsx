@@ -95,11 +95,11 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
         <PageBody card={true}>
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
-              cancel
+              Cancel
             </StyledButton>
 
             <StyledButton type="submit" color="primary" size="lg">
-              Save &amp; changes
+              Save &amp; Changes
             </StyledButton>
           </div>
         </PageBody>
