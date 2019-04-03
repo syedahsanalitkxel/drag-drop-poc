@@ -23,6 +23,11 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ edit, title, childr
     margin-right: 15px;
     margin-top: 12px;
   `;
+  const StyleFontAwesomeIcon2 = styled(FontAwesomeIcon)`
+    margin-top: 12px;
+    margin-left: 3px;
+  `;
+
   const Styleheading = styled.h5`
     margin-left: 15px;
     margin-top: 12px;
@@ -42,10 +47,14 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ edit, title, childr
           <div className="col-lg-4 col-md-4 text-right p-r-30">
             <div className="form-group row d-flex justify-content-end">
               <div onClick={editEvent}>
-                <StyleFontAwesomeIcon icon={'edit'} />
+                <button className="btn">
+                  <StyleFontAwesomeIcon2 icon={'edit'} />
+                </button>
               </div>
               <div onClick={mouseEvent}>
-                <StyleFontAwesomeIcon icon={collapse ? faChevronUp : faChevronDown} />
+                <button className="btn">
+                  <StyleFontAwesomeIcon icon={collapse ? faChevronUp : faChevronDown} />
+                </button>
               </div>
             </div>
           </div>

@@ -28,7 +28,9 @@ const StyledButton = styled(Button)`
   margin-left: 5px;
   margin-right: 5px;
 `;
-
+const StyledPageBody = styled(PageBody)`
+  height: 355px;
+`;
 export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
@@ -71,9 +73,9 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
           <div className="row">
             <div className="col-sm-12">
               <FormElement
-                label="Instruments Title"
-                name="instrumentsTitle"
-                placeholder="Add Email Title"
+                label="Instruction Title"
+                name="instructionTitle"
+                placeholder="Add Name"
                 formikprops={formikprops}
                 last={true}
                 inline={true}
@@ -81,7 +83,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
             </div>
           </div>
         </PageBody>
-        <PageBody card={true} className="m-t-15">
+        <StyledPageBody card={true} className="m-t-15">
           <label className="col-sm-3 col-form-label font-bold">Instruction Detail</label>
 
           <Editor
@@ -91,7 +93,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
             editorClassName="editorClassName"
             onEditorStateChange={onEditorStateChange}
           />
-        </PageBody>
+        </StyledPageBody>
         <PageBody card={true}>
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
