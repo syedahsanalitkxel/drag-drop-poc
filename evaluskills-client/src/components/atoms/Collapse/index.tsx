@@ -9,10 +9,10 @@ interface Props {
   title: string;
   children: ReactNode;
   onChange?: (event: any) => void;
-  edit?: (instrumentTemplateId: number) => void;
+  edit: (instrumentTemplateId: number) => void;
 }
 
-const CollapseComponent: React.FunctionComponent<Props> = ({ title, children, onChange }) => {
+const CollapseComponent: React.FunctionComponent<Props> = ({ edit, title, children, onChange }) => {
   const [collapse, setcollapse] = useState(false);
 
   const mouseEvent = (event: any) => {
@@ -21,23 +21,27 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ title, children, on
   };
   const StyleFontAwesomeIcon = styled(FontAwesomeIcon)`
     margin-right: 15px;
-    margin-top: 8px;
+    margin-top: 12px;
   `;
-
+  const Styleheading = styled.h5`
+    margin-left: 15px;
+    margin-top: 12px;
+  `;
+  const editEvent = (event: any) => {
+    edit(2);
+  };
   return (
     <Fragment>
       <div className="card">
         <div className="row">
           <div className="col-lg-8 col-md-8">
-            <h5>{title}</h5>
+            <div className="ibox-title">
+              <Styleheading>{title}</Styleheading>
+            </div>
           </div>
           <div className="col-lg-4 col-md-4 text-right p-r-30">
             <div className="form-group row d-flex justify-content-end">
-              <div
-                onClick={() => {
-                  alert('edit');
-                }}
-              >
+              <div onClick={editEvent}>
                 <StyleFontAwesomeIcon icon={'edit'} />
               </div>
               <div onClick={mouseEvent}>

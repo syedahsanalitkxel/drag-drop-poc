@@ -19,7 +19,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
     if (edit) {
       setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
     }
-  });
+  }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setFormState({ ...formState, [event.target.name]: event.target.value });
   }
@@ -79,6 +79,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
                       name="definiation"
                       className="form-control"
                       tag={Field}
+                      onChange={() => {}}
                       invalid={
                         !!(formikprops.touched.definiation && formikprops.errors.definiation)
                       }
@@ -434,7 +435,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
                             let arr = [];
                             for (var i = 0; i < count; i++) {
                               arr.push(
-                                <Fragment>
+                                <Fragment key={i}>
                                   <div className="ibox showMore">
                                     {/* <div className="ibox-title">
                                       <h5>Add Elements - {i + 1}</h5>

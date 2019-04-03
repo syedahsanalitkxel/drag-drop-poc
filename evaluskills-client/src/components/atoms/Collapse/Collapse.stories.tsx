@@ -6,7 +6,10 @@ import Collapse from '.';
 
 storiesOf('Atoms.Collapse', module)
   .add('single collaps', () => (
-    <Collapse title="Instructions Title Click Arrow At Right To Expand Instructions">
+    <Collapse
+      edit={() => {}}
+      title="Instructions Title Click Arrow At Right To Expand Instructions"
+    >
       <Fragment>
         <div className="card">
           <div className="ibox-content">
@@ -27,7 +30,10 @@ storiesOf('Atoms.Collapse', module)
   ))
   .add('multiple collaps', () => (
     <Fragment>
-      <Collapse title="Instructions Title Click Arrow At Right To Expand Instructions">
+      <Collapse
+        edit={() => {}}
+        title="Instructions Title Click Arrow At Right To Expand Instructions"
+      >
         <div className="card">
           <div className="ibox-content">
             <p>
@@ -43,7 +49,10 @@ storiesOf('Atoms.Collapse', module)
           </div>
         </div>
       </Collapse>{' '}
-      <Collapse title="Instructions Title Click Arrow At Right To Expand Instructions">
+      <Collapse
+        edit={() => {}}
+        title="Instructions Title Click Arrow At Right To Expand Instructions"
+      >
         <div className="card">
           <div className="ibox-content">
             <p>
