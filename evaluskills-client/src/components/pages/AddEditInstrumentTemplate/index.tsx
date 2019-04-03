@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
+import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import FormikBag from '../../../interfaces/FormikBag';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
@@ -11,8 +12,10 @@ import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import RadioButton from '../../atoms/RadioButton';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+import ESModal from '../../molecules/Modal';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import AssessmentItemsList from './AssessmentItemsList';
 
 const StyledButton = styled(Button)`
   margin-right: 5px;
@@ -49,6 +52,15 @@ const assessments: AssessmentItemInterface[] = [
 
 const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValues }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function applyFilters(filters: AssessmentFiltersInterface) {
+    console.log(filters);
+  }
+
+  function toggleFilterModal() {
+    setModalVisible(!modalVisible);
+  }
 
   function submitForm(values: InstrumentTemplateInterface) {
     setFormState({ ...formState, ...values });
@@ -67,7 +79,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
       <div className="row">
         <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
         <div className="col-sm-10">
-          <Button onClick={showAssessmentSelector} size="lg" color="primary">
+          <Button onClick={toggleFilterModal} size="lg" color="primary">
             Add Assessment Items
           </Button>
         </div>
@@ -85,7 +97,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
               className="mt-3 float-right"
               color="primary"
               size="lg"
-              onClick={showAssessmentSelector}
+              onClick={toggleFilterModal}
             >
               Edit Assessment Items
             </Button>
@@ -189,6 +201,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
 
     return <PageHeader title="Instrument Template" />;
   }
+
   return (
     <DashboardTemplate>
       <PageBody>
@@ -197,6 +210,18 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       </PageBody>
+      <ESModal
+        title="Add Assessment Items"
+        visible={modalVisible}
+        toggle={toggleFilterModal}
+        primaryAction={applyFilters}
+        primaryText="Add"
+        secondaryText="Cancel"
+        secondaryAction="dismiss"
+        size="lg"
+      >
+        <AssessmentItemsList mode="edit" />
+      </ESModal>
     </DashboardTemplate>
   );
 };

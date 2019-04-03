@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ModalContextProvider } from '../../../context';
 
@@ -11,6 +11,7 @@ interface ModalProps {
   primaryAction: (data: any) => void;
   secondaryText: string;
   secondaryAction: 'reset' | 'dismiss';
+  size?: string;
 }
 
 const ESModal: React.FunctionComponent<ModalProps> = ({
@@ -22,6 +23,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   secondaryAction,
   primaryText,
   secondaryText,
+  size,
 }) => {
   const initialState = {};
   const [modalState, setModalState] = useState(initialState);
@@ -35,12 +37,12 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
     if (secondaryAction === 'reset') {
       console.log('hit reset');
     } else {
-      visible = false;
+      toggle();
     }
   };
 
   return (
-    <Modal isOpen={visible} toggle={toggle}>
+    <Modal modalClassName="addassessModal" size={size} isOpen={visible} toggle={toggle}>
       <ModalContextProvider value={{ modalState, setModalState }}>
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
