@@ -1,6 +1,6 @@
-import RouterPropsInterface from '../interfaces/RouterPropsInterface';
+import RouteParamsInterface from '../interfaces/RouteParams';
 
-export const isEdit = (params: RouterPropsInterface) => params && params.id;
+export const isEdit = (params: RouteParamsInterface) => params && params.id;
 
 export const isAdd = (path: string) => path.includes('add');
 

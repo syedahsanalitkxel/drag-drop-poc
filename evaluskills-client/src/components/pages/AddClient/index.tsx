@@ -8,11 +8,11 @@ import AddClientInterface, { ContactInterface } from '../../../interfaces/Client
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import clientFormSchema from './clientFormSchema';
-import ClientsList from '../Client';
 
 interface Props {
   changeListener?: (formValues: AddClientInterface) => void;
@@ -21,35 +21,35 @@ interface Props {
 }
 
 const initialState: AddClientInterface = {
-  address: ' ',
-  billing: ' ',
-  city: ' ',
-  clientInformation: ' ',
-  clientName: ' ',
-  clientType: ' ',
+  address: '',
+  billing: '',
+  city: '',
+  clientInformation: '',
+  clientName: '',
+  clientType: '',
   contact: [
     {
-      id: ' ',
-      email: ' ',
-      firstName: ' ',
-      lastName: ' ',
-      phone: ' ',
-      role: ' ',
+      email: '',
+      firstName: '',
+      id: '',
+      lastName: '',
+      phone: '',
+      role: '',
     },
   ],
-  id: ' ',
-  noOfAssessments: ' ',
-  noOfEvaluators: ' ',
-  noOfParticipants: ' ',
-  phone: ' ',
-  plan: ' ',
-  school: ' ',
-  state: ' ',
-  status: ' ',
-  userEmail: ' ',
-  userFirstName: ' ',
-  userLastName: ' ',
-  zip: ' ',
+  id: '',
+  noOfAssessments: '',
+  noOfEvaluators: '',
+  noOfParticipants: '',
+  phone: '',
+  plan: '',
+  school: '',
+  state: '',
+  status: '',
+  userEmail: '',
+  userFirstName: '',
+  userLastName: '',
+  zip: '',
 };
 
 const StyledButton = styled(Button)`
@@ -63,6 +63,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
 }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
+  const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
+
+  const toggleAddClientContactModal = () => {
+    setAddClientContactModalVisible(!addClientContactModalVisible);
+  };
 
   useEffect(() => {
     if (changeListener) {
@@ -75,33 +80,32 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   const onClickAddContact = (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    const { contact } = formState;
-    const contactObj: ContactInterface = {
-      id: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      role: '',
-    };
-    if (contact) {
-      contact.push(contactObj);
+    if (action === 'edit') {
+      event.preventDefault();
+      toggleAddClientContactModal();
     }
-    setFormState({ ...formState, contact });
+
+    if (action !== 'edit') {
+      const { contact } = formState;
+      const contactObj: ContactInterface = {
+        email: '',
+        firstName: '',
+        id: '',
+        lastName: '',
+        phone: '',
+        role: '',
+      };
+      if (contact) {
+        contact.push(contactObj);
+      }
+      setFormState({ ...formState, contact });
+    }
   };
 
   const renderForm = (formikprops: FormikBag) => {
     const renderContactList = (contact: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
-      </Fragment>
-    );
-
-    const renderList = (contact: any, index: number) => (
-      <Fragment key={index}>
-        <ClientContactsList listData={contact} />
       </Fragment>
     );
 
@@ -223,6 +227,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
             ? formState.contact && <ClientContactsList listData={formState.contact} />
             : formState.contact && formState.contact.map(renderContactList)}
         </div>
+
+        <AddClientContacts
+          fprops={formikprops}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+        />
 
         <div className="form-header row">
           <div className="col-sm-6">
