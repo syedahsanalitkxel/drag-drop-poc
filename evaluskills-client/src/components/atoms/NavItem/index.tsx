@@ -19,7 +19,7 @@ const NavItem: React.FC<Props> = ({ to, label, children, active, icon }) => {
     children && <Collapse className="nav nav-second-level">{children}</Collapse>;
 
   return (
-    <li className={classNames({ active: active })}>
+    <li className={classNames({ active })}>
       <NavLink to={to}>
         {icon && <FontAwesomeIcon icon={icon} />}
         &nbsp;

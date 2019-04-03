@@ -27,11 +27,14 @@ export default class API {
     this.instance.interceptors.response.use(response => response, errorResponseHandler);
   }
 
-  public get(url: string): AxiosPromise {
+  public get(url: string, id?: string): AxiosPromise {
+    if (id) {
+      url += `/${id}`;
+    }
     return this.instance.get(url);
   }
 
-  public post(url: string, body: AssessmentItemInterface): AxiosPromise {
+  public post(url: string, body: any): AxiosPromise {
     return this.instance.post(url, body);
   }
 

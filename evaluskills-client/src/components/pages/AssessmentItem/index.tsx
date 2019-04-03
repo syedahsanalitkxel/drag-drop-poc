@@ -7,7 +7,7 @@ import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import AssessmentFilters from '../../organisms/AssessmentFilters';
-import AssessmentsList from '../../organisms/AssessmentsList';
+import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   remove: (assessmentId: string) => void;
 }
 
-const DashboardHome: React.FunctionComponent<Props> = ({
+const AssessmentItem: React.FunctionComponent<Props> = ({
   assessments,
   filterAssessments,
   add,
@@ -52,7 +52,12 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <AssessmentsList listData={assessments} edit={edit} remove={remove} />
+            <ListCardItems
+              titleKey="definition"
+              listData={assessments}
+              edit={edit}
+              remove={remove}
+            />
             <Pager />
           </PageBody>
         </div>
@@ -73,4 +78,4 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   );
 };
 
-export default DashboardHome;
+export default AssessmentItem;

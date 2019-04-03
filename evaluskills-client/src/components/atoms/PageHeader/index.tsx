@@ -61,8 +61,8 @@ const PageHeader: React.FunctionComponent<Props> = ({
         <div className="col-lg-9 col-md-9 text-right p-r-30">
           <div className="form-group row d-flex justify-content-end">
             {filterAction && renderFilters()}
-            <label className="col-lg-1 col-form-label">Search:</label>
-            <div className="col-lg-3 p-l-0">{searchHandler && renderSearch()}</div>
+            {searchHandler && <label className="col-lg-1 col-form-label">Search:</label>}
+            {searchHandler && <div className="col-lg-3 p-l-0">{renderSearch()}</div>}
             {actionButtonText && actionHandler && renderActionButton()}
           </div>
         </div>

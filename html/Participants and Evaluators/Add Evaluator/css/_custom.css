@@ -1,0 +1,69 @@
+/* Only demo */
+@media (max-width: 1000px) {
+  .welcome-message {
+    display: none; } }
+
+.assesment-item {
+  padding: 15px 25px;
+  background: #ffffff;
+  margin-bottom: 10px; }
+
+.assesment-item-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 10px; }
+
+.assesment-item-title,
+.assesment-item-info {
+  margin-left: auto; }
+
+.assesment-item-button .btn {
+  padding: 0.375rem 0.65rem; }
+
+.PageHeader {
+  padding: 20px 10px 0px; }
+  .PageHeader h2 {
+    margin-top: 0px; }
+
+.filters {
+  border: 1px solid #f3f3f4;
+  overflow: hidden;
+  border-radius: 4px; }
+  .filters .filter-publish {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px; }
+  .filters .filter-draft {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px; }
+  .filters .filter-publish,
+  .filters .filter-draft {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    color: inherit;
+    background: white;
+    min-width: 75px;
+    text-align: center;
+    cursor: pointer; }
+    .filters .filter-publish:hover,
+    .filters .filter-draft:hover {
+      color: #fff;
+      background-color: #1ab394;
+      border-color: #1ab394;
+      font-weight: 600;
+      padding: 0.3rem 0.45rem; }
+    .filters .filter-publish.active,
+    .filters .filter-draft.active {
+      color: #fff;
+      background-color: #1ab394;
+      border-color: #1ab394;
+      font-weight: 600;
+      padding: 0.3rem 0.45rem; }
+    .filters .filter-publish .numberAssesment,
+    .filters .filter-draft .numberAssesment {
+      font-size: 0.6rem;
+      font-weight: 600; }
+
+#toast-container {
+  display: none; }
