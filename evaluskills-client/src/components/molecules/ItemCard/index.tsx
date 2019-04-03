@@ -8,7 +8,7 @@ interface Props {
   };
 }
 
-const AssessmentCard: React.FunctionComponent<Props> = ({ header, children }) => {
+const ItemCard: React.FunctionComponent<Props> = ({ header, children }) => {
   const { content, actions } = children;
 
   return (
@@ -25,4 +25,4 @@ const AssessmentCard: React.FunctionComponent<Props> = ({ header, children }) =>
     </div>
   );
 };
-export default AssessmentCard;
+export default ItemCard;

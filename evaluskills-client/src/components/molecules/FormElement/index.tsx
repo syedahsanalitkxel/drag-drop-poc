@@ -11,6 +11,7 @@ export enum FormElementTypes {
   CHECKBOX = 'checkbox',
   RADIO = 'radio',
   TEXT = 'text',
+  TEXT_AREA = 'text-area',
   SELECT = 'select',
   IMAGE_UPLOAD = 'upload',
 }
@@ -27,6 +28,7 @@ interface Props {
   children?: React.ReactNode;
   validation?: boolean;
   inline?: boolean;
+  fullLength?: boolean;
 }
 
 const FormElement: React.FunctionComponent<Props> = ({
@@ -40,6 +42,7 @@ const FormElement: React.FunctionComponent<Props> = ({
   children,
   validation,
   inline,
+  fullLength,
 }) => {
   function getValidation() {
     if (noValidate) {
@@ -78,6 +81,17 @@ const FormElement: React.FunctionComponent<Props> = ({
           </Input>
         );
 
+      case FormElementTypes.TEXT_AREA:
+        return (
+          <Input
+            type="textarea"
+            name={name}
+            placeholder={placeholder}
+            id={name}
+            invalid={getValidation()}
+          />
+        );
+
       default:
         return (
           <Input
@@ -108,7 +122,7 @@ const FormElement: React.FunctionComponent<Props> = ({
     }
 
     return (
-      <div className={classNames({ 'col-sm-3': !inline })}>
+      <div className={classNames({ 'col-md-3': !inline && !fullLength, 'col-md-10': fullLength })}>
         {getInputByType()}
         {getValidationFeedback()}
       </div>
@@ -120,7 +134,7 @@ const FormElement: React.FunctionComponent<Props> = ({
       <FormGroup className={classNames({ row: !inline })}>
         <Label
           for={name}
-          className={classNames({ 'col-sm-2 col-form-label': !inline }, 'font-bold')}
+          className={classNames({ 'col-md-2 col-form-label': !inline }, 'font-bold')}
         >
           {label}
         </Label>

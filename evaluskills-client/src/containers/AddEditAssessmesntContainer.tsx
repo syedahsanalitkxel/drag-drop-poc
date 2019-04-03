@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
+import AddAssessment from '../components/pages/AddAssessment';
 import AssessmentItem from '../components/pages/AssessmentItem';
 import { ErrorContext } from '../context';
-import AssessmentItemInterface from '../interfaces/AssessmentItem';
+import IAssessmentItem from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
 
-const AssessmentItems: AssessmentItemInterface[] = [
+const AssessmentItems: IAssessmentItem[] = [
   {
     category: 'Character',
     competency: 'Team Player',
@@ -24,7 +24,10 @@ const AssessmentItems: AssessmentItemInterface[] = [
   },
 ];
 
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
+  match,
+  history,
+}) => {
   const errorContext = useContext(ErrorContext);
 
   const [assessments, setAssessments] = useState(AssessmentItems);
@@ -35,7 +38,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
     fetchAssessments();
-
     return function cleanup() {
       setAssessments(AssessmentItems);
       setFilters({});
@@ -67,16 +69,10 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
   function deleteAssessment(assessmentId: string) {
     alert(`deleting => ${assessmentId}`);
   }
-
-  return (
-    <AssessmentItem
-      assessments={assessments}
-      filterAssessments={filterAssessments}
-      add={addAssessment}
-      remove={deleteAssessment}
-      edit={editAssessment}
-    />
-  );
+  if (Object.getOwnPropertyNames(match.params).length > 0) {
+    return <AddAssessment edit={true} />;
+  }
+  return <AddAssessment />;
 };
 
 export default withRouter(AssessmentItemContainer);
