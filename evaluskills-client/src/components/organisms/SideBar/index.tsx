@@ -1,9 +1,18 @@
-import React from 'react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import NavItem from '../../atoms/NavItem';
 import ProfileBadge from '../../molecules/ProfileBadge';
 
-// TODO: Make collapse work (Settings);
+function getNavItem(to: string, icon: IconProp, label: string) {
+  return <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />;
+}
+
+const isSuperAdmin = () =>
+  window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'SUPER_ADMIN';
+const isClientAdmin = () =>
+  !window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'CLIENT_ADMIN';
+
 const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => (
   <nav className="navbar-default navbar-static-side" role="navigation">
     <div className="sidebar-collapse">
@@ -15,50 +24,20 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
             profilePicture="img/profile_small.jpg"
           />
         </li>
-        <NavItem
-          to="/dashboard"
-          icon="th-large"
-          label="Dashboard"
-          active={location.pathname === '/dashboard'}
-        />
-        <NavItem
-          to="/assessment-items"
-          icon="edit"
-          label="Assessment Items"
-          active={location.pathname === '/assessment-items'}
-        />
-
-        <NavItem
-          to="/instrument-templates"
-          icon="sitemap"
-          label="Instrument Template"
-          active={location.pathname === '/instrument-templates'}
-        />
-
-        <NavItem
-          to="/clients"
-          icon="user"
-          label="Clients"
-          active={location.pathname === '/clients'}
-        />
-
-        <NavItem to="/users" icon="user" label="Users" active={location.pathname === '/users'} />
-        <NavItem to="/email" icon="user" label="Email" active={location.pathname === '/email'} />
-        <NavItem
-          to="/evaluation-instructions"
-          icon="user"
-          label="Instructions"
-          active={location.pathname === '/evaluation-instructions'}
-        />
-
-        <NavItem to="/setting" icon="cog" label="Setting">
-          <ul>
-            <li>
-              <a href="settingUser.html">User</a>
-            </li>
-            <li>
-              <a href="emailTemplate.html">Email Template</a>
-            </li>
+        {isSuperAdmin() && getNavItem('/dashboard', 'th-large', 'Dashboard')}
+        {isClientAdmin() && getNavItem('/dashboard', 'th-large', 'Dashboard')}
+        {getNavItem('/assessment-items', 'edit', 'Assessment Items')}
+        {isSuperAdmin() && getNavItem('/instrument-templates', 'sitemap', 'Instrument Template')}
+        {isClientAdmin() &&
+          getNavItem('/clientSide-instrument-templates', 'sitemap', 'Instrument Template')}
+        {isSuperAdmin() && getNavItem('/clients', 'user', 'Clients')}
+        {isClientAdmin() && getNavItem('/clients', 'user', 'Clients')}
+        {isSuperAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
+        {isClientAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
+        <NavItem to="" icon="cog" label="Setting">
+          <ul className="nav metismenu" id="side-menu">
+            {getNavItem('/users', 'user', 'Users')}
+            {getNavItem('/email', 'user', 'Email')}
           </ul>
         </NavItem>
       </ul>

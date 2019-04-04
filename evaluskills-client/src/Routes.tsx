@@ -8,6 +8,7 @@ const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+const ClientInstrumentContainer = lazy(() => import('./containers/ClientInstrumentContainer'));
 
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
@@ -41,6 +42,9 @@ const Routes = () => (
 
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
+      </Route>
+      <Route exact={true} path="/clientSide-instrument-templates">
+        <ClientInstrumentContainer />
       </Route>
       <Route exact={true} path="/instrument-templates/add">
         <InstrumentTemplateContainer />
