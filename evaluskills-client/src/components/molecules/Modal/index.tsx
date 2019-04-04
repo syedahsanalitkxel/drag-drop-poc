@@ -12,6 +12,7 @@ interface ModalProps {
   secondaryText: string;
   secondaryAction: 'reset' | 'dismiss';
   size?: string;
+  parentClass?: string;
 }
 
 const ESModal: React.FunctionComponent<ModalProps> = ({
@@ -24,6 +25,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   primaryText,
   secondaryText,
   size,
+  parentClass,
 }) => {
   const initialState = {};
   const [modalState, setModalState] = useState(initialState);
@@ -42,7 +44,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   };
 
   return (
-    <Modal modalClassName="addassessModal" size={size} isOpen={visible} toggle={toggle}>
+    <Modal modalClassName={parentClass} size={size} isOpen={visible} toggle={toggle}>
       <ModalContextProvider value={{ modalState, setModalState }}>
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
