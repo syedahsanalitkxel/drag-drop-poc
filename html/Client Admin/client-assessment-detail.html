@@ -1039,9 +1039,11 @@
 
 <script>
 function myFunction(element) {
-	console.log(element.parentElement);
-	console.log(element.children);
+	//console.log(element.parentElement);
+	//console.log(element.childNodes[1].children[0]);
 	element.parentElement.classList.toggle("show");
+	element.childNodes[1].children[0].classList.toggle("fa-angle-down");
+	element.childNodes[1].children[0].classList.toggle("fa-angle-up");
 } 
 </script>
     <script>
