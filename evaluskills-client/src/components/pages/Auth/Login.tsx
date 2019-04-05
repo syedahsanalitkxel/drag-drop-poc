@@ -14,7 +14,7 @@ interface Props {
 }
 
 const initialState = {
-  email: '',
+  loginName: '',
   password: '',
 };
 
@@ -44,7 +44,7 @@ const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
         <div className="input-holder mb-4">
           <Field
             type="email"
-            name="email"
+            name="loginName"
             className="form-control border-left-0 border-right-0 border-top-0 bg-transparent p-10"
             placeholder="Email"
           />
