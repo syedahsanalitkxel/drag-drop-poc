@@ -102,7 +102,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({
     }
   }
 
-  return <React.Fragment>{listData.map(renderAllCards)}</React.Fragment>;
+  return <React.Fragment>{listData && listData.map(renderAllCards)}</React.Fragment>;
 };
 
 export default InstrumentListCard;

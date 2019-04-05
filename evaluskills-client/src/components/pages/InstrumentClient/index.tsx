@@ -51,6 +51,18 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           </PageBody>
         </div>
       </div>
+
+      <ESModal
+        title="Filters"
+        visible={modalVisible}
+        toggle={toggleFilterModal}
+        primaryAction={applyFilters}
+        primaryText="Save Changes"
+        secondaryText="Close"
+        secondaryAction="reset"
+      >
+        <InstrumentClientFilters />
+      </ESModal>
     </DashboardTemplate>
   );
 };

@@ -13,6 +13,13 @@ const InstrumentList: ClientInstruments[] = [
     noOfParticipants: '30',
     title: '360° Leadership Instrument',
   },
+  {
+    id: '2',
+    noOfAssessmentItems: '25',
+    noOfEvaluations: '28',
+    noOfParticipants: '30',
+    title: '210° Leadership Instrument',
+  },
 ];
 
 const InstrumentClientContainer: React.FunctionComponent<
