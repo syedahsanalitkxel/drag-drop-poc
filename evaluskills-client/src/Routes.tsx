@@ -2,12 +2,16 @@ import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
 import InstrumentTemplateContainer from './containers/InstrumentContainer';
+import InstrumentClientContainer from './containers/InstrumentClientContainer';
 
 const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+const ClientAssessmentContainer = lazy(() =>
+  import('./containers/ClientAssessmentDetailContainer')
+);
 
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
@@ -39,6 +43,9 @@ const Routes = () => (
         <AssessmentContainer />
       </Route>
 
+      <Route exact={true} path="/instrument">
+        <InstrumentClientContainer />
+      </Route>
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
       </Route>
