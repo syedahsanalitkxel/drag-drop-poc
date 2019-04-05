@@ -1,0 +1,48 @@
+.login-wrapper {
+  color: #78849e;
+  min-height: 100vh;
+  background: #fff;
+  position: relative;
+  height: 100vh; }
+  .login-wrapper h1 {
+    color: #2f4050; }
+  .login-wrapper .logo {
+    position: relative;
+    z-index: 9; }
+  .login-wrapper .height-100 {
+    height: 100%; }
+  .login-wrapper:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "";
+    width: 50%;
+    background: url(../img/icons/Image.jpg) no-repeat;
+    background-size: cover;
+    height: 100%; }
+  .login-wrapper:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "";
+    width: 50%;
+    background: #0a1730;
+    background: -moz-linear-gradient(top, #0a1730 1%, #2064a2 50%, #80909f 100%);
+    background: -webkit-linear-gradient(top, #0a1730 1%, #2064a2 50%, #80909f 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #0a1730), color-stop(50%, #2064a2), to(#80909f));
+    background: -o-linear-gradient(top, #0a1730 1%, #2064a2 50%, #80909f 100%);
+    background: linear-gradient(to bottom, #0a1730 1%, #2064a2 50%, #80909f 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0a1730', endColorstr='#80909f',GradientType=0 );
+    height: 100%;
+    opacity: 0.77; }
+  .login-wrapper .pl-22 {
+    padding-left: 22%; }
+  .login-wrapper .clr-inherit {
+    color: inherit; }
+  .login-wrapper .input-holder {
+    position: relative; }
+    .login-wrapper .input-holder .visiblility {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 1; }

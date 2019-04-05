@@ -1,0 +1,56 @@
+.login-wrapper {
+	color: #78849e;
+	min-height: 100vh;
+	background: #fff;
+	position: relative;
+	height: 100vh;
+	h1 {
+		color: #2f4050;
+	}
+	.logo {
+		position: relative;
+		z-index: 9;
+	}
+	.height-100 {
+		height: 100%;
+	}
+	&:before {
+		position: absolute;
+		left: 0;
+		top: 0;
+		content: "";
+		width: 50%;
+		background: url(../img/icons/Image.jpg) no-repeat;
+		background-size: cover;
+		height: 100%;
+	}
+	&:after {
+		position: absolute;
+		left: 0;
+		top: 0;
+		content: "";
+		width: 50%;
+		background: #0a1730;
+		background: -moz-linear-gradient(top, #0a1730 1%, #2064a2 50%, #80909f 100%);
+		background: -webkit-linear-gradient(top, #0a1730 1%,#2064a2 50%,#80909f 100%);
+		background: linear-gradient(to bottom, #0a1730 1%,#2064a2 50%,#80909f 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0a1730', endColorstr='#80909f',GradientType=0 );
+		height: 100%;
+		opacity: 0.77;
+	}
+	.pl-22 {
+		padding-left: 22%;
+	}
+	.clr-inherit {
+		color: inherit;
+	}
+	.input-holder {
+		position: relative;
+		.visiblility {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			z-index: 1;
+		}
+	}
+}

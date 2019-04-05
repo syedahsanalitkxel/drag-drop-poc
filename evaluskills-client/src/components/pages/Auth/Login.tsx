@@ -58,13 +58,41 @@ const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
     );
   }
 
+  // return (
+  //   <PageBody>
+  //     <h1 className="m-b-40">Sign In</h1>
+  //     <Formik initialValues={loginForm} onSubmit={submitForm}>
+  //       {(formikprops: FormikBag) => renderForm(formikprops)}
+  //     </Formik>
+  //   </PageBody>
+  // );
+
   return (
-    <PageBody>
-      <h1 className="m-b-40">Sign In</h1>
-      <Formik initialValues={loginForm} onSubmit={submitForm}>
-        {(formikprops: FormikBag) => renderForm(formikprops)}
-      </Formik>
-    </PageBody>
+    <form className="form w-100 pl-22">
+      <h1 className="font-bold mb-4 mt-0">Sign In</h1>
+      <div className="input-holder mb-4">
+        <input
+          type="email"
+          className="form-control border-left-0 border-right-0 border-top-0 bg-transparent p-10"
+          placeholder="Email"
+        />
+      </div>
+      <div className="input-holder mb-2">
+        <input
+          type="password"
+          className="form-control border-left-0 border-right-0 border-top-0 bg-transparent p-10"
+          placeholder="Password"
+        />
+      </div>
+      <div className="input-holder mb-5">
+        <a className="forget-password d-inline-block clr-inherit" href="#">
+          Forgot password?
+        </a>
+      </div>
+      <button type="submit" className="btn btn-rounded btn-success btn-lg font-size-18 pl-5 pr-5">
+        Sign In
+      </button>
+    </form>
   );
 };
 

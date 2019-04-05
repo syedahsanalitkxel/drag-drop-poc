@@ -1,0 +1,174 @@
+// Variables, Mixins
+@import "variables.scss";
+@import "mixins.scss";
+.eval-wrapper {
+	background-color: #f4f5f8;
+	min-height: 100vh;
+}
+.comment-list {
+	list-style: none;
+	li {
+		margin-bottom: 5px;
+		padding-left: 15px;
+		position: relative;
+		&:before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 6px;
+			width: 8px;
+			height: 8px;
+			opacity: 0.9;
+			border-radius: 100%;
+			background-color: #2f4050;
+		}
+	}
+}
+.ibox-tools {
+	top: 8px;
+	
+}
+.nav-link {
+	&.color-white {
+		color: #fff !important;
+	}
+}
+.ibox {
+	&.collapsed {
+		margin-bottom: 15px;
+	}
+}
+.count {
+	font-size: 25px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	color: #1ab394;
+}
+.evo-head {
+	h3 {
+		margin-top: 7px;
+	}
+}
+.client-holder {
+	.inline {
+		vertical-align: middle;
+	}
+}
+
+.progress-bar {
+	font-size: 10px;
+}
+.number {
+	width: 34px;
+	height: 34px;
+	border-radius: 2px;
+	background-color: #1ab394;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 32px;
+	letter-spacing: normal;
+	text-align: center;
+	color: #fefefe;
+  border-radius: 4px;
+	&.bg-blue {
+		background-color: #1e84c5;
+	}
+	&.bg-gray {
+		 background-color: #2f4050;
+		 opacity: 0.6;
+	}
+}
+.bottom-bar {
+	background-color: #f4f5f8;
+}
+ibox-title {
+	&.selected {
+		background: #fff;
+	}
+}
+.collapse, .panel-collapse, .collapse:not(.show) {
+	 transition: all 0.5s ease;
+	 -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+}
+.ibox-title {
+	&.selected {
+		background: #18a689;
+		color: #fff;
+		.number.bg-gray {
+			background: #fff;
+			opacity: 1;
+			color: #18a689;
+		}
+		.ibox-tools a {
+			color: #fff !important;
+		}
+	}
+}
+
+.ibox-content {
+	&.in-progress {
+		background-color: #fff6ed !important;
+	}
+}
+.eval-header {
+	a {
+		 color: #1ab394;
+	}
+}
+.modal-dialog {
+	max-width: 650px;
+}
+.bottom-logo {
+	left: 10px;
+	bottom: 5px;
+	img {
+		display: block;
+		width: 84px;
+		height: auto;
+	}
+}
+.ibox {
+	margin-bottom: 15px !important;
+}
+.ibox-title h5 {
+	font-weight: normal;
+}
+.ibox-tools .collapse-link {
+	color: #676a6c !important;
+	font-size: 18px;
+}
+.result-container {
+	width: 215px;
+	height: 215px;
+	background: url(../img/icons/Result.svg);
+	.result-holder {
+		width: 100%;
+		height: 100%;
+		background: url(../img/icons/Path.svg);
+		z-index: 1;
+		text-align: center;
+		padding: 60px 20px;
+	}
+	.num {
+		font-size: 62px;
+		font-weight: bold;
+		font-style: normal;
+		font-stretch: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-align: center;
+		color: #1ab394;
+		display: block;
+	}
+	.desc {
+		font-size: 13px;
+		text-align: center;
+		color: #154a57;
+	}
+}
