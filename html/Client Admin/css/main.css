@@ -24611,3 +24611,7 @@ body.md-skin {
     margin: 0;
   }
 }
+
+tr.parent.show + tr{
+  display: contents;
+}
