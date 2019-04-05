@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Field, Formik } from 'formik';
 import { NavLink } from 'react-router-dom';
-import { Button, Form } from 'reactstrap';
+import { Alert, Button, Form } from 'reactstrap';
 
+import { ErrorContext } from '../../../context';
 import FormikBag from '../../../interfaces/FormikBag';
 import LoginInterface from '../../../interfaces/Login';
 
@@ -12,16 +13,16 @@ interface Props {
   handleLogin: (loginDetails: LoginInterface) => void;
 }
 
-const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-  });
+const initialState = {
+  email: '',
+  password: '',
+};
 
+const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const errorContext = useContext(ErrorContext);
 
   function submitForm(values: LoginInterface) {
-    setLoginForm({ ...loginForm, ...values });
     handleLogin(values);
   }
 
@@ -29,9 +30,16 @@ const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
     setPasswordVisibility(!passwordVisibility);
   }
 
+  function renderError() {
+    if (errorContext.error.fail) {
+      return <Alert color="danger">{errorContext.error.message}</Alert>;
+    }
+  }
+
   function renderForm(formikprops: FormikBag) {
     return (
       <Form className="form w-100 pl-22" onSubmit={formikprops.handleSubmit}>
+        {renderError()}
         <h1 className="font-bold mb-4 mt-0">Sign In</h1>
         <div className="input-holder mb-4">
           <Field
@@ -71,7 +79,7 @@ const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
   }
 
   return (
-    <Formik initialValues={loginForm} onSubmit={submitForm}>
+    <Formik initialValues={initialState} onSubmit={submitForm}>
       {(formikprops: FormikBag) => renderForm(formikprops)}
     </Formik>
   );
