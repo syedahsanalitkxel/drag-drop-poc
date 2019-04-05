@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Instrument render successfully 1`] = `
+<DashboardTemplate>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-12"
+    >
+      <PageHeader
+        filterAction={[Function]}
+        title="Instrument"
+      />
+      <PageBody
+        card={false}
+      >
+        <InstrumentListCard
+          titleKey="title"
+        />
+        <Pager />
+      </PageBody>
+    </div>
+  </div>
+  <ESModal
+    primaryAction={[Function]}
+    primaryText="Save Changes"
+    secondaryAction="reset"
+    secondaryText="Close"
+    title="Filters"
+    toggle={[Function]}
+    visible={false}
+  >
+    <InstrumentFilters />
+  </ESModal>
+</DashboardTemplate>
+`;
