@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { contentType } from '../enums';
-import AssessmentItemInterface from '../interfaces/AssessmentItem';
 import { BASE_URL } from './endpoints';
 import errorResponseHandler from './errorHandler';
 
@@ -20,7 +19,7 @@ export default class API {
         // Authorization: window.localStorage.getItem('token'),
         'Content-Type': contentType[config.headers.contentType] || contentType.json,
       },
-      timeout: 1000,
+      timeout: 2000,
     };
 
     this.instance = axios.create(this.config);

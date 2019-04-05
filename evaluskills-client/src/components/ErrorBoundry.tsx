@@ -1,6 +1,6 @@
 import React, { createRef, RefObject } from 'react';
 
-import NotificationSystem, { System, Attributes, State } from 'react-notification-system';
+import NotificationSystem, { System } from 'react-notification-system';
 import { ErrorContextProvider } from '../context';
 import ErrorContextInterface from '../interfaces/ErrorContext';
 import ErrorObjectInterface from '../interfaces/ErrorObject';
@@ -47,6 +47,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             {error.message}
           </div>
         ),
+        position: 'tc',
       });
     }
     this.setState({
