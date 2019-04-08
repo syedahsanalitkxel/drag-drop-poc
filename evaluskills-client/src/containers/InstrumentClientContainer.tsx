@@ -46,9 +46,8 @@ const InstrumentClientContainer: React.FunctionComponent<
     //     errorContext.setError(error);
     // }
   }
-  function viewAssessmentDetail() {
-    alert('Clicked detail button');
-    // history.push('/client-assessment-detail');
+  function viewAssessmentDetail(id: string) {
+    history.push(`/client-assessment-detail/${id}`);
   }
 
   return (
