@@ -13,10 +13,11 @@ export default class API {
       headers: { contentType: contentType.json },
     }
   ) {
+    const token = window.localStorage.getItem('token');
     this.config = {
       baseURL: config.baseURL || BASE_URL,
       headers: {
-        // Authorization: window.localStorage.getItem('token'),
+        Authorization: token ? `Bearer ${token}` : null,
         'Content-Type': contentType[config.headers.contentType] || contentType.json,
       },
       timeout: 2000,
