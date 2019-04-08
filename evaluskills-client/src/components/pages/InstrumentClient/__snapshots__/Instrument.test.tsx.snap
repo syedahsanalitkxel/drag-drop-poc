@@ -10,13 +10,33 @@ exports[`Instrument render successfully 1`] = `
     >
       <PageHeader
         filterAction={[Function]}
+        searchHandler={[MockFunction]}
         title="Instrument"
       />
       <PageBody
         card={false}
       >
         <InstrumentListCard
+          listData={
+            Array [
+              Object {
+                "id": "1",
+                "noOfAssessmentItems": "25",
+                "noOfEvaluations": "28",
+                "noOfParticipants": "30",
+                "title": "360° Leadership Instrument",
+              },
+              Object {
+                "id": "2",
+                "noOfAssessmentItems": "25",
+                "noOfEvaluations": "28",
+                "noOfParticipants": "30",
+                "title": "210° Leadership Instrument",
+              },
+            ]
+          }
           titleKey="title"
+          view={[MockFunction]}
         />
         <Pager />
       </PageBody>

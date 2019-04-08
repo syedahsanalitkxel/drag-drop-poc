@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InstrumentCard from '../../molecules/InstrumentCard';
+import InstrumentCard from '../../molecules/InstrumentDetailCard';
 import { ClientInstruments } from '../../../interfaces/Instruments';
 
 interface ListCardProps {

@@ -11,6 +11,8 @@ const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
+
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const EditClient = lazy(() => import('./components/pages/EditClient'));
@@ -70,6 +72,10 @@ const Routes = () => (
       </Route>
       <Route exact={true} path="/instrument-templates/edit/:id">
         <InstrumentTemplateContainer />
+      </Route>
+
+      <Route exact={true} path="/client-assessment-detail/:id">
+        <InstrumentDetailContainer />
       </Route>
 
       <Route exact={true} path="/clients">
