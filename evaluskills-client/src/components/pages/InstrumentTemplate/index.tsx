@@ -7,8 +7,8 @@ import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
-import AssessmentFilters from '../../organisms/AssessmentFilters';
-import ListCardItems from '../../organisms/ListCardItems';
+import InstrumentFilters from '../../organisms/InstrumentFilters';
+import ListCardItems from '../../organisms/InstrumentListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
   filterInstrumentTemplates: (searchQuery: string) => void;
   edit: (instrumentTemplateId: string) => void;
   remove: (instrumentTemplateId: string) => void;
+  addInstrument?: () => void;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
@@ -25,6 +26,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   filterInstrumentTemplates,
   edit,
   remove,
+  addInstrument,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -58,6 +60,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               listData={instrumentTemplates}
               edit={edit}
               remove={remove}
+              addInstrument={addInstrument}
             />
             <Pager />
           </PageBody>
@@ -73,7 +76,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         secondaryText="Reset"
         secondaryAction="reset"
       >
-        <AssessmentFilters />
+        <InstrumentFilters />
       </ESModal>
     </DashboardTemplate>
   );

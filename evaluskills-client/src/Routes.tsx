@@ -8,7 +8,6 @@ const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
-const ClientInstrumentContainer = lazy(() => import('./containers/ClientInstrumentContainer'));
 
 const AddClient = lazy(() => import('./components/pages/AddClient'));
 const AddAssessment = lazy(() => import('./components/pages/AddAssessment'));
@@ -17,8 +16,8 @@ const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailConta
 const EditClient = lazy(() => import('./components/pages/EditClient'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
+const CreateEvaluation = lazy(() => import('./components/pages/CreateEvaluation'));
 const User = lazy(() => import('./components/pages/User'));
-
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
     <Switch>
@@ -43,9 +42,7 @@ const Routes = () => (
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
       </Route>
-      <Route exact={true} path="/clientSide-instrument-templates">
-        <ClientInstrumentContainer />
-      </Route>
+
       <Route exact={true} path="/instrument-templates/add">
         <InstrumentTemplateContainer />
       </Route>
@@ -80,6 +77,9 @@ const Routes = () => (
       </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
+      </Route>
+      <Route exact={true} path="/addInstrumental">
+        <CreateEvaluation />
       </Route>
 
       <Route exact={true} path="/users">

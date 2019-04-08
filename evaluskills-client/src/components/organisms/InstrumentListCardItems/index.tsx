@@ -12,6 +12,7 @@ interface ListCardProps {
   titleKey: string;
   edit?: (id: string) => void;
   remove?: (id: string) => void;
+  addInstrument?: () => void;
 }
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({
@@ -19,7 +20,12 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   listData,
   edit,
   remove,
+  addInstrument,
 }) => {
+  const isSuperAdmin = () => window.localStorage.getItem('role') === 'SUPER_ADMIN';
+  const isClientAdmin = () =>
+    !window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'CLIENT_ADMIN';
+
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (
@@ -32,6 +38,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     } else if (event.currentTarget.name === 'delete') {
       if (remove) {
         remove(assessmentId);
+      }
+    } else if (event.currentTarget.name === 'Create') {
+      if (addInstrument) {
+        addInstrument();
       }
     }
   };
@@ -64,8 +74,8 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     </React.Fragment>
   );
 
-  const renderActions = (id: string) => {
-    const renderActionButton = (name: string, text: string, icon: IconProp, className: string) => (
+  const clientRenderActions = (id: string) => {
+    const renderActionButton = (name: string, text: string, icon?: any, className?: string) => (
       <IconButton name={name} icon={icon} className={className} actionHandler={actionHandler(id)}>
         {text}
       </IconButton>
@@ -73,13 +83,31 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     return (
       <React.Fragment>
         <div className="col-md-3 d-flex align-items-center justify-content-end">
-          {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
-          {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+          {edit && renderActionButton('copy', 'Copy', 'copy', ' btn-outline btn-primary')}
+          {addInstrument &&
+            renderActionButton(
+              'Create',
+              'Create Assessment',
+              '',
+              'btn btn-primary clr-white btn btn-w-m '
+            )}
         </div>
       </React.Fragment>
     );
   };
-
+  const superRenderActions = (id: string) => {
+    const renderActionButton = (name: string, text: string, icon: IconProp, className: string) => (
+      <IconButton name={name} icon={icon} className={className} actionHandler={actionHandler(id)}>
+        {text}
+      </IconButton>
+    );
+    return (
+      <React.Fragment>
+        {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
+        {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+      </React.Fragment>
+    );
+  };
   function renderAllCards(item: any) {
     const content = renderContent(
       item.assessmentItemsCount,
@@ -89,13 +117,21 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       item.faithBasedCount
     );
 
-    const actions = renderActions(item.id);
-
-    return (
-      <ItemCard key={item.id} header={item[titleKey]}>
-        {{ content, actions }}
-      </ItemCard>
-    );
+    if (isSuperAdmin() === true) {
+      const actions = superRenderActions(item.id);
+      return (
+        <ItemCard key={item.id} header={item[titleKey]}>
+          {{ content, actions }}
+        </ItemCard>
+      );
+    } else {
+      const actions = clientRenderActions(item.id);
+      return (
+        <ItemCard key={item.id} header={item[titleKey]}>
+          {{ content, actions }}
+        </ItemCard>
+      );
+    }
   }
 
   return <React.Fragment>{listData.map(renderAllCards)}</React.Fragment>;

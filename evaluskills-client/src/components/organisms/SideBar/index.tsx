@@ -7,7 +7,6 @@ import ProfileBadge from '../../molecules/ProfileBadge';
 function getNavItem(to: string, icon: IconProp, label: string) {
   return <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />;
 }
-
 const isSuperAdmin = () =>
   window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'SUPER_ADMIN';
 const isClientAdmin = () =>
@@ -28,8 +27,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         {isClientAdmin() && getNavItem('/dashboard', 'th-large', 'Dashboard')}
         {getNavItem('/assessment-items', 'edit', 'Assessment Items')}
         {isSuperAdmin() && getNavItem('/instrument-templates', 'sitemap', 'Instrument Template')}
-        {isClientAdmin() &&
-          getNavItem('/clientSide-instrument-templates', 'sitemap', 'Instrument Template')}
+        {isClientAdmin() && getNavItem('/instrument-templates', 'sitemap', 'Instrument Template')}
         {isSuperAdmin() && getNavItem('/clients', 'user', 'Clients')}
         {isClientAdmin() && getNavItem('/clients', 'user', 'Clients')}
         {isSuperAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}

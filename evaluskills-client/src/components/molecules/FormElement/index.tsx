@@ -14,6 +14,7 @@ export enum FormElementTypes {
   TEXT_AREA = 'text-area',
   SELECT = 'select',
   IMAGE_UPLOAD = 'upload',
+  DATE = 'date',
 }
 
 interface Props {
@@ -85,6 +86,16 @@ const FormElement: React.FunctionComponent<Props> = ({
         return (
           <Input
             type="textarea"
+            name={name}
+            placeholder={placeholder}
+            id={name}
+            invalid={getValidation()}
+          />
+        );
+      case FormElementTypes.DATE:
+        return (
+          <Input
+            type="date"
             name={name}
             placeholder={placeholder}
             id={name}
