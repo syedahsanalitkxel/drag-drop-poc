@@ -43,8 +43,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<
       const data = await getInstrumentTemplates();
       setInstrumentTemplates(data);
     } catch (error) {
-      // TODO: Implement Error boundary in future;
-      errorContext.setError(error);
+      errorContext.setError(error, true);
     }
   }
 

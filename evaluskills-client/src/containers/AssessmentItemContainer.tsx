@@ -28,8 +28,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
   const errorContext = useContext(ErrorContext);
 
   const [assessments, setAssessments] = useState(AssessmentItems);
-  // TODO: Try moving filters to context
-  const [filters, setFilters] = useState({});
 
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
@@ -38,7 +36,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
 
     return function cleanup() {
       setAssessments(AssessmentItems);
-      setFilters({});
     };
   }, []);
 
@@ -47,8 +44,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
       const data = await getAssessments();
       setAssessments(data);
     } catch (error) {
-      // TODO: Implement Error boundary in future;
-      errorContext.setError(error);
+      errorContext.setError(error, true);
     }
   }
 

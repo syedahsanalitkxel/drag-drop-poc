@@ -2,7 +2,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import API from '../api';
 import { INSTRUMENT_TEMPLATES } from '../api/endpoints';
-import errorObject from '../api/ErrorObject';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
 
 const api = new API();
@@ -11,7 +10,7 @@ export async function getInstrumentTemplates(): Promise<InstrumentTemplateInterf
   return api.get(INSTRUMENT_TEMPLATES).then(
     (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
-      throw errorObject(error);
+      throw error;
     }
   );
 }
@@ -20,7 +19,7 @@ export async function getInstrumentTemplateById(id: string): Promise<InstrumentT
   return api.get(INSTRUMENT_TEMPLATES, id).then(
     (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
-      throw errorObject(error);
+      throw error;
     }
   );
 }
@@ -31,7 +30,7 @@ export async function addInstrumentTemplates(instruments: InstrumentTemplateInte
       return res.data;
     },
     (error: AxiosError) => {
-      throw errorObject(error);
+      throw error;
     }
   );
 }
