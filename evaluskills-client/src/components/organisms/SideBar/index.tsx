@@ -36,6 +36,13 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         />
 
         <NavItem
+          to="/instrument"
+          icon="sitemap"
+          label="Instrument"
+          active={location.pathname === '/instrument'}
+        />
+
+        <NavItem
           to="/clients"
           icon="user"
           label="Clients"
