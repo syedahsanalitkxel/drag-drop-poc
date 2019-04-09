@@ -31,10 +31,6 @@ const Routes = () => (
         <AuthContainer />
       </Route>
 
-      <Route exact={true} path="/signup">
-        <AuthContainer />
-      </Route>
-
       <Route exact={true} path="/select-client">
         <AuthContainer />
       </Route>
