@@ -20,6 +20,8 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
+const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
+
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
     <Switch>
@@ -113,6 +115,10 @@ const Routes = () => (
 
       <Route exact={true} path="/users">
         <User />
+      </Route>
+
+      <Route exact={true} path="/participants">
+        <ParticipantHome />
       </Route>
     </Switch>
   </Suspense>
