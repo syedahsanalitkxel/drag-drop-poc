@@ -216,7 +216,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-md-6">
               <FormElement
-                label="Instrument   Application"
+                label="Instrument Application"
                 name="billing"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
@@ -241,7 +241,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-md-4">
               <FormElement
                 label="Min. Number of Evaluations"
-                name="title"
+                name="minEvaluator"
                 placeholder="Add Min. Number"
                 formikprops={formikprops}
                 inline={true}
@@ -251,7 +251,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-md-4">
               <FormElement
                 label="Participant Invitation Email Template"
-                name="billing"
+                name="participantEmail"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
@@ -332,7 +332,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label=" Email Template"
-                name="billing"
+                name="emailTemplate1"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
@@ -346,7 +346,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label="Due Date"
-                name="date"
+                name="date1"
                 formikprops={formikprops}
                 type={FormElementTypes.DATE}
                 inline={true}
@@ -357,7 +357,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label=" Email Template"
-                name="billing"
+                name="emailTemplate2"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
@@ -371,7 +371,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label="Due Date"
-                name="date"
+                name="date2"
                 formikprops={formikprops}
                 type={FormElementTypes.DATE}
                 inline={true}
@@ -382,7 +382,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label=" Email Template"
-                name="billing"
+                name="emailTemplate3"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
@@ -396,7 +396,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <div className="col-sm-6">
               <FormElement
                 label="Due Date"
-                name="date"
+                name="date3"
                 formikprops={formikprops}
                 type={FormElementTypes.DATE}
                 inline={true}

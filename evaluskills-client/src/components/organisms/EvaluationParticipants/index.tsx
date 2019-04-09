@@ -5,6 +5,7 @@ import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import IconButton from '../../atoms/IconButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 interface Props {
   index?: number;
   formikprops: FormikBag;
@@ -23,9 +24,16 @@ const Participants: React.FunctionComponent<Props> = ({
   removeParticipant,
   removeEvaluatior,
 }) => {
-  function getContactField(key: string) {
+  console.log(formikprops);
+  function getParticipantField(index: number, key: string) {
     if (index !== undefined) {
-      return `contact[${index}].${key}`;
+      return `newParticipant[${index}].paticipant.${key}`;
+    }
+    return key;
+  }
+  function getevalutorField(index: number, evalIndex: number, key: string) {
+    if (index !== undefined) {
+      return `newParticipant[${index}].evaluator[${evalIndex}].${key}`;
     }
     return key;
   }
@@ -35,7 +43,7 @@ const Participants: React.FunctionComponent<Props> = ({
         <div className="col-md-3 col-sm-3">
           <FormElement
             label=""
-            name={getContactField('email')}
+            name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'email')}
             placeholder="Add Email"
             formikprops={formikprops}
             noValidate={true}
@@ -46,7 +54,7 @@ const Participants: React.FunctionComponent<Props> = ({
         <div className="col-md-3 col-sm-3">
           <FormElement
             label=""
-            name={getContactField('firstName')}
+            name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'firstName')}
             placeholder="First Name"
             formikprops={formikprops}
             noValidate={true}
@@ -57,7 +65,7 @@ const Participants: React.FunctionComponent<Props> = ({
         <div className="col-md-3 col-sm-3">
           <FormElement
             label=""
-            name={getContactField('lastName')}
+            name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'lastName')}
             placeholder="Last Name"
             formikprops={formikprops}
             noValidate={true}
@@ -69,7 +77,7 @@ const Participants: React.FunctionComponent<Props> = ({
           <div className="col-sm-12 p-l-0 p-r-0 d-flex">
             <FormElement
               label=""
-              name={getContactField('role')}
+              name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'role')}
               formikprops={formikprops}
               type={FormElementTypes.SELECT}
               noValidate={true}
@@ -122,7 +130,7 @@ const Participants: React.FunctionComponent<Props> = ({
             <div className="col-md-3">
               <FormElement
                 label=""
-                name={getContactField('email')}
+                name={getParticipantField(propss.index, 'email')}
                 placeholder="Add Email"
                 formikprops={formikprops}
                 noValidate={true}
@@ -133,7 +141,7 @@ const Participants: React.FunctionComponent<Props> = ({
             <div className="col-md-3">
               <FormElement
                 label=""
-                name={getContactField('firstName')}
+                name={getParticipantField(propss.index, 'firstName')}
                 placeholder="First Name"
                 formikprops={formikprops}
                 noValidate={true}
@@ -144,7 +152,7 @@ const Participants: React.FunctionComponent<Props> = ({
             <div className="col-md-3">
               <FormElement
                 label=""
-                name={getContactField('lastName')}
+                name={getParticipantField(propss.index, 'lastName')}
                 placeholder="Last Name"
                 formikprops={formikprops}
                 noValidate={true}
@@ -155,7 +163,7 @@ const Participants: React.FunctionComponent<Props> = ({
             <div className="col-md-3">
               <FormElement
                 label=""
-                name={getContactField('role')}
+                name={getParticipantField(propss.index, 'role')}
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 noValidate={true}
@@ -183,7 +191,9 @@ const Participants: React.FunctionComponent<Props> = ({
               Add Evaluators +
             </Button>
           </div>
-          {propss.participant.evaluator.map(renderEvaluator)}
+          {propss.participant.evaluator.map((item: any, index: any) => {
+            return renderEvaluator(item, index, propss.index);
+          })}
         </div>
       </Fragment>
     );
@@ -193,9 +203,9 @@ const Participants: React.FunctionComponent<Props> = ({
       <NewParticipant participant={participant} index={index} />
     </Fragment>
   );
-  const renderEvaluator = (participant: any, index: number) => (
+  const renderEvaluator = (participant: any, index: number, listind: number) => (
     <Fragment key={index}>
-      <AddEvaluator index={0} evalindex={index} />
+      <AddEvaluator index={listind} evalindex={index} />
     </Fragment>
   );
   return (
