@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import ClientList from '../../../interfaces/Client';
-import { IClientFilters } from '../../../interfaces/ClientFilter';
+import { ClientFilters } from '../../../interfaces/ClientFilter';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
-import ClientFilters from '../../organisms/ClientFilters';
+import ClientFilter from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
@@ -13,8 +13,8 @@ interface Props {
   clients: ClientList[];
   filterClients: (searchQuery: string) => void;
   add: () => void;
-  edit: (clientId: string) => void;
-  remove: (clientId: string) => void;
+  edit: (clientId: number) => void;
+  remove: (clientId: number) => void;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -25,7 +25,6 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   remove,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -35,7 +34,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
     toggleFilterModal();
   };
 
-  const applyFilters = (filters: IClientFilters) => {
+  const applyFilters = (filters: ClientFilters) => {
     console.log(filters);
   };
 
@@ -66,7 +65,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         secondaryText="Reset"
         secondaryAction="reset"
       >
-        <ClientFilters />
+        <ClientFilter />
       </ESModal>
     </DashboardTemplate>
   );

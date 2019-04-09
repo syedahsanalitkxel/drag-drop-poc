@@ -6,12 +6,12 @@ import ClientCard from '../../molecules/ClientCard';
 
 interface Props {
   listData: Client[];
-  edit: (clientId: string) => void;
-  remove: (clientId: string) => void;
+  edit: (clientId: number) => void;
+  remove: (clientId: number) => void;
 }
 
 const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove }) => {
-  const actionHandler = (clientId: string) => (event: React.MouseEvent) => {
+  const actionHandler = (clientId: number) => (event: React.MouseEvent) => {
     if (event.currentTarget.id === 'edit') {
       edit(clientId);
     } else if (event.currentTarget.id === 'delete') {
@@ -20,17 +20,19 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
   };
 
   const renderContent = (
+    billing: string,
     clientName: string,
     firstName: string,
     lastName: string,
     email: string,
     phone: string,
-    plan: string,
-    noOfAssessments: string,
-    noOfEvaluators: string,
-    noOfParticipants: string,
-    id: string,
-    status: string
+    noOfAssessments: number,
+    noOfEvaluators: number,
+    noOfParticipants: number,
+    logo: string,
+    id: number,
+    isActivated: boolean,
+    clientPhone: string
   ) => (
     <React.Fragment>
       <tr>
@@ -41,23 +43,23 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
           <strong className="client">{clientName}</strong>
         </td>
         <td>
-          <a href="tel:+18884521505">{phone}</a>
+          <a href="tel:+18884521505">{phone || clientPhone}</a>
         </td>
         <td>
           <strong className="title">{firstName}</strong>
           <a href="mailto:maria@evalueskills.com">{email}</a>
         </td>
-        <td>{plan}</td>
-        <td>{noOfAssessments}</td>
-        <td>{noOfParticipants}</td>
+        <td>{billing}</td>
+        <td>{noOfAssessments || 0}</td>
+        <td>{noOfParticipants || 0}</td>
         <td>
-          <strong className="number">{noOfEvaluators}</strong>
+          <strong className="number">{noOfEvaluators || 0}</strong>
         </td>
         <td>
-          {status === 'Active' ? (
-            <span className="label label-primary">{status}</span>
+          {isActivated ? (
+            <span className="label label-primary">Activate</span>
           ) : (
-            <span className="label label-primary label-inactive">{status}</span>
+            <span className="label label-primary label-inactive">inActive</span>
           )}
         </td>
         <td>
@@ -84,19 +86,21 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
 
   const renderClientItem = (clientItem: Client) => {
     let content: any;
-    if (clientItem.contact && clientItem.clientName) {
+    if (clientItem.clientContact && clientItem.clientName) {
       content = renderContent(
+        clientItem.billingPlanTitle,
         clientItem.clientName,
-        clientItem.contact[0].firstName,
-        clientItem.contact[0].lastName,
-        clientItem.contact[0].email,
-        clientItem.contact[0].phone,
-        clientItem.plan,
+        clientItem.clientContact.firstName,
+        clientItem.clientContact.lastName,
+        clientItem.clientContact.email,
+        clientItem.clientContact.phone,
         clientItem.noOfAssessments,
         clientItem.noOfEvaluators,
         clientItem.noOfParticipants,
+        clientItem.clientLogo,
         clientItem.id,
-        clientItem.status
+        clientItem.isActivated,
+        clientItem.phone
       );
     }
 

@@ -37,13 +37,13 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
   };
 
   function submitForm(values: ContactInterface) {
-    if (fprops.initialValues.contact && toggle && name === 'Add' && values.id.length <= 0) {
+    if (fprops.initialValues.contact && toggle && name === 'Add' && values.id < 0) {
       toggle();
       const id =
         maxNumber(fprops.initialValues.contact.map((contact: ContactInterface) => contact.id)) + 1;
-      values.id = id.toString();
+      values.id = id;
       fprops.initialValues.contact.push(values);
-    } else if (fprops.initialValues.contact && toggle && name === 'Edit' && values.id.length > 0) {
+    } else if (fprops.initialValues.contact && toggle && name === 'Edit' && values.id > 0) {
       toggle();
       const contactIndex = fprops.initialValues.contact.findIndex(
         (contact: any) => contact.id === values.id

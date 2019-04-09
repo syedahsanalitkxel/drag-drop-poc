@@ -1,4 +1,4 @@
-export interface IClientFilters {
+export interface ClientFilters {
   plan?: string;
   status?: string;
   type?: string;

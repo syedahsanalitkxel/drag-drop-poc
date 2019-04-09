@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ModalContext } from '../../../context';
-import { IClientFilters } from '../../../interfaces/ClientFilter';
+import { ClientFilters } from '../../../interfaces/ClientFilter';
 import CheckBox from '../../atoms/CheckBox';
 
 interface Props {
-  changeListener?: (formValues: IClientFilters) => void;
+  changeListener?: (formValues: ClientFilters) => void;
 }
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
   type: 'Higher Education',
 };
 
-const ClientFilters: React.FunctionComponent<Props> = ({ changeListener }) => {
+const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
   const { setModalState } = useContext(ModalContext);
@@ -102,4 +102,4 @@ const ClientFilters: React.FunctionComponent<Props> = ({ changeListener }) => {
   );
 };
 
-export default ClientFilters;
+export default ClientFilter;
