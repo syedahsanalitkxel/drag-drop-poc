@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import ClientList from '../../../interfaces/Client';
-import { IClientFilters } from '../../../interfaces/ClientFilter';
+import { ClientFilters } from '../../../interfaces/ClientFilter';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
-import ClientFilters from '../../organisms/ClientFilters';
+import ClientFilter from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 
@@ -13,8 +13,12 @@ interface Props {
   clients: ClientList[];
   filterClients: (searchQuery: string) => void;
   add: () => void;
-  edit: (clientId: string) => void;
-  remove: (clientId: string) => void;
+  edit: (clientId: number) => void;
+  remove: (clientId: number) => void;
+  applyFilters: (filters: ClientFilters) => void;
+  filtersClickHandler: (event: React.MouseEvent) => void;
+  modalVisible: boolean;
+  toggleFilterModal: () => void;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -23,22 +27,11 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   add,
   edit,
   remove,
+  applyFilters,
+  filtersClickHandler,
+  modalVisible,
+  toggleFilterModal,
 }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const toggleFilterModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const filtersClickHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
-    toggleFilterModal();
-  };
-
-  const applyFilters = (filters: IClientFilters) => {
-    console.log(filters);
-  };
-
   return (
     <DashboardTemplate>
       <div className="row">
@@ -66,7 +59,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         secondaryText="Reset"
         secondaryAction="reset"
       >
-        <ClientFilters />
+        <ClientFilter />
       </ESModal>
     </DashboardTemplate>
   );
