@@ -14,8 +14,8 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
   useEffect(() => {
     if (Object.getOwnPropertyNames(formState.itemElements).length === 0) {
       const list: any = formState.itemElements;
-      list[0] = JSON.parse(JSON.stringify(formState.itemsElements));
-      setFormState({ ...formState, lists: list });
+      list[0] = JSON.parse(JSON.stringify(formState.elementObject));
+      setFormState({ ...formState, itemElements: list });
     }
     if (edit) {
       setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
@@ -51,11 +51,11 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
     }
   }
   function addElement() {
-    const length = Object.getOwnPropertyNames(formState.lists).length;
-    const list: any = formState.lists;
-    const clonedArray = JSON.parse(JSON.stringify(formState.itemsElements));
+    const length = Object.getOwnPropertyNames(formState.itemElements).length;
+    const list: any = formState.itemElements;
+    const clonedArray = JSON.parse(JSON.stringify(formState.elementObject));
     list[length] = clonedArray;
-    setFormState({ ...formState, lists: list });
+    setFormState({ ...formState, elementObject: list });
     setFormState({ ...formState, countAssetelement: formState.countAssetelement + 1 });
   }
   const renderForm = (formikprops: any) => (
