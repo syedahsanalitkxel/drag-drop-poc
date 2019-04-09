@@ -10,7 +10,7 @@ const ParticipantHome = () => {
           <h1 className="font-bold mt-1 mb-4">360° Leadership Assessment</h1>
           <a href="#" className="btn btn-primary font-size-20 font-bold mb-4">
             Begin Here
-            <img src="img/arrow.svg" alt="arrow" />
+            <img src="img/icons/arrow.svg" alt="arrow" />
           </a>
         </div>
       </div>
