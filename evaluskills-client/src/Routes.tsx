@@ -19,6 +19,7 @@ const EditClient = lazy(() => import('./components/pages/EditClient'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
 const User = lazy(() => import('./components/pages/User'));
+const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -109,6 +110,10 @@ const Routes = () => (
 
       <Route exact={true} path="/users">
         <User />
+      </Route>
+
+      <Route exact={true} path="/participants">
+        <ParticipantHome />
       </Route>
     </Switch>
   </Suspense>
