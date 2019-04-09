@@ -27,11 +27,11 @@ export default class API {
     this.instance.interceptors.response.use(response => response, errorResponseHandler);
   }
 
-  public get(url: string, id?: string): AxiosPromise {
+  public get(url: string, id?: string, params?: any): AxiosPromise {
     if (id) {
       url += `/${id}`;
     }
-    return this.instance.get(url);
+    return this.instance.get(url, { params });
   }
 
   public post(url: string, body: any): AxiosPromise {

@@ -1,5 +1,5 @@
 export interface ClientFilters {
-  plan?: string;
-  status?: string;
-  type?: string;
+  statusId?: boolean;
+  billingPlanId?: number;
+  companyTypeId?: number;
 }

@@ -10,9 +10,9 @@ interface Props {
 }
 
 const initialState = {
-  plan: 'option 2',
-  status: 'Active',
-  type: 'Higher Education',
+  billingPlanId: 1,
+  companyTypeId: 1,
+  statusId: false,
 };
 
 const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
@@ -30,8 +30,10 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.name) {
-      setFormState({ ...formState, [event.target.name]: event.target.value });
+    if (event.target.name !== 'statusId') {
+      setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
+    } else {
+      setFormState({ ...formState, [event.target.name]: JSON.parse(event.target.value) });
     }
   }
 
@@ -43,18 +45,18 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
               <CheckBox
-                name="status"
-                value="Active"
-                currentSelection={formState.status}
+                name="statusId"
+                value="true"
+                isChecked={formState.statusId}
                 onChange={changeHandler}
               >
                 Active
               </CheckBox>
               <CheckBox
-                name="status"
-                value="InActive"
-                currentSelection={formState.status}
+                name="statusId"
+                value="false"
                 onChange={changeHandler}
+                isChecked={formState.statusId !== true}
               >
                 InActive
               </CheckBox>
@@ -64,11 +66,10 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
             <Label for="plan-select" className="font-bold">
               Plan
             </Label>
-            <Input type="select" name="plan" id="plan-select" onChange={changeHandler}>
+            <Input type="select" name="billingPlanId" id="plan-select" onChange={changeHandler}>
               <option value="Select Plan">Select Plan</option>
-              <option value="option 2">option 2</option>
-              <option value="option 3">option 3</option>
-              <option value="option 4">option 4</option>
+              <option value="1">Billing option 1</option>
+              <option value="2">Billing option 2</option>
             </Input>
           </div>
         </FormGroup>
@@ -79,18 +80,18 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
             <Label className="font-bold">Type</Label>
             <div className="d-flex align-items-center">
               <CheckBox
-                name="type"
-                value="Higher Education"
-                currentSelection={formState.type}
+                name="companyTypeId"
+                value="1"
                 onChange={changeHandler}
+                isChecked={formState.companyTypeId === 1}
               >
                 Higher Education
               </CheckBox>
               <CheckBox
-                name="type"
-                value="Business/Agency"
-                currentSelection={formState.type}
+                name="companyTypeId"
+                value="2"
                 onChange={changeHandler}
+                isChecked={formState.companyTypeId === 2}
               >
                 Business/Agency
               </CheckBox>

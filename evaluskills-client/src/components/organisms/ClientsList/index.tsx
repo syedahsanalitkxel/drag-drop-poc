@@ -126,7 +126,9 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
                 <th />
               </tr>
             </thead>
-            <tbody>{listData && listData.map(renderClientItem)}</tbody>
+            <tbody>
+              {listData.length > 0 ? listData && listData.map(renderClientItem) : <tr />}
+            </tbody>
           </table>
         </div>
       </div>

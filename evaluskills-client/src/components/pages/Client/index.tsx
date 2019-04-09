@@ -15,6 +15,10 @@ interface Props {
   add: () => void;
   edit: (clientId: number) => void;
   remove: (clientId: number) => void;
+  applyFilters: (filters: ClientFilters) => void;
+  filtersClickHandler: (event: React.MouseEvent) => void;
+  modalVisible: boolean;
+  toggleFilterModal: () => void;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -23,21 +27,11 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   add,
   edit,
   remove,
+  applyFilters,
+  filtersClickHandler,
+  modalVisible,
+  toggleFilterModal,
 }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const toggleFilterModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const filtersClickHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
-    toggleFilterModal();
-  };
-
-  const applyFilters = (filters: ClientFilters) => {
-    console.log(filters);
-  };
-
   return (
     <DashboardTemplate>
       <div className="row">
