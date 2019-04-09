@@ -8,11 +8,12 @@ import DashboardTemplate from '../../templates/DashboardTemplate';
 import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
 import { initialState } from './InitianalState';
+
 const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) => {
   const [formState, setFormState] = useState(initialState);
   useEffect(() => {
-    if (Object.getOwnPropertyNames(formState.lists).length === 0) {
-      const list: any = formState.lists;
+    if (Object.getOwnPropertyNames(formState.itemElements).length === 0) {
+      const list: any = formState.itemElements;
       list[0] = JSON.parse(JSON.stringify(formState.itemsElements));
       setFormState({ ...formState, lists: list });
     }
