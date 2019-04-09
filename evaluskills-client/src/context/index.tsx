@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ErrorContextInterface from '../interfaces/ErrorContext';
 import ErrorObjectInterface from '../interfaces/ErrorObject';
 import ModalContextInterface from '../interfaces/ModalContext';
@@ -19,8 +20,10 @@ const defaultErrorContextState: ErrorContextInterface = {
     message: '',
     statusCode: '',
   },
-  setError: (error: ErrorObjectInterface) => {
-    alert(error);
+  setError: (error: ErrorObjectInterface, show?: boolean) => {
+    if (show) {
+      alert(error);
+    }
   },
 };
 export const ErrorContext = React.createContext<ErrorContextInterface>(defaultErrorContextState);

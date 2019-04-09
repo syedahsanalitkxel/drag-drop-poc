@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { get } from 'lodash-es';
+import errorObject from './ErrorObject';
 
 const errorResponseHandler = (error: any) => {
   if (
@@ -12,7 +13,7 @@ const errorResponseHandler = (error: any) => {
   }
 
   if (error) {
-    throw error;
+    throw errorObject(error);
   }
 };
 

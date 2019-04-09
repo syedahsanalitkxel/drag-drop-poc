@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import styled from 'styled-components';
 
 import { BadgeTypes } from '../../../enums';
+import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
@@ -12,13 +14,21 @@ interface ListCardProps {
   titleKey: string;
   edit?: (id: string) => void;
   remove?: (id: string) => void;
+  checkbox?: boolean;
 }
+
+const CheckboxContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 30%;
+`;
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   titleKey,
   listData,
   edit,
   remove,
+  checkbox,
 }) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
@@ -56,6 +66,17 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
         {text}
       </IconButton>
     );
+
+    if (checkbox) {
+      return (
+        <CheckboxContainer className="pull-right">
+          <Checkbox name="example" value="val1">
+            {' '}
+          </Checkbox>
+        </CheckboxContainer>
+      );
+    }
+
     return (
       <React.Fragment>
         {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
@@ -76,7 +97,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return <React.Fragment>{listData.map(renderAllCards)}</React.Fragment>;
+  return <React.Fragment>{listData && listData.map(renderAllCards)}</React.Fragment>;
 };
 
 export default ListCardItems;

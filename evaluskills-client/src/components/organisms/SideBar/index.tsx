@@ -32,6 +32,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         {isClientAdmin() && getNavItem('/clients', 'user', 'Clients')}
         {isSuperAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
         {isClientAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
+        {getNavItem('/instrument', 'sitemap', 'Instrument')}
         <NavItem to="" icon="cog" label="Setting">
           <ul className="nav metismenu" id="side-menu">
             {getNavItem('/users', 'user', 'Users')}

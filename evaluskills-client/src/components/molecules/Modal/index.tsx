@@ -11,6 +11,8 @@ interface ModalProps {
   primaryAction: (data: any) => void;
   secondaryText: string;
   secondaryAction: 'reset' | 'dismiss';
+  size?: string;
+  parentClass?: string;
 }
 
 const ESModal: React.FunctionComponent<ModalProps> = ({
@@ -22,6 +24,8 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   secondaryAction,
   primaryText,
   secondaryText,
+  size,
+  parentClass,
 }) => {
   const initialState = {};
   const [modalState, setModalState] = useState(initialState);
@@ -35,12 +39,12 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
     if (secondaryAction === 'reset') {
       console.log('hit reset');
     } else {
-      visible = false;
+      toggle();
     }
   };
 
   return (
-    <Modal isOpen={visible} toggle={toggle}>
+    <Modal modalClassName={parentClass} size={size} isOpen={visible} toggle={toggle}>
       <ModalContextProvider value={{ modalState, setModalState }}>
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>

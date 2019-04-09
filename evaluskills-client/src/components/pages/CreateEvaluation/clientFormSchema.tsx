@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import { stringValidation } from '../../../utils/validations';
 
 const evaluationFormSchema = Yup.object().shape({
   title: Yup.string()
@@ -11,6 +10,18 @@ const evaluationFormSchema = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   date: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  date1: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  date2: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  date3: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),

@@ -82,15 +82,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
     return (
       <React.Fragment>
-        <div className="col-md-3 d-flex align-items-center justify-content-end">
+        <div className="col-md-4 d-flex align-items-center justify-content-end">
           {edit && renderActionButton('copy', 'Copy', 'copy', ' btn-outline btn-primary')}
           {addInstrument &&
-            renderActionButton(
-              'Create',
-              'Create Assessment',
-              '',
-              'btn btn-primary clr-white btn btn-w-m '
-            )}
+            renderActionButton('Create', 'Create', '', 'btn btn-primary clr-white btn btn-w-m ')}
         </div>
       </React.Fragment>
     );

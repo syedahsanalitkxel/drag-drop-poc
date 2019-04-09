@@ -195,6 +195,7 @@ const Participants: React.FunctionComponent<Props> = ({
             return renderEvaluator(item, index, propss.index);
           })}
         </div>
+        <div className="hr-line-dashed" />
       </Fragment>
     );
   };

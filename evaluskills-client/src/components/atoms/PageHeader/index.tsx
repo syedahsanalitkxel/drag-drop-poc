@@ -8,6 +8,12 @@ interface Props {
   searchHandler?: (searchQuery: string) => void;
   actionButtonText?: string;
   actionHandler?: (event: MouseEvent) => void;
+  activeButtonText?: string;
+  activeButtonActionHandler?: (event: MouseEvent) => void;
+  viewButtonText?: string;
+  viewButtonActionHandler?: (event: MouseEvent) => void;
+  cancelButtonText?: string;
+  cancelButtonActionHandler?: (event: MouseEvent) => void;
 }
 
 const PageHeader: React.FunctionComponent<Props> = ({
@@ -16,6 +22,12 @@ const PageHeader: React.FunctionComponent<Props> = ({
   searchHandler,
   actionButtonText,
   actionHandler,
+  activeButtonText,
+  activeButtonActionHandler,
+  viewButtonText,
+  viewButtonActionHandler,
+  cancelButtonText,
+  cancelButtonActionHandler,
 }) => {
   const [searchString, setSearchString] = useState('');
 
@@ -52,11 +64,29 @@ const PageHeader: React.FunctionComponent<Props> = ({
     </button>
   );
 
+  const renderActiveButton = () => (
+    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
+      <a onClick={activeButtonActionHandler}>{activeButtonText}</a>
+    </button>
+  );
+
+  const renderViewButton = () => (
+    <button type="button" className="btn btn-w-m m-r-5 btn-light">
+      <a onClick={viewButtonActionHandler}>{viewButtonText}</a>
+    </button>
+  );
+
+  const renderCancelButton = () => (
+    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
+      <a onClick={cancelButtonActionHandler}>{cancelButtonText}</a>
+    </button>
+  );
+
   return (
     <div className="PageHeader">
       <div className="row">
         <div className="col-lg-3 col-md-3">
-          <h2 className="font-weight-light">{title}</h2>
+          <h2>{title}</h2>
         </div>
         <div className="col-lg-9 col-md-9 text-right p-r-30">
           <div className="form-group row d-flex justify-content-end">
@@ -64,6 +94,9 @@ const PageHeader: React.FunctionComponent<Props> = ({
             {searchHandler && <label className="col-lg-1 col-form-label">Search:</label>}
             {searchHandler && <div className="col-lg-3 p-l-0">{renderSearch()}</div>}
             {actionButtonText && actionHandler && renderActionButton()}
+            {activeButtonText && activeButtonActionHandler && renderActiveButton()}
+            {viewButtonText && viewButtonActionHandler && renderViewButton()}
+            {cancelButtonText && cancelButtonActionHandler && renderCancelButton()}
           </div>
         </div>
       </div>

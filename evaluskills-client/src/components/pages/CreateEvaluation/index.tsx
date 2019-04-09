@@ -410,7 +410,7 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
             <StyledButton type="button" size="lg">
               Cancel
             </StyledButton>
-            <StyledButton type="submit" color="primary" size="lg">
+            <StyledButton type="submit" name="submit" color="primary" size="lg">
               Save
             </StyledButton>
             {/* {!action && (

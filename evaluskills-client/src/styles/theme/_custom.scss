@@ -1,244 +1,278 @@
 /* Only demo */
 
 @media (max-width: 1000px) {
-    .welcome-message {
-        display: none;
-    }
+  .welcome-message {
+    display: none;
+  }
+}
+
+.login-button {
+  border: #0f4270;
+  background: #0f4270;
+  color: white;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 15px 25px;
+
+  &:hover {
+    border: #2670b4;
+    background: #2670b4;
+  }
 }
 
 .bordered-card {
-    border-top: 6px solid #cfd1d48c;
+  border-top: 6px solid #cfd1d48c;
 }
 
 .es-card {
-    padding: 15px 25px;
-    background: #ffffff; //border-top: 1px solid #e7eaec;
-    margin-bottom: 10px;
+  padding: 15px 25px;
+  background: #ffffff; //border-top: 1px solid #e7eaec;
+  margin-bottom: 10px;
 
-    .es-card-title {
-        display: block;
-        font-size: 18px;
-        font-weight: 600;
-        margin-top: 0;
-        margin-bottom: 10px;
-    }
-
-    .es-card-title,
-    .es-card-info {
-        margin-left: auto;
-    }
-    
-    .es-card-button {
-        .btn {
-            padding: 0.375rem 0.65rem
-        }
-    }
-}
-
-.assessment-item {
-    padding: 15px 25px;
-    background: #ffffff; //border-top: 1px solid #e7eaec;
-    margin-bottom: 10px;
-}
-
-.assessment-item-title {
+  .es-card-title {
     display: block;
     font-size: 18px;
     font-weight: 600;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 10px;
+  }
+
+  .es-card-title,
+  .es-card-info {
+    margin-left: auto;
+  }
+
+  .es-card-button {
+    .btn {
+      padding: 0.375rem 0.65rem;
+    }
+  }
+}
+
+.assessment-item {
+  padding: 15px 25px;
+  background: #ffffff; //border-top: 1px solid #e7eaec;
+  margin-bottom: 10px;
+}
+
+.assessment-item-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 .assessment-item-title,
 .assessment-item-info {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .assessment-item-button {
-    .btn {
-        padding: 0.375rem 0.65rem
-    }
+  .btn {
+    padding: 0.375rem 0.65rem;
+  }
 }
 
 .PageHeader {
-    padding: 20px 10px 0px;
-    h2 {
-        margin-top: 0px;
-    }
+  padding: 20px 10px 0px;
+  h2 {
+    margin-top: 0px;
+  }
 }
 
 .filters {
-    border: 1px solid #f3f3f4;
-    overflow: hidden;
-    border-radius: 4px;
-    .filter-publish {
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
+  border: 1px solid #f3f3f4;
+  overflow: hidden;
+  border-radius: 4px;
+  .filter-publish {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .filter-draft {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  .filter-publish,
+  .filter-draft {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    color: inherit;
+    background: white;
+    min-width: 75px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+      background-color: #1ab394;
+      border-color: #1ab394;
+      font-weight: 600;
+      padding: 0.3rem 0.45rem;
     }
-    .filter-draft {
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
+    &.active {
+      color: #fff;
+      background-color: #1ab394;
+      border-color: #1ab394;
+      font-weight: 600;
+      padding: 0.3rem 0.45rem;
     }
-    .filter-publish,
-    .filter-draft {
-        padding: 0.3rem 0.5rem;
-        font-size: 0.8rem;
-        color: inherit;
-        background: white;
-        min-width: 75px;
-        text-align: center;
-        cursor: pointer;
-        &:hover {
-            color: #fff;
-            background-color: #1ab394;
-            border-color: #1ab394;
-            font-weight: 600;
-            padding: 0.3rem 0.45rem;
-        }
-        &.active {
-            color: #fff;
-            background-color: #1ab394;
-            border-color: #1ab394;
-            font-weight: 600;
-            padding: 0.3rem 0.45rem;
-        }
-        .numberAssesment {
-            font-size: 0.6rem;
-            font-weight: 600;
-        }
+    .numberAssesment {
+      font-size: 0.6rem;
+      font-weight: 600;
     }
+  }
 }
 
 #toast-container {
-    display: none;
+  display: none;
 }
 
 .iradio-text {
-    position: relative;
-    top: 2px;
+  position: relative;
+  top: 2px;
 }
 
 .assesmentTextarea {
-    width: 100%;
-    text-align: left;
-    padding: 11px 11px;
-    border-color: #dee2e6;
+  width: 100%;
+  text-align: left;
+  padding: 11px 11px;
+  border-color: #dee2e6;
 }
 
 @media (min-width: 576px) {
-    #filtermodal .modal-dialog {
-        max-width: 874px;
-        margin: 1.75rem auto;
-    }
-    #addassessModal .modal-dialog{
-        max-width: calc(100vw - 180px);
-        margin: 1.75rem auto;
-    }
-    #addUserModal {
-        .modal-dialog {
-            max-width: 880px;
-            margin: 1.75rem auto;
-        }
-
-        .modal-body{
-            padding:0px;
-        }
-    }
-}
-#addassessModal {
-    div.modal-body, div.modal-header, div.modal-footer, div.assessmentModalheader {
-        background-color: #F3F3F4;
-    }
-
-    .modal-header {
+  #filtermodal .modal-dialog {
+    max-width: 874px;
+    margin: 1.75rem auto;
+  }
+  #addassessModal .modal-dialog {
+    max-width: calc(100vw - 180px);
+    margin: 1.75rem auto;
+  }
+  .addassessModal .modal-dialog {
+    max-width: calc(100vw - 180px);
+    margin: 1.75rem auto;
+  }
+  #addUserModal {
+    .modal-dialog {
+      z-index: 3000;
+      max-width: 880px;
+      margin: 1.75rem auto;
     }
 
     .modal-body {
+      padding: 0px;
     }
+  }
+}
 
-    .modal-footer {
-    }
+.addassessModal {
+  div.modal-body,
+  div.modal-header,
+  div.modal-footer,
+  div.assessmentModalheader {
+    background-color: #f3f3f4;
+  }
+}
+
+#addassessModal {
+  div.modal-body,
+  div.modal-header,
+  div.modal-footer,
+  div.assessmentModalheader {
+    background-color: #f3f3f4;
+  }
+
+  .modal-header {
+  }
+
+  .modal-body {
+  }
+
+  .modal-footer {
+  }
 }
 .btn a {
-    color: #fff;
+  color: #fff;
 }
 
-.assessmentModalheader{
-    select{
-        margin-right:15px;
-    }
+.assessmentModalheader {
+  select {
+    margin-right: 15px;
+  }
 }
 /*ClientInterface portion scss*/
 .client {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .table-holder {
-    background: #fff;
+  background: #fff;
 }
 
 .table {
-    a {
-        color: #676a6c;
-    }
+  a {
+    color: #676a6c;
+  }
 
-    strong {
-        display: block;
-    }
+  strong {
+    display: block;
+  }
 
-    .client {
-        font-size: 15px;
-    }
+  .client {
+    font-size: 15px;
+  }
 
-    td {
-        vertical-align: middle !important;
-        padding: 16px !important;
-    }
+  td {
+    vertical-align: middle !important;
+    padding: 16px !important;
+  }
 
-    th {
-        padding: 16px !important;
-    }
+  th {
+    padding: 16px !important;
+  }
 
-    .label-inactive {
-        background-color: #a2acbd;
-    }
+  .label-inactive {
+    background-color: #a2acbd;
+  }
 
-    .label-primary {
-        display: block;
-        text-align: center;
-        width: 50px;
-        padding: 3px 5px;
-    }
+  .label-primary {
+    display: block;
+    text-align: center;
+    width: 50px;
+    padding: 3px 5px;
+  }
 }
 
 .breadcrumb {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .form-header {
-    margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 /*ClientInterface portion scss end here*/
 /*Evaluator View Scss*/
 .comment-list {
-    list-style: none;
+  list-style: none;
 
-    li {
-        margin-bottom: 5px;
-        padding-left: 15px;
-        position: relative;
+  li {
+    margin-bottom: 5px;
+    padding-left: 15px;
+    position: relative;
 
-        &:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 6px;
-            width: 8px;
-            height: 8px;
-            opacity: 0.9;
-            border-radius: 100%;
-            background-color: #2f4050;
-        }
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      opacity: 0.9;
+      border-radius: 100%;
+      background-color: #2f4050;
     }
+  }
 }
 /*Evaluator View Scss end here*/

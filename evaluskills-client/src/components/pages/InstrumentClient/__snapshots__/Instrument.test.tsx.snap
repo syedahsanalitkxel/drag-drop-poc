@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Instrument render successfully 1`] = `
+<DashboardTemplate>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-12"
+    >
+      <PageHeader
+        filterAction={[Function]}
+        searchHandler={[MockFunction]}
+        title="Instrument"
+      />
+      <PageBody
+        card={false}
+      >
+        <InstrumentListCard
+          listData={
+            Array [
+              Object {
+                "id": "1",
+                "noOfAssessmentItems": "25",
+                "noOfEvaluations": "28",
+                "noOfParticipants": "30",
+                "title": "360° Leadership Instrument",
+              },
+              Object {
+                "id": "2",
+                "noOfAssessmentItems": "25",
+                "noOfEvaluations": "28",
+                "noOfParticipants": "30",
+                "title": "210° Leadership Instrument",
+              },
+            ]
+          }
+          titleKey="title"
+          view={[MockFunction]}
+        />
+        <Pager />
+      </PageBody>
+    </div>
+  </div>
+  <ESModal
+    primaryAction={[Function]}
+    primaryText="Save Changes"
+    secondaryAction="reset"
+    secondaryText="Close"
+    title="Filters"
+    toggle={[Function]}
+    visible={false}
+  >
+    <InstrumentFilters />
+  </ESModal>
+</DashboardTemplate>
+`;
