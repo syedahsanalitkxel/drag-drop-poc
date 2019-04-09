@@ -81,7 +81,4 @@ const editContactProps: ModalProps = {
   visible: true,
 };
 
-storiesOf('AddClient', module)
-  .add('AddClient', () => <AddClient />)
-  .add('AddClientContact renders with props', () => <AddClientContact {...addContactProps} />)
-  .add('EditClientContact renders with props', () => <EditClientContact {...editContactProps} />);
+storiesOf('AddClient', module).add('Create Instrument', () => <AddClient />);
