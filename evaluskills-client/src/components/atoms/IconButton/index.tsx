@@ -11,7 +11,7 @@ interface Props {
   id?: string;
   name?: string;
   actionHandler: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  children: string;
+  children?: string;
 }
 
 const StyledButton = styled.button`

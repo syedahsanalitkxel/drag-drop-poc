@@ -18,6 +18,7 @@ const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailConta
 const EditClient = lazy(() => import('./components/pages/EditClient'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
+const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 
@@ -68,6 +69,7 @@ const Routes = () => (
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
       </Route>
+
       <Route exact={true} path="/instrument-templates/add">
         <InstrumentTemplateContainer />
       </Route>
@@ -106,6 +108,9 @@ const Routes = () => (
       </Route>
       <Route exact={true} path="/clients/edit/:id">
         <EditClient />
+      </Route>
+      <Route exact={true} path="/addInstrumental">
+        <CreateEvaluation />
       </Route>
 
       <Route exact={true} path="/users">
