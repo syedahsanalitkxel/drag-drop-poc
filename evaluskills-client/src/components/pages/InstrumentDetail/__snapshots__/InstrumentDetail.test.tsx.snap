@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Instrument Detail render successfully 1`] = `
+<DashboardTemplate>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-12"
+    >
+      <PageHeader
+        activeButtonActionHandler={[Function]}
+        activeButtonText="Activate"
+        cancelButtonActionHandler={[Function]}
+        cancelButtonText="Cancel Assessment"
+        viewButtonActionHandler={[Function]}
+        viewButtonText="View Results"
+      />
+      <PageBody
+        card={false}
+      >
+        <Nav
+          tabs={true}
+          tag="ul"
+          vertical={false}
+        >
+          <NavItem
+            tag="li"
+          >
+            <NavLink
+              className="active"
+              id="1"
+              onClick={[Function]}
+              tag="a"
+            >
+              Participants 
+              6
+            </NavLink>
+          </NavItem>
+          <NavItem
+            tag="li"
+          >
+            <NavLink
+              className=""
+              id="2"
+              onClick={[Function]}
+              tag="a"
+            >
+              Assessments Items 
+              2
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent
+          activeTab="1"
+          tag="div"
+        >
+          <TabPane
+            tabId="1"
+            tag="div"
+          >
+            <InstrumentListCard
+              evaluator={
+                Array [
+                  Object {
+                    "email": "robbyrash@gmail.com",
+                    "id": "1",
+                    "name": "Robby Rash",
+                    "progress": "20%",
+                    "role": "UI/UX Leader",
+                    "status": "InProgress",
+                  },
+                  Object {
+                    "email": "maraymrassol@gmail.com",
+                    "id": "2",
+                    "name": "Mariyam Rassal",
+                    "progress": "100%",
+                    "role": "Department Head",
+                    "status": "Completed",
+                  },
+                  Object {
+                    "email": "robbyrash@gmail.com",
+                    "id": "3",
+                    "name": "Robby Rash",
+                    "progress": "50%",
+                    "role": "Team Lead",
+                    "status": "InProgress",
+                  },
+                  Object {
+                    "email": "robbyrash@gmail.com",
+                    "id": "4",
+                    "name": "Robby Rash",
+                    "progress": "20%",
+                    "role": "Senior Designer",
+                    "status": "InProgress",
+                  },
+                ]
+              }
+              participants={
+                Array [
+                  Object {
+                    "email": "jasminrasool@gmail.com",
+                    "id": "1",
+                    "name": "jasmin Rasool",
+                    "noOfEvaluators": "5",
+                    "progress": "20%",
+                    "status": "InProgress",
+                  },
+                  Object {
+                    "email": "jasminrasool@gmail.com",
+                    "id": "2",
+                    "name": "jasmin Rasool",
+                    "noOfEvaluators": "2",
+                    "progress": "50%",
+                    "status": "InProgress",
+                  },
+                  Object {
+                    "email": "jasminrasool@gmail.com",
+                    "id": "3",
+                    "name": "jasmin Rasool",
+                    "noOfEvaluators": "5",
+                    "progress": "100%",
+                    "status": "Completed",
+                  },
+                  Object {
+                    "email": "jasminrasool@gmail.com",
+                    "id": "4",
+                    "name": "jasmin Rasool",
+                    "noOfEvaluators": "5",
+                    "progress": "0%",
+                    "status": "NotStarted",
+                  },
+                  Object {
+                    "email": "jhonjames@gmail.com",
+                    "id": "5",
+                    "name": "john james",
+                    "noOfEvaluators": "5",
+                    "progress": "20%",
+                    "status": "InProgress",
+                  },
+                  Object {
+                    "email": "jasminrasool@gmail.com",
+                    "id": "6",
+                    "name": "jasmin Rasool",
+                    "noOfEvaluators": "2",
+                    "progress": "50%",
+                    "status": "InProgress",
+                  },
+                ]
+              }
+              titleKey="title"
+              view={[MockFunction]}
+            />
+          </TabPane>
+          <TabPane
+            tabId="2"
+            tag="div"
+          >
+            <ListCardItems
+              listData={
+                Array [
+                  Object {
+                    "category": "Character",
+                    "competency": "Team Player",
+                    "definition": "Receive feedback from others and uses the feedback to improve performance",
+                    "id": "uuid-12-321",
+                    "type": "Competency",
+                  },
+                  Object {
+                    "category": "Action",
+                    "competency": "Good Coder",
+                    "definition": "Has a set of moral principles used in job in accordance with the culture of organization",
+                    "id": "uuid-11-111",
+                    "type": "Influential",
+                  },
+                ]
+              }
+              titleKey="definition"
+            />
+          </TabPane>
+        </TabContent>
+        <Pager />
+      </PageBody>
+    </div>
+  </div>
+</DashboardTemplate>
+`;

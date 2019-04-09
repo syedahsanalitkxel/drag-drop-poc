@@ -7,12 +7,15 @@ import { ErrorContext } from '../context';
 import LoginInterface from '../interfaces/Login';
 import { login } from '../services/loginService';
 
-const AuthContainer: React.FunctionComponent<RouteComponentProps> = () => {
+const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const errorContext = useContext(ErrorContext);
 
   const handleLogin = async (loginDetails: LoginInterface) => {
     try {
-      await login(loginDetails);
+      const authDetails = await login(loginDetails);
+      window.localStorage.setItem('token', authDetails.token);
+      window.localStorage.setItem('user', JSON.stringify(authDetails));
+      history.push('/dashboard');
     } catch (e) {
       errorContext.setError(e);
     }

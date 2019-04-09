@@ -29,12 +29,12 @@ describe('Instrument', () => {
   const filterMockFunction = jest.fn();
 
   const instrumentProps = {
-    listData: instruments,
+    filterInstruments: filterMockFunction,
+    instruments: instruments,
     view: mockViewFunction,
-    filter: filterMockFunction,
   };
 
-  const client = shallow(<Instrument />);
+  const client = shallow(<Instrument {...instrumentProps} />);
 
   it('render successfully', () => {
     expect(client).toMatchSnapshot();
@@ -44,7 +44,7 @@ describe('Instrument', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <Router>
-        <Instrument />
+        <Instrument {...instrumentProps} />
       </Router>,
       div
     );
@@ -86,14 +86,14 @@ describe('Instrument', () => {
     const props = { titleKey: Key, listData: Data, view: viewMockFunction };
 
     it('Instrument List Card to be defined', () => {
-      const wrapper = shallow(<Instrument />);
+      const wrapper = shallow(<Instrument {...instrumentProps} />);
       expect(wrapper.find('InstrumentListCard')).toBeDefined();
     });
     it('Instrument List Card Render without crashing', () => {
       const div = document.createElement('div');
       ReactDOM.render(
         <Router>
-          <InstrumentListCard />
+          <InstrumentListCard {...props} />
         </Router>,
         div
       );
@@ -112,7 +112,7 @@ describe('Instrument', () => {
     });
 
     it('Progress bar to be defined', () => {
-      const wrapper = shallow(<InstrumentListCard />);
+      const wrapper = shallow(<InstrumentListCard {...props} />);
       expect(wrapper.find('.progress')).toBeDefined();
     });
   });

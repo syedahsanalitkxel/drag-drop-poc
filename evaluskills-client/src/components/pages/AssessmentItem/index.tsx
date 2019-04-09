@@ -14,8 +14,8 @@ interface Props {
   assessments: AssessmentItemInterface[];
   filterAssessments: (searchQuery: string) => void;
   add: () => void;
-  edit: (assessmentId: string) => void;
-  remove: (assessmentId: string) => void;
+  edit?: (assessmentId: string) => void;
+  remove?: (assessmentId: string) => void;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
