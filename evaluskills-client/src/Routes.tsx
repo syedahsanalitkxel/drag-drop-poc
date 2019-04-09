@@ -18,7 +18,7 @@ const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailConta
 const EditClient = lazy(() => import('./components/pages/EditClient'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
-const CreateEvaluation = lazy(() => import('./components/pages/CreateEvaluation'));
+const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const Routes = () => (
   <Suspense fallback={<Spinner />}>

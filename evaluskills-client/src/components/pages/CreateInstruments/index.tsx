@@ -86,7 +86,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddEvaluation: React.FunctionComponent<Props> = ({
+export const CreateInstruments: React.FunctionComponent<Props> = ({
   changeListener,
   defaultValues,
   action,
@@ -437,4 +437,4 @@ export const AddEvaluation: React.FunctionComponent<Props> = ({
   );
 };
 
-export default AddEvaluation;
+export default CreateInstruments;
