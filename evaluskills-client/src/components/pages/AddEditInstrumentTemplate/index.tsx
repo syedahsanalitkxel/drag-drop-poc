@@ -219,6 +219,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
         secondaryText="Cancel"
         secondaryAction="dismiss"
         size="lg"
+        parentClass="addassessModal"
       >
         <AssessmentItemsList mode="edit" />
       </ESModal>
