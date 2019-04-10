@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 
+import LookupContainer from '../../containers/LookupContainer';
 import Page from '../atoms/Page';
 import Footer from '../organisms/Footer';
 import Sidebar from '../organisms/SideBar';
@@ -10,14 +11,14 @@ interface Props {
 }
 
 const DashboardTemplate: React.FunctionComponent<Props> = ({ children }) => (
-  <React.Fragment>
+  <LookupContainer>
     <Sidebar />
     <Page>
       <TopBar />
       {children}
       <Footer />
     </Page>
-  </React.Fragment>
+  </LookupContainer>
 );
 
 export default DashboardTemplate;
