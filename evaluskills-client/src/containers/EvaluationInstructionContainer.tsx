@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import AddEditInstructionTemplate from '../components/pages/AddInstructions';
 
 import InstructionListTemplate from '../components/pages/InstructionListTemplate';
-import { ErrorContext } from '../context';
+import ErrorContext from '../context/ErrorContext';
 import { Instructions } from '../interfaces/Instructions';
 import RouterPropsInterface from '../interfaces/RouteParams';
 import { getInstrumentTemplates } from '../services/instrumentTemplateService';

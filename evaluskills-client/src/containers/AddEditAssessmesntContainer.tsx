@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import AddAssessment from '../components/pages/AddAssessment';
-import AssessmentItem from '../components/pages/AssessmentItem';
-import { ErrorContext } from '../context';
+import ErrorContext from '../context/ErrorContext';
 import IAssessmentItem from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
 

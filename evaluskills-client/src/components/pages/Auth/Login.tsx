@@ -5,7 +5,7 @@ import { Field, Formik } from 'formik';
 import { NavLink } from 'react-router-dom';
 import { Alert, Button, Form } from 'reactstrap';
 
-import { ErrorContext } from '../../../context';
+import ErrorContext from '../../../context/ErrorContext';
 import FormikBag from '../../../interfaces/FormikBag';
 import LoginInterface from '../../../interfaces/Login';
 
