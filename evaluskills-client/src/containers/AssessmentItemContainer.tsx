@@ -55,7 +55,7 @@ const AssessmentItemContainer: React.FunctionComponent<
     alert(searchQuery);
   }
 
-  function addAssessment() {
+  function routeaddAssessment() {
     history.push('/assessment-items/add');
   }
 
@@ -78,7 +78,7 @@ const AssessmentItemContainer: React.FunctionComponent<
     <AssessmentItem
       assessments={assessments}
       filterAssessments={filterAssessments}
-      add={addAssessment}
+      add={routeaddAssessment}
       remove={deleteAssessment}
       edit={editAssessment}
     />
