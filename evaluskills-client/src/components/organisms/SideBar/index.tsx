@@ -1,14 +1,16 @@
+import React from 'react';
+
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+
 import NavItem from '../../atoms/NavItem';
 import ProfileBadge from '../../molecules/ProfileBadge';
 
 import './sidebar.styles.scss';
 
-function getNavItem(to: string, icon: IconProp, label: string) {
-  return <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />;
-}
+const getNavItem = (to: string, icon: IconProp, label: string) => (
+  <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />
+);
 const isSuperAdmin = () =>
   window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'SUPER_ADMIN';
 const isClientAdmin = () =>
