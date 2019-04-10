@@ -23,6 +23,8 @@ const Evaluator = lazy(() => import('./components/pages/Evaluator'));
 const Question = lazy(() => import('./components/pages/Question'));
 const EvaluationSummary = lazy(() => import('./components/pages/EvaluationSummary'));
 const EvaluatorResult = lazy(() => import('./components/pages/EvaluatorResult'));
+const EvaluatorComment = lazy(() => import('./components/pages/EvaluatorComment'));
+const EvaluatorList = lazy(() => import('./components/pages/EvaluatorList'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -134,6 +136,14 @@ const Routes = () => (
 
       <Route exact={true} path="/evaluator-result">
         <EvaluatorResult />
+      </Route>
+
+      <Route exact={true} path="/evaluator-comment">
+        <EvaluatorComment />
+      </Route>
+
+      <Route exact={true} path="/evaluator-list">
+        <EvaluatorList />
       </Route>
     </Switch>
   </Suspense>
