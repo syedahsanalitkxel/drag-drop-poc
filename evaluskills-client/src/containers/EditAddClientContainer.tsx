@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import AddAssessment from '../components/pages/AddAssessment';
-import AssessmentItem from '../components/pages/AssessmentItem';
-import { ErrorContext } from '../context';
-import IAssessmentItem from '../interfaces/AssessmentItem';
-import { getClients, getClientById } from '../services/clientsService';
-import IClientList, { ClientUserInterface } from '../interfaces/AddEditClient';
-import EditComponent from '../components/pages/EditClient';
+
 import AddClient from '../components/pages/AddClient';
+import ErrorContext from '../context/ErrorContext';
+import AddEditClientInterface, { ClientUserInterface } from '../interfaces/AddEditClient';
 import RouteParams from '../interfaces/RouteParams';
+import { getClientById } from '../services/clientsService';
 
 const user: ClientUserInterface = {
   email: '',
@@ -17,7 +14,7 @@ const user: ClientUserInterface = {
   lastName: '',
 };
 
-const ClientList: IClientList[] = [
+const ClientList: AddEditClientInterface[] = [
   {
     address1: '',
     address2: '',

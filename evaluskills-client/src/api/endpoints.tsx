@@ -8,3 +8,4 @@ export const LOGIN = 'Accounts/Login';
 export const SELECT_CLIENT = 'Accounts/SelectClient';
 export const RESET_PASSWORD = 'Accounts/ResetPassword';
 export const CONFIRM_EMAIL = 'Accounts/ConfirmEmail';
+export const LOOK_UPS = 'Lookups';
