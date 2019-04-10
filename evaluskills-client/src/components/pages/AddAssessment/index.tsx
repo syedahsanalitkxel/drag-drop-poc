@@ -8,9 +8,11 @@ import DashboardTemplate from '../../templates/DashboardTemplate';
 import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
 import { initialState } from './InitialState';
+import ErrorContext from '../../../context/ErrorContext';
 
-const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) => {
+const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeListener, edit }) => {
   const [formState, setFormState] = useState(initialState);
+  const errorContext = useContext(ErrorContext);
   useEffect(() => {
     // if (formState.itemElements.length === 0) {
     //   const list: any = formState.itemElements;
@@ -486,7 +488,13 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
       </form>
     );
   };
-  function submitForm(values: any) {
+  async function submitForm(values: any) {
+    try {
+      const data = await addAssessment(values);
+      console.log(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
     setFormState({ ...formState, ...values });
   }
   return (

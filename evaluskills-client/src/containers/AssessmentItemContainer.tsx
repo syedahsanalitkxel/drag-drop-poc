@@ -4,7 +4,7 @@ import RouteParamsInterface from '../interfaces/RouteParams';
 import AssessmentItem from '../components/pages/AssessmentItem';
 import ErrorContext from '../context/ErrorContext';
 import AssessmentItemInterface from '../interfaces/AssessmentItem';
-import { getAssessments } from '../services/assessmentsService';
+import { getAssessments, addAssessment } from '../services/assessmentsService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import AddAssessment from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
@@ -67,7 +67,7 @@ const AssessmentItemContainer: React.FunctionComponent<
     alert(`deleting => ${assessmentId}`);
   }
   if (isEdit(match.params)) {
-    return <AddAssessment />;
+    return <AddAssessment addAssessment={addAssessment} />;
   }
 
   if (isAdd(match.path)) {
