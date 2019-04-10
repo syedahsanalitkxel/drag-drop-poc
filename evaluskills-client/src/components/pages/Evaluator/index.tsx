@@ -1,6 +1,6 @@
 import React from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
 import { NavLink } from 'react-router-dom';
+import GuestTemplate from '../../templates/GuestTemplate';
 
 const EvaluattorHome = () => {
   return (
