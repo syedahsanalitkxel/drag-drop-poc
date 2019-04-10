@@ -15,16 +15,19 @@ export interface ClientUserInterface {
   email: string;
 }
 
-export default interface ClientInterface {
+export default interface AddEditClientInterface {
   id: number;
-  billingPlanTitle: string;
   clientName: string;
+  subsidiary: string;
+  address1: string;
+  address2: string;
+  city: string;
+  stateId: number;
+  zip: string;
   clientLogo: string;
-  noOfAssessments: number;
-  noOfEvaluators: number;
-  noOfParticipants: number;
-  isActivated: boolean;
+  billingPlanId: number;
   phone: string;
-  clientContact?: ContactInterface;
-  clientUser?: ClientUserInterface;
+  clientTypeId: number;
+  clientContacts: ContactInterface[];
+  clientUser: ClientUserInterface;
 }

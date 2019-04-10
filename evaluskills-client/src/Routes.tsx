@@ -12,12 +12,11 @@ const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemCo
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
-
-const AddClient = lazy(() => import('./components/pages/AddClient'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
-const EditClient = lazy(() => import('./components/pages/EditClient'));
+const AddEditClientContainer = lazy(() => import('./containers/EditAddClientContainer'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
+const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 const Evaluator = lazy(() => import('./components/pages/Evaluator'));
@@ -33,10 +32,6 @@ const Routes = () => (
       </Route>
 
       <Route exact={true} path="/login">
-        <AuthContainer />
-      </Route>
-
-      <Route exact={true} path="/signup">
         <AuthContainer />
       </Route>
 
@@ -72,6 +67,7 @@ const Routes = () => (
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
       </Route>
+
       <Route exact={true} path="/instrument-templates/add">
         <InstrumentTemplateContainer />
       </Route>
@@ -86,10 +82,13 @@ const Routes = () => (
       <Route exact={true} path="/clients">
         <ClientContainer />
       </Route>
-
       <Route exact={true} path="/clients/add">
-        <AddClient />
+        <AddEditClientContainer />
       </Route>
+      <Route exact={true} path="/clients/edit/:id">
+        <AddEditClientContainer />
+      </Route>
+
       <Route exact={true} path="/email/add">
         <EmailTemplateContainer />
       </Route>
@@ -108,8 +107,9 @@ const Routes = () => (
       <Route exact={true} path="/evaluation-instructions">
         <InstructionsContainer />
       </Route>
-      <Route exact={true} path="/clients/edit/:id">
-        <EditClient />
+
+      <Route exact={true} path="/addInstrumental">
+        <CreateEvaluation />
       </Route>
 
       <Route exact={true} path="/users">

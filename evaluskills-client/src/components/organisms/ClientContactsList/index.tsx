@@ -6,12 +6,12 @@ import ClientCard from '../../molecules/ClientCard';
 
 interface Props {
   listData: ContactInterface[];
-  edit: (clientId: string) => void;
-  remove: (clientId: string) => void;
+  edit: (clientId: number) => void;
+  remove: (clientId: number) => void;
 }
 
 const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove }) => {
-  const actionHandler = (contactId: string) => (event: React.MouseEvent) => {
+  const actionHandler = (contactId: number) => (event: React.MouseEvent) => {
     if (event.currentTarget.id === 'edit') {
       edit(contactId);
     } else if (event.currentTarget.id === 'delete') {
@@ -20,17 +20,16 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
   };
 
   const renderContent = (
-    id: string,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
-    phone: string,
-    role: string
+    phone: string
   ) => (
     <React.Fragment>
       <tr>
         <td className="font-bold">{firstName}</td>
-        <td>{role}</td>
+        <td>role</td>
         <td>
           <a href="mailto:robbyrash@gmail.com">{email}</a>
         </td>
@@ -67,8 +66,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
         clientItem.firstName,
         clientItem.lastName,
         clientItem.email,
-        clientItem.phone,
-        clientItem.role
+        clientItem.phone
       );
     }
 
