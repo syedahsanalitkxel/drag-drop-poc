@@ -1,10 +1,11 @@
 import React, { Fragment, PureComponent } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
+import { ErrorMessage } from 'formik';
 interface AssessmentElementProps {
   key: number;
   comNumber: number;
   tag?: any;
-  onChange: (event: any, key: number) => void;
+  onChange?: (event: any, key: number) => void;
   formikprops: any;
 }
 const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props => {
@@ -14,14 +15,27 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
   // }
   function onhandlechange(event: any) {
     props.formikprops.handleChange(event);
-
-    props.onChange(event, props.comNumber);
   }
+  function getValidation(name: string) {
+    return !!(props.formikprops.touched[name] && props.formikprops.errors[name]);
+  }
+  const ErroorMessage = (name: any) => {
+    return (
+      <ErrorMessage
+        name={name}
+        render={msg => (
+          <div className="isa_error">
+            <span className="error text-danger">{msg}</span>
+          </div>
+        )}
+      />
+    );
+  };
   // public render() {
   console.log('formik ' + props.formikprops.errors.itemsElements);
   return (
     <Fragment>
-      {props.comNumber > 0 ? (
+      {props.comNumber > 1 ? (
         <Fragment>
           <div className="row">
             <label className="col-sm-2 col-form-label font-bold">
@@ -56,44 +70,22 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             className="assesmentTextarea"
             aria-multiline="true"
             rows={2}
-            value={
-              props.formikprops.values.lists[props.comNumber]
-                ? props.formikprops.values.lists[props.comNumber][0].statement
-                : null
-            }
-            id={`lists[${props.comNumber}][0].statement`}
             type="textarea"
-            name={`lists[${props.comNumber}][0].statement`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('statement')
-                ? props.formikprops.touched.lists[props.comNumber][0].statement &&
-                  props.formikprops.errors.lists[props.comNumber][0].statement
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[0].statement`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber][0] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('statement') &&
-            props.formikprops.touched.lists[props.comNumber][0].hasOwnProperty('statement')
-              ? props.formikprops.errors.lists[props.comNumber][0].statement
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label b-r border-left">
           <Input
@@ -101,39 +93,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][0].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviur`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][0] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('behaviur') &&
-              props.formikprops.touched.lists[props.comNumber][0].hasOwnProperty('behaviur')
-                ? props.formikprops.touched.lists[props.comNumber][0].behaviur &&
-                  props.formikprops.errors.lists[props.comNumber][0].behaviur
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[0].behaviur`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('behaviur')
-              ? props.formikprops.errors.lists[props.comNumber][0].behaviur
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviur`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
@@ -141,39 +115,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][0].scaling`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].scaling`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][0] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('scaling') &&
-              props.formikprops.touched.lists[props.comNumber][0].hasOwnProperty('scaling')
-                ? props.formikprops.touched.lists[props.comNumber][0].scaling &&
-                  props.formikprops.errors.lists[props.comNumber][0].scaling
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[0].scaling`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][0].hasOwnProperty('scaling')
-              ? props.formikprops.errors.lists[props.comNumber][0].scaling
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].scaling`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
       </div>
       <div className="form-group row m-b-0">
@@ -186,39 +142,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][1].statement`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].statement`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('statement') &&
-              props.formikprops.touched.lists[props.comNumber][1].hasOwnProperty('statement')
-                ? props.formikprops.touched.lists[props.comNumber][1].statement &&
-                  props.formikprops.errors.lists[props.comNumber][1].statement
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[1].statement`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('statement')
-              ? props.formikprops.errors.lists[props.comNumber][1].statement
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].statement`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label b-r border-left">
           <Input
@@ -226,39 +164,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][1].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviur`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('behaviur') &&
-              props.formikprops.touched.lists[props.comNumber][1].hasOwnProperty('behaviur')
-                ? props.formikprops.touched.lists[props.comNumber][1].behaviur &&
-                  props.formikprops.errors.lists[props.comNumber][1].behaviur
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[1].behaviur`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('behaviur')
-              ? props.formikprops.errors.lists[props.comNumber][1].behaviur
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviur`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
@@ -266,39 +186,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][1].scaling`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].scaling`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][1] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('scaling') &&
-              props.formikprops.touched.lists[props.comNumber][1].hasOwnProperty('scaling')
-                ? props.formikprops.touched.lists[props.comNumber][1].scaling &&
-                  props.formikprops.errors.lists[props.comNumber][1].scaling
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[1].scaling`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][1].hasOwnProperty('scaling')
-              ? props.formikprops.errors.lists[props.comNumber][1].scaling
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].scaling`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
       </div>
       <div className="form-group row m-b-0">
@@ -311,38 +213,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][2].statement`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].statement`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('statement') &&
-              props.formikprops.touched.lists[props.comNumber][2].hasOwnProperty('statement')
-                ? props.formikprops.touched.lists[props.comNumber][2].statement &&
-                  props.formikprops.errors.lists[props.comNumber][2].statement
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[2].statement`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('statement')
-              ? props.formikprops.errors.lists[props.comNumber][2].statement
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].statement`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label b-r border-left">
           <Input
@@ -350,37 +235,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][2].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviur`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('behaviur') &&
-              props.formikprops.touched.lists[props.comNumber][2].hasOwnProperty('behaviur')
-                ? props.formikprops.touched.lists[props.comNumber][2].behaviur &&
-                  props.formikprops.errors.lists[props.comNumber][2].behaviur
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[2].behaviur`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('behaviur')
-              ? props.formikprops.errors.lists[props.comNumber][2].behaviur
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviur`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
@@ -388,37 +257,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][2].scaling`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].scaling`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][2] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('scaling') &&
-              props.formikprops.touched.lists[props.comNumber][2].hasOwnProperty('scaling')
-                ? props.formikprops.touched.lists[props.comNumber][2].scaling &&
-                  props.formikprops.errors.lists[props.comNumber][2].scaling
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[2].scaling`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][2].hasOwnProperty('scaling')
-              ? props.formikprops.errors.lists[props.comNumber][2].scaling
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].scaling`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
       </div>
       <div className="form-group row m-b-0">
@@ -431,37 +284,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][3].statement`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].statement`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('statement') &&
-              props.formikprops.touched.lists[props.comNumber][3].hasOwnProperty('statement')
-                ? props.formikprops.touched.lists[props.comNumber][3].statement &&
-                  props.formikprops.errors.lists[props.comNumber][3].statement
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[3].statement`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('statement')
-              ? props.formikprops.errors.lists[props.comNumber][3].statement
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].statement`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label b-r border-left">
           <Input
@@ -469,37 +306,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][3].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviur`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('behaviur') &&
-              props.formikprops.touched.lists[props.comNumber][3].hasOwnProperty('behaviur')
-                ? props.formikprops.touched.lists[props.comNumber][3].behaviur &&
-                  props.formikprops.errors.lists[props.comNumber][3].behaviur
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[3].behaviur`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('behaviur')
-              ? props.formikprops.errors.lists[props.comNumber][3].behaviur
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviur`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
@@ -507,37 +328,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][3].scaling`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].scaling`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][3] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('scaling') &&
-              props.formikprops.touched.lists[props.comNumber][3].hasOwnProperty('scaling')
-                ? props.formikprops.touched.lists[props.comNumber][3].scaling &&
-                  props.formikprops.errors.lists[props.comNumber][3].scaling
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[3].scaling`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][3].hasOwnProperty('scaling')
-              ? props.formikprops.errors.lists[props.comNumber][3].scaling
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].scaling`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
       </div>
       <div className="form-group row m-b-0">
@@ -550,37 +355,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][4].statement`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].statement`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('statement') &&
-              props.formikprops.touched.lists[props.comNumber][4].hasOwnProperty('statement')
-                ? props.formikprops.touched.lists[props.comNumber][4].statement &&
-                  props.formikprops.errors.lists[props.comNumber][4].statement
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[4].statement`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('statement')
-              ? props.formikprops.errors.lists[props.comNumber][4].statement
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].statement`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label b-r border-left">
           <Input
@@ -588,37 +377,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][4].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviur`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('behaviur') &&
-              props.formikprops.touched.lists[props.comNumber][4].hasOwnProperty('behaviur')
-                ? props.formikprops.touched.lists[props.comNumber][4].behaviur &&
-                  props.formikprops.errors.lists[props.comNumber][4].behaviur
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[4].behaviur`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('behaviur')
-              ? props.formikprops.errors.lists[props.comNumber][4].behaviur
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviur`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
@@ -626,37 +399,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`lists[${props.comNumber}][4].scaling`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].scaling`}
             placeholder={'Add Statement'}
-            invalid={
-              props.formikprops.touched !== undefined &&
-              props.formikprops.errors !== undefined &&
-              props.formikprops.errors.hasOwnProperty('lists') &&
-              props.formikprops.touched.hasOwnProperty('lists') &&
-              props.formikprops.errors.lists[props.comNumber] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.touched.lists[props.comNumber][4] !== undefined &&
-              props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('scaling') &&
-              props.formikprops.touched.lists[props.comNumber][4].hasOwnProperty('scaling')
-                ? props.formikprops.touched.lists[props.comNumber][4].scaling &&
-                  props.formikprops.errors.lists[props.comNumber][4].scaling
-                : null
-            }
+            invalid={getValidation(
+              `itemElements[${props.comNumber}].itemElementOptions[4].scaling`
+            )}
             onChange={onhandlechange}
           />
-          <FormFeedback tooltip={true}>
-            {props.formikprops.touched !== undefined &&
-            props.formikprops.errors !== undefined &&
-            props.formikprops.errors.hasOwnProperty('lists') &&
-            props.formikprops.touched.hasOwnProperty('lists') &&
-            props.formikprops.errors.lists[props.comNumber] !== undefined &&
-            props.formikprops.touched.lists[props.comNumber] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4] !== undefined &&
-            props.formikprops.errors.lists[props.comNumber][4].hasOwnProperty('scaling')
-              ? props.formikprops.errors.lists[props.comNumber][4].scaling
-              : null}
-          </FormFeedback>
+          <ErrorMessage
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].scaling`}
+            render={msg => (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            )}
+          />
         </div>
       </div>
     </Fragment>
