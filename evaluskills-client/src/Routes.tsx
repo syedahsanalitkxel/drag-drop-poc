@@ -23,6 +23,7 @@ const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailIn
 const Evaluator = lazy(() => import('./components/pages/Evaluator'));
 const Question = lazy(() => import('./components/pages/Question'));
 const EvaluationSummary = lazy(() => import('./components/pages/EvaluationSummary'));
+const EvaluatorResult = lazy(() => import('./components/pages/EvaluatorResult'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -129,6 +130,10 @@ const Routes = () => (
 
       <Route exact={true} path="/evaluation-summary">
         <EvaluationSummary />
+      </Route>
+
+      <Route exact={true} path="/evaluator-result">
+        <EvaluatorResult />
       </Route>
     </Switch>
   </Suspense>

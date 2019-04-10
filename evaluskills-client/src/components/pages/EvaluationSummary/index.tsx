@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
+import { Modal, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+
 const EvaluationSummary = () => {
   const [display, setDisplay] = useState(false);
   const toggleComment = (e: any) => {
     e.preventDefault();
     setDisplay(!display);
+  };
+  const [displayModal, setDisplayModal] = useState(false);
+  const toggleModal = (e: any) => {
+    e.preventDefault();
+    setDisplayModal(!displayModal);
   };
   return (
     <GuestTemplate>
@@ -30,10 +37,10 @@ const EvaluationSummary = () => {
             <div className="col-lg-9 col-md-9">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <a href="index.html">Evaluations</a>
+                  <a href="#">Evaluations</a>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="index.html">360° Leadership Assessment</a>
+                  <a href="#">360° Leadership Assessment</a>
                 </li>
                 <li className="breadcrumb-item active">
                   <strong>Jasmine Rassol</strong>
@@ -80,7 +87,7 @@ const EvaluationSummary = () => {
             <div className="col-lg-12">
               <div className="ibox">
                 <div className="ibox-content in-progress m-0">
-                  <a href="Q2.html">
+                  <a href="#">
                     <div className="float-right">
                       <span className="badge badge-warning">In Progress</span>
                     </div>
@@ -144,7 +151,7 @@ const EvaluationSummary = () => {
             <div className="col-lg-12">
               <div className="ibox">
                 <div className="ibox-content in-progress m-0">
-                  <a href="Q2.html">
+                  <a href="#">
                     <div className="float-right">
                       <span className="badge badge-warning">In Progress</span>
                     </div>
@@ -250,9 +257,8 @@ const EvaluationSummary = () => {
                 <NavLink to="/questions" className="btn btn-dark">
                   Back
                 </NavLink>
-                {/*Commented on instruction from Azam bhai*/}
-                {/*<a href="#" className="btn btn-outline-dark">Save as Draft</a>*/}
                 <button
+                  onClick={toggleModal}
                   type="button"
                   className="btn btn-primary"
                   data-toggle="modal"
@@ -264,9 +270,37 @@ const EvaluationSummary = () => {
             </div>
           </div>
           <a href="#" className="m-10 position-absolute left bottom-logo">
-            <img src="img/icons/main-pas-logo.png" />
+            <img src="img/icons/main-pas-logo.png" alt="logo" />
           </a>
         </div>
+        <Modal isOpen={displayModal}>
+          <ModalBody>
+            <div className="modal-body pb-0">
+              <div className="text-center justify-content-center">
+                <img src="img/icons/confirmation.svg" alt="Confirmation" />
+              </div>
+              <div className="form-group row">
+                <h2 className="col-sm-12 font-bold text-center">
+                  Are you sure you want to submit?
+                </h2>
+                <div className="col-sm-11 d-flex align-items-center" />
+              </div>
+            </div>
+            <div className="modal-footer text-center justify-content-center border-0 pt-0">
+              <a
+                onClick={toggleModal}
+                href="#"
+                className="btn btn-default pr-4 pl-4"
+                data-dismiss="modal"
+              >
+                No
+              </a>
+              <NavLink to="evaluator-result" className="btn btn-primary pr-4 pl-4">
+                Yes
+              </NavLink>
+            </div>
+          </ModalBody>
+        </Modal>
       </div>
     </GuestTemplate>
   );
