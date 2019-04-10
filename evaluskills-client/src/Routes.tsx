@@ -122,7 +122,7 @@ const Routes = () => (
         <ParticipantHome />
       </Route>
 
-      <Route exact={true} path="/evaluator">
+      <Route exact={true} path="/start-evaluation">
         <Evaluator />
       </Route>
 
@@ -142,7 +142,7 @@ const Routes = () => (
         <EvaluatorComment />
       </Route>
 
-      <Route exact={true} path="/evaluator-list">
+      <Route exact={true} path="/evaluation-list">
         <EvaluatorList />
       </Route>
     </Switch>

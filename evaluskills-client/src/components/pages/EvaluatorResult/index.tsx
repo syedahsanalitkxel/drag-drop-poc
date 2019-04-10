@@ -1,5 +1,6 @@
 import React from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
+import { NavLink } from 'react-router-dom';
 
 const EvaluattorResult = () => {
   return (
@@ -18,12 +19,12 @@ const EvaluattorResult = () => {
                   <span className="font-normal">of</span> Jasmine Rassol!
                 </span>
               </h1>
-              <a
-                href="evaluaterComments.html"
+              <NavLink
+                to="/evaluator-comment"
                 className="btn btn-primary font-size-20 font-bold mb-4 pr-4 pl-4"
               >
                 View Detail <img src="img/icons/arrow.svg" alt="arrow" />
-              </a>
+              </NavLink>
             </div>
             <div className="col-sm-4 mt-5">
               <div className="result-container float-right">
