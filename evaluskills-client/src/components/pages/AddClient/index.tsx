@@ -4,7 +4,11 @@ import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 
-import AddClientInterface, { ContactInterface } from '../../../interfaces/Client';
+import AddEditClientInterface, {
+  ClientUserInterface,
+  ContactInterface,
+} from '../../../interfaces/AddEditClient';
+// import ClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/Client';
 import FormikBag from '../../../interfaces/FormikBag';
 import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
@@ -16,51 +20,11 @@ import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
 
 interface Props {
-  changeListener?: (formValues: AddClientInterface) => void;
-  defaultValues?: AddClientInterface;
+  changeListener?: (formValues: AddEditClientInterface) => void;
+  defaultValues?: any;
   action?: string;
+  clients?: any;
 }
-
-const initialState: AddClientInterface = {
-  address: '',
-  billing: '',
-  city: '',
-  clientInformation: '',
-  clientName: '',
-  clientType: '',
-  contact: [
-    {
-      email: '',
-      firstName: '',
-      id: '',
-      lastName: '',
-      phone: '',
-      role: '',
-    },
-  ],
-  id: '',
-  noOfAssessments: '',
-  noOfEvaluators: '',
-  noOfParticipants: '',
-  phone: '',
-  plan: '',
-  school: '',
-  state: '',
-  status: '',
-  userEmail: '',
-  userFirstName: '',
-  userLastName: '',
-  zip: '',
-};
-
-const initialContactState: ContactInterface = {
-  email: '',
-  firstName: '',
-  id: '',
-  lastName: '',
-  phone: '',
-  role: '',
-};
 
 const StyledButton = styled(Button)`
   margin-left: 5px;
@@ -71,14 +35,17 @@ export const AddClient: React.FunctionComponent<Props> = ({
   changeListener,
   defaultValues,
   action,
+  clients,
 }) => {
-  const [formState, setFormState] = useState(defaultValues || initialState);
-  const [contactFormState, setContactFormState] = useState(initialContactState);
+  const [formState, setFormState] = useState(defaultValues || clients);
+  const [contactFormState, setContactFormState] = useState(
+    clients && clients.clientContacts ? clients.clientContacts : []
+  );
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
   const toggleAddClientContactModal = () => {
-    setContactFormState(initialContactState);
+    setContactFormState([]);
     setAddClientContactModalVisible(!addClientContactModalVisible);
   };
 
@@ -87,24 +54,24 @@ export const AddClient: React.FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    if (changeListener) {
+    if (changeListener && formState) {
       changeListener(formState);
     }
   });
 
-  function editContact(contactId: string) {
-    if (defaultValues && defaultValues.contact) {
-      const contactData: any = defaultValues.contact.find(client => client.id === contactId);
+  function editContact(contactId: number) {
+    if (defaultValues && defaultValues.clientContacts) {
+      const contactData: any = defaultValues.clientContacts;
       setContactFormState(contactData);
       toggleEditClientContactModal();
     }
   }
 
-  function removeContact(contactId: string) {
+  function removeContact(contactId: number) {
     alert(`deleting => ${contactId}`);
   }
 
-  function submitForm(values: AddClientInterface) {
+  function submitForm(values: AddEditClientInterface) {
     setFormState({ ...formState, ...values });
   }
 
@@ -114,20 +81,19 @@ export const AddClient: React.FunctionComponent<Props> = ({
       toggleAddClientContactModal();
     }
 
-    if (action !== 'edit') {
-      const { contact } = formState;
+    if (action !== 'edit' && formState.clientContacts) {
+      const { clientContacts } = formState;
       const contactObj: ContactInterface = {
+        clientId: 0,
         email: '',
         firstName: '',
-        id: '',
+        id: 0,
         lastName: '',
         phone: '',
-        role: '',
+        title: '',
       };
-      if (contact) {
-        contact.push(contactObj);
-      }
-      setFormState({ ...formState, contact });
+      clientContacts.push(contactObj);
+      setFormState({ ...formState, clientContacts });
     }
   };
 
@@ -253,14 +219,15 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
         <div>
           {action === 'edit'
-            ? formState.contact && (
+            ? formState &&
+              formState.clientContacts && (
                 <ClientContactsList
-                  listData={formState.contact}
+                  listData={formState.clientContacts}
                   edit={editContact}
                   remove={removeContact}
                 />
               )
-            : formState.contact && formState.contact.map(renderContactList)}
+            : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>
 
         <AddClientContacts
@@ -268,7 +235,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
           visible={addClientContactModalVisible}
           toggle={toggleAddClientContactModal}
           formValues={contactFormState}
-          name={'Add'}
+          name="Add"
         />
 
         <EditClientContacts
@@ -328,9 +295,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
   return (
     <DashboardTemplate>
-      <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
-        {(formikprops: FormikBag) => renderForm(formikprops)}
-      </Formik>
+      {formState && (
+        <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
+          {(formikprops: FormikBag) => renderForm(formikprops)}
+        </Formik>
+      )}
     </DashboardTemplate>
   );
 };
