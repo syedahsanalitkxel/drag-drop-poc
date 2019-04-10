@@ -4,6 +4,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import NavItem from '../../atoms/NavItem';
 import ProfileBadge from '../../molecules/ProfileBadge';
 
+import './sidebar.styles.scss';
+
 function getNavItem(to: string, icon: IconProp, label: string) {
   return <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />;
 }
@@ -34,7 +36,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         {isClientAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
         {getNavItem('/instrument', 'sitemap', 'Instrument')}
         <NavItem to="" icon="cog" label="Setting">
-          <ul className="nav metismenu" id="side-menu">
+          <ul className="nav metismenu collapse-menu" id="side-menu">
             {getNavItem('/users', 'user', 'Users')}
             {getNavItem('/email', 'user', 'Email')}
           </ul>

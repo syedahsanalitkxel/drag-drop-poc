@@ -29,18 +29,20 @@ const DropdownBase = styled.div`
 `;
 
 const NavItem: React.FunctionComponent<Props> = ({ to, label, children, active, icon }) => {
+  const [collapse, setCollapse] = useState(false);
+
   const renderCollapse = () =>
     children && (
       <Collapse isOpen={collapse} className="nav nav-second-level">
         {children}
       </Collapse>
     );
-  const [collapse, setcollapse] = useState(false);
+
   function stateManage() {
-    setcollapse(!collapse);
+    setCollapse(!collapse);
   }
 
-  if (to !== '') {
+  if (to) {
     return (
       <li className={classNames({ active })}>
         <NavLink to={to}>
