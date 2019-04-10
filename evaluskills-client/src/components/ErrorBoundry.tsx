@@ -1,7 +1,7 @@
 import React, { createRef, RefObject } from 'react';
 
 import NotificationSystem, { System } from 'react-notification-system';
-import { ErrorContextProvider } from '../context';
+import { ErrorContextProvider } from '../context/ErrorContext';
 import ErrorContextInterface from '../interfaces/ErrorContext';
 import ErrorObjectInterface from '../interfaces/ErrorObject';
 

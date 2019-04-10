@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import LookupContext from '../../../context/LookupContext';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
 import PageBody from '../../atoms/PageBody';
@@ -28,6 +29,8 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   addInstrument,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const lookupContext = useContext(LookupContext);
+  console.log('Instrument', lookupContext);
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
