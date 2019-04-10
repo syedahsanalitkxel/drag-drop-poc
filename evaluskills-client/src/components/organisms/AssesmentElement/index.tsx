@@ -19,23 +19,11 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
   function getValidation(name: string) {
     return !!(props.formikprops.touched[name] && props.formikprops.errors[name]);
   }
-  const ErroorMessage = (name: any) => {
-    return (
-      <ErrorMessage
-        name={name}
-        render={msg => (
-          <div className="isa_error">
-            <span className="error text-danger">{msg}</span>
-          </div>
-        )}
-      />
-    );
-  };
   // public render() {
   console.log('formik ' + props.formikprops.errors.itemsElements);
   return (
     <Fragment>
-      {props.comNumber > 1 ? (
+      {props.comNumber > 0 ? (
         <Fragment>
           <div className="row">
             <label className="col-sm-2 col-form-label font-bold">
