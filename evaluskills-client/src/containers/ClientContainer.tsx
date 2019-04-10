@@ -1,225 +1,99 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import ClientsList from '../components/pages/Client';
-import IClientList from '../interfaces/Client';
-import { getClients } from '../services/clientsService';
+import ErrorContext from '../context/ErrorContext';
+import IClientList, { ClientUserInterface, ContactInterface } from '../interfaces/Client';
+import { ClientFilters } from '../interfaces/ClientFilter';
+import { getClients, getFilteredClient } from '../services/clientsService';
+
+const client: ContactInterface = {
+  clientId: 1,
+  email: 'maria@evaluskills.com',
+  firstName: 'Maria',
+  id: 1,
+  lastName: ' Garcia',
+  phone: ' Garcia',
+  title: ' Garcia',
+};
+
+const user: ClientUserInterface = {
+  email: 'maria@evaluskills.com',
+  firstName: 'Maria',
+  id: 1,
+  lastName: ' Garcia',
+};
 
 const ClientList: IClientList[] = [
   {
-    address: 'Cantt. MughalPura Lahore',
-    billing: 'Biling 2',
-    city: 'Lahore',
-    clientInformation: 'Tkxel Client',
+    billingPlanTitle: 'Biling 2',
+    clientContact: client,
+    clientLogo: 'aaaaaaaaa',
     clientName: 'TkXel',
-    clientType: 'Educational institute',
-    contact: [
-      {
-        id: '1',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-      {
-        id: '2',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-      {
-        id: '3',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-      {
-        id: '4',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-    ],
-    id: '1',
-    noOfAssessments: '25',
-    noOfEvaluators: '28',
-    noOfParticipants: '30',
+    clientUser: user,
+    id: 1,
+    isActivated: true,
+    noOfAssessments: 25,
+    noOfEvaluators: 28,
+    noOfParticipants: 30,
     phone: '+1 818-452-1505',
-    plan: 'Plan 01',
-    school: 'P.R Boys high school',
-    state: 'punjab',
-    status: 'inActive',
-    userEmail: 'ali@tkxel.com',
-    userFirstName: 'ali',
-    userLastName: 'raza',
-    zip: '54000',
-  },
-  {
-    address: 'Cantt. MughalPura Lahore',
-    billing: '',
-    city: 'Lahore',
-    clientInformation: '',
-    clientName: 'TkXel',
-    clientType: '',
-    contact: [
-      {
-        id: '1',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-    ],
-    id: '2',
-    noOfAssessments: '25',
-    noOfEvaluators: '28',
-    noOfParticipants: '30',
-    phone: '+1 818-452-1505',
-    plan: 'Plan 01',
-    school: 'P.R Boys high school',
-    state: 'punjab',
-    status: 'Active',
-    userEmail: 'ali@tkxel.com',
-    userFirstName: 'ali',
-    userLastName: 'raza',
-    zip: '54000',
-  },
-  {
-    address: 'Cantt. MughalPura Lahore',
-    billing: '',
-    city: 'Lahore',
-    clientInformation: '',
-    clientName: 'TkXel',
-    clientType: '',
-    contact: [
-      {
-        id: '1',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-    ],
-    id: '3',
-    noOfAssessments: '25',
-    noOfEvaluators: '28',
-    noOfParticipants: '30',
-    phone: '+1 818-452-1505',
-    plan: 'Plan 01',
-    school: 'P.R Boys high school',
-    state: 'punjab',
-    status: 'Active',
-    userEmail: 'ali@tkxel.com',
-    userFirstName: 'ali',
-    userLastName: 'raza',
-    zip: '54000',
-  },
-  {
-    address: 'Cantt. MughalPura Lahore',
-    billing: '',
-    city: 'Lahore',
-    clientInformation: '',
-    clientName: 'TkXel',
-    clientType: '',
-    contact: [
-      {
-        id: '1',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-    ],
-    id: '4',
-    noOfAssessments: '25',
-    noOfEvaluators: '28',
-    noOfParticipants: '30',
-    phone: '+1 818-452-1505',
-    plan: 'Plan 01',
-    school: 'P.R Boys high school',
-    state: 'punjab',
-    status: 'inActive',
-    userEmail: 'ali@tkxel.com',
-    userFirstName: 'ali',
-    userLastName: 'raza',
-    zip: '54000',
-  },
-  {
-    address: 'Cantt. MughalPura Lahore',
-    billing: '',
-    city: 'Lahore',
-    clientInformation: '',
-    clientName: 'TkXel',
-    clientType: '',
-    contact: [
-      {
-        id: '1',
-        email: 'maria@evaluskills.com',
-        firstName: 'Maria',
-        lastName: ' Garcia',
-        phone: '+1 818-452-1505',
-        role: '',
-      },
-    ],
-    id: '5',
-    noOfAssessments: '25',
-    noOfEvaluators: '28',
-    noOfParticipants: '30',
-    phone: '+1 818-452-1505',
-    plan: 'Plan 01',
-    school: 'P.R Boys high school',
-    state: 'punjab',
-    status: 'Active',
-    userEmail: 'ali@tkxel.com',
-    userFirstName: 'ali',
-    userLastName: 'raza',
-    zip: '54000',
   },
 ];
 
 const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+  const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
-  // TODO: Try moving filters to context
-  const [filters, setFilters] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
-  // https://www.andreasreiterer.at/react-useeffect-hook-loop/
-  // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
-    // fetchClients();
+    fetchClients();
     return function cleanup() {
       setClients(ClientList);
-      setFilters({});
     };
   }, []);
 
-  // async function fetchClients() {
-  //     const data = await getClients();
-  //     setClients(data);
-  // }
+  async function fetchClients() {
+    try {
+      const data = await getClients();
+      setClients(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
 
   function filterClients(searchQuery: string) {
     alert(searchQuery);
+  }
+
+  const toggleFilterModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const filtersClickHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    toggleFilterModal();
+  };
+
+  async function applyFilterClients(filter: ClientFilters) {
+    const param = { ...filter };
+    toggleFilterModal();
+    try {
+      const data: any = await getFilteredClient(param);
+      setClients(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
   }
 
   function addClient() {
     history.push('/clients/add');
   }
 
-  function editClient(clientId: string) {
+  function editClient(clientId: number) {
     history.push(`/clients/edit/${clientId}`);
   }
 
-  function deleteClient(clientId: string) {
+  function deleteClient(clientId: number) {
     alert(`deleting => ${clientId}`);
   }
 
@@ -230,6 +104,10 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       add={addClient}
       remove={deleteClient}
       edit={editClient}
+      applyFilters={applyFilterClients}
+      modalVisible={modalVisible}
+      filtersClickHandler={filtersClickHandler}
+      toggleFilterModal={toggleFilterModal}
     />
   );
 };

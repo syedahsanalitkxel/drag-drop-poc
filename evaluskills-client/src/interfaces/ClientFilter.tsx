@@ -1,5 +1,5 @@
-export interface IClientFilters {
-  plan?: string;
-  status?: string;
-  type?: string;
+export interface ClientFilters {
+  statusId?: boolean;
+  billingPlanId?: number;
+  companyTypeId?: number;
 }
