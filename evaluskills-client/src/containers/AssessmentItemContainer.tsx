@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
+import RouteParamsInterface from '../interfaces/RouteParams';
 import AssessmentItem from '../components/pages/AssessmentItem';
 import ErrorContext from '../context/ErrorContext';
 import AssessmentItemInterface from '../interfaces/AssessmentItem';
 import { getAssessments } from '../services/assessmentsService';
-
+import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import AddAssessment from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Character',
@@ -24,7 +25,9 @@ const AssessmentItems: AssessmentItemInterface[] = [
   },
 ];
 
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const AssessmentItemContainer: React.FunctionComponent<
+  RouteComponentProps<RouteParamsInterface>
+> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
 
   const [assessments, setAssessments] = useState(AssessmentItems);
@@ -62,6 +65,13 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps> = ({
 
   function deleteAssessment(assessmentId: string) {
     alert(`deleting => ${assessmentId}`);
+  }
+  if (isEdit(match.params)) {
+    return <AddAssessment />;
+  }
+
+  if (isAdd(match.path)) {
+    return <AddAssessment />;
   }
 
   return (

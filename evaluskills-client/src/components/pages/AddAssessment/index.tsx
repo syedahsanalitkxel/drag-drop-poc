@@ -92,7 +92,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
                         name="definiation"
                         className="form-control"
                         tag={Field}
-                        onChange={() => {}}
+                        id={'definiation'}
                         invalid={
                           !!(formikprops.touched.definiation && formikprops.errors.definiation)
                         }
@@ -486,13 +486,16 @@ const AddAssessment: React.FunctionComponent<any> = ({ changeListener, edit }) =
       </form>
     );
   };
+  function submitForm(values: any) {
+    setFormState({ ...formState, ...values });
+  }
   return (
     <DashboardTemplate>
       <Formik
         enableReinitialize={true}
         initialValues={formState}
         validationSchema={AddAssessmentSchema}
-        onSubmit={() => {}}
+        onSubmit={submitForm}
       >
         {formikprops => renderForm(formikprops)}
       </Formik>
