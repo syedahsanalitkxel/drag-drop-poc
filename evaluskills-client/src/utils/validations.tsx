@@ -12,6 +12,15 @@ export const stringValidation = (min?: number, max?: number, required?: boolean)
     .max(max || 100, 'Too Long!');
 };
 
+export const numberValidation = (min?: number, max?: number, required?: boolean) => {
+  if (required) {
+    return Yup.number()
+      .min(min || 1, 'Too Short!')
+      .min(max || 1, 'Too Short!')
+      .required('Required Field');
+  }
+  return Yup.number().min(min || 1, 'Too Short!');
+};
 export const emailValidation = (required?: boolean) => {
   if (required) {
     Yup.string()

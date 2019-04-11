@@ -52,9 +52,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
         <td>{billing}</td>
         <td>{noOfAssessments || 0}</td>
         <td>{noOfParticipants || 0}</td>
-        <td>
-          <strong className="number">{noOfEvaluators || 0}</strong>
-        </td>
+        <td>{noOfEvaluators || 0}</td>
         <td>
           {isActivated ? (
             <span className="label label-primary">Activate</span>
@@ -127,7 +125,17 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
               </tr>
             </thead>
             <tbody>
-              {listData.length > 0 ? listData && listData.map(renderClientItem) : <tr />}
+              {listData.length > 0 ? (
+                listData && listData.map(renderClientItem)
+              ) : (
+                <tr>
+                  <td colSpan={7} style={{ textAlign: 'center' }}>
+                    <span className="label" style={{ textAlign: 'center' }}>
+                      No Record Found
+                    </span>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

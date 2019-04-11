@@ -28,7 +28,6 @@ const ClientData: AddEditClientInterface[] = [
         title: ' Garcia',
       },
     ],
-    clientLogo: 'aaaaaaaaa',
     clientName: 'TkXel',
     clientTypeId: 0,
     clientUser: user,
@@ -45,8 +44,13 @@ const EditClient: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
   location,
   match,
 }) => {
+  function submitForm(values: any) {
+    delete values.clientContacts;
+    values.clientContacts = values.contact;
+    console.log(values);
+  }
   const clientData: any = ClientData.find(clients => clients.id.toString() === match.params.id);
-  return <EditComponent defaultValues={clientData} action="edit" />;
+  return <EditComponent defaultValues={clientData} action="edit" changeListener={submitForm} />;
 };
 
 export default withRouter(EditClient);

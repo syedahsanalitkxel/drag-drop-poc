@@ -4,6 +4,8 @@ import { storiesOf } from '@storybook/react';
 import AddClientContact from '../../organisms/AddClientContact/index';
 import AddClient from './index';
 import EditClientContact from '../../organisms/AddClientContact/index';
+import { Simulate } from 'react-dom/test-utils';
+import submit = Simulate.submit;
 
 const formValues = {
   address: 'Cantt. MughalPura Lahore',
@@ -65,6 +67,12 @@ const toggleEditClientContactModal = () => {
   setEditClientContactModalVisible(!editClientContactModalVisible);
 };
 
+function submitForm(values: any) {
+  delete values.clientContacts;
+  values.clientContacts = values.contact;
+  console.log(values);
+}
+
 const addContactProps: ModalProps = {
   formValues: modalValues,
   fprops: formValues,
@@ -82,6 +90,6 @@ const editContactProps: ModalProps = {
 };
 
 storiesOf('AddClient', module)
-  .add('AddClient', () => <AddClient />)
+  .add('AddClient', () => <AddClient changeListener={submitForm} />)
   .add('AddClientContact renders with props', () => <AddClientContact {...addContactProps} />)
   .add('EditClientContact renders with props', () => <EditClientContact {...editContactProps} />);
