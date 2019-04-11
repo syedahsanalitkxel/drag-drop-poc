@@ -19,6 +19,7 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
+import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
   changeListener: (formValues: any) => void;
@@ -73,6 +74,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   function submitForm(values: any) {
+    console.log(values);
     values.stateId = parseInt(values.stateId, 10);
     values.billingPlanId = parseInt(values.billingPlanId, 10);
     values.clientTypeId = parseInt(values.clientTypeId, 10);
@@ -107,6 +109,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   };
 
   const renderForm = (formikprops: FormikBag) => {
+    console.log(formikprops);
     const renderContactList = (clientContacts: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
@@ -121,22 +124,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
             name="clientName"
             placeholder="Add Client Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
 
           <FormGroup>
-            <Label for="exampleFile">Upload Image</Label>
+            <span className={styles['image-upload-label']}>Upload Photo</span>
             <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
           </FormGroup>
-
-          {/*<input type="file" name="clientLogo" accept="image/*" onChange={ event => event.target.files } />*/}
-
-          {/*<FormElement*/}
-          {/*label="Logo"*/}
-          {/*name="clientLogo"*/}
-          {/*formikprops={formikprops}*/}
-          {/*noValidate={true}*/}
-          {/*type={FormElementTypes.IMAGE_UPLOAD}*/}
-          {/*/>*/}
+          <div className="hr-line-dashed" />
 
           <div className="row">
             <div className="col-md-6">
@@ -146,6 +141,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add Address"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
             <div className="col-md-6">
@@ -155,6 +151,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add City"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
           </div>
@@ -167,6 +164,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add State"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
             <div className="col-md-6">
@@ -176,6 +174,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add Zip"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
           </div>
@@ -186,7 +185,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 label="Billing"
                 name="billingPlanId"
                 formikprops={formikprops}
-                type={FormElementTypes.SELECT}
                 inline={true}
               >
                 <option value={1}>Biling 1</option>
@@ -214,6 +212,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             placeholder="Add School"
             formikprops={formikprops}
             last={true}
+            type={FormElementTypes.TEXT}
           />
         </PageBody>
 
@@ -274,6 +273,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             name="clientUser.firstName"
             placeholder="Add First Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
 
           <FormElement
@@ -281,13 +281,16 @@ export const AddClient: React.FunctionComponent<Props> = ({
             name="clientUser.lastName"
             placeholder="Add Last Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
+
           <FormElement
             label="Email"
             name="clientUser.email"
             placeholder="Add Email"
             formikprops={formikprops}
             last={true}
+            type={FormElementTypes.TEXT}
           />
         </PageBody>
 
@@ -313,7 +316,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   return (
     <DashboardTemplate>
       {formState && (
-        <Formik initialValues={formState} onSubmit={submitForm}>
+        <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}

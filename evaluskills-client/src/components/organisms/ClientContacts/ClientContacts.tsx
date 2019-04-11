@@ -27,7 +27,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('firstName')}
             placeholder="Add First Name"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -37,7 +37,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('lastName')}
             placeholder="Add Last Name"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -49,7 +49,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('email')}
             placeholder="Add Email"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -59,7 +59,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('phone')}
             placeholder="Add Phone"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
