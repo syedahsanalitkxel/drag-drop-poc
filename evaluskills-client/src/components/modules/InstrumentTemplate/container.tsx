@@ -1,14 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import ErrorContext from '../../../context/ErrorContext';
-import LookupContext from '../../../context/LookupContext';
 import RouteParamsInterface from '../../../interfaces/RouteParams';
+import { isAdd, isEdit, isList } from '../../../utils/routerUtils';
+import Spinner from '../../atoms/Spinner';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import { InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
-import { isEdit, isList } from '../../../utils/routerUtils';
+
+const InstrumentTemplate = lazy(() => import('./list'));
+const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
 
 const instrumentTemplates: InstrumentTemplateInterface[] = [];
 const instrumentTemplate: InstrumentTemplateInterface = {
@@ -19,14 +22,13 @@ const instrumentTemplate: InstrumentTemplateInterface = {
 };
 
 interface State {
-  instrumentTemplates?: InstrumentTemplateInterface[];
-  instrumentTemplate?: InstrumentTemplateInterface;
+  instrumentTemplates: InstrumentTemplateInterface[];
+  instrumentTemplate: InstrumentTemplateInterface;
 }
 
-const InstrumentTemplate: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
+const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
   const { history, match } = props;
   const errorContext = useContext(ErrorContext);
-  const lookupContext = useContext(LookupContext);
   const [state, setState] = useState<State>({ instrumentTemplate, instrumentTemplates });
 
   useEffect(() => {
@@ -59,14 +61,25 @@ const InstrumentTemplate: React.FC<RouteComponentProps<RouteParamsInterface>> = 
   function deleteInstrument() {}
 
   function navigate(path: string) {
-    history.push(`/instrument${path}`);
+    history.push(`/instrument-templates${path}`);
+  }
+
+  function renderPage() {
+    if (isEdit(match.params)) {
+      return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
+    } else if (isAdd(match.path)) {
+      return <AddEditInstrumentTemplate />;
+    }
+    return (
+      <InstrumentTemplate instrumentTemplates={state.instrumentTemplates} navigate={navigate} />
+    );
   }
 
   return (
     <DashboardTemplate>
-      <h1>Instrument Container</h1>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
     </DashboardTemplate>
   );
 };
 
-export default withRouter(InstrumentTemplate);
+export default withRouter(InstrumentTemplateContainer);

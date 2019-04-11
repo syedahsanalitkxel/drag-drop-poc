@@ -6,7 +6,6 @@ import Spinner from './components/atoms/Spinner';
 import { InstrumentTemplateRoutes } from './components/modules/InstrumentTemplate';
 
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
-import InstrumentTemplateContainer from './containers/InstrumentContainer';
 
 const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
@@ -68,21 +67,21 @@ const Routes = () => (
       {InstrumentTemplateRoutes.map((item, i) => {
         const { Component } = item;
         return (
-          <Route key={i} path={item.path}>
+          <Route exact={true} key={i} path={item.path}>
             <Component />
           </Route>
         );
       })}
 
-      <Route exact={true} path="/instrument-templates">
-        <InstrumentTemplateContainer />
-      </Route>
-      <Route exact={true} path="/instrument-templates/add">
-        <InstrumentTemplateContainer />
-      </Route>
-      <Route exact={true} path="/instrument-templates/edit/:id">
-        <InstrumentTemplateContainer />
-      </Route>
+      {/*<Route exact={true} path="/instrument-templates">*/}
+      {/*<InstrumentTemplateContainer />*/}
+      {/*</Route>*/}
+      {/*<Route exact={true} path="/instrument-templates/add">*/}
+      {/*<InstrumentTemplateContainer />*/}
+      {/*</Route>*/}
+      {/*<Route exact={true} path="/instrument-templates/edit/:id">*/}
+      {/*<InstrumentTemplateContainer />*/}
+      {/*</Route>*/}
 
       <Route exact={true} path="/client-assessment-detail/:id">
         <InstrumentDetailContainer />

@@ -6,15 +6,15 @@ import InstrumentTemplateList from './list';
 const InstrumentTemplateRoutes = [
   {
     Component: lazy(() => import('./container')),
-    path: '/instrument-templatess',
+    path: '/instrument-templates',
   },
   {
     Component: lazy(() => import('./container')),
-    path: '/instrument-templatess/add',
+    path: '/instrument-templates/add',
   },
   {
     Component: lazy(() => import('./container')),
-    path: '/instrument-templatess/edit/:id',
+    path: '/instrument-templates/edit/:id',
   },
 ];
 
