@@ -71,7 +71,7 @@ const AssessmentItemContainer: React.FunctionComponent<
   }
 
   if (isAdd(match.path)) {
-    return <AddAssessment />;
+    return <AddAssessment addAssessment={addAssessment} />;
   }
 
   return (

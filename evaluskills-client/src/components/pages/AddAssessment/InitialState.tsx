@@ -1,7 +1,48 @@
+export const Initalvalues = {
+  isSystemDefined: false,
+  clientId: 2,
+  itemsStatusId: 1,
+  definition: 'abc',
+  typeId: 1,
+  competencyId: 1,
+  categoryId: 1,
+  isFaithBased: false,
+  accreditationAlignment: false,
+  questionTypeId: 1,
+  itemEntities: [1],
+  suage: 1,
+  itemRecomendedApplications: [1],
+  itemElements: [
+    {
+      title: 'abc',
+      itemElementOptions: [
+        {
+          value: 1,
+          title: 'abc',
+          statement: 'abc',
+          behaviour: 'abc',
+          scaling: 'abc',
+        },
+      ],
+    },
+  ],
+};
+
 export const initialState = {
   assessmentType: 'rubricval',
   categorySelected: '',
+  itemsStatusId: 1,
+  accreditationAlignment: false,
+  questionTypeId: 1,
+  itemEntities: [1],
+  itemRecomendedApplications: [1],
+  categoryId: 1,
+  isFaithBased: false,
+  clientId: 2,
+  definition: 'abc',
   competency: '',
+  competencyId: 1,
+  typeId: 1,
   countAssetelement: 0,
   entityCheck: [
     { id: 1, value: 'SHRM', isChecked: false },
@@ -18,13 +59,9 @@ export const initialState = {
   ],
   componenetName: 'Add Assesment Items',
   entitySelect: 0,
-  expstatement: [{ statement: '' }],
-  expBehaviour: [{ behaviour: '' }],
-  expstatementList: {},
   entityCheckedAll: false,
   fathSelected: '',
   elementObject: {
-    id: 0,
     title: 'default',
     itemElementOptions: [
       {
@@ -66,7 +103,6 @@ export const initialState = {
   },
   itemElements: [
     {
-      id: 0,
       title: 'default',
       itemElementOptions: [
         {
@@ -107,10 +143,9 @@ export const initialState = {
       ],
     },
   ],
-  lists: {},
+
   recommendAppCorporate: false,
   recommendAppHigher: false,
   typeSelected: 'influval',
   usage: '',
-  validateArray: {},
 };

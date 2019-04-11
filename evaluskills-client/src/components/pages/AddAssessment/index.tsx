@@ -7,11 +7,12 @@ import RadioButton from '../../atoms/RadioButton';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
-import { initialState } from './InitialState';
+import { initialState, Initalvalues } from './InitialState';
 import ErrorContext from '../../../context/ErrorContext';
 
 const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeListener, edit }) => {
   const [formState, setFormState] = useState(initialState);
+  const [forvalues, setFormvalues] = useState(Initalvalues);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
     // if (formState.itemElements.length === 0) {
@@ -490,6 +491,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
   };
   async function submitForm(values: any) {
     try {
+      console.log(values);
       const data = await addAssessment(values);
       console.log(data);
     } catch (error) {
