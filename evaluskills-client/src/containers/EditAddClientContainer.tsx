@@ -111,6 +111,8 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (action === 'add') {
       try {
         const data = await addClient(formd);
+        setClients(ClientList);
+        setAction('');
         history.push('/clients');
         // setClients(ClientList);
       } catch (error) {
@@ -120,9 +122,8 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
 
   if (Object.getOwnPropertyNames(match.params).length > 0) {
-    setAction('edit');
     const clientData: any = fetchClients(match.params.id);
-    return <AddClient defaultValues={clientData} action={action} changeListener={submitForm} />;
+    return <AddClient defaultValues={clientData} action="edit" changeListener={submitForm} />;
   }
   return <AddClient action={action} defaultValues={clients} changeListener={submitForm} />;
 };
