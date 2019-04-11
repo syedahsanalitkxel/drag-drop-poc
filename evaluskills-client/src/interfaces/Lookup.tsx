@@ -1,3 +1,5 @@
+import { lookups } from '../enums';
+
 export interface LookupItemInterface {
   value?: number;
   text?: string;
@@ -41,12 +43,12 @@ export const lookupInitialState: LookupInterface = {
 
 export interface LookupContextInterface {
   findByValue?: (id: number, key: string) => void;
-  findKey?: (key: string) => LookupItemInterface[];
+  findKey?: (key: lookups) => LookupItemInterface[];
   lookups?: LookupInterface;
 }
 
 export const LookupContextInitialState = {
   findByValue: (id: number, key: string) => {},
-  findKey: (key: string) => [LookupItemInitialState],
+  findKey: (key: lookups) => [LookupItemInitialState],
   lookups: lookupInitialState,
 };

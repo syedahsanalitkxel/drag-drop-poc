@@ -4,10 +4,13 @@ import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import FormikBag from '../../../interfaces/FormikBag';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import RadioButton from '../../atoms/RadioButton';
@@ -16,8 +19,6 @@ import ESModal from '../../molecules/Modal';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import AssessmentItemsList from './AssessmentItemsList';
-import LookupContext from '../../../context/LookupContext';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 
 const StyledButton = styled(Button)`
   margin-right: 5px;
@@ -113,13 +114,11 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
     const renderInstrumentDropdown = (props: LookupContextInterface) => {
       const { findKey } = props;
       if (findKey) {
-        return findKey('recommendedApplicationsLookUp').map((lookup: LookupItemInterface) => {
-          return (
-            <option key={lookup.value} value={lookup.value}>
-              {lookup.text}
-            </option>
-          );
-        });
+        return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
       }
     };
 
@@ -174,10 +173,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             type={FormElementTypes.SELECT}
             last={!!defaultValues}
           >
-            <LookupContext.Consumer>{renderInstrumentDropdown}</LookupContext.Consumer>
-            {/*<option value="selected">Select Type</option>*/}Ø
-            {/*<option value="co-oprate">Co-oprate</option>*/}
-            {/*<option value="Educational Institute">Educational Institute</option>*/}
+            <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
           </FormElement>
 
           {!defaultValues && renderAddElements()}
