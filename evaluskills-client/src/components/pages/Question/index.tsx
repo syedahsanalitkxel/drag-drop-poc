@@ -1,16 +1,11 @@
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
+import QuestionItem from '../../organisms/QuestionItem';
 
 const EvaluatorQuestion = () => {
-  const [display, setDisplay] = useState(false);
-  const toggleStatement = (e: any) => {
-    e.preventDefault();
-    setDisplay(!display);
-  };
   return (
     <GuestTemplate>
       <div>
@@ -49,37 +44,7 @@ const EvaluatorQuestion = () => {
             1- Contributes to and operates within a team to accomplish tasks and complete
             assignments within a collaborate and professional environment.
           </h2>
-          <div className="col-lg-12">
-            <div className="ibox collapsed">
-              <div className="ibox-title row">
-                <div className="float-left bg-gray number mr-2">1</div>
-                <div className="col-sm-10 inline">
-                  <h5 className="inline">
-                    Level of proficiency significantly exceeds expectations.{' '}
-                  </h5>
-                </div>
-                <div className="ibox-tools">
-                  <a onClick={toggleStatement} className="collapse-link">
-                    <FontAwesomeIcon icon={display ? faChevronUp : faChevronDown} />
-                  </a>
-                </div>
-              </div>
-              <div className="ibox-content row" style={{ display: display ? 'block' : 'none' }}>
-                <h3>Statement</h3>
-                <p>
-                  Very attentive to the speaker and highly thoughtful and reflective with responses.
-                  Level of proficiency with this competency is much higher than expected and very
-                  much higher than average.
-                </p>
-                <h3>Behavior</h3>
-                <p>
-                  Very attentive to the speaker and highly thoughtful and reflective with responses.
-                  Level of proficiency with this competency is much higher than expected and very
-                  much higher than average.
-                </p>
-              </div>
-            </div>
-          </div>
+          <QuestionItem />
           <div className="col-lg-12">
             <div className="ibox collapsed">
               <div className="ibox-title row">

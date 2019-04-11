@@ -1,17 +1,13 @@
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
 import { Modal, ModalBody } from 'reactstrap';
+import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
+import Pager from '../../molecules/Pager';
 
 const EvaluationSummary = () => {
-  const [display, setDisplay] = useState(false);
-  const toggleComment = (e: any) => {
-    e.preventDefault();
-    setDisplay(!display);
-  };
   const [displayModal, setDisplayModal] = useState(false);
   const toggleModal = (e: any) => {
     e.preventDefault();
@@ -61,29 +57,7 @@ const EvaluationSummary = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Receives feedback from others and uses the feedback to improve performance.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">02</div>
-                    <a onClick={toggleComment} className="collapse-link">
-                      <FontAwesomeIcon icon={display ? faChevronUp : faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content m-0" style={{ display: display ? 'block' : 'none' }}>
-                  <h3>Comment</h3>
-                  <p>
-                    Very attentive to the speaker and highly thoughtful and reflective with
-                    responses. Level of proficiency with this competency is much higher than
-                    expected and very much higher than average.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <EvaluatorAssessmentItem />
             <div className="col-lg-12">
               <div className="ibox">
                 <div className="ibox-content in-progress m-0">
@@ -190,65 +164,7 @@ const EvaluationSummary = () => {
               </div>
             </div>
           </div>
-          <div className="paging_simple_numbers" id="DataTables_Table_0_paginate">
-            <ul className="pagination">
-              <li className="paginate_button page-item previous" id="DataTables_Table_0_previous">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={0}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  Previous
-                </a>
-              </li>
-              <li className="paginate_button page-item ">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={1}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  1
-                </a>
-              </li>
-              <li className="paginate_button page-item ">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={2}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  2
-                </a>
-              </li>
-              <li className="paginate_button page-item active">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={3}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  3
-                </a>
-              </li>
-              <li className="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={4}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
+          <Pager />
         </div>
         <div className="bottom-bar fixed-bottom p-10">
           <div className="container">

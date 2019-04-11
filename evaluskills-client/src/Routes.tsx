@@ -19,7 +19,7 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
-const Evaluator = lazy(() => import('./components/pages/Evaluator'));
+const Evaluator = lazy(() => import('./components/pages/Evaluation/Evaluator'));
 const Question = lazy(() => import('./components/pages/Question'));
 const EvaluationSummary = lazy(() => import('./components/pages/EvaluationSummary'));
 const EvaluatorResult = lazy(() => import('./components/pages/EvaluatorResult'));
@@ -122,7 +122,7 @@ const Routes = () => (
         <ParticipantHome />
       </Route>
 
-      <Route exact={true} path="/start-evaluation">
+      <Route exact={true} path="/evaluation/start-evaluation">
         <Evaluator />
       </Route>
 

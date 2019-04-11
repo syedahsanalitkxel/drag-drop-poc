@@ -3,6 +3,7 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
+import Pager from '../../molecules/Pager';
 
 const EvaluatorComment = () => {
   const [display, setDisplay] = useState(false);
@@ -18,10 +19,10 @@ const EvaluatorComment = () => {
             <h2 className="font-weight-bold">Jasmine Rassol </h2>
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="evaluation-list.html">Assessments</a>
+                <a href="#">Assessments</a>
               </li>
               <li className="breadcrumb-item">
-                <a href="evaluation-list.html">360° Leadership Instrument</a>
+                <a href="#">360° Leadership Instrument</a>
               </li>
               <li className="breadcrumb-item active">
                 <strong>Jhon James</strong>
@@ -363,65 +364,7 @@ const EvaluatorComment = () => {
               </div>
             </div>
           </div>
-          <div className="paging_simple_numbers" id="DataTables_Table_0_paginate">
-            <ul className="pagination">
-              <li className="paginate_button page-item previous" id="DataTables_Table_0_previous">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={0}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  Previous
-                </a>
-              </li>
-              <li className="paginate_button page-item ">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={1}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  1
-                </a>
-              </li>
-              <li className="paginate_button page-item ">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={2}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  2
-                </a>
-              </li>
-              <li className="paginate_button page-item active">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={3}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  3
-                </a>
-              </li>
-              <li className="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                <a
-                  href="#"
-                  aria-controls="DataTables_Table_0"
-                  data-dt-idx={4}
-                  tabIndex={0}
-                  className="page-link"
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
+          <Pager />
         </div>
       </div>
     </GuestTemplate>
