@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import FormikBag from '../../../interfaces/FormikBag';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import RadioButton from '../../atoms/RadioButton';
@@ -108,6 +111,17 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
       </React.Fragment>
     );
 
+    const renderInstrumentDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
+
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <PageBody card={true} wrapper={true} className="m-t-15">
@@ -159,9 +173,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             type={FormElementTypes.SELECT}
             last={!!defaultValues}
           >
-            <option value="selected">Select Type</option>
-            <option value="co-oprate">Co-oprate</option>
-            <option value="Educational Institute">Educational Institute</option>
+            <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
           </FormElement>
 
           {!defaultValues && renderAddElements()}

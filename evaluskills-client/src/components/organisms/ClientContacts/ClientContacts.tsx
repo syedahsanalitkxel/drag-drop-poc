@@ -4,6 +4,10 @@ import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+
 interface Props {
   index?: number;
   formikprops: FormikBag;
@@ -13,10 +17,21 @@ interface Props {
 const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) => {
   function getContactField(key: string) {
     if (index !== undefined) {
-      return `contact[${index}].${key}`;
+      return `clientContacts[${index}].${key}`;
     }
     return key;
   }
+
+  const renderUserRoleDropdown = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.userRolesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
 
   return (
     <PageBody card={true} wrapper={true} className="m-t-15">
@@ -27,7 +42,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('firstName')}
             placeholder="Add First Name"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -37,7 +52,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('lastName')}
             placeholder="Add Last Name"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -49,7 +64,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('email')}
             placeholder="Add Email"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -59,7 +74,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             name={getContactField('phone')}
             placeholder="Add Phone"
             formikprops={formikprops}
-            noValidate={true}
+            type={FormElementTypes.TEXT}
             inline={true}
           />
         </div>
@@ -68,16 +83,14 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
         <div className="col-md-6">
           <FormElement
             label="Role"
-            name={getContactField('role')}
+            name={getContactField('title')}
             formikprops={formikprops}
             type={FormElementTypes.SELECT}
             noValidate={true}
             inline={true}
             last={true}
           >
-            <option value="">Select Role</option>
-            <option value="role1">Role 1</option>
-            <option value="role2">Role 2</option>
+            <LookupContextConsumer>{renderUserRoleDropdown}</LookupContextConsumer>
           </FormElement>
         </div>
       </div>
