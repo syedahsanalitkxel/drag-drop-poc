@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundry';
+import ErrorBoundary from './components/ErrorBoundary';
 import Routes from './Routes';
 
 const App = () => (

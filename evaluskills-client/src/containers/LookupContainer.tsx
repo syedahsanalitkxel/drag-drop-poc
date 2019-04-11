@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Spinner from '../components/atoms/Spinner';
 import ErrorContext from '../context/ErrorContext';
 import { LookupContextProvider } from '../context/LookupContext';
-import { lookupInitialState, LookupItemInterface } from '../interfaces/Lookup';
+import { lookupInitialState } from '../interfaces/Lookup';
 import { getLookups } from '../services/lookupService';
 
 const LookupContainer: React.FunctionComponent = ({ children }) => {

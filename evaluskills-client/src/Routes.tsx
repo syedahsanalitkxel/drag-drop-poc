@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
-import InstrumentTemplateContainer from './containers/InstrumentContainer';
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
+import InstrumentTemplateContainer from './containers/InstrumentContainer';
 
 const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
