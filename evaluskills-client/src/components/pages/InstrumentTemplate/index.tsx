@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import LookupContext from '../../../context/LookupContext';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
 import PageBody from '../../atoms/PageBody';
@@ -9,7 +8,6 @@ import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import InstrumentFilters from '../../organisms/InstrumentFilters';
 import ListCardItems from '../../organisms/InstrumentListCardItems';
-import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
@@ -29,9 +27,6 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   addInstrument,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const lookupContext = useContext(LookupContext);
-  console.log('Instrument', lookupContext);
-
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -46,7 +41,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   };
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
@@ -80,7 +75,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
       >
         <InstrumentFilters />
       </ESModal>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

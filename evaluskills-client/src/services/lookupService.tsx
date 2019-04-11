@@ -11,7 +11,7 @@ export async function getLookups(): Promise<LookupInterface> {
       return res.data;
     },
     (error: AxiosError) => {
-      return error;
+      throw error;
     }
   );
 }

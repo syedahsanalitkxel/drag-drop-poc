@@ -1,11 +1,7 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint:latest",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint:latest", "tslint-react", "tslint-config-prettier"],
   "rules": {
+    "no-empty": false,
     "jsx-alignment": true,
     "jsx-boolean-value": true,
     "jsx-key": true,
