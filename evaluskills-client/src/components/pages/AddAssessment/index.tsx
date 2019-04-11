@@ -12,7 +12,12 @@ import ErrorContext from '../../../context/ErrorContext';
 import { LookupContextConsumer } from '../../../context/LookupContext';
 import { lookups } from '../../../enums';
 import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
-const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeListener, edit }) => {
+const AddAssessment: React.FunctionComponent<any> = ({
+  assessmenListItems,
+  addAssessment,
+  changeListener,
+  edit,
+}) => {
   const [formState, setFormState] = useState(initialState);
   const [forvalues, setFormvalues] = useState(Initalvalues);
   const errorContext = useContext(ErrorContext);
@@ -432,6 +437,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
       console.log(values);
       const data = await addAssessment(values);
       console.log(data);
+      assessmenListItems();
     } catch (error) {
       errorContext.setError(error, true);
     }
