@@ -6,6 +6,7 @@ import GuestTemplate from '../../../templates/GuestTemplate';
 import { Modal, ModalBody } from 'reactstrap';
 import EvaluatorAssessmentItem from '../../../organisms/EvaluationCommentItem';
 import Pager from '../../../molecules/Pager';
+import EvaluationClientHolder from '../../../organisms/EvaluationClientHolder';
 
 const EvaluationSummary = () => {
   const [displayModal, setDisplayModal] = useState(false);
@@ -18,15 +19,9 @@ const EvaluationSummary = () => {
       <div>
         <div className="PageHeader">
           <div className="eval-header row">
-            <div className="client-holder col-sm-6">
+            <div className="col-sm-6">
               <h3>Your Evaluation for</h3>
-              <div className="inline img-holder mr-4 vertical-align">
-                <img src="/img/icons/Profile pic.png" alt="profile" />
-              </div>
-              <div className="inline txt-holder">
-                <p className="mb-0">(Manager) From Tkxel</p>
-                <h2 className="mt-0 font-bold">Jasmine Rassol</h2>
-              </div>
+              <EvaluationClientHolder />
             </div>
           </div>
           <div className="row">

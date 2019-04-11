@@ -12,7 +12,9 @@ const EvaluatorQuestion = () => {
       <div>
         <div className="PageHeader pr-0 pl-0">
           <div className="eval-header row">
-            <EvaluationClientHolder />
+            <div className="col-sm-6">
+              <EvaluationClientHolder />
+            </div>
             <div className="col-sm-6">
               <div className="row mt-3">
                 <div className="col-sm-8">
