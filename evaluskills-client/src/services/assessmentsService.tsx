@@ -17,7 +17,7 @@ export async function getAssessments(): Promise<AssessmentItemInterface[]> {
   );
 }
 
-export async function addAssessment(assessment: AssessmentItemInterface) {
+export async function addAssessment(assessment: any) {
   return api.post(ASSESSMENTS, assessment).then(
     (res: AxiosResponse) => {
       return res.data;

@@ -96,9 +96,7 @@ const Participants: React.FunctionComponent<Props> = ({
                 actionHandler={(id: any) =>
                   removeEvaluatior(evalutorProps.index, evalutorProps.evalindex)
                 }
-              >
-                -
-              </IconButton>
+              />
               {/* <Button className="btn-danger btn-outline mt-3 " size="sm" type="button">
                 -
               </Button> */}
@@ -188,7 +186,7 @@ const Participants: React.FunctionComponent<Props> = ({
               size="lg"
               onClick={() => addNewEvaluator(propss.index)}
             >
-              Add Evaluators +
+              Add Evaluators {<FontAwesomeIcon icon={'plus'} />}
             </Button>
           </div>
           {propss.participant.evaluator.map((item: any, index: any) => {
