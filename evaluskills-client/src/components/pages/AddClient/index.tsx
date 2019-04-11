@@ -1,15 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { ErrorMessage, Formik, getIn } from 'formik';
+import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
-import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { FormGroup, Input } from 'reactstrap';
 
 import AddEditClientInterface, {
   ClientUserInterface,
   ContactInterface,
 } from '../../../interfaces/AddEditClient';
-// import ClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/Client';
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 import FormikBag from '../../../interfaces/FormikBag';
 import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
@@ -53,13 +55,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
   const toggleEditClientContactModal = () => {
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
-
-  // useEffect(() => {
-  //   if (changeListener && formState) {
-  //     changeListener(formState);
-  //   }
-  // }
-  // );
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
@@ -109,12 +104,33 @@ export const AddClient: React.FunctionComponent<Props> = ({
   };
 
   const renderForm = (formikprops: FormikBag) => {
-    console.log(formikprops);
     const renderContactList = (clientContacts: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
       </Fragment>
     );
+
+    const renderBillingPlanDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.billingPlansLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
+
+    const renderStatesDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.statesLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
 
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form" encType="multipart/form-data">
@@ -161,11 +177,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
               <FormElement
                 label="State"
                 name="stateId"
-                placeholder="Add State"
                 formikprops={formikprops}
+                type={FormElementTypes.SELECT}
                 inline={true}
-                type={FormElementTypes.TEXT}
-              />
+              >
+                <LookupContextConsumer>{renderStatesDropdown}</LookupContextConsumer>
+              </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
@@ -185,10 +202,10 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 label="Billing"
                 name="billingPlanId"
                 formikprops={formikprops}
+                type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value={1}>Biling 1</option>
-                <option value={2}>Biling 2</option>
+                <LookupContextConsumer>{renderBillingPlanDropdown}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-6">

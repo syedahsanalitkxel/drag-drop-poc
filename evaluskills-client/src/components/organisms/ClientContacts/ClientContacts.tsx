@@ -4,6 +4,10 @@ import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+
 interface Props {
   index?: number;
   formikprops: FormikBag;
@@ -17,6 +21,17 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
     }
     return key;
   }
+
+  const renderUserRoleDropdown = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.userRolesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
 
   return (
     <PageBody card={true} wrapper={true} className="m-t-15">
@@ -75,9 +90,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             inline={true}
             last={true}
           >
-            <option value="">Select Role</option>
-            <option value="role1">Role 1</option>
-            <option value="role2">Role 2</option>
+            <LookupContextConsumer>{renderUserRoleDropdown}</LookupContextConsumer>
           </FormElement>
         </div>
       </div>
