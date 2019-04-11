@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Formik } from 'formik';
+import { ErrorMessage, Formik, getIn } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
+import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
 import AddEditClientInterface, {
   ClientUserInterface,
@@ -20,7 +21,7 @@ import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
 
 interface Props {
-  changeListener?: (formValues: AddEditClientInterface) => void;
+  changeListener: (formValues: any) => void;
   defaultValues?: any;
   action?: string;
   clients?: any;
@@ -37,10 +38,9 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
   clients,
 }) => {
-  const [formState, setFormState] = useState(defaultValues || clients);
-  const [contactFormState, setContactFormState] = useState(
-    clients && clients.clientContacts ? clients.clientContacts : []
-  );
+  const [formState, setFormState] = useState(defaultValues);
+  const [file, setfile] = useState({});
+  const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
@@ -53,11 +53,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
 
-  useEffect(() => {
-    if (changeListener && formState) {
-      changeListener(formState);
-    }
-  });
+  // useEffect(() => {
+  //   if (changeListener && formState) {
+  //     changeListener(formState);
+  //   }
+  // }
+  // );
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
@@ -71,10 +72,20 @@ export const AddClient: React.FunctionComponent<Props> = ({
     alert(`deleting => ${contactId}`);
   }
 
-  function submitForm(values: AddEditClientInterface) {
+  function submitForm(values: any) {
+    values.stateId = parseInt(values.stateId, 10);
+    values.billingPlanId = parseInt(values.billingPlanId, 10);
+    values.clientTypeId = parseInt(values.clientTypeId, 10);
+    changeListener({ ...formState, ...values });
     setFormState({ ...formState, ...values });
   }
 
+  const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFormState({ ...formState, [event.target.name]: event.target.files[0] });
+      setfile(event.target.files);
+    }
+  };
   const onClickAddContact = (event: React.MouseEvent) => {
     if (action === 'edit') {
       event.preventDefault();
@@ -84,10 +95,8 @@ export const AddClient: React.FunctionComponent<Props> = ({
     if (action !== 'edit' && formState.clientContacts) {
       const { clientContacts } = formState;
       const contactObj: ContactInterface = {
-        clientId: 0,
         email: '',
         firstName: '',
-        id: 0,
         lastName: '',
         phone: '',
         title: '',
@@ -98,14 +107,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
   };
 
   const renderForm = (formikprops: FormikBag) => {
-    const renderContactList = (contact: any, index: number) => (
+    const renderContactList = (clientContacts: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
       </Fragment>
     );
 
     return (
-      <Form onSubmit={formikprops.handleSubmit} className="form">
+      <Form onSubmit={formikprops.handleSubmit} className="form" encType="multipart/form-data">
         <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
@@ -114,19 +123,26 @@ export const AddClient: React.FunctionComponent<Props> = ({
             formikprops={formikprops}
           />
 
-          <FormElement
-            label="Logo"
-            name="logo"
-            formikprops={formikprops}
-            noValidate={true}
-            type={FormElementTypes.IMAGE_UPLOAD}
-          />
+          <FormGroup>
+            <Label for="exampleFile">Upload Image</Label>
+            <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
+          </FormGroup>
+
+          {/*<input type="file" name="clientLogo" accept="image/*" onChange={ event => event.target.files } />*/}
+
+          {/*<FormElement*/}
+          {/*label="Logo"*/}
+          {/*name="clientLogo"*/}
+          {/*formikprops={formikprops}*/}
+          {/*noValidate={true}*/}
+          {/*type={FormElementTypes.IMAGE_UPLOAD}*/}
+          {/*/>*/}
 
           <div className="row">
             <div className="col-md-6">
               <FormElement
                 label="Address"
-                name="address"
+                name="address1"
                 placeholder="Add Address"
                 formikprops={formikprops}
                 inline={true}
@@ -147,7 +163,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div className="col-md-6">
               <FormElement
                 label="State"
-                name="state"
+                name="stateId"
                 placeholder="Add State"
                 formikprops={formikprops}
                 inline={true}
@@ -168,33 +184,33 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div className="col-md-6">
               <FormElement
                 label="Billing"
-                name="billing"
+                name="billingPlanId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="billing-1">Biling 1</option>
-                <option value="billing-2">Biling 2</option>
+                <option value={1}>Biling 1</option>
+                <option value={2}>Biling 2</option>
               </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
                 label="Client Type"
-                name="clientType"
+                name="clientTypeId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
                 <option value="selected">Select Type</option>
-                <option value="co-oprate">Co-oprate</option>
-                <option value="Educational Institute">Educational Institute</option>
+                <option value={1}>Co-oprate</option>
+                <option value={2}>Educational Institute</option>
               </FormElement>
             </div>
           </div>
 
           <FormElement
             label="School/Subsidiary"
-            name="school"
+            name="subsidiary"
             placeholder="Add School"
             formikprops={formikprops}
             last={true}
@@ -255,19 +271,20 @@ export const AddClient: React.FunctionComponent<Props> = ({
         <PageBody card={true} wrapper={true}>
           <FormElement
             label="First Name"
-            name="userFirstName"
+            name="clientUser.firstName"
             placeholder="Add First Name"
             formikprops={formikprops}
           />
+
           <FormElement
             label="Last Name"
-            name="userLastName"
+            name="clientUser.lastName"
             placeholder="Add Last Name"
             formikprops={formikprops}
           />
           <FormElement
             label="Email"
-            name="userEmail"
+            name="clientUser.email"
             placeholder="Add Email"
             formikprops={formikprops}
             last={true}
@@ -282,7 +299,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
-            {!action && (
+            {action === 'add' && (
               <StyledButton type="button" color="primary" size="lg">
                 Save &amp; Add More
               </StyledButton>
@@ -296,7 +313,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   return (
     <DashboardTemplate>
       {formState && (
-        <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
+        <Formik initialValues={formState} onSubmit={submitForm}>
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}

@@ -13,7 +13,7 @@ interface Props {
 const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) => {
   function getContactField(key: string) {
     if (index !== undefined) {
-      return `contact[${index}].${key}`;
+      return `clientContacts[${index}].${key}`;
     }
     return key;
   }
@@ -68,7 +68,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
         <div className="col-md-6">
           <FormElement
             label="Role"
-            name={getContactField('role')}
+            name={getContactField('title')}
             formikprops={formikprops}
             type={FormElementTypes.SELECT}
             noValidate={true}

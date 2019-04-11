@@ -10,34 +10,34 @@ import { async } from 'q';
 
 const client: ContactInterface = {
   clientId: 1,
-  email: 'maria@evaluskills.com',
-  firstName: 'Maria',
+  email: '',
+  firstName: '',
   id: 1,
-  lastName: ' Garcia',
-  phone: ' Garcia',
-  title: ' Garcia',
+  lastName: '',
+  phone: '',
+  title: '',
 };
 
 const user: ClientUserInterface = {
-  email: 'maria@evaluskills.com',
-  firstName: 'Maria',
+  email: '',
+  firstName: '',
   id: 1,
-  lastName: ' Garcia',
+  lastName: '',
 };
 
 const ClientList: IClientList[] = [
   {
-    billingPlanTitle: 'Biling 2',
+    billingPlanTitle: '',
     clientContact: client,
-    clientLogo: 'aaaaaaaaa',
-    clientName: 'TkXel',
+    clientLogo: '',
+    clientName: '',
     clientUser: user,
     id: 1,
     isActivated: true,
-    noOfAssessments: 25,
-    noOfEvaluators: 28,
-    noOfParticipants: 30,
-    phone: '+1 818-452-1505',
+    noOfAssessments: 0,
+    noOfEvaluators: 0,
+    noOfParticipants: 0,
+    phone: '',
   },
 ];
 
