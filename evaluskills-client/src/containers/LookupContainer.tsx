@@ -6,8 +6,7 @@ import { lookupInitialState } from '../interfaces/Lookup';
 import { getLookups } from '../services/lookupService';
 
 const LookupContainer: React.FunctionComponent = ({ children }) => {
-  const [lookups, setLookups] = useState(lookupInitialState);
-  const [loading, setLoading] = useState(true);
+  const [lookupState, setLookupState] = useState({ lookups: lookupInitialState, loading: true });
 
   const errorContext = useContext(ErrorContext);
 
@@ -16,24 +15,32 @@ const LookupContainer: React.FunctionComponent = ({ children }) => {
   }, []);
 
   const findByValue = (id: number, key: string) => {
-    console.log('find', id, key, lookups);
+    console.log('find', id, key, lookupInitialState);
+  };
+
+  const findKey = (key: string) => {
+    console.log(key);
   };
 
   const fetchLookups = async () => {
     try {
       const newLookups = await getLookups();
-      setLookups(newLookups);
-      setLoading(false);
+      setLookupState({ ...lookupState, lookups: newLookups, loading: false });
     } catch (e) {
+      setLookupState({ ...lookupState, loading: false });
       errorContext.setError(e, true);
     }
   };
 
-  if (loading) {
+  if (lookupState.loading) {
     return <Spinner />;
   }
 
-  return <LookupContextProvider value={{ findByValue, lookups }}>{children}</LookupContextProvider>;
+  return (
+    <LookupContextProvider value={{ findByValue, findKey, lookups: lookupState.lookups }}>
+      {children}
+    </LookupContextProvider>
+  );
 };
 
 export default LookupContainer;

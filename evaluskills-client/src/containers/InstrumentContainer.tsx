@@ -5,6 +5,7 @@ import Spinner from '../components/atoms/Spinner';
 import AddEditInstrumentTemplate from '../components/pages/AddEditInstrumentTemplate';
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import ErrorContext from '../context/ErrorContext';
+import LookupContext from '../context/LookupContext';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import {
@@ -12,6 +13,7 @@ import {
   getInstrumentTemplates,
 } from '../services/instrumentTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
 
 const InstrumentTemplates: InstrumentTemplateInterface[] = [];
 
@@ -19,9 +21,11 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   RouteComponentProps<RouteParamsInterface>
 > = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
+  const lookupContext = useContext(LookupContext);
 
   const [instrumentTemplates, setInstrumentTemplates] = useState(InstrumentTemplates);
   const [selectedTemplate, setSelectedTemplate] = useState({});
+
   const usersData = [
     {
       id: '1',
@@ -60,6 +64,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<
       faithBasedCount: 9,
     },
   ];
+
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
@@ -100,6 +105,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   function addInstrumentTemplate() {
     history.push('/instrument-templates/add');
   }
+
   function addInstrumental() {
     history.push('/addInstrumental');
   }
@@ -124,14 +130,22 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   }
 
   return (
-    <InstrumentTemplate
-      instrumentTemplates={usersData}
-      add={addInstrumentTemplate}
-      edit={editInstrumentTemplate}
-      remove={deleteInstrumentTemplate}
-      filterInstrumentTemplates={fetchInstrumentTemplates}
-      addInstrument={addInstrumental}
-    />
+    <DashboardTemplate>
+      <LookupContext.Consumer>
+        {lookup => {
+          console.log('-->', lookup);
+          return <h1>Hey</h1>;
+        }}
+      </LookupContext.Consumer>
+      <InstrumentTemplate
+        instrumentTemplates={usersData}
+        add={addInstrumentTemplate}
+        edit={editInstrumentTemplate}
+        remove={deleteInstrumentTemplate}
+        filterInstrumentTemplates={fetchInstrumentTemplates}
+        addInstrument={addInstrumental}
+      />
+    </DashboardTemplate>
   );
 };
 

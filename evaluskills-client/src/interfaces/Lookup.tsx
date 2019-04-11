@@ -35,10 +35,12 @@ export const lookupInitialState: LookupInterface = {
 
 export interface LookupContextInterface {
   findByValue?: (id: number, key: string) => void;
+  findKey?: (key: string) => void;
   lookups?: LookupInterface;
 }
 
 export const LookupContextInitialState = {
   findByValue: (id: number, key: string) => {},
+  findKey: (key: string) => {},
   lookups: lookupInitialState,
 };
