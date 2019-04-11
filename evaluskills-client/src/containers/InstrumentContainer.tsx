@@ -131,12 +131,6 @@ const InstrumentTemplateContainer: React.FunctionComponent<
 
   return (
     <DashboardTemplate>
-      <LookupContext.Consumer>
-        {lookup => {
-          console.log('-->', lookup);
-          return <h1>Hey</h1>;
-        }}
-      </LookupContext.Consumer>
       <InstrumentTemplate
         instrumentTemplates={usersData}
         add={addInstrumentTemplate}

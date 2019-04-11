@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
@@ -16,6 +16,8 @@ import ESModal from '../../molecules/Modal';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import AssessmentItemsList from './AssessmentItemsList';
+import LookupContext from '../../../context/LookupContext';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 
 const StyledButton = styled(Button)`
   margin-right: 5px;
@@ -108,6 +110,19 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
       </React.Fragment>
     );
 
+    const renderInstrumentDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey('recommendedApplicationsLookUp').map((lookup: LookupItemInterface) => {
+          return (
+            <option key={lookup.value} value={lookup.value}>
+              {lookup.text}
+            </option>
+          );
+        });
+      }
+    };
+
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <PageBody card={true} wrapper={true} className="m-t-15">
@@ -159,9 +174,10 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             type={FormElementTypes.SELECT}
             last={!!defaultValues}
           >
-            <option value="selected">Select Type</option>
-            <option value="co-oprate">Co-oprate</option>
-            <option value="Educational Institute">Educational Institute</option>
+            <LookupContext.Consumer>{renderInstrumentDropdown}</LookupContext.Consumer>
+            {/*<option value="selected">Select Type</option>*/}Ø
+            {/*<option value="co-oprate">Co-oprate</option>*/}
+            {/*<option value="Educational Institute">Educational Institute</option>*/}
           </FormElement>
 
           {!defaultValues && renderAddElements()}

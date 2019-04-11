@@ -1,7 +1,12 @@
-interface LookupItemInterface {
+export interface LookupItemInterface {
   value?: number;
   text?: string;
 }
+
+export const LookupItemInitialState = {
+  text: 'item',
+  value: 0,
+};
 
 export interface LookupInterface {
   assessmentTypesLookUp: LookupItemInterface[];
@@ -16,6 +21,7 @@ export interface LookupInterface {
   statesLookUp: LookupItemInterface[];
   testTypesLookUp: LookupItemInterface[];
   userRolesLookUp: LookupItemInterface[];
+  [key: string]: LookupItemInterface[];
 }
 
 export const lookupInitialState: LookupInterface = {
@@ -35,12 +41,12 @@ export const lookupInitialState: LookupInterface = {
 
 export interface LookupContextInterface {
   findByValue?: (id: number, key: string) => void;
-  findKey?: (key: string) => void;
+  findKey?: (key: string) => LookupItemInterface[];
   lookups?: LookupInterface;
 }
 
 export const LookupContextInitialState = {
   findByValue: (id: number, key: string) => {},
-  findKey: (key: string) => {},
+  findKey: (key: string) => [LookupItemInitialState],
   lookups: lookupInitialState,
 };
