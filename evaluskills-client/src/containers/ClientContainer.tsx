@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import ClientsList from '../components/pages/Client';
+import ErrorContext from '../context/ErrorContext';
 import IClientList, { ClientUserInterface, ContactInterface } from '../interfaces/Client';
-import { getClients, getFilteredClient } from '../services/clientsService';
-import { ErrorContext } from '../context';
 import { ClientFilters } from '../interfaces/ClientFilter';
-import { async } from 'q';
+import { getClients, getFilteredClient } from '../services/clientsService';
 
 const client: ContactInterface = {
   clientId: 1,
@@ -44,7 +43,6 @@ const ClientList: IClientList[] = [
 const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
-  const [filters, setFilters] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {

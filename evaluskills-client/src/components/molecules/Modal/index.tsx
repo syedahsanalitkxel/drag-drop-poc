@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ModalContextProvider } from '../../../context';
+import { ModalContextProvider } from '../../../context/ModalContext';
 
 interface ModalProps {
   title: string;

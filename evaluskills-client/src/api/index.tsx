@@ -20,7 +20,7 @@ export default class API {
         Authorization: token ? `Bearer ${token}` : null,
         'Content-Type': config.headers.contentType || contentType.json,
       },
-      timeout: 2000,
+      timeout: 20000,
     };
 
     this.instance = axios.create(this.config);

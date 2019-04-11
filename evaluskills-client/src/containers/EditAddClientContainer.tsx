@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import AddAssessment from '../components/pages/AddAssessment';
-import AssessmentItem from '../components/pages/AssessmentItem';
-import { ErrorContext } from '../context';
-import IAssessmentItem from '../interfaces/AssessmentItem';
-import { getClients, getClientById, addClient } from '../services/clientsService';
+import { addClient, getClientById } from '../services/clientsService';
 import IClientList, { ClientUserInterface } from '../interfaces/AddEditClient';
-import EditComponent from '../components/pages/EditClient';
+
 import AddClient from '../components/pages/AddClient';
+import ErrorContext from '../context/ErrorContext';
 import RouteParams from '../interfaces/RouteParams';
-import { async } from 'q';
 const user: ClientUserInterface = {
   email: '',
   firstName: '',
@@ -32,11 +28,11 @@ const ClientList: IClientList = {
     },
   ],
   clientName: '',
-  clientTypeId: 0,
+  clientTypeId: 1,
   clientUser: user,
   id: 1,
   phone: '',
-  stateId: 0,
+  stateId: 1,
   subsidiary: '',
   zip: '',
 };
@@ -114,7 +110,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         setClients(ClientList);
         setAction('');
         history.push('/clients');
-        // setClients(ClientList);
       } catch (error) {
         errorContext.setError(error);
       }

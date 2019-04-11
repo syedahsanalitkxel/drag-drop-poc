@@ -1,0 +1,16 @@
+.collapse-menu {
+  margin-top: 10px;
+}
+
+.nav-second-level {
+  li.active {
+    margin-top: 10px;
+  }
+  li a {
+    padding: 10px 10px 10px 30px !important;
+  }
+}
+
+.nav-second-level li:last-child {
+  padding: 0px !important;
+}
