@@ -26,7 +26,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
     email: string,
     phone: string
   ) => (
-    <React.Fragment>
+    <React.Fragment key={id}>
       <tr>
         <td className="font-bold">{firstName}</td>
         <td>role</td>
@@ -87,7 +87,15 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
                 <th />
               </tr>
             </thead>
-            <tbody>{listData && listData.map(renderClientItem)}</tbody>
+            <tbody>
+              {listData.length > 0 ? (
+                listData.map(renderClientItem)
+              ) : (
+                <tr>
+                  <td colSpan={5}> No Contacts Added </td>
+                </tr>
+              )}
+            </tbody>
           </table>
         </div>
       </div>

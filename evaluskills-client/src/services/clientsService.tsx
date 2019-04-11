@@ -53,3 +53,17 @@ export async function addClient(client: FormData) {
     }
   );
 }
+
+export async function editClient(client: FormData, id: any) {
+  const headers = { contentType: contentType.multipart };
+  const multipartApi = new API({ headers });
+
+  return multipartApi.put(CLIENTS, client, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}

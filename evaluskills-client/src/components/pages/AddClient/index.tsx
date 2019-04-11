@@ -41,6 +41,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
   clients,
 }) => {
+  // console.log(defaultValues);
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
@@ -69,18 +70,21 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   function submitForm(values: any) {
-    console.log(values);
     values.stateId = parseInt(values.stateId, 10);
     values.billingPlanId = parseInt(values.billingPlanId, 10);
     values.clientTypeId = parseInt(values.clientTypeId, 10);
     changeListener({ ...formState, ...values });
     setFormState({ ...formState, ...values });
+    if (action === 'edit' && file) {
+      changeListener({ ...formState, ...values, clientLogo: file });
+      setFormState({ ...formState, ...values, clientLogo: file });
+    }
   }
 
   const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFormState({ ...formState, [event.target.name]: event.target.files[0] });
-      setfile(event.target.files);
+      setfile(event.target.files[0]);
     }
   };
   const onClickAddContact = (event: React.MouseEvent) => {
@@ -139,6 +143,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
             label="Client Name"
             name="clientName"
             placeholder="Add Client Name"
+            formikprops={formikprops}
+            type={FormElementTypes.TEXT}
+          />
+
+          <FormElement
+            label="School/Subsidiary"
+            name="subsidiary"
+            placeholder="Add School"
             formikprops={formikprops}
             type={FormElementTypes.TEXT}
           />
@@ -204,6 +216,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
+                last={true}
               >
                 <LookupContextConsumer>{renderBillingPlanDropdown}</LookupContextConsumer>
               </FormElement>
@@ -215,6 +228,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
+                last={true}
               >
                 <option value="selected">Select Type</option>
                 <option value={1}>Co-oprate</option>
@@ -222,15 +236,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
               </FormElement>
             </div>
           </div>
-
-          <FormElement
-            label="School/Subsidiary"
-            name="subsidiary"
-            placeholder="Add School"
-            formikprops={formikprops}
-            last={true}
-            type={FormElementTypes.TEXT}
-          />
         </PageBody>
 
         <div className="form-header row">
