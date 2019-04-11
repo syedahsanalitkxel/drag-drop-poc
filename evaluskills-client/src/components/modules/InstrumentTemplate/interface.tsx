@@ -5,11 +5,11 @@ export interface TemplateItem extends Item {
 }
 
 // Instrument Template
-export interface BaseInstrumentTemplate {
+export interface InstrumentTemplateInterface {
   id?: number | string;
   title: string;
   recommendedApplicationId: number;
   isSystemDefined: boolean;
   clientId: number;
-  templateItems: TemplateItem[];
+  templateItems?: TemplateItem[];
 }

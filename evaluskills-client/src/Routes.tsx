@@ -1,6 +1,10 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router';
+
 import Spinner from './components/atoms/Spinner';
+
+import { InstrumentTemplateRoutes } from './components/modules/InstrumentTemplate';
+
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
 import InstrumentTemplateContainer from './containers/InstrumentContainer';
 
@@ -60,10 +64,19 @@ const Routes = () => (
       <Route exact={true} path="/instrument">
         <InstrumentClientContainer />
       </Route>
+
+      {InstrumentTemplateRoutes.map((item, i) => {
+        const { Component } = item;
+        return (
+          <Route key={i} path={item.path}>
+            <Component />
+          </Route>
+        );
+      })}
+
       <Route exact={true} path="/instrument-templates">
         <InstrumentTemplateContainer />
       </Route>
-
       <Route exact={true} path="/instrument-templates/add">
         <InstrumentTemplateContainer />
       </Route>

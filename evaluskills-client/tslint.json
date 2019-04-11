@@ -7,7 +7,6 @@
     "jsx-key": true,
     "jsx-no-bind": true,
     "jsx-no-lambda": true,
-    "jsx-no-multiline-js": true,
     "jsx-no-string-ref": true,
     "jsx-self-close": true,
     "jsx-wrap-multiline": true,
