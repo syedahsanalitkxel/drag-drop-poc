@@ -2,8 +2,8 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
-import Pager from '../../molecules/Pager';
+import GuestTemplate from '../../../templates/GuestTemplate';
+import Pager from '../../../molecules/Pager';
 
 const EvaluatorComment = () => {
   const [display, setDisplay] = useState(false);

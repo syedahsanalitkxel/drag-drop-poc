@@ -2,10 +2,10 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
+import GuestTemplate from '../../../templates/GuestTemplate';
 import { Modal, ModalBody } from 'reactstrap';
-import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
-import Pager from '../../molecules/Pager';
+import EvaluatorAssessmentItem from '../../../organisms/EvaluationCommentItem';
+import Pager from '../../../molecules/Pager';
 
 const EvaluationSummary = () => {
   const [displayModal, setDisplayModal] = useState(false);
@@ -21,7 +21,7 @@ const EvaluationSummary = () => {
             <div className="client-holder col-sm-6">
               <h3>Your Evaluation for</h3>
               <div className="inline img-holder mr-4 vertical-align">
-                <img src="img/icons/Profile pic.png" alt="profile" />
+                <img src="/img/icons/Profile pic.png" alt="profile" />
               </div>
               <div className="inline txt-holder">
                 <p className="mb-0">(Manager) From Tkxel</p>
@@ -170,7 +170,7 @@ const EvaluationSummary = () => {
           <div className="container">
             <div className="row">
               <div className="col-sm-12 text-right">
-                <NavLink to="/questions" className="btn btn-dark">
+                <NavLink to="/evaluation/questions" className="btn btn-dark">
                   Back
                 </NavLink>
                 <button
@@ -180,20 +180,20 @@ const EvaluationSummary = () => {
                   data-toggle="modal"
                   data-target="#verification"
                 >
-                  Submit <img src="img/icons/arrow.svg" alt="arrow" />
+                  Submit <img src="/img/icons/arrow.svg" alt="arrow" />
                 </button>
               </div>
             </div>
           </div>
           <a href="#" className="m-10 position-absolute left bottom-logo">
-            <img src="img/icons/main-pas-logo.png" alt="logo" />
+            <img src="/img/icons/main-pas-logo.png" alt="logo" />
           </a>
         </div>
         <Modal isOpen={displayModal}>
           <ModalBody>
             <div className="modal-body pb-0">
               <div className="text-center justify-content-center">
-                <img src="img/icons/confirmation.svg" alt="Confirmation" />
+                <img src="/img/icons/confirmation.svg" alt="Confirmation" />
               </div>
               <div className="form-group row">
                 <h2 className="col-sm-12 font-bold text-center">
@@ -211,7 +211,7 @@ const EvaluationSummary = () => {
               >
                 No
               </a>
-              <NavLink to="evaluator-result" className="btn btn-primary pr-4 pl-4">
+              <NavLink to="/evaluation/result" className="btn btn-primary pr-4 pl-4">
                 Yes
               </NavLink>
             </div>

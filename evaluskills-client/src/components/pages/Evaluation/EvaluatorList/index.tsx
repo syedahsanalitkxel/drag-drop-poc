@@ -1,5 +1,5 @@
 import React from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
+import GuestTemplate from '../../../templates/GuestTemplate';
 
 const EvaluatorList = () => {
   return (
@@ -117,7 +117,7 @@ const EvaluatorList = () => {
                 <span className="badge badge-primary">Completed</span>
               </td>
               <td>
-                <a href="evaluator-result.html" className="btn color-white btn-primary">
+                <a href="#" className="btn color-white btn-primary">
                   View Results
                 </a>
               </td>

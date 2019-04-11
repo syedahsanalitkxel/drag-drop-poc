@@ -11,7 +11,7 @@ const EvaluatorHome = () => {
           <h1 className="font-bold mt-1 mb-4">360° Leadership Assessment</h1>
           <div className="client-holder">
             <div className="inline img-holder mr-4 vertical-align">
-              <img src="img/icons/Profile pic.png" alt="profile" />
+              <img src="/img/icons/Profile pic.png" alt="profile" />
             </div>
             <div className="inline txt-holder">
               <h2 className="mt-0 font-bold mb-1">Jasmine Rassol</h2>
@@ -27,8 +27,11 @@ const EvaluatorHome = () => {
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
           nostrud exercitation ullamco laboris nisi.
         </p>
-        <NavLink to="/questions" className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3">
-          START EVALUATION <img src="img/icons/arrow.svg" alt="arrow" />
+        <NavLink
+          to="/evaluation/questions"
+          className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3"
+        >
+          START EVALUATION <img src="/img/icons/arrow.svg" alt="arrow" />
         </NavLink>
       </div>
     </GuestTemplate>

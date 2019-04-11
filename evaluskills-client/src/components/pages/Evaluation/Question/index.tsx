@@ -2,8 +2,8 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
-import QuestionItem from '../../organisms/QuestionItem';
+import GuestTemplate from '../../../templates/GuestTemplate';
+import QuestionItem from '../../../organisms/QuestionItem';
 
 const EvaluatorQuestion = () => {
   return (
@@ -13,7 +13,7 @@ const EvaluatorQuestion = () => {
           <div className="eval-header row">
             <div className="client-holder col-sm-6">
               <div className="inline img-holder mr-4 vertical-align">
-                <img src="img/icons/Profile pic.png" alt="profile" />
+                <img src="/img/icons/Profile pic.png" alt="profile" />
               </div>
               <div className="inline txt-holder">
                 <p className="mb-0">(Manager) From Tkxel</p>
@@ -221,14 +221,14 @@ const EvaluatorQuestion = () => {
                   <a href="#" className="btn btn-dark">
                     Skip for now
                   </a>
-                  <NavLink to="/evaluation-summary" className="btn btn-primary">
-                    Next <img src="img/icons/arrow.svg" alt="arrow" />
+                  <NavLink to="/evaluation/summary" className="btn btn-primary">
+                    Next <img src="/img/icons/arrow.svg" alt="arrow" />
                   </NavLink>
                 </div>
               </div>
             </div>
             <a href="#" className="m-10 position-absolute left bottom-logo">
-              <img src="img/icons/main-pas-logo.png" />
+              <img src="/img/icons/main-pas-logo.png" />
             </a>
           </div>
         </div>

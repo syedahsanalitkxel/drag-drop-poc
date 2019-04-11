@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import GuestTemplate from '../../templates/GuestTemplate';
+import GuestTemplate from '../../../templates/GuestTemplate';
 import React from 'react';
 
 const EvaluatorResult = () => {
@@ -10,7 +10,7 @@ const EvaluatorResult = () => {
           <div className="row">
             <div className="col-sm-8">
               <div className="img-holder">
-                <img src="img/icons/Like.png" alt="Like" />
+                <img src="/img/icons/Like.png" alt="Like" />
               </div>
               <span className="invite-title">You have completed </span>
               <h1 className="font-bold mt-1 mb-4 font-size-40">
@@ -20,10 +20,10 @@ const EvaluatorResult = () => {
                 </span>
               </h1>
               <NavLink
-                to="/evaluator-comment"
+                to="/evaluation/comment"
                 className="btn btn-primary font-size-20 font-bold mb-4 pr-4 pl-4"
               >
-                View Detail <img src="img/icons/arrow.svg" alt="arrow" />
+                View Detail <img src="/img/icons/arrow.svg" alt="arrow" />
               </NavLink>
             </div>
             <div className="col-sm-4 mt-5">

@@ -20,11 +20,11 @@ const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 const Evaluator = lazy(() => import('./components/pages/Evaluation/Evaluator'));
-const Question = lazy(() => import('./components/pages/Question'));
-const EvaluationSummary = lazy(() => import('./components/pages/EvaluationSummary'));
-const EvaluatorResult = lazy(() => import('./components/pages/EvaluatorResult'));
-const EvaluatorComment = lazy(() => import('./components/pages/EvaluatorComment'));
-const EvaluatorList = lazy(() => import('./components/pages/EvaluatorList'));
+const Question = lazy(() => import('./components/pages/Evaluation/Question'));
+const EvaluationSummary = lazy(() => import('./components/pages/Evaluation/EvaluationSummary'));
+const EvaluatorResult = lazy(() => import('./components/pages/Evaluation/EvaluatorResult'));
+const EvaluatorComment = lazy(() => import('./components/pages/Evaluation/EvaluatorComment'));
+const EvaluatorList = lazy(() => import('./components/pages/Evaluation/EvaluatorList'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -122,27 +122,27 @@ const Routes = () => (
         <ParticipantHome />
       </Route>
 
-      <Route exact={true} path="/evaluation/start-evaluation">
+      <Route exact={true} path="/evaluation/start">
         <Evaluator />
       </Route>
 
-      <Route exact={true} path="/questions">
+      <Route exact={true} path="/evaluation/questions">
         <Question />
       </Route>
 
-      <Route exact={true} path="/evaluation-summary">
+      <Route exact={true} path="/evaluation/summary">
         <EvaluationSummary />
       </Route>
 
-      <Route exact={true} path="/evaluator-result">
+      <Route exact={true} path="/evaluation/result">
         <EvaluatorResult />
       </Route>
 
-      <Route exact={true} path="/evaluator-comment">
+      <Route exact={true} path="/evaluation/comment">
         <EvaluatorComment />
       </Route>
 
-      <Route exact={true} path="/evaluation-list">
+      <Route exact={true} path="/evaluation/list">
         <EvaluatorList />
       </Route>
     </Switch>
