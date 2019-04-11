@@ -16,3 +16,20 @@ export default interface InstrumentTemplateInterface {
   rationalCount?: number;
   faithBasedCount?: number;
 }
+
+interface TemplateItem {
+  id: number;
+  itemId: number;
+  itemVersionId: number;
+  defination: string;
+  commentsRequired: boolean;
+}
+
+interface InstrumentTemplate {
+  id: number;
+  title: string;
+  recommendedApplicationId: number;
+  isSystemDefined: boolean;
+  clientId: number;
+  templateItems: TemplateItem[];
+}

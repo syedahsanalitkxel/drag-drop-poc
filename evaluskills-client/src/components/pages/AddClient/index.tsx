@@ -3,12 +3,15 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
+import { FormGroup, Input } from 'reactstrap';
 
 import AddEditClientInterface, {
   ClientUserInterface,
   ContactInterface,
 } from '../../../interfaces/AddEditClient';
-// import ClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/Client';
+import { LookupContextConsumer } from '../../../context/LookupContext';
+import { lookups } from '../../../enums';
+import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
 import FormikBag from '../../../interfaces/FormikBag';
 import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
@@ -18,9 +21,10 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
+import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
-  changeListener?: (formValues: AddEditClientInterface) => void;
+  changeListener: (formValues: any) => void;
   defaultValues?: any;
   action?: string;
   clients?: any;
@@ -37,10 +41,9 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
   clients,
 }) => {
-  const [formState, setFormState] = useState(defaultValues || clients);
-  const [contactFormState, setContactFormState] = useState(
-    clients && clients.clientContacts ? clients.clientContacts : []
-  );
+  const [formState, setFormState] = useState(defaultValues);
+  const [file, setfile] = useState({});
+  const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
@@ -52,12 +55,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
   const toggleEditClientContactModal = () => {
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
-
-  useEffect(() => {
-    if (changeListener && formState) {
-      changeListener(formState);
-    }
-  });
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
@@ -71,10 +68,21 @@ export const AddClient: React.FunctionComponent<Props> = ({
     alert(`deleting => ${contactId}`);
   }
 
-  function submitForm(values: AddEditClientInterface) {
+  function submitForm(values: any) {
+    console.log(values);
+    values.stateId = parseInt(values.stateId, 10);
+    values.billingPlanId = parseInt(values.billingPlanId, 10);
+    values.clientTypeId = parseInt(values.clientTypeId, 10);
+    changeListener({ ...formState, ...values });
     setFormState({ ...formState, ...values });
   }
 
+  const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFormState({ ...formState, [event.target.name]: event.target.files[0] });
+      setfile(event.target.files);
+    }
+  };
   const onClickAddContact = (event: React.MouseEvent) => {
     if (action === 'edit') {
       event.preventDefault();
@@ -84,10 +92,8 @@ export const AddClient: React.FunctionComponent<Props> = ({
     if (action !== 'edit' && formState.clientContacts) {
       const { clientContacts } = formState;
       const contactObj: ContactInterface = {
-        clientId: 0,
         email: '',
         firstName: '',
-        id: 0,
         lastName: '',
         phone: '',
         title: '',
@@ -98,38 +104,60 @@ export const AddClient: React.FunctionComponent<Props> = ({
   };
 
   const renderForm = (formikprops: FormikBag) => {
-    const renderContactList = (contact: any, index: number) => (
+    const renderContactList = (clientContacts: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
       </Fragment>
     );
 
+    const renderBillingPlanDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.billingPlansLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
+
+    const renderStatesDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.statesLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
+
     return (
-      <Form onSubmit={formikprops.handleSubmit} className="form">
+      <Form onSubmit={formikprops.handleSubmit} className="form" encType="multipart/form-data">
         <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
             name="clientName"
             placeholder="Add Client Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
 
-          <FormElement
-            label="Logo"
-            name="logo"
-            formikprops={formikprops}
-            noValidate={true}
-            type={FormElementTypes.IMAGE_UPLOAD}
-          />
+          <FormGroup>
+            <span className={styles['image-upload-label']}>Upload Photo</span>
+            <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
+          </FormGroup>
+          <div className="hr-line-dashed" />
 
           <div className="row">
             <div className="col-md-6">
               <FormElement
                 label="Address"
-                name="address"
+                name="address1"
                 placeholder="Add Address"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
             <div className="col-md-6">
@@ -139,6 +167,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add City"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
           </div>
@@ -147,11 +176,13 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div className="col-md-6">
               <FormElement
                 label="State"
-                name="state"
-                placeholder="Add State"
+                name="stateId"
                 formikprops={formikprops}
+                type={FormElementTypes.SELECT}
                 inline={true}
-              />
+              >
+                <LookupContextConsumer>{renderStatesDropdown}</LookupContextConsumer>
+              </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
@@ -160,6 +191,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 placeholder="Add Zip"
                 formikprops={formikprops}
                 inline={true}
+                type={FormElementTypes.TEXT}
               />
             </div>
           </div>
@@ -168,36 +200,36 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div className="col-md-6">
               <FormElement
                 label="Billing"
-                name="billing"
+                name="billingPlanId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="billing-1">Biling 1</option>
-                <option value="billing-2">Biling 2</option>
+                <LookupContextConsumer>{renderBillingPlanDropdown}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
                 label="Client Type"
-                name="clientType"
+                name="clientTypeId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
                 <option value="selected">Select Type</option>
-                <option value="co-oprate">Co-oprate</option>
-                <option value="Educational Institute">Educational Institute</option>
+                <option value={1}>Co-oprate</option>
+                <option value={2}>Educational Institute</option>
               </FormElement>
             </div>
           </div>
 
           <FormElement
             label="School/Subsidiary"
-            name="school"
+            name="subsidiary"
             placeholder="Add School"
             formikprops={formikprops}
             last={true}
+            type={FormElementTypes.TEXT}
           />
         </PageBody>
 
@@ -255,22 +287,27 @@ export const AddClient: React.FunctionComponent<Props> = ({
         <PageBody card={true} wrapper={true}>
           <FormElement
             label="First Name"
-            name="userFirstName"
+            name="clientUser.firstName"
             placeholder="Add First Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
+
           <FormElement
             label="Last Name"
-            name="userLastName"
+            name="clientUser.lastName"
             placeholder="Add Last Name"
             formikprops={formikprops}
+            type={FormElementTypes.TEXT}
           />
+
           <FormElement
             label="Email"
-            name="userEmail"
+            name="clientUser.email"
             placeholder="Add Email"
             formikprops={formikprops}
             last={true}
+            type={FormElementTypes.TEXT}
           />
         </PageBody>
 
@@ -282,7 +319,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
-            {!action && (
+            {action === 'add' && (
               <StyledButton type="button" color="primary" size="lg">
                 Save &amp; Add More
               </StyledButton>

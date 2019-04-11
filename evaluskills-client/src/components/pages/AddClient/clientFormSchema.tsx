@@ -1,19 +1,31 @@
 import * as Yup from 'yup';
-import { stringValidation } from '../../../utils/validations';
+import { numberValidation, stringValidation } from '../../../utils/validations';
 
 const clientFormSchema = Yup.object().shape({
-  address: stringValidation(2, 250, true),
-  billing: stringValidation(2, 250, true),
+  address1: stringValidation(2, 250, true),
   city: stringValidation(1, 250, true),
-  clientInformation: stringValidation(2, 250, true),
+  clientContacts: Yup.array().of(
+    Yup.object().shape({
+      email: Yup.string()
+        .email()
+        .required('Required'),
+      firstName: stringValidation(1, 250, true),
+      lastName: stringValidation(1, 250, true),
+      phone: stringValidation(1, 250, true),
+      title: stringValidation(1, 250, true),
+    })
+  ),
   clientName: stringValidation(1, 250, true),
-  clientType: stringValidation(1, 250, true),
-  phone: stringValidation(2, 50, true),
-  school: stringValidation(2, 250, true),
-  state: stringValidation(2, 250, true),
-  userEmail: stringValidation(2, 50, true),
-  userFirstName: stringValidation(2, 50, true),
-  userLastName: stringValidation(2, 50, true),
+  clientTypeId: numberValidation(1, 1, true),
+  clientUser: Yup.object().shape({
+    email: Yup.string()
+      .email()
+      .required('Required'),
+    firstName: stringValidation(1, 250, true),
+    lastName: stringValidation(1, 250, true),
+  }),
+  stateId: numberValidation(1, 1, true),
+  subsidiary: stringValidation(2, 250, true),
   zip: stringValidation(2, 50, true),
 });
 

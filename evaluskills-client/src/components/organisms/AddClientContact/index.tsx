@@ -100,7 +100,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
         <div className="col-md-6">
           <FormElement
             label="Role"
-            name="role"
+            name="title"
             formikprops={formikprops}
             type={FormElementTypes.SELECT}
             inline={true}

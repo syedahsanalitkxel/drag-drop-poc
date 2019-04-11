@@ -3,8 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import AddEmailTemplate from '../components/pages/AddEmailTemplate';
 import EmailListing from '../components/pages/EmailListing';
-import InstrumentTemplate from '../components/pages/InstrumentTemplate';
-import { ErrorContext } from '../context';
+import ErrorContext from '../context/ErrorContext';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
 import RouterPropsInterface from '../interfaces/RouteParams';
 import { getInstrumentTemplates } from '../services/instrumentTemplateService';

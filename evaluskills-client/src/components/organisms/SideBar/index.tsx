@@ -1,12 +1,16 @@
+import React from 'react';
+
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+
 import NavItem from '../../atoms/NavItem';
 import ProfileBadge from '../../molecules/ProfileBadge';
 
-function getNavItem(to: string, icon: IconProp, label: string) {
-  return <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />;
-}
+import './sidebar.styles.scss';
+
+const getNavItem = (to: string, icon: IconProp, label: string) => (
+  <NavItem to={to} icon={icon} label={label} active={location.pathname === to} />
+);
 const isSuperAdmin = () =>
   window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'SUPER_ADMIN';
 const isClientAdmin = () =>
@@ -34,7 +38,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
         {isClientAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
         {getNavItem('/instrument', 'sitemap', 'Instrument')}
         <NavItem to="" icon="cog" label="Setting">
-          <ul className="nav metismenu" id="side-menu">
+          <ul className="nav metismenu collapse-menu" id="side-menu">
             {getNavItem('/users', 'user', 'Users')}
             {getNavItem('/email', 'user', 'Email')}
           </ul>

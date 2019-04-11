@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import Login from '../components/pages/Auth/Login';
 import Reset from '../components/pages/Auth/Reset';
 import LoginTemplate from '../components/templates/LoginTemplate';
-import { ErrorContext } from '../context';
+import ErrorContext from '../context/ErrorContext';
 import LoginInterface, { ResetPasswordInterface } from '../interfaces/Login';
 import { changePassword, login, resetPassword } from '../services/authService';
 

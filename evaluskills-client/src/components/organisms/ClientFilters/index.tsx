@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { ModalContext } from '../../../context';
+import ModalContext from '../../../context/ModalContext';
 import { ClientFilters } from '../../../interfaces/ClientFilter';
 import CheckBox from '../../atoms/CheckBox';
 

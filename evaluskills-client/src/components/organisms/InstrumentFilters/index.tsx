@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
 
-import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { ModalContext } from '../../../context';
+import { Form, Label } from 'reactstrap';
+import ModalContext from '../../../context/ModalContext';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import Checkbox from '../../atoms/CheckBox';
 import RadioButton from '../../atoms/RadioButton';

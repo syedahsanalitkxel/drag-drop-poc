@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { Field } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
 import FormikBag from '../../../interfaces/FormikBag';
@@ -115,6 +115,16 @@ const FormElement: React.FunctionComponent<Props> = ({
             invalid={getValidation()}
           />
         );
+      case FormElementTypes.TEXT:
+        return (
+          <Input
+            name={name}
+            tag={Field}
+            placeholder={placeholder}
+            id={name}
+            invalid={getValidation()}
+          />
+        );
 
       default:
         return (
@@ -130,7 +140,28 @@ const FormElement: React.FunctionComponent<Props> = ({
   }
 
   function getValidationFeedback() {
-    if (noValidate || type !== FormElementTypes.IMAGE_UPLOAD) {
+    if (FormElementTypes.TEXT) {
+      return (
+        <ErrorMessage
+          name={name}
+          render={msg => {
+            if (msg.toString().includes('.email')) {
+              return (
+                <div className="isa_error">
+                  <span className="error text-danger">Must be a valid email</span>
+                </div>
+              );
+            }
+            return (
+              <div className="isa_error">
+                <span className="error text-danger">{msg}</span>
+              </div>
+            );
+          }}
+        />
+      );
+    }
+    if ((noValidate || type !== FormElementTypes.IMAGE_UPLOAD) && !FormElementTypes.TEXT) {
       return <FormFeedback>{formikprops.errors[name]}</FormFeedback>;
     }
   }

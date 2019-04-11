@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 
 import { Alert, Button, Form, Input } from 'reactstrap';
 
-import { ErrorContext } from '../../../context';
+import ErrorContext from '../../../context/ErrorContext';
 import { ResetPasswordInterface } from '../../../interfaces/Login';
 
 import './styles.scss';

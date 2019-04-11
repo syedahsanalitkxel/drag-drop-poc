@@ -2,9 +2,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { CLIENTS } from '../api/endpoints';
 
 import API from '../api';
-import AddClient from '../interfaces/AddEditClient';
 import ClientInterface from '../interfaces/Client';
 import AddClientInterface from '../interfaces/AddEditClient';
+import { contentType } from '../enums';
 const api = new API();
 
 export async function getClients(): Promise<ClientInterface[]> {
@@ -40,8 +40,11 @@ export async function getFilteredClient(params: any): Promise<AddClientInterface
   );
 }
 
-export async function addClient(client: AddClient) {
-  return api.post(CLIENTS, client).then(
+export async function addClient(client: FormData) {
+  const headers = { contentType: contentType.multipart };
+  const multipartApi = new API({ headers });
+
+  return multipartApi.post(CLIENTS, client).then(
     (res: AxiosResponse) => {
       return res.data;
     },
