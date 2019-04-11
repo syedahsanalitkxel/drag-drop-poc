@@ -1,8 +1,8 @@
-import React from 'react';
-import GuestTemplate from '../../templates/GuestTemplate';
 import { NavLink } from 'react-router-dom';
+import GuestTemplate from '../../templates/GuestTemplate';
+import React from 'react';
 
-const EvaluattorResult = () => {
+const EvaluatorResult = () => {
   return (
     <GuestTemplate>
       <div className="invite-container">
@@ -40,4 +40,4 @@ const EvaluattorResult = () => {
     </GuestTemplate>
   );
 };
-export default EvaluattorResult;
+export default EvaluatorResult;

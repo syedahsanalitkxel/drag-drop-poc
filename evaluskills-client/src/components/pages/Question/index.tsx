@@ -1,11 +1,11 @@
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
-import { NavLink } from 'react-router-dom';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const EvaluattorHome = () => {
+const EvaluatorQuestion = () => {
   const [display, setDisplay] = useState(false);
   const toggleStatement = (e: any) => {
     e.preventDefault();
@@ -256,7 +256,6 @@ const EvaluattorHome = () => {
                   <a href="#" className="btn btn-dark">
                     Skip for now
                   </a>
-                  {/*<a href="#" className="btn btn-outline-dark btn-outline">Save as Draft</a>*/}
                   <NavLink to="/evaluation-summary" className="btn btn-primary">
                     Next <img src="img/icons/arrow.svg" alt="arrow" />
                   </NavLink>
@@ -272,4 +271,4 @@ const EvaluattorHome = () => {
     </GuestTemplate>
   );
 };
-export default EvaluattorHome;
+export default EvaluatorQuestion;

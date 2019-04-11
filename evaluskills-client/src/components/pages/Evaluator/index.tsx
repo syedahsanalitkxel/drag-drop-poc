@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import GuestTemplate from '../../templates/GuestTemplate';
 
-const EvaluattorHome = () => {
+const EvaluatorHome = () => {
   return (
     <GuestTemplate>
       <div className="invite-container">
@@ -34,4 +34,4 @@ const EvaluattorHome = () => {
     </GuestTemplate>
   );
 };
-export default EvaluattorHome;
+export default EvaluatorHome;

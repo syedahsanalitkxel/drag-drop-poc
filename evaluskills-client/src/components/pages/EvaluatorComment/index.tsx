@@ -1,10 +1,10 @@
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
-const EvaluationSummary = () => {
+const EvaluatorComment = () => {
   const [display, setDisplay] = useState(false);
   const toggleComment = (e: any) => {
     e.preventDefault();
@@ -427,4 +427,4 @@ const EvaluationSummary = () => {
     </GuestTemplate>
   );
 };
-export default EvaluationSummary;
+export default EvaluatorComment;

@@ -1,10 +1,10 @@
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
 import GuestTemplate from '../../templates/GuestTemplate';
 import { Modal, ModalBody } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink } from 'react-router-dom';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 const EvaluationSummary = () => {
   const [display, setDisplay] = useState(false);
