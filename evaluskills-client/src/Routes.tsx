@@ -19,12 +19,12 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
-const Evaluator = lazy(() => import('./components/pages/Evaluation/Evaluator'));
+const Evaluator = lazy(() => import('./components/pages/Evaluation/Start'));
 const Question = lazy(() => import('./components/pages/Evaluation/Question'));
-const EvaluationSummary = lazy(() => import('./components/pages/Evaluation/EvaluationSummary'));
-const EvaluatorResult = lazy(() => import('./components/pages/Evaluation/EvaluatorResult'));
-const EvaluatorComment = lazy(() => import('./components/pages/Evaluation/EvaluatorComment'));
-const EvaluatorList = lazy(() => import('./components/pages/Evaluation/EvaluatorList'));
+const EvaluationSummary = lazy(() => import('./components/pages/Evaluation/Summary'));
+const EvaluatorResult = lazy(() => import('./components/pages/Evaluation/Result'));
+const EvaluatorComment = lazy(() => import('./components/pages/Evaluation/Comment'));
+const EvaluatorList = lazy(() => import('./components/pages/Evaluation/List'));
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>

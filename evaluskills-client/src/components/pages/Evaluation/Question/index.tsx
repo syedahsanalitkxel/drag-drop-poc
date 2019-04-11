@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 import GuestTemplate from '../../../templates/GuestTemplate';
-import QuestionItem from '../../../organisms/QuestionItem';
+import QuestionItem from '../../../organisms/EvaluationQuestionItem';
+import EvaluationClientHolder from '../../../organisms/EvaluationClientHolder';
 
 const EvaluatorQuestion = () => {
   return (
@@ -11,15 +12,7 @@ const EvaluatorQuestion = () => {
       <div>
         <div className="PageHeader pr-0 pl-0">
           <div className="eval-header row">
-            <div className="client-holder col-sm-6">
-              <div className="inline img-holder mr-4 vertical-align">
-                <img src="/img/icons/Profile pic.png" alt="profile" />
-              </div>
-              <div className="inline txt-holder">
-                <p className="mb-0">(Manager) From Tkxel</p>
-                <h2 className="mt-0 font-bold">Jasmine Rassol</h2>
-              </div>
-            </div>
+            <EvaluationClientHolder />
             <div className="col-sm-6">
               <div className="row mt-3">
                 <div className="col-sm-8">
