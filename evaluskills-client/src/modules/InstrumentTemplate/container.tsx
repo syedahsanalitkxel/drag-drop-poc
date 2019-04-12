@@ -7,7 +7,7 @@ import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../../utils/routerUtils';
-import { InstrumentTemplateInterface } from './interface';
+import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
 
 const InstrumentTemplate = lazy(() => import('./list'));
@@ -20,28 +20,40 @@ const instrumentTemplate: InstrumentTemplateInterface = {
   recommendedApplicationId: 1,
   title: '',
 };
+const defaultFilters: InstrumentTemplateFilterInterface = {
+  PageNumber: 1,
+};
 
 interface State {
   instrumentTemplates: InstrumentTemplateInterface[];
   instrumentTemplate: InstrumentTemplateInterface;
+  filters: InstrumentTemplateFilterInterface;
 }
-
+// TODO: Check user role. If use role is client admin, he can't edit instruments created by super admin
 const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
   const { history, match } = props;
   const errorContext = useContext(ErrorContext);
-  const [state, setState] = useState<State>({ instrumentTemplate, instrumentTemplates });
+  const [state, setState] = useState<State>({
+    instrumentTemplate,
+    instrumentTemplates,
+    filters: defaultFilters,
+  });
 
   useEffect(() => {
     if (isEdit(match.params)) {
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
-      fetchAllInstruments();
+      fetchAllInstruments(defaultFilters);
     }
   }, [match.path]);
 
-  async function fetchAllInstruments() {
+  function filterHandler(filters: InstrumentTemplateFilterInterface) {
+    fetchAllInstruments({ ...state.filters, ...filters });
+  }
+
+  async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
     try {
-      const data = await getInstrumentTemplates();
+      const data = await getInstrumentTemplates(filters);
       setState({ ...state, instrumentTemplates: data });
     } catch (error) {
       errorContext.setError(error, true);
@@ -71,7 +83,11 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <AddEditInstrumentTemplate />;
     }
     return (
-      <InstrumentTemplate instrumentTemplates={state.instrumentTemplates} navigate={navigate} />
+      <InstrumentTemplate
+        instrumentTemplates={state.instrumentTemplates}
+        navigate={navigate}
+        filterHandler={filterHandler}
+      />
     );
   }
 

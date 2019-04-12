@@ -2,7 +2,7 @@
 
 #### Core structure
 
-```
+```c
 src
  |-- components // this will have all shared components
  |   |-- atoms // basic level components
