@@ -1,7 +1,7 @@
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import EvaluationSummary from './index';
+import EvaluationSummary from './summary';
 
 configure({ adapter: new Adapter() });
 const Evaluate = shallow(<EvaluationSummary />);

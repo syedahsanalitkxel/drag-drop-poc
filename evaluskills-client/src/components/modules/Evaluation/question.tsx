@@ -1,10 +1,10 @@
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink } from 'react-router-dom';
 import React from 'react';
-import GuestTemplate from '../../../templates/GuestTemplate';
-import QuestionItem from '../../../organisms/EvaluationQuestionItem';
-import EvaluationClientHolder from '../../../organisms/EvaluationClientHolder';
+import { NavLink } from 'react-router-dom';
+import EvaluationClientHolder from '../../organisms/EvaluationClientHolder';
+import GuestTemplate from '../../templates/GuestTemplate';
+import QuestionItem from '../../organisms/EvaluationQuestionItem';
 
 const EvaluatorQuestion = () => {
   return (

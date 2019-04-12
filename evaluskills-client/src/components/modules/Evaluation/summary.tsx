@@ -1,12 +1,12 @@
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
-import GuestTemplate from '../../../templates/GuestTemplate';
+import { NavLink } from 'react-router-dom';
 import { Modal, ModalBody } from 'reactstrap';
-import EvaluatorAssessmentItem from '../../../organisms/EvaluationCommentItem';
-import Pager from '../../../molecules/Pager';
-import EvaluationClientHolder from '../../../organisms/EvaluationClientHolder';
+import Pager from '../../molecules/Pager';
+import EvaluationClientHolder from '../../organisms/EvaluationClientHolder';
+import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
+import GuestTemplate from '../../templates/GuestTemplate';
 
 const EvaluationSummary = () => {
   const [displayModal, setDisplayModal] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import GuestTemplate from '../../../templates/GuestTemplate';
+import GuestTemplate from '../../templates/GuestTemplate';
 
 const EvaluatorList = () => {
   return (

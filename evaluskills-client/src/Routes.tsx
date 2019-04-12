@@ -22,12 +22,7 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
-const Evaluator = lazy(() => import('./components/pages/Evaluation/Start'));
-const Question = lazy(() => import('./components/pages/Evaluation/Question'));
-const EvaluationSummary = lazy(() => import('./components/pages/Evaluation/Summary'));
-const EvaluatorResult = lazy(() => import('./components/pages/Evaluation/Result'));
-const EvaluatorComment = lazy(() => import('./components/pages/Evaluation/Comment'));
-const EvaluatorList = lazy(() => import('./components/pages/Evaluation/List'));
+import { EvaluationRoutes } from './components/modules/Evaluation';
 
 const Routes = () => (
   <Suspense fallback={<Spinner />}>
@@ -71,6 +66,14 @@ const Routes = () => (
       </Route>
 
       {InstrumentTemplateRoutes.map((item, i) => {
+        const { Component } = item;
+        return (
+          <Route exact={true} key={i} path={item.path}>
+            <Component />
+          </Route>
+        );
+      })}
+      {EvaluationRoutes.map((item, i) => {
         const { Component } = item;
         return (
           <Route exact={true} key={i} path={item.path}>
@@ -132,30 +135,6 @@ const Routes = () => (
 
       <Route exact={true} path="/participants">
         <ParticipantHome />
-      </Route>
-
-      <Route exact={true} path="/evaluation/start">
-        <Evaluator />
-      </Route>
-
-      <Route exact={true} path="/evaluation/questions">
-        <Question />
-      </Route>
-
-      <Route exact={true} path="/evaluation/summary">
-        <EvaluationSummary />
-      </Route>
-
-      <Route exact={true} path="/evaluation/result">
-        <EvaluatorResult />
-      </Route>
-
-      <Route exact={true} path="/evaluation/comment">
-        <EvaluatorComment />
-      </Route>
-
-      <Route exact={true} path="/evaluation/list">
-        <EvaluatorList />
       </Route>
     </Switch>
   </Suspense>
