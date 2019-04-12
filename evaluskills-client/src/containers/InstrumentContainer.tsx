@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Spinner from '../components/atoms/Spinner';
 import AddEditInstrumentTemplate from '../components/pages/AddEditInstrumentTemplate';
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
 import ErrorContext from '../context/ErrorContext';
 import LookupContext from '../context/LookupContext';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
@@ -13,7 +14,6 @@ import {
   getInstrumentTemplates,
 } from '../services/instrumentTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
-import DashboardTemplate from '../components/templates/DashboardTemplate';
 
 const InstrumentTemplates: InstrumentTemplateInterface[] = [];
 

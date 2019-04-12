@@ -11,14 +11,14 @@ interface Props {
 }
 
 const DashboardTemplate: React.FunctionComponent<Props> = ({ children }) => (
-  <LookupContainer>
+  <React.Fragment>
     <Sidebar />
     <Page>
       <TopBar />
       {children}
       <Footer />
     </Page>
-  </LookupContainer>
+  </React.Fragment>
 );
 
 export default DashboardTemplate;
