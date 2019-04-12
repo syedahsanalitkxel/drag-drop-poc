@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import { FormFeedback, Input } from 'reactstrap';
-import { ErrorMessage } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 interface AssessmentElementProps {
   key: number;
   comNumber: number;
@@ -23,6 +23,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
   console.log('formik ' + props.formikprops.errors.itemsElements);
   return (
     <Fragment>
+      <div className="hr-line-dashed" />
       {props.comNumber > 0 ? (
         <Fragment>
           <div className="row">
@@ -32,13 +33,21 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             <div className="col-md-10">
               <Input
                 type="text"
-                name="element"
+                tag={Field}
+                id={'itemElements[${props.comNumber}].title'}
+                placeholder={'Add Title'}
+                name={`itemElements[${props.comNumber}].title`}
                 className="form-control"
-                invalid={
-                  !!(props.formikprops.touched.definiation && props.formikprops.errors.definiation)
-                }
+                invalid={getValidation(`itemElements[${props.comNumber}].title`)}
               />
-              <FormFeedback tooltip={true}>{props.formikprops.errors.definiation}</FormFeedback>
+              <ErrorMessage
+                name={`itemElements[${props.comNumber}].title`}
+                render={msg => (
+                  <div className="isa_error">
+                    <span className="error text-danger">{msg}</span>
+                  </div>
+                )}
+              />
             </div>
           </div>
         </Fragment>
@@ -81,15 +90,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
-              `itemElements[${props.comNumber}].itemElementOptions[0].behaviur`
+              `itemElements[${props.comNumber}].itemElementOptions[0].behaviour`
             )}
             onChange={onhandlechange}
           />
           <ErrorMessage
-            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`}
             render={msg => (
               <div className="isa_error">
                 <span className="error text-danger">{msg}</span>
@@ -152,15 +161,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
-              `itemElements[${props.comNumber}].itemElementOptions[1].behaviur`
+              `itemElements[${props.comNumber}].itemElementOptions[1].behaviour`
             )}
             onChange={onhandlechange}
           />
           <ErrorMessage
-            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`}
             render={msg => (
               <div className="isa_error">
                 <span className="error text-danger">{msg}</span>
@@ -223,15 +232,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
-              `itemElements[${props.comNumber}].itemElementOptions[2].behaviur`
+              `itemElements[${props.comNumber}].itemElementOptions[2].behaviour`
             )}
             onChange={onhandlechange}
           />
           <ErrorMessage
-            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`}
             render={msg => (
               <div className="isa_error">
                 <span className="error text-danger">{msg}</span>
@@ -294,15 +303,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
-              `itemElements[${props.comNumber}].itemElementOptions[3].behaviur`
+              `itemElements[${props.comNumber}].itemElementOptions[3].behaviour`
             )}
             onChange={onhandlechange}
           />
           <ErrorMessage
-            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`}
             render={msg => (
               <div className="isa_error">
                 <span className="error text-danger">{msg}</span>
@@ -365,15 +374,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
-            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
-              `itemElements[${props.comNumber}].itemElementOptions[4].behaviur`
+              `itemElements[${props.comNumber}].itemElementOptions[4].behaviour`
             )}
             onChange={onhandlechange}
           />
           <ErrorMessage
-            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviur`}
+            name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`}
             render={msg => (
               <div className="isa_error">
                 <span className="error text-danger">{msg}</span>

@@ -6,9 +6,9 @@ import './CheckBox.scss';
 
 interface Props {
   name: string;
-  value: string;
-  children: string;
-  currentSelection?: string;
+  value?: string | number;
+  children: React.ReactNode;
+  currentSelection?: string | number;
   onChange?: (event: any) => void;
   isChecked?: boolean;
 }

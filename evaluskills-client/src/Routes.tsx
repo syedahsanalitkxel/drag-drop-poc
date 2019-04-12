@@ -51,10 +51,10 @@ const Routes = () => (
         <AssessmentItemContainer />
       </Route>
       <Route exact={true} path="/assessment-items/add">
-        <AssessmentContainer />
+        <AssessmentItemContainer />
       </Route>
       <Route exact={true} path="/assessment-items/edit/:id">
-        <AssessmentContainer />
+        <AssessmentItemContainer />
       </Route>
 
       <Route exact={true} path="/instrument">
