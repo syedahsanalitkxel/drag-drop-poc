@@ -28,7 +28,7 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
       pageSize,
       totalPages: totalPagesCount,
     });
-  }, []);
+  }, [totalRecords]);
 
   function updatePager(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, pageNumber: number) {
     event.preventDefault();
