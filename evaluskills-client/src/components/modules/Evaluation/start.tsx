@@ -1,16 +1,20 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import EvaluationClientHolder from '../../organisms/EvaluationClientHolder';
+import EvaluationClientHolder from '../../organisms/ClientHolder';
 import GuestTemplate from '../../templates/GuestTemplate';
 
 const EvaluatorHome = () => {
+  const clientHolderObj = {
+    name: 'Jasmine Rassol',
+    designation: '(Manager) From Tkxel',
+  };
   return (
     <GuestTemplate>
       <div className="invite-container">
         <div className="PageHeader ParticipantHeader mb-4">
           <span className="invite-title">You’re invited to do</span>
           <h1 className="font-bold mt-1 mb-4">360° Leadership Assessment</h1>
-          <EvaluationClientHolder />
+          <EvaluationClientHolder {...clientHolderObj} />
         </div>
         <h2 className="font-bold">Instructions</h2>
         <p>

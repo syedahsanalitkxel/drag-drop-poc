@@ -1,10 +1,8 @@
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Modal, ModalBody } from 'reactstrap';
 import Pager from '../../molecules/Pager';
-import EvaluationClientHolder from '../../organisms/EvaluationClientHolder';
+import EvaluationClientHolder from '../../organisms/ClientHolder';
 import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
 import GuestTemplate from '../../templates/GuestTemplate';
 
@@ -14,6 +12,44 @@ const EvaluationSummary = () => {
     e.preventDefault();
     setDisplayModal(!displayModal);
   };
+  const clientHolderObj = {
+    name: 'Jasmine Rassol',
+    designation: '(Manager) From Tkxel',
+  };
+  const assessmentArray = [
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+    },
+  ];
   return (
     <GuestTemplate>
       <div>
@@ -21,7 +57,7 @@ const EvaluationSummary = () => {
           <div className="eval-header row">
             <div className="col-sm-6">
               <h3>Your Evaluation for</h3>
-              <EvaluationClientHolder />
+              <EvaluationClientHolder {...clientHolderObj} />
             </div>
           </div>
           <div className="row">
@@ -52,7 +88,10 @@ const EvaluationSummary = () => {
             </div>
           </div>
           <div className="row">
-            <EvaluatorAssessmentItem />
+            {assessmentArray.map((item, i) => {
+              return <EvaluatorAssessmentItem key={i} {...item} />;
+            })}
+
             <div className="col-lg-12">
               <div className="ibox">
                 <div className="ibox-content in-progress m-0">
@@ -66,95 +105,6 @@ const EvaluationSummary = () => {
                       </p>
                     </div>
                   </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Observing and directing the execution of tasks, projects, or activities by
-                    others.professional environment.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">03</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content m-0">
-                  <h3>Comment</h3>
-                  <p>
-                    Very attentive to the speaker and highly thoughtful and reflective with
-                    responses. Level of proficiency with this competency is much higher than
-                    expected and very much higher than average.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Has a set of moral principles used in the job in accordance with the culture of
-                    the organization.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">02</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content m-0">
-                  <h3>Comment</h3>
-                  <p>
-                    Very attentive to the speaker and highly thoughtful and reflective with
-                    responses. Level of proficiency with this competency is much higher than
-                    expected and very much higher than average.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox">
-                <div className="ibox-content in-progress m-0">
-                  <a href="#">
-                    <div className="float-right">
-                      <span className="badge badge-warning">In Progress</span>
-                    </div>
-                    <div className="txt">
-                      <p className="m-0">
-                        Pays attention to someone to hear what is being said and understand that it
-                        is serious, important, or true.
-                      </p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Contributes to and operates within a team to accomplish tasks and complete
-                    assignments within a collaborate and professional environment.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">02</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content m-0">
-                  <h3>Comment</h3>
-                  <p>
-                    Very attentive to the speaker and highly thoughtful and reflective with
-                    responses. Level of proficiency with this competency is much higher than
-                    expected and very much higher than average.
-                  </p>
                 </div>
               </div>
             </div>
