@@ -1,24 +1,31 @@
 import * as Yup from 'yup';
 let i = 1;
 export const AddAssessmentSchema = Yup.object().shape({
-  fathSelected: Yup.string()
-    .min(1, 'Too Short!')
+  categoryId: Yup.number().required('Required'),
+  definition: Yup.string()
+    .min(2, 'Too Short!')
     .max(250, 'Too Long!')
     .required('Required'),
-  categorySelected: Yup.string()
-    .min(1, 'Too Short!')
-    .max(250, 'Too Long!')
-    .required('Required'),
-
+  itemEntities: Yup.array()
+    .min(1)
+    .required('required'),
+  itemRecomendedApplications: Yup.array()
+    .min(1)
+    .required('required'),
+  typeId: Yup.number().required('Required'),
   itemElements: Yup.array().of(
     Yup.object().shape({
+      title: Yup.string()
+        .min(2, 'Too Short!')
+        .max(250, 'Too Long!')
+        .required('Required'),
       itemElementOptions: Yup.array().of(
         Yup.object().shape({
           statement: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Required'),
-          behaviur: Yup.string()
+          behaviour: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Required'),
