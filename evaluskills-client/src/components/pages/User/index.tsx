@@ -105,7 +105,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
                 <UsersList listData={usersData} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

@@ -26,6 +26,10 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
     setModalVisible(!modalVisible);
   };
 
+  const onPageChange = (PageNumber: number) => {
+    applyFilters({ PageNumber });
+  };
+
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     toggleFilterModal();
@@ -57,7 +61,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               // remove={remove}
               // addInstrument={addInstrument}
             />
-            <Pager />
+            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
           </PageBody>
         </div>
       </div>

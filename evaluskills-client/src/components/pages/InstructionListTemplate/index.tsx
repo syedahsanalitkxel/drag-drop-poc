@@ -1,12 +1,13 @@
 import React, { Fragment, useState } from 'react';
-import { Instructions } from '../../../interfaces/Instructions';
 import styled from 'styled-components';
+
+import { Instructions } from '../../../interfaces/Instructions';
 import Collapse from '../../atoms/Collapse';
 import PageBody from '../../atoms/PageBody';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+
 interface Props {
   InstrcutionsTemplate: Instructions[];
   add: () => void;
@@ -62,7 +63,7 @@ const InstructionListing: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <div className="Card">{InstrcutionsTemplate.map(renderInstructionData)}</div>
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

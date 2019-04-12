@@ -34,9 +34,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   const { history, match } = props;
   const errorContext = useContext(ErrorContext);
   const [state, setState] = useState<State>({
+    filters: defaultFilters,
     instrumentTemplate,
     instrumentTemplates,
-    filters: defaultFilters,
   });
 
   useEffect(() => {
@@ -48,6 +48,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }, [match.path]);
 
   function filterHandler(filters: InstrumentTemplateFilterInterface) {
+    // TODO Buggy Code
+    // setState({ ...state, filters: { ...state.filters, ...filters } });
     fetchAllInstruments({ ...state.filters, ...filters });
   }
 
