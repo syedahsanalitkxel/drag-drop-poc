@@ -2,7 +2,7 @@ import React from 'react';
 
 import Client from '../../../interfaces/Client';
 import IconButton from '../../atoms/IconButton';
-import ClientCard from '../../molecules/ClientCard';
+import ClientCard from '../../molecules/ClientListCard';
 
 interface Props {
   listData: Client[];
@@ -129,7 +129,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
                 listData && listData.map(renderClientItem)
               ) : (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center' }}>
+                  <td colSpan={9} style={{ textAlign: 'center' }}>
                     <span className="label" style={{ textAlign: 'center' }}>
                       No Record Found
                     </span>
