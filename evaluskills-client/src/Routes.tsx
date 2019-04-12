@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 
 import Spinner from './components/atoms/Spinner';
 
-import { InstrumentTemplateRoutes } from './components/modules/InstrumentTemplate';
+import { InstrumentTemplateRoutes } from './modules/InstrumentTemplate';
 
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
 

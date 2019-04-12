@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import API from '../../../api';
-import { INSTRUMENT_TEMPLATES } from '../../../api/endpoints';
+import API from '../../api';
+import { INSTRUMENT_TEMPLATES } from '../../api/endpoints';
 import { InstrumentTemplateInterface } from './interface';
 
 const api = new API();

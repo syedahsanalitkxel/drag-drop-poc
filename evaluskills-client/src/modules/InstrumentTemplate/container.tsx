@@ -2,11 +2,11 @@ import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
-import ErrorContext from '../../../context/ErrorContext';
-import RouteParamsInterface from '../../../interfaces/RouteParams';
-import { isAdd, isEdit, isList } from '../../../utils/routerUtils';
-import Spinner from '../../atoms/Spinner';
-import DashboardTemplate from '../../templates/DashboardTemplate';
+import Spinner from '../../components/atoms/Spinner';
+import DashboardTemplate from '../../components/templates/DashboardTemplate';
+import ErrorContext from '../../context/ErrorContext';
+import RouteParamsInterface from '../../interfaces/RouteParams';
+import { isAdd, isEdit, isList } from '../../utils/routerUtils';
 import { InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
 

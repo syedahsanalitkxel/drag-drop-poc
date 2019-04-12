@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import LookupContext from '../../../context/LookupContext';
+import LookupContext from '../../context/LookupContext';
 import { InstrumentTemplateInterface } from './interface';
 
 interface Props {

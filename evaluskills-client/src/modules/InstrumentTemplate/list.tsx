@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
+import AssessmentFiltersInterface from '../../interfaces/AssessmentFilters';
 import { InstrumentTemplateInterface } from './interface';
 
-import PageBody from '../../atoms/PageBody';
-import PageHeader from '../../atoms/PageHeader';
-import ESModal from '../../molecules/Modal';
-import Pager from '../../molecules/Pager';
-import InstrumentFilters from '../../organisms/InstrumentFilters';
-import ListCardItems from '../../organisms/InstrumentListCardItems';
+import PageBody from '../../components/atoms/PageBody';
+import PageHeader from '../../components/atoms/PageHeader';
+import ESModal from '../../components/molecules/Modal';
+import Pager from '../../components/molecules/Pager';
+import InstrumentFilters from '../../components/organisms/InstrumentFilters';
+import ListCardItems from '../../components/organisms/InstrumentListCardItems';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
