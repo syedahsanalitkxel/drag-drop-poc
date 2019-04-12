@@ -7,7 +7,7 @@ import AddClient from '../components/pages/AddClient';
 import ErrorContext from '../context/ErrorContext';
 import RouteParams from '../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
-import editClientInterface from '../interfaces/EditClient';
+import editClientInterface, { ContactInterface } from '../interfaces/EditClient';
 import Spinner from '../components/atoms/Spinner';
 
 const user: ClientUserInterface = {
@@ -66,6 +66,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   async function fetchClients(id: string) {
     try {
       const data: any = await getClientById(id);
+      delete data.clientLogo;
       setSelectedClients(data);
       setAction('edit');
     } catch (error) {
@@ -109,11 +110,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
 
   async function submitForm(values: any) {
-    await delete values.id;
-    await delete values.clientUser.id;
-    const formd: FormData = jsonToFormData(values);
-    await formd.append('clientLogo', values.clientLogo);
     if (action === 'add') {
+      await delete values.id;
+      await delete values.clientUser.id;
+      const formd: FormData = jsonToFormData(values);
+      await formd.append('clientLogo', values.clientLogo);
       try {
         const data = await addClient(formd);
         setClients(ClientList);
@@ -123,8 +124,10 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         errorContext.setError(error);
       }
     } else if (action === 'edit') {
+      const formd: FormData = jsonToFormData(values);
+      await formd.append('clientLogo', values.clientLogo);
       try {
-        const data = await editClient(formd, match.params.id);
+        await editClient(formd, match.params.id);
         setClients(ClientList);
         setAction('');
         history.push('/clients');

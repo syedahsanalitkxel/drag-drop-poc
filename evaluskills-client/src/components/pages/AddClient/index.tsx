@@ -41,10 +41,10 @@ export const AddClient: React.FunctionComponent<Props> = ({
   action,
   clients,
 }) => {
-  // console.log(defaultValues);
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
+  const [selectedContact, setSelectedContact] = useState({});
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
@@ -59,8 +59,10 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
-      const contactData: any = defaultValues.clientContacts;
-      setContactFormState(contactData);
+      const contact: any = defaultValues.clientContacts.find(
+        (contacts: any) => contacts.id === contactId
+      );
+      setSelectedContact(contact);
       toggleEditClientContactModal();
     }
   }
@@ -72,7 +74,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   function submitForm(values: any) {
     values.stateId = parseInt(values.stateId, 10);
     values.billingPlanId = parseInt(values.billingPlanId, 10);
-    values.clientTypeId = parseInt(values.clientTypeId, 10);
+    // values.clientTypeId = parseInt(values.clientTypeId, 10);
     changeListener({ ...formState, ...values });
     setFormState({ ...formState, ...values });
     if (action === 'edit' && file) {
@@ -137,7 +139,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
     };
 
     return (
-      <Form onSubmit={formikprops.handleSubmit} className="form" encType="multipart/form-data">
+      <Form
+        onSubmit={formikprops.handleSubmit.bind(formikprops)}
+        className="form"
+        encType="multipart/form-data"
+      >
         <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
@@ -156,8 +162,13 @@ export const AddClient: React.FunctionComponent<Props> = ({
           />
 
           <FormGroup>
-            <span className={styles['image-upload-label']}>Upload Photo</span>
-            <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
+            <div>
+              <span className={styles['image-upload-label']}>Upload Photo</span>
+              <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
+              {formikprops.touched.clientLogo &&
+                formikprops.errors.clientLogo &&
+                formikprops.errors.clientLogo}
+            </div>
           </FormGroup>
           <div className="hr-line-dashed" />
 
@@ -227,12 +238,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 name="clientTypeId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
+                noValidate={true}
                 inline={true}
                 last={true}
               >
-                <option value="selected">Select Type</option>
-                <option value={1}>Co-oprate</option>
-                <option value={2}>Educational Institute</option>
+                <option value="1">Co-oprate</option>
+                <option value="2">Educational Institute</option>
               </FormElement>
             </div>
           </div>
@@ -268,7 +279,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
         </div>
 
         <AddClientContacts
-          fprops={formikprops}
+          fprops={formState}
           visible={addClientContactModalVisible}
           toggle={toggleAddClientContactModal}
           formValues={contactFormState}
@@ -276,10 +287,10 @@ export const AddClient: React.FunctionComponent<Props> = ({
         />
 
         <EditClientContacts
-          fprops={formikprops}
+          fprops={formState}
           visible={editClientContactModalVisible}
           toggle={toggleEditClientContactModal}
-          formValues={contactFormState}
+          formValues={selectedContact}
           name="Edit"
         />
 
