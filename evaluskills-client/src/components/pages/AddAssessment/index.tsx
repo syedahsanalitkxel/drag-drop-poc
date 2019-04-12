@@ -7,19 +7,29 @@ import RadioButton from '../../atoms/RadioButton';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import { AddAssessmentSchema } from './validationSchema';
 import { styles } from './style';
+import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
 import { initialState, Initalvalues } from './InitialState';
 import ErrorContext from '../../../context/ErrorContext';
 import { LookupContextConsumer } from '../../../context/LookupContext';
 import { lookups } from '../../../enums';
 import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
-const AddAssessment: React.FunctionComponent<any> = ({
+interface PropsInterface {
+  assessmenListItems: () => void;
+  addAssessment: (value: AddAssessmentItemInterface) => void;
+  changeListener?: (formValues: any) => void;
+  edit?: boolean;
+  assessmenData: AddAssessmentItemInterface;
+}
+
+const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   assessmenListItems,
   addAssessment,
   changeListener,
+  assessmenData,
   edit,
 }) => {
   const [formState, setFormState] = useState(initialState);
-  const [forvalues, setFormvalues] = useState(Initalvalues);
+  const [forvalues, setFormvalues] = useState(assessmenData);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
     // if (formState.itemElements.length === 0) {
@@ -28,7 +38,8 @@ const AddAssessment: React.FunctionComponent<any> = ({
     //   setFormState({ ...formState, itemElements: list });
     // }
     if (edit) {
-      setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
+      // setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
+      //setFormvalues({ ...forvalues, assessmenListItems });
     }
   }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -164,7 +175,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
-                  {forvalues.typeId === 1 ? (
+                  {forvalues && forvalues.typeId && forvalues.typeId === 1 ? (
                     <Fragment>
                       <div className="form-group row">
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
@@ -192,7 +203,9 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="true"
-                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={
+                          forvalues && forvalues.isFaithBased === true ? 'true' : 'false'
+                        }
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -200,7 +213,9 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="false"
-                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={
+                          forvalues && forvalues.isFaithBased === true ? 'true' : 'false'
+                        }
                         onChange={fathchangehandler}
                       >
                         No
@@ -258,7 +273,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                         name="accreditationAlignment"
                         value="true"
                         currentSelection={
-                          forvalues.accreditationAlignment === true ? 'true' : 'false'
+                          forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'
                         }
                         onChange={fathchangehandler}
                       >
@@ -268,7 +283,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                         name="accreditationAlignment"
                         value="false"
                         currentSelection={
-                          forvalues.accreditationAlignment === true ? 'true' : 'false'
+                          forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'
                         }
                         onChange={fathchangehandler}
                       >
@@ -292,7 +307,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="questionTypeId"
                         value={1}
-                        currentSelection={forvalues.questionTypeId}
+                        currentSelection={forvalues && forvalues.questionTypeId}
                         onChange={changeHandler}
                       >
                         Rubric
@@ -300,7 +315,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="questionTypeId"
                         value={2}
-                        currentSelection={forvalues.questionTypeId}
+                        currentSelection={forvalues && forvalues.questionTypeId}
                         onChange={changeHandler}
                       >
                         Open Ended
@@ -309,11 +324,13 @@ const AddAssessment: React.FunctionComponent<any> = ({
                   </div>
                   <div className="isa_error">
                     <span className="error text-danger">
-                      {formState.assessmentType === '' ? 'Required' : null}
+                      {forvalues && formState.assessmentType === '' ? 'Required' : null}
                     </span>
                   </div>
 
-                  {formState.itemElements && forvalues.itemElements.map(renderElementList)}
+                  {forvalues &&
+                    formState.itemElements &&
+                    forvalues.itemElements.map(renderElementList)}
                 </div>
               </div>
               {forvalues.typeId === 3 ? (
@@ -432,16 +449,8 @@ const AddAssessment: React.FunctionComponent<any> = ({
       ));
     }
   };
-  async function submitForm(values: any) {
-    try {
-      console.log(values);
-      const data = await addAssessment(values);
-      console.log(data);
-      assessmenListItems();
-    } catch (error) {
-      errorContext.setError(error, true);
-    }
-    setFormState({ ...formState, ...values });
+  function submitForm(values: any) {
+    addAssessment(values);
   }
   return (
     <DashboardTemplate>

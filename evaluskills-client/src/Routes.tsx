@@ -10,7 +10,7 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
-const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
+
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const AddEditClientContainer = lazy(() => import('./containers/EditAddClientContainer'));

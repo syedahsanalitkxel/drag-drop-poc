@@ -3,10 +3,16 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import AssessmentItem from '../components/pages/AssessmentItem';
 import ErrorContext from '../context/ErrorContext';
-import AssessmentItemInterface from '../interfaces/AssessmentItem';
-import { getAssessments, addAssessment } from '../services/assessmentsService';
+import { initialState, Initalvalues } from '../components/pages/AddAssessment/InitialState';
+import AssessmentItemInterface, { AddAssessmentItemInterface } from '../interfaces/AssessmentItem';
+import {
+  getAssessments,
+  addAssessment,
+  getFilteredAssessment,
+  editAssessment,
+} from '../services/assessmentsService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
-import AddAssessment from '../components/pages/AddAssessment';
+import AddAssessmentComponenet from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Character',
@@ -29,18 +35,23 @@ const AssessmentItemContainer: React.FunctionComponent<
   RouteComponentProps<RouteParamsInterface>
 > = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
-
+  const [editassessments, seteditAssessments] = useState();
+  const [addAssessments, setAddAssessments] = useState(Initalvalues);
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
-    fetchAssessments();
+    if (isEdit(match.params)) {
+      editAssessmentdata(match.params.id);
+    } else if (isList(match.path)) {
+      fetchAssessments();
+    }
 
     return function cleanup() {
       setAssessments(AssessmentItems);
     };
-  }, []);
+  }, [match.path]);
 
   async function fetchAssessments() {
     try {
@@ -50,7 +61,44 @@ const AssessmentItemContainer: React.FunctionComponent<
       errorContext.setError(error, true);
     }
   }
-
+  async function editAssessmentdata(id: string) {
+    try {
+      const data = await editAssessment(id);
+      seteditAssessments(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
+  async function applyFilterAssessment(filter: any) {
+    const param = { ...filter };
+    toggleFilterModal();
+    try {
+      const data: any = await getFilteredAssessment(param);
+      setAssessments(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
+  async function AddAssessmentdata(values: AddAssessmentItemInterface) {
+    try {
+      console.log(values);
+      const data = await addAssessment(values);
+      console.log(data);
+      assessmenListItems();
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
+  async function updateAssessmentdata(values: AddAssessmentItemInterface) {
+    try {
+      console.log(values);
+      const data = await addAssessment(values);
+      console.log(data);
+      assessmenListItems();
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
   function filterAssessments(searchQuery: string) {
     alert(searchQuery);
   }
@@ -64,18 +112,36 @@ const AssessmentItemContainer: React.FunctionComponent<
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
-
+  const toggleFilterModal = () => {
+    setModalVisible(!modalVisible);
+  };
   function deleteAssessment(assessmentId: string) {
     alert(`deleting => ${assessmentId}`);
   }
   if (isEdit(match.params)) {
-    return <AddAssessment assessmenListItems={assessmenListItems} addAssessment={addAssessment} />;
+    return (
+      <AddAssessmentComponenet
+        assessmenData={editassessments}
+        addAssessment={AddAssessmentdata}
+        edit={true}
+        assessmenListItems={assessmenListItems}
+      />
+    );
   }
 
   if (isAdd(match.path)) {
-    return <AddAssessment assessmenListItems={assessmenListItems} addAssessment={addAssessment} />;
+    return (
+      <AddAssessmentComponenet
+        assessmenListItems={assessmenListItems}
+        assessmenData={addAssessments}
+        addAssessment={AddAssessmentdata}
+      />
+    );
   }
-
+  const filtersClickHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    toggleFilterModal();
+  };
   return (
     <AssessmentItem
       assessments={assessments}
@@ -83,6 +149,10 @@ const AssessmentItemContainer: React.FunctionComponent<
       add={routeaddAssessment}
       remove={deleteAssessment}
       edit={editAssessment}
+      modalVisible={modalVisible}
+      toggleFilterModal={toggleFilterModal}
+      filtersClickHandler={filtersClickHandler}
+      applyFilters={applyFilterAssessment}
     />
   );
 };
