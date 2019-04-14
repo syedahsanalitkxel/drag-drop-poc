@@ -28,7 +28,7 @@ src
  `-- routes.tsx // defining all routes and importing module level routes
 ```
 
-####Module Structure
+#### Module Structure
 
 `AddEdit.tsx` Will contain template for add and edit both. If data is passed through template as `<AddEdit defaultState={Object} />` will work as **edit** mode, and if nothing is passed, it will be add mode.
 
