@@ -1,4 +1,4 @@
-import { lookups } from '../enums';
+import { lookups } from './enum';
 
 export interface LookupItemInterface {
   value?: number;

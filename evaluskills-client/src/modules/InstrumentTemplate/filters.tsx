@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 
-import LookupContext from '../../context/LookupContext';
 import ModalContext from '../../context/ModalContext';
-import { lookups } from '../../enums';
+import LookupContext from '../Lookup/context';
+import { lookups } from '../Lookup/enum';
 
 const initialState = {};
 

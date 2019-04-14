@@ -1,13 +1,13 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import styled from 'styled-components';
 import { ContactInterface } from '../../../interfaces/Client';
-import { styles } from '../../pages/AddUser/style';
-import clientContactSchema from './clientContactSchema';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import styled from 'styled-components';
+import { styles } from '../../pages/AddUser/style';
+import clientContactSchema from './clientContactSchema';
 
 interface Props {
   index?: number;

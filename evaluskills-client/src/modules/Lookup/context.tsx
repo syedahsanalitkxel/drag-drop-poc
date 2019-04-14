@@ -1,5 +1,5 @@
 import React from 'react';
-import { LookupContextInitialState, LookupContextInterface } from '../interfaces/Lookup';
+import { LookupContextInitialState, LookupContextInterface } from './interface';
 
 // Lookup Context
 const LookupContext = React.createContext<LookupContextInterface>(LookupContextInitialState);
