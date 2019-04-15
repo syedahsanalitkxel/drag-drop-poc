@@ -10,7 +10,6 @@ import { AuthContext } from './modules/Auth/authContext';
 
 const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
-const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
@@ -62,12 +61,11 @@ const Routes: React.FunctionComponent = () => {
     <Suspense fallback={<Spinner />}>
       <Switch>
         {EvaluationRoutes.map(renderRouteFromList(false))}
-        <Route exact={true} path="/" component={Home} />
-        <Route exact={true} path="/login" component={AuthContainer} />
-        <Route exact={true} path="/select-client" component={AuthContainer} />
-        <Route exact={true} path="/reset-password" component={AuthContainer} />
-        <PrivateRoute exact={true} path="/dashboard" component={DashboardHome} />
-        <Route exact={true} path="/verify-email" component={DashboardHome} />
+        <Route exact={true} path="/account/login" component={AuthContainer} />
+        <Route exact={true} path="/account/select-client" component={AuthContainer} />
+        <Route exact={true} path="/account/reset-password" component={AuthContainer} />
+        <PrivateRoute exact={true} path="/" component={DashboardHome} />
+        <Route exact={true} path="/account/email-confirmation" component={AuthContainer} />
         <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
         <PrivateRoute
           exact={true}

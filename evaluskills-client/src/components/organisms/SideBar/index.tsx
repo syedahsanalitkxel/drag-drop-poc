@@ -25,7 +25,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
             profilePicture="/img/profile_small.jpg"
           />
         </li>
-        {getNavItem('/dashboard', 'th-large', 'Dashboard')}
+        {getNavItem('/', 'th-large', 'Dashboard')}
         {getNavItem('/assessment-items', 'edit', 'Assessment Items')}
         {getNavItem('/instrument-templates', 'sitemap', 'Instrument Template')}
         {USER_ROLE.isSuperAdmin() && getNavItem('/clients', 'user', 'Clients')}
