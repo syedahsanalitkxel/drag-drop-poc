@@ -1,17 +1,29 @@
-import { Field, Formik, ErrorMessage } from 'formik';
-import React, { Component, Fragment, useContext, useEffect, useState } from 'react';
-import { FormFeedback, Input, Label } from 'reactstrap';
-import Checkbox from '../../atoms/CheckBox';
-import Assessmentelement from '../../organisms/AssesmentElement';
-import RadioButton from '../../atoms/RadioButton';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-import { AddAssessmentSchema } from './validationSchema';
-import { styles } from './style';
-import { initialState } from './InitialState';
-import ErrorContext from '../../../context/ErrorContext';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 
-const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeListener, edit }) => {
+import { ErrorMessage, Field, Formik } from 'formik';
+import { FormFeedback, Input } from 'reactstrap';
+
+import ErrorContext from '../../../context/ErrorContext';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import Checkbox from '../../atoms/CheckBox';
+import RadioButton from '../../atoms/RadioButton';
+import Assessmentelement from '../../organisms/AssesmentElement';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+import { Initalvalues, initialState } from './InitialState';
+import { AddAssessmentSchema } from './validationSchema';
+
+import { styles } from './style';
+
+const AddAssessment: React.FunctionComponent<any> = ({
+  assessmenListItems,
+  addAssessment,
+  changeListener,
+  edit,
+}) => {
   const [formState, setFormState] = useState(initialState);
+  const [forvalues, setFormvalues] = useState(Initalvalues);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
     // if (formState.itemElements.length === 0) {
@@ -24,40 +36,57 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
     }
   }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.name]: event.target.value });
+    setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
+  }
+  function fathchangehandler(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.value === 'true') {
+      setFormvalues({ ...forvalues, [event.target.name]: true });
+    } else {
+      setFormvalues({ ...forvalues, [event.target.name]: false });
+    }
   }
   function elementChange(pro: any) {}
   function checkboxChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.name === 'recommendAppHigher') {
-      setFormState({ ...formState, recommendAppHigher: !formState.recommendAppHigher });
+    const number = parseInt(event.target.value, 10);
+    let arr = forvalues.itemRecomendedApplications;
+    let check = arr.includes(number);
+
+    if (check) {
+      var index = arr.indexOf(number);
+      arr.splice(index, 1);
     } else {
-      setFormState({ ...formState, recommendAppCorporate: !formState.recommendAppCorporate });
+      arr.push(number);
     }
+
+    setFormvalues({
+      ...forvalues,
+      itemRecomendedApplications: arr,
+    });
   }
   function entitycheckboxChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    const entities = formState.entityCheck;
-    if (event.target.name === 'All') {
-      setFormState({ ...formState, entityCheckedAll: !formState.entityCheckedAll });
+    const number = parseInt(event.target.value, 10);
+    let arr = forvalues.itemEntities;
+    let check = arr.includes(number);
+
+    if (check) {
+      var index = arr.indexOf(number);
+      arr.splice(index, 1);
     } else {
-      entities.forEach((entity: any) => {
-        if (entity.value === event.target.name) {
-          if (entity.isChecked === true) {
-            setFormState({ ...formState, entitySelect: formState.entitySelect - 1 });
-          } else {
-            setFormState({ ...formState, entitySelect: 1 });
-          }
-          entity.isChecked = !entity.isChecked;
-        }
-      });
-      setFormState({ ...formState, entityCheck: entities });
+      arr.push(number);
     }
+
+    setFormvalues({
+      ...forvalues,
+      itemEntities: arr,
+    });
   }
 
   function addElement() {
-    const list: any = formState.itemElements;
+    const list: any = forvalues.itemElements;
+
     const clonedArray = JSON.parse(JSON.stringify(formState.elementObject));
     list.push(clonedArray);
-    setFormState({ ...formState, itemElements: list });
+    setFormvalues({ ...forvalues, itemElements: list });
     setFormState({ ...formState, countAssetelement: formState.countAssetelement + 1 });
   }
   const renderForm = (formikprops: any) => {
@@ -91,15 +120,15 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     <div className="col-md-12">
                       <Input
                         type="text"
-                        name="definiation"
+                        name="definition"
                         className="form-control"
                         tag={Field}
-                        id={'definiation'}
+                        id={'definition'}
                         invalid={
-                          !!(formikprops.touched.definiation && formikprops.errors.definiation)
+                          !!(formikprops.touched.definition && formikprops.errors.definition)
                         }
                       />
-                      <FormFeedback tooltip={true}>{formikprops.errors.definiation}</FormFeedback>
+                      <FormFeedback tooltip={true}>{formikprops.errors.definition}</FormFeedback>
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
@@ -108,41 +137,9 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     <div className="col-sm-10">
                       <div className="form-group row">
                         <div className="col-sm-10">
-                          <RadioButton
-                            name="categorySelected"
-                            value="val1"
-                            currentSelection={formState.categorySelected}
-                            onChange={changeHandler}
-                          >
-                            None
-                          </RadioButton>
-
-                          <RadioButton
-                            name="categorySelected"
-                            value="val2"
-                            currentSelection={formState.categorySelected}
-                            onChange={changeHandler}
-                          >
-                            Character
-                          </RadioButton>
-                          <RadioButton
-                            name="categorySelected"
-                            value="val3"
-                            currentSelection={formState.categorySelected}
-                            onChange={changeHandler}
-                          >
-                            Skill
-                          </RadioButton>
-                          <RadioButton
-                            name="categorySelected"
-                            value="val4"
-                            currentSelection={formState.categorySelected}
-                            onChange={changeHandler}
-                          >
-                            Action
-                          </RadioButton>
+                          <LookupContextConsumer>{renderAssessmentCategory}</LookupContextConsumer>
                           <ErrorMessage
-                            name={`categorySelected`}
+                            name={`categoryId`}
                             render={msg => (
                               <div className="isa_error">
                                 <span className="error text-danger">{msg}</span>
@@ -158,32 +155,10 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     <label className="col-sm-2 col-form-label font-bold">Type</label>
 
                     <div className="col-sm-10">
-                      <RadioButton
-                        name="typeSelected"
-                        value="comtval"
-                        currentSelection={formState.typeSelected}
-                        onChange={changeHandler}
-                      >
-                        Competency
-                      </RadioButton>
-                      <RadioButton
-                        name="typeSelected"
-                        value="Rationalval"
-                        currentSelection={formState.typeSelected}
-                        onChange={changeHandler}
-                      >
-                        Rational
-                      </RadioButton>
-                      <RadioButton
-                        name="typeSelected"
-                        value="influval"
-                        currentSelection={formState.typeSelected}
-                        onChange={changeHandler}
-                      >
-                        Influential
-                      </RadioButton>
+                      <LookupContextConsumer>{rendertypeId}</LookupContextConsumer>
+
                       <ErrorMessage
-                        name={`typeSelected`}
+                        name={`typeId`}
                         render={msg => (
                           <div className="isa_error">
                             <span className="error text-danger">{msg}</span>
@@ -193,7 +168,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
-                  {formState.typeSelected === 'comtval' ? (
+                  {forvalues.typeId === 1 ? (
                     <Fragment>
                       <div className="form-group row">
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
@@ -201,14 +176,13 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                           <div className="col-md-6">
                             <Input
                               type="select"
-                              name="competency"
+                              name="competencyId"
                               id="competency-select"
                               onChange={changeHandler}
                             >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
+                              <LookupContextConsumer>
+                                {rendercompetencyDropdown}
+                              </LookupContextConsumer>
                             </Input>
                           </div>
                         </div>
@@ -220,18 +194,18 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     <label className="col-sm-2 col-form-label font-bold">Fath Based</label>
                     <div className="col-sm-10">
                       <RadioButton
-                        name="fathSelected"
-                        value="fathyes"
-                        currentSelection={formState.fathSelected}
-                        onChange={changeHandler}
+                        name="isFaithBased"
+                        value="true"
+                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        onChange={fathchangehandler}
                       >
                         Yes
                       </RadioButton>
                       <RadioButton
-                        name="fathSelected"
-                        value="fathNo"
-                        currentSelection={formState.fathSelected}
-                        onChange={changeHandler}
+                        name="isFaithBased"
+                        value="false"
+                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        onChange={fathchangehandler}
                       >
                         No
                       </RadioButton>
@@ -252,137 +226,30 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     </label>
 
                     <div className="col-sm-10">
-                      <Checkbox
-                        name="recommendAppHigher"
-                        value="edval"
-                        isChecked={formState.recommendAppHigher}
-                        onChange={checkboxChangeHandler}
-                      >
-                        Higher Education
-                      </Checkbox>
-                      <Checkbox
-                        name="recommendAppCorporate"
-                        value="Corporateval"
-                        isChecked={formState.recommendAppCorporate}
-                        onChange={checkboxChangeHandler}
-                      >
-                        Corporate
-                      </Checkbox>
-                      {formState.recommendAppCorporate ? null : formState.recommendAppHigher ? null : (
-                        <div className="isa_error">
-                          <span className="error text-danger">
-                            {formState.usage === '' ? 'Required' : null}
-                          </span>
-                        </div>
-                      )}
+                      <LookupContextConsumer>{recommendedApplicationsLookUp}</LookupContextConsumer>
+                      <ErrorMessage
+                        name={`itemRecomendedApplications`}
+                        render={msg => (
+                          <div className="isa_error">
+                            <span className="error text-danger">{msg}</span>
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
                   <div className="form-group row">
                     <label className="col-sm-2 col-form-label font-bold">Entity</label>
                     <div className="col-sm-10">
-                      <Checkbox
-                        name="All"
-                        value={'allcheckbox'}
-                        isChecked={formState.entityCheckedAll}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        All
-                      </Checkbox>
-                      <Checkbox
-                        name="SHRM"
-                        value={formState.entityCheck[0].value}
-                        isChecked={formState.entityCheck[0].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        SHRM
-                      </Checkbox>
-                      <Checkbox
-                        name="AACSB"
-                        value={formState.entityCheck[1].value}
-                        isChecked={formState.entityCheck[1].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        AACSB
-                      </Checkbox>
-                      <Checkbox
-                        name="ACBSP"
-                        value={formState.entityCheck[2].value}
-                        isChecked={formState.entityCheck[2].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        ACBSP
-                      </Checkbox>
-                      <Checkbox
-                        name="IACBE"
-                        value={formState.entityCheck[3].value}
-                        isChecked={formState.entityCheck[3].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        IACBE
-                      </Checkbox>
-                      <Checkbox
-                        name="AMBA"
-                        value={formState.entityCheck[4].value}
-                        isChecked={formState.entityCheck[4].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        AMBA
-                      </Checkbox>
-
-                      <Checkbox
-                        name="ACJS"
-                        value={formState.entityCheck[5].value}
-                        isChecked={formState.entityCheck[5].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        ACJS
-                      </Checkbox>
-                      <Checkbox
-                        name="NASPAA"
-                        value={formState.entityCheck[6].value}
-                        isChecked={formState.entityCheck[6].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        NASPAA
-                      </Checkbox>
-                      <Checkbox
-                        name="CAEP"
-                        value={formState.entityCheck[7].value}
-                        isChecked={formState.entityCheck[7].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        CAEP
-                      </Checkbox>
-                      <Checkbox
-                        name="CAHME"
-                        value={formState.entityCheck[8].value}
-                        isChecked={formState.entityCheck[8].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        CAHME
-                      </Checkbox>
-                      <Checkbox
-                        name="AUPHA"
-                        value={formState.entityCheck[9].value}
-                        isChecked={formState.entityCheck[9].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        AUPHA
-                      </Checkbox>
-                      <Checkbox
-                        name="NACE"
-                        value={formState.entityCheck[10].value}
-                        isChecked={formState.entityCheck[10].isChecked}
-                        onChange={entitycheckboxChangeHandler}
-                      >
-                        NACE
-                      </Checkbox>
-                      <div className="isa_error">
-                        <span className="error text-danger">
-                          {formState.entitySelect === 0 ? 'Required' : null}
-                        </span>
-                      </div>
+                      <LookupContextConsumer>{itemEntitiesLookUp}</LookupContextConsumer>
+                      <ErrorMessage
+                        name={`itemEntities`}
+                        render={msg => (
+                          <div className="isa_error">
+                            <span className="error text-danger">{msg}</span>
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
@@ -392,18 +259,22 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     </label>
                     <div className="col-sm-10">
                       <RadioButton
-                        name="usage"
-                        value="fathyes"
-                        currentSelection={formState.usage}
-                        onChange={changeHandler}
+                        name="accreditationAlignment"
+                        value="true"
+                        currentSelection={
+                          forvalues.accreditationAlignment === true ? 'true' : 'false'
+                        }
+                        onChange={fathchangehandler}
                       >
                         Yes
                       </RadioButton>
                       <RadioButton
-                        name="usage"
-                        value="fathNo"
-                        currentSelection={formState.usage}
-                        onChange={changeHandler}
+                        name="accreditationAlignment"
+                        value="false"
+                        currentSelection={
+                          forvalues.accreditationAlignment === true ? 'true' : 'false'
+                        }
+                        onChange={fathchangehandler}
                       >
                         No
                       </RadioButton>
@@ -423,17 +294,17 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                     <label className="col-sm-2 col-form-label font-bold">Assesment Type</label>
                     <div className="col-sm-10 d-flex align-items-center">
                       <RadioButton
-                        name="assessmentType"
-                        value="rubricval"
-                        currentSelection={formState.assessmentType}
+                        name="questionTypeId"
+                        value={1}
+                        currentSelection={forvalues.questionTypeId}
                         onChange={changeHandler}
                       >
                         Rubric
                       </RadioButton>
                       <RadioButton
-                        name="assessmentType"
-                        value="openval"
-                        currentSelection={formState.assessmentType}
+                        name="questionTypeId"
+                        value={2}
+                        currentSelection={forvalues.questionTypeId}
                         onChange={changeHandler}
                       >
                         Open Ended
@@ -445,11 +316,11 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
                       {formState.assessmentType === '' ? 'Required' : null}
                     </span>
                   </div>
-                  <div className="hr-line-dashed" />
-                  {formState.itemElements && formState.itemElements.map(renderElementList)}
+
+                  {formState.itemElements && forvalues.itemElements.map(renderElementList)}
                 </div>
               </div>
-              {formState.typeSelected === 'influval' ? (
+              {forvalues.typeId === 3 ? (
                 <div className="">
                   <button
                     type="button"
@@ -488,10 +359,89 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
       </form>
     );
   };
+
+  const renderAssessmentCategory = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.categoriesLookUp).map((lookup: LookupItemInterface) => (
+        <RadioButton
+          name="categoryId"
+          value={lookup.value}
+          currentSelection={forvalues.categoryId}
+          onChange={changeHandler}
+        >
+          {lookup.text}
+        </RadioButton>
+      ));
+    }
+  };
+  const rendercompetencyDropdown = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.competenciesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const rendertypeId = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.assessmentTypesLookUp).map((lookup: LookupItemInterface) => (
+        <RadioButton
+          name="typeId"
+          value={lookup.value}
+          currentSelection={forvalues.typeId}
+          onChange={changeHandler}
+        >
+          {lookup.text}
+        </RadioButton>
+      ));
+    }
+  };
+  const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.recommendedApplicationsLookUp).map(
+        (lookup: LookupItemInterface, index) => (
+          <Checkbox
+            name="itemRecomendedApplications"
+            value={lookup.value}
+            isChecked={
+              lookup.value && forvalues.itemRecomendedApplications.includes(lookup.value)
+                ? true
+                : false
+            }
+            onChange={checkboxChangeHandler}
+          >
+            {lookup.text}
+          </Checkbox>
+        )
+      );
+    }
+  };
+  const itemEntitiesLookUp = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.entitiesLookUp).map((lookup: LookupItemInterface, index) => (
+        <Checkbox
+          name="itemEntities"
+          value={lookup.value}
+          isChecked={lookup.value && forvalues.itemEntities.includes(lookup.value) ? true : false}
+          onChange={entitycheckboxChangeHandler}
+        >
+          {lookup.text}
+        </Checkbox>
+      ));
+    }
+  };
   async function submitForm(values: any) {
     try {
+      console.log(values);
       const data = await addAssessment(values);
       console.log(data);
+      assessmenListItems();
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -501,7 +451,7 @@ const AddAssessment: React.FunctionComponent<any> = ({ addAssessment, changeList
     <DashboardTemplate>
       <Formik
         enableReinitialize={true}
-        initialValues={formState}
+        initialValues={forvalues}
         validationSchema={AddAssessmentSchema}
         onSubmit={submitForm}
       >

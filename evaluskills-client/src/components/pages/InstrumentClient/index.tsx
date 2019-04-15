@@ -47,7 +47,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <InstrumentListCard titleKey="title" listData={instruments} view={view} />
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

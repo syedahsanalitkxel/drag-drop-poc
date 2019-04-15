@@ -9,9 +9,9 @@ import AddEditClientInterface, {
   ClientUserInterface,
   ContactInterface,
 } from '../../../interfaces/AddEditClient';
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 import FormikBag from '../../../interfaces/FormikBag';
 import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';

@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import FormikBag from '../../../interfaces/FormikBag';
 import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import RadioButton from '../../atoms/RadioButton';

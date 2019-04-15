@@ -54,7 +54,9 @@ const AssessmentItemContainer: React.FunctionComponent<
   function filterAssessments(searchQuery: string) {
     alert(searchQuery);
   }
-
+  function assessmenListItems() {
+    history.push('/assessment-items');
+  }
   function routeaddAssessment() {
     history.push('/assessment-items/add');
   }
@@ -67,11 +69,11 @@ const AssessmentItemContainer: React.FunctionComponent<
     alert(`deleting => ${assessmentId}`);
   }
   if (isEdit(match.params)) {
-    return <AddAssessment addAssessment={addAssessment} />;
+    return <AddAssessment assessmenListItems={assessmenListItems} addAssessment={addAssessment} />;
   }
 
   if (isAdd(match.path)) {
-    return <AddAssessment />;
+    return <AddAssessment assessmenListItems={assessmenListItems} addAssessment={addAssessment} />;
   }
 
   return (
