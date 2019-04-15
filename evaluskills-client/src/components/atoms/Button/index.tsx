@@ -4,14 +4,13 @@ interface Props {
   callback: () => void;
   text: string;
   classes: string;
-  imgSrc: string;
+  src: string;
 }
 
-const Button: React.FunctionComponent<Props> = ({ index, callback, text, classes, imgSrc }) => {
+const Button: React.FunctionComponent<Props> = ({ index, callback, text, classes, src }) => {
   return (
     <button key={index} onClick={() => callback()} className={classes}>
-      {text}
-      {imgSrc && <img src={imgSrc} alt="arrow" />}
+      {text} {src && <img src={src} alt="arrow" />}
     </button>
   );
 };
