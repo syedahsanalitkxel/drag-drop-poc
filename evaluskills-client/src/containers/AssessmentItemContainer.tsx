@@ -26,8 +26,7 @@ const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Action',
     competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
+    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
     id: 'uuid-11-111',
     type: 'Influential',
   },
@@ -48,9 +47,10 @@ interface State {
   assessments: any;
   pageDetails?: any;
 }
-const AssessmentItemContainer: React.FunctionComponent<
-  RouteComponentProps<RouteParamsInterface>
-> = ({ history, match }) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
+  history,
+  match,
+}) => {
   const [state, setState] = useState<State>({
     filters: defaultFilters,
     resetPager: false,

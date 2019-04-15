@@ -129,8 +129,8 @@ const EvaluatorQuestion = (props: any) => {
         </div>
         <div className="ques-container">
           <h2 className="font-bold mb-4">
-            1- Contributes to and operates within a team to accomplish tasks and complete
-            assignments within a collaborate and professional environment.
+            1- Contributes to and operates within a team to accomplish tasks and complete assignments within a
+            collaborate and professional environment.
           </h2>
           {questionArray.map((item, i) => {
             return <QuestionItem key={i} count={i + 1} {...item} />;

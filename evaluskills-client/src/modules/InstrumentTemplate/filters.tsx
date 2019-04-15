@@ -44,12 +44,7 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
           Recommended Application
         </Label>
         <div className="col-md-7">
-          <Input
-            type="select"
-            name="recommendedApplicationId"
-            id="recommended-application"
-            onChange={changeHandler}
-          >
+          <Input type="select" name="recommendedApplicationId" id="recommended-application" onChange={changeHandler}>
             <option value="">Select One</option>
             {renderRecommendedApplicationFilter()}
           </Input>
@@ -63,28 +58,13 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
               Status
             </Label>
             <div className="col-md-7">
-              <RadioButton
-                name="status"
-                value="all"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="status" value="all" currentSelection="all" onChange={changeHandler}>
                 All
               </RadioButton>
-              <RadioButton
-                name="status"
-                value="standard"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="status" value="standard" currentSelection="all" onChange={changeHandler}>
                 Standard
               </RadioButton>
-              <RadioButton
-                name="status"
-                value="customized"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="status" value="customized" currentSelection="all" onChange={changeHandler}>
                 Customized
               </RadioButton>
             </div>

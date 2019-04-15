@@ -18,9 +18,4 @@ const InstrumentTemplateRoutes = [
   },
 ];
 
-export {
-  InstrumentTemplateAddEdit,
-  InstrumentTemplateContainer,
-  InstrumentTemplateList,
-  InstrumentTemplateRoutes,
-};
+export { InstrumentTemplateAddEdit, InstrumentTemplateContainer, InstrumentTemplateList, InstrumentTemplateRoutes };

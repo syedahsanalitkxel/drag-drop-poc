@@ -19,8 +19,7 @@ const assessments: AssessmentItemInterface[] = [
   {
     category: 'Action',
     competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
+    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
     id: 'uuid-11-111',
     type: 'Influential',
   },
@@ -56,12 +55,7 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode }) => {
           <option>option 4</option>
         </select>
         <div className="last d-flex">
-          <input
-            type="text"
-            className="form-control col-sm-10 wCustom m-r-10"
-            name="account"
-            placeholder="Search"
-          />
+          <input type="text" className="form-control col-sm-10 wCustom m-r-10" name="account" placeholder="Search" />
           <button className="btn btn-outline btn-primary" type="button">
             <FontAwesomeIcon icon="search" />
           </button>

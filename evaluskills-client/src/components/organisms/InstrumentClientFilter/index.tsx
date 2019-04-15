@@ -37,20 +37,10 @@ const InstrumentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
         <div className="col-md-12">
           <Label className="font-bold">Type</Label>
           <div className="d-flex align-items-center">
-            <CheckBox
-              name="type"
-              value="higherEducation"
-              currentSelection={formState.type}
-              onChange={changeHandler}
-            >
+            <CheckBox name="type" value="higherEducation" currentSelection={formState.type} onChange={changeHandler}>
               Higher Education
             </CheckBox>
-            <CheckBox
-              name="type"
-              value="corporate"
-              currentSelection={formState.type}
-              onChange={changeHandler}
-            >
+            <CheckBox name="type" value="corporate" currentSelection={formState.type} onChange={changeHandler}>
               Corporate
             </CheckBox>
           </div>

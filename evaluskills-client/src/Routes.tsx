@@ -32,21 +32,14 @@ interface PrivateRouteInterface extends RouteProps {
   component: any;
 }
 
-const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({
-  component: Component,
-  ...rest
-}) => {
+const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({ component: Component, ...rest }) => {
   const authContext = useContext(AuthContext);
   return (
     <Route
       {...rest}
       exact={true}
       render={props =>
-        authContext.checkAuthentication() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/account/login" />
-        )
+        authContext.checkAuthentication() ? <Component {...props} /> : <Redirect to="/account/login" />
       }
     />
   );
@@ -71,23 +64,11 @@ const Routes: React.FunctionComponent = () => {
         <PrivateRoute exact={true} path="/" component={DashboardHome} />
         <Route exact={true} path="/account/email-confirmation" component={AuthContainer} />
         <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
-        <PrivateRoute
-          exact={true}
-          path="/assessment-items/add"
-          component={AssessmentItemContainer}
-        />
-        <PrivateRoute
-          exact={true}
-          path="/assessment-items/edit/:id"
-          component={AssessmentItemContainer}
-        />
+        <PrivateRoute exact={true} path="/assessment-items/add" component={AssessmentItemContainer} />
+        <PrivateRoute exact={true} path="/assessment-items/edit/:id" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
         {InstrumentTemplateRoutes.map(renderRouteFromList(true))}
-        <PrivateRoute
-          exact={true}
-          path="/client-assessment-detail/:id"
-          component={InstrumentDetailContainer}
-        />
+        <PrivateRoute exact={true} path="/client-assessment-detail/:id" component={InstrumentDetailContainer} />
         <PrivateRoute exact={true} path="/clients" component={ClientContainer} />
         <PrivateRoute exact={true} path="/clients/add" component={AddEditClientContainer} />
         <PrivateRoute exact={true} path="/clients/edit/:id" component={AddEditClientContainer} />
@@ -95,11 +76,7 @@ const Routes: React.FunctionComponent = () => {
         <PrivateRoute exact={true} path="/email/edit/:id" component={EmailTemplateContainer} />
         <PrivateRoute exact={true} path="/email" component={EmailTemplateContainer} />
         <Route exact={true} path="/evaluation-instructions/add" component={InstructionsContainer} />
-        <Route
-          exact={true}
-          path="/evaluation-instructions/edit/:id"
-          component={InstructionsContainer}
-        />
+        <Route exact={true} path="/evaluation-instructions/edit/:id" component={InstructionsContainer} />
         <Route exact={true} path="/evaluation-instructions" component={InstructionsContainer} />
         <Route exact={true} path="/addInstrumental" component={CreateEvaluation} />
         <PrivateRoute exact={true} path="/users" component={UserContainer} />

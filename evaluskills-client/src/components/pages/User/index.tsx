@@ -145,19 +145,8 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
       >
         <UserFilter />
       </ESModal>
-      <AddUser
-        visible={addUserModalVisible}
-        toggle={toggleAddUserModal}
-        name="Add"
-        FormValues={formState}
-      />
-      <Editcomponent
-        visible={editUserModalVisible}
-        toggle={toggleEditUserModal}
-        name="Edit"
-        FormValues={formState}
-      />
-      ;
+      <AddUser visible={addUserModalVisible} toggle={toggleAddUserModal} name="Add" FormValues={formState} />
+      <Editcomponent visible={editUserModalVisible} toggle={toggleEditUserModal} name="Edit" FormValues={formState} />;
     </DashboardTemplate>
   );
 };

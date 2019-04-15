@@ -93,9 +93,7 @@ const Participants: React.FunctionComponent<Props> = ({
               <IconButton
                 className="btn-danger btn-outline mt-3"
                 icon="minus"
-                actionHandler={(id: any) =>
-                  removeEvaluatior(evalutorProps.index, evalutorProps.evalindex)
-                }
+                actionHandler={(id: any) => removeEvaluatior(evalutorProps.index, evalutorProps.evalindex)}
               />
               {/* <Button className="btn-danger btn-outline mt-3 " size="sm" type="button">
                 -
@@ -210,9 +208,7 @@ const Participants: React.FunctionComponent<Props> = ({
   return (
     <PageBody card={true} className="m-t-15">
       <div className="ibox">
-        <div className="ibox-content p-l-35">
-          {participant && participant.map(renderParticipantList)}
-        </div>
+        <div className="ibox-content p-l-35">{participant && participant.map(renderParticipantList)}</div>
       </div>
     </PageBody>
   );

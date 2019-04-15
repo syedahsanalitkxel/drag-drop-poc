@@ -15,20 +15,12 @@ interface ListCardProps {
   addInstrument?: () => void;
 }
 
-const ListCardItems: React.FunctionComponent<ListCardProps> = ({
-  titleKey,
-  listData,
-  edit,
-  remove,
-  addInstrument,
-}) => {
+const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, edit, remove, addInstrument }) => {
   const isSuperAdmin = () => window.localStorage.getItem('role') === 'SUPER_ADMIN';
   const isClientAdmin = () =>
     !window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'CLIENT_ADMIN';
 
-  const actionHandler = (assessmentId: string) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {
       if (edit) {
         edit(assessmentId);
@@ -82,8 +74,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       <React.Fragment>
         <div className="col-md-4 d-flex align-items-center justify-content-end">
           {edit && renderActionButton('copy', 'Copy', 'copy', ' btn-outline btn-primary')}
-          {addInstrument &&
-            renderActionButton('Create', 'Create', '', 'btn btn-primary clr-white btn btn-w-m ')}
+          {addInstrument && renderActionButton('Create', 'Create', '', 'btn btn-primary clr-white btn btn-w-m ')}
         </div>
       </React.Fragment>
     );

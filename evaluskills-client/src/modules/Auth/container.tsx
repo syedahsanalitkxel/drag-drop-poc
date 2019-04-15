@@ -3,10 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { AuthContextProvider } from './authContext';
 
-const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({
-  history,
-  children,
-}) => {
+const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({ history, children }) => {
   const [state, setState] = useState({
     isAuthenticated: false,
   });
@@ -25,13 +22,10 @@ const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({
     history.push('/account/login');
   };
 
-  const checkAuthentication = () =>
-    !!localStorage.getItem('user') && !!localStorage.getItem('token');
+  const checkAuthentication = () => !!localStorage.getItem('user') && !!localStorage.getItem('token');
 
   return (
-    <AuthContextProvider
-      value={{ isAuthenticated: state.isAuthenticated, authenticate, logout, checkAuthentication }}
-    >
+    <AuthContextProvider value={{ isAuthenticated: state.isAuthenticated, authenticate, logout, checkAuthentication }}>
       {children}
     </AuthContextProvider>
   );

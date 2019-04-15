@@ -11,9 +11,10 @@ import { isAdd, isEdit, isList } from '../utils/routerUtils';
 
 const InstrumentTemplates: InstrumentTemplateInterface[] = [];
 
-const InstrumentTemplateContainer: React.FunctionComponent<
-  RouteComponentProps<RouterPropsInterface>
-> = ({ history, match }) => {
+const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<RouterPropsInterface>> = ({
+  history,
+  match,
+}) => {
   const errorContext = useContext(ErrorContext);
 
   const [instrumentTemplates, setInstrumentTemplates] = useState(InstrumentTemplates);

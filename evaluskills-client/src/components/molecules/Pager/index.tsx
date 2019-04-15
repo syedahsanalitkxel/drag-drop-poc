@@ -18,12 +18,7 @@ const initialState: PagerInterface = {
   totalPagesToDisplay: 5,
 };
 
-const Pager: React.FunctionComponent<Props> = ({
-  totalRecords,
-  pageSize,
-  onPageChanged,
-  shouldReset,
-}) => {
+const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageChanged, shouldReset }) => {
   const [pagerState, setPagerState] = useState(initialState);
 
   useEffect(() => {
@@ -44,10 +39,7 @@ const Pager: React.FunctionComponent<Props> = ({
   function updatePager(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, pageNumber: number) {
     event.preventDefault();
     onPageChanged(pageNumber);
-    if (
-      pageNumber >= pagerState.currentLastPageNumber &&
-      pagerState.currentLastPageNumber !== pagerState.totalPages
-    ) {
+    if (pageNumber >= pagerState.currentLastPageNumber && pagerState.currentLastPageNumber !== pagerState.totalPages) {
       setPagerState(prevState => {
         return {
           ...prevState,
@@ -56,10 +48,7 @@ const Pager: React.FunctionComponent<Props> = ({
           currentPageNumber: pageNumber,
         };
       });
-    } else if (
-      pageNumber === pagerState.currentFirstPageNumber &&
-      pagerState.currentFirstPageNumber !== 1
-    ) {
+    } else if (pageNumber === pagerState.currentFirstPageNumber && pagerState.currentFirstPageNumber !== 1) {
       setPagerState(prevState => {
         return {
           ...prevState,

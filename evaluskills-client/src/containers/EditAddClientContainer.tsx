@@ -41,10 +41,7 @@ const ClientList: IClientList = {
   zip: '',
 };
 const selectedClient: editClientInterface = {};
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
-  match,
-  history,
-}) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({ match, history }) => {
   const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
   const [selectedClients, setSelectedClients] = useState(selectedClient);
@@ -139,9 +136,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
-      return (
-        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />
-      );
+      return <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />;
     }
   }
 

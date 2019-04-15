@@ -14,12 +14,7 @@ interface Props {
   edit: (instrumentTemplateId: number) => void;
   remove: (instrumentTemplateId: string) => void;
 }
-const EmailListing: React.FunctionComponent<Props> = ({
-  filteremailTemplates,
-  emailTemplates,
-  add,
-  edit,
-}) => {
+const EmailListing: React.FunctionComponent<Props> = ({ filteremailTemplates, emailTemplates, add, edit }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const renderEmailData = (email: emailListing) => {

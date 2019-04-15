@@ -19,10 +19,7 @@ const EvaluatorResult = () => {
                   <span className="font-normal">of</span> Jasmine Rassol!
                 </span>
               </h1>
-              <NavLink
-                to="/evaluation/comment"
-                className="btn btn-primary font-size-20 font-bold mb-4 pr-4 pl-4"
-              >
+              <NavLink to="/evaluation/comment" className="btn btn-primary font-size-20 font-bold mb-4 pr-4 pl-4">
                 View Detail <img src="/img/icons/arrow.svg" alt="arrow" />
               </NavLink>
             </div>

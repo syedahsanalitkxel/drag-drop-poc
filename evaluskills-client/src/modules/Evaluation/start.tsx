@@ -18,16 +18,12 @@ const EvaluatorHome = () => {
         </div>
         <h2 className="font-bold">Instructions</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-          nostrud exercitation ullamco laboris nisi.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Lorem ipsum dolor sit
+          amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+          ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
         </p>
-        <NavLink
-          to="/evaluation/questions"
-          className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3"
-        >
+        <NavLink to="/evaluation/questions" className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3">
           START EVALUATION <img src="/img/icons/arrow.svg" alt="arrow" />
         </NavLink>
       </div>
