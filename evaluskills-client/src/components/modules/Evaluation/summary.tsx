@@ -25,6 +25,7 @@ const EvaluationSummary = (props: any) => {
         '            of proficiency with this competency is much higher than expected and very much higher\n' +
         '            than average.',
       score: '02',
+      classes: 'inline number mr-2',
     },
     {
       text: 'Receives feedback from others and uses the feedback to improve performance.',
@@ -33,6 +34,7 @@ const EvaluationSummary = (props: any) => {
         '            of proficiency with this competency is much higher than expected and very much higher\n' +
         '            than average.',
       score: '02',
+      classes: 'inline number mr-2',
     },
     {
       text: 'Receives feedback from others and uses the feedback to improve performance.',
@@ -41,6 +43,7 @@ const EvaluationSummary = (props: any) => {
         '            of proficiency with this competency is much higher than expected and very much higher\n' +
         '            than average.',
       score: '02',
+      classes: 'inline number mr-2',
     },
     {
       text: 'Receives feedback from others and uses the feedback to improve performance.',
@@ -49,6 +52,7 @@ const EvaluationSummary = (props: any) => {
         '            of proficiency with this competency is much higher than expected and very much higher\n' +
         '            than average.',
       score: '02',
+      classes: 'inline number mr-2',
     },
   ];
   const buttonsConfig = [

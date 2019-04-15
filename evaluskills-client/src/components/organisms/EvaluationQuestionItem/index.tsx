@@ -8,8 +8,15 @@ interface Props {
   text: string;
   statement: string;
   behaviour: string;
+  isSelected: boolean;
 }
-const QuestionItem: React.FunctionComponent<Props> = ({ count, text, statement, behaviour }) => {
+const QuestionItem: React.FunctionComponent<Props> = ({
+  isSelected,
+  count,
+  text,
+  statement,
+  behaviour,
+}) => {
   const [display, setDisplay] = useState(false);
   const toggleStatement = (e: any) => {
     e.preventDefault();
@@ -18,7 +25,7 @@ const QuestionItem: React.FunctionComponent<Props> = ({ count, text, statement, 
   return (
     <div className="col-lg-12">
       <div className="ibox collapsed">
-        <div className="ibox-title row">
+        <div className={isSelected ? 'ibox-title row selected' : 'ibox-title row'}>
           <div className="float-left bg-gray number mr-2">{count}</div>
           <div className="col-sm-10 inline">
             <h5 className="inline">{text}</h5>

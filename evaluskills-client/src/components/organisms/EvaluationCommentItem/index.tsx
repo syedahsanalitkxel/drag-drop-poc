@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import ScoreBox from './../../atoms/ScoreBox';
 interface Props {
   text: string;
   comment: string;
   score: string;
+  classes: string;
 }
-const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({ text, comment, score }) => {
+const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({
+  text,
+  comment,
+  score,
+  classes,
+}) => {
   const [display, setDisplay] = useState(false);
   const toggleComment = (e: any) => {
     e.preventDefault();
@@ -19,7 +26,7 @@ const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({ text, comment
         <div className="ibox-title">
           <h5>{text}</h5>
           <div className="ibox-tools">
-            <div className="inline number mr-2">{score}</div>
+            <ScoreBox classes={classes} score={score} />
             <a onClick={toggleComment} className="collapse-link">
               <FontAwesomeIcon icon={display ? faChevronUp : faChevronDown} />
             </a>

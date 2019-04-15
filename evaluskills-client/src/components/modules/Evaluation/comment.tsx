@@ -1,16 +1,48 @@
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import Pager from '../../molecules/Pager';
 import GuestTemplate from '../../templates/GuestTemplate';
+import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
 
 const EvaluatorComment = () => {
   const [display, setDisplay] = useState(false);
-  const toggleComment = (e: any) => {
-    e.preventDefault();
-    setDisplay(!display);
-  };
+  const assessmentArray = [
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+      classes: 'inline number mr-2',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+      classes: 'inline number mr-2',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+      classes: 'inline number mr-2',
+    },
+    {
+      text: 'Receives feedback from others and uses the feedback to improve performance.',
+      comment:
+        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
+        '            of proficiency with this competency is much higher than expected and very much higher\n' +
+        '            than average.',
+      score: '02',
+      classes: 'inline number mr-2 bg-blue',
+    },
+  ];
   return (
     <GuestTemplate>
       <div>
@@ -52,317 +84,9 @@ const EvaluatorComment = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Receives feedback from others and uses the feedback to improve performance.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">3.5</div>
-                    <a onClick={toggleComment} className="collapse-link">
-                      <FontAwesomeIcon icon={display ? faChevronUp : faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content" style={{ display: display ? 'block' : 'none' }}>
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Conscious knowledge of one’s own character, feelings, motives, and desires.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">2.5</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Observing and directing the execution of tasks, projects, or activities by
-                    others.professional environment.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2 bg-blue">4.7</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Has a set of moral principles used in the job in accordance with the culture of
-                    the organization.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">2.5</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Pays attention to someone to hear what is being said and understand that it is
-                    serious, important, or true.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">3.7</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                  s
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Contributes to and operates within a team to accomplish tasks and complete
-                    assignments within a collaborate and professional environment.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">2.5</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Pays attention to someone to hear what is being said and understand that it is
-                    serious, important, or true.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2 bg-blue">4.7</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="ibox collapsed">
-                <div className="ibox-title">
-                  <h5>
-                    Contributes to and operates within a team to accomplish tasks and complete
-                    assignments within a collaborate and professional environment.
-                  </h5>
-                  <div className="ibox-tools">
-                    <div className="inline number mr-2">2.5</div>
-                    <a className="collapse-link">
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    </a>
-                  </div>
-                </div>
-                <div className="ibox-content">
-                  <h3>Comments</h3>
-                  <ul className="comment-list p-0 m-0">
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Voluptate velit esse cillum dolore eu fugiat nulla pariatur, ut enim ad minim
-                      veniam, quis nostrud exercitation ullamco.
-                    </li>
-                    <li>
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                      eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco.
-                    </li>
-                    <li>
-                      Cillum dolore eu fugiat nulla pariatur, ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            {assessmentArray.map((item, i) => {
+              return <EvaluatorAssessmentItem key={i} {...item} />;
+            })}
           </div>
           <Pager />
         </div>
