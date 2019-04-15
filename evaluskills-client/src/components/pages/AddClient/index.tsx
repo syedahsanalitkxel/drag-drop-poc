@@ -1,27 +1,22 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { Formik } from 'formik';
-import { Button, Form } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 import styled from 'styled-components';
-import { FormGroup, Input } from 'reactstrap';
 
-import AddEditClientInterface, {
-  ClientUserInterface,
-  ContactInterface,
-} from '../../../interfaces/AddEditClient';
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import { ContactInterface } from '../../../interfaces/AddEditClient';
 import FormikBag from '../../../interfaces/FormikBag';
-import AddClientContacts from '../../organisms/AddClientContact/index';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+import styles from '../../molecules/FormElement/FormElement.module.scss';
+import AddEditClientContacts from '../../organisms/AddClientContact';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
-import EditClientContacts from '../../organisms/AddClientContact/index';
-import PageBody from '../../atoms/PageBody';
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
-import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
   changeListener: (formValues: any) => void;
@@ -278,7 +273,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>
 
-        <AddClientContacts
+        <AddEditClientContacts
           fprops={formState}
           visible={addClientContactModalVisible}
           toggle={toggleAddClientContactModal}
@@ -286,7 +281,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
           name="Add"
         />
 
-        <EditClientContacts
+        <AddEditClientContacts
           fprops={formState}
           visible={editClientContactModalVisible}
           toggle={toggleEditClientContactModal}

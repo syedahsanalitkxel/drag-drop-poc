@@ -58,7 +58,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
               edit={edit}
               remove={remove}
             />
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

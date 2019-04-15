@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { contentType } from '../enums';
 import { BASE_URL } from './endpoints';
-import errorResponseHandler from './errorHandler';
+import { errorResponseHandler, successResponseHandler } from './errorHandler';
 
 export default class API {
   private config: AxiosRequestConfig;
@@ -24,7 +24,7 @@ export default class API {
     };
 
     this.instance = axios.create(this.config);
-    this.instance.interceptors.response.use(response => response, errorResponseHandler);
+    this.instance.interceptors.response.use(successResponseHandler, errorResponseHandler);
   }
 
   public get(url: string, id?: string, params?: any): AxiosPromise {

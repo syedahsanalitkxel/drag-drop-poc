@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { get } from 'lodash-es';
 import errorObject from './ErrorObject';
 
-const errorResponseHandler = (error: any) => {
+export const errorResponseHandler = (error: AxiosError) => {
   if (
     error &&
     (get(error, 'status') === 401 ||
@@ -17,7 +17,7 @@ const errorResponseHandler = (error: any) => {
   }
 };
 
-// apply interceptor on response
-axios.interceptors.response.use(response => response, errorResponseHandler);
-
-export default errorResponseHandler;
+export function successResponseHandler(response: AxiosResponse) {
+  console.log(response);
+  return response;
+}

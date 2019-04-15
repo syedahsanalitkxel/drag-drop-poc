@@ -12,4 +12,16 @@ export interface InstrumentTemplateInterface {
   isSystemDefined: boolean;
   clientId: number;
   templateItems?: TemplateItem[];
+  competency?: number;
+  influential?: number;
+  isFaithBased?: number;
+  rational?: number;
+}
+
+// Instrument Filter
+export interface InstrumentTemplateFilterInterface {
+  search?: string;
+  PageNumber?: number;
+  recommendedApplicationId?: number;
+  status?: string;
 }

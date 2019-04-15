@@ -4,10 +4,10 @@ import { Form, FormGroup, Input } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
 import UserFilters from '../../../interfaces/UserFilter';
 
-import { lookups } from '../../../enums';
+import { lookups } from '../../../modules/Lookup/enum';
 
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 
 interface Props {
   changeListener?: (formValues: UserFilters) => void;

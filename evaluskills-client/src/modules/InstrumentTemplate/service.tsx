@@ -1,13 +1,15 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import API from '../../../api';
-import { INSTRUMENT_TEMPLATES } from '../../../api/endpoints';
-import { InstrumentTemplateInterface } from './interface';
+import API from '../../api';
+import { INSTRUMENT_TEMPLATES } from '../../api/endpoints';
+import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
 const api = new API();
 
-export async function getInstrumentTemplates(): Promise<InstrumentTemplateInterface[]> {
-  return api.get(INSTRUMENT_TEMPLATES).then(
+export async function getInstrumentTemplates(
+  filters?: InstrumentTemplateFilterInterface
+): Promise<InstrumentTemplateInterface[]> {
+  return api.get(INSTRUMENT_TEMPLATES, undefined, filters).then(
     (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
       throw error;

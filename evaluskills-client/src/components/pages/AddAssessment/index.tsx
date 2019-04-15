@@ -1,17 +1,21 @@
-import { Field, Formik, ErrorMessage } from 'formik';
-import React, { Component, Fragment, useContext, useEffect, useState } from 'react';
-import { FormFeedback, Input, Label } from 'reactstrap';
-import Checkbox from '../../atoms/CheckBox';
-import Assessmentelement from '../../organisms/AssesmentElement';
-import RadioButton from '../../atoms/RadioButton';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-import { AddAssessmentSchema } from './validationSchema';
-import { styles } from './style';
-import { initialState, Initalvalues } from './InitialState';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+
+import { ErrorMessage, Field, Formik } from 'formik';
+import { FormFeedback, Input } from 'reactstrap';
+
 import ErrorContext from '../../../context/ErrorContext';
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import Checkbox from '../../atoms/CheckBox';
+import RadioButton from '../../atoms/RadioButton';
+import Assessmentelement from '../../organisms/AssesmentElement';
+import DashboardTemplate from '../../templates/DashboardTemplate';
+import { Initalvalues, initialState } from './InitialState';
+import { AddAssessmentSchema } from './validationSchema';
+
+import { styles } from './style';
+
 const AddAssessment: React.FunctionComponent<any> = ({
   assessmenListItems,
   addAssessment,
