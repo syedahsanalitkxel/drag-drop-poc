@@ -27,8 +27,9 @@ const Pager: React.FunctionComponent<Props> = ({
   const [pagerState, setPagerState] = useState(initialState);
 
   useEffect(() => {
-    const totalPagesCount =
-      pageSize > 0 && totalRecords > 0 ? Math.floor(totalRecords / pageSize + 1) : 0;
+    const totalPage = pageSize > 0 && totalRecords > 0 ? Math.floor(totalRecords / pageSize) : 0;
+    const totalPagesRemainder = pageSize > 0 && totalRecords > 0 ? totalRecords % pageSize : 0;
+    const totalPagesCount = totalPagesRemainder > 0 ? totalPage + 1 : totalPage;
     setPagerState({
       ...pagerState,
       currentFirstPageNumber: 1,
