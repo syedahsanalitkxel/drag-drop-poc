@@ -4,7 +4,7 @@ import IconButton from '../../atoms/IconButton';
 import UserCard from '../../molecules/UserCard';
 
 interface Props {
-  listData: userInterface[];
+  listData: any;
   edit: (userId: string) => void;
   remove: (userId: string) => void;
 }
@@ -59,7 +59,7 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
     </React.Fragment>
   );
 
-  const renderUserItem = (userItem: userInterface) => {
+  const renderUserItem = (userItem: any) => {
     const content = renderContent(
       userItem.id,
       userItem.role,
@@ -83,7 +83,7 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
             <th />
           </tr>
         </thead>
-        <tbody>{listData.map(renderUserItem)}</tbody>
+        <tbody>{listData && listData.map(renderUserItem)}</tbody>
       </table>
     </React.Fragment>
   );
