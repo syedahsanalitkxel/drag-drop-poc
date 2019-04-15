@@ -15,14 +15,14 @@ const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({
     localStorage.setItem('user', user);
     localStorage.setItem('token', token);
     setState({ isAuthenticated: true });
-    history.push('/dashboard');
+    history.push('/');
   };
 
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setState({ isAuthenticated: false });
-    history.push('/login');
+    history.push('/account/login');
   };
 
   const checkAuthentication = () =>

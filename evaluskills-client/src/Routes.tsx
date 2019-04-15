@@ -42,7 +42,11 @@ const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({
       {...rest}
       exact={true}
       render={props =>
-        authContext.checkAuthentication() ? <Component {...props} /> : <Redirect to="/login" />
+        authContext.checkAuthentication() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/account/login" />
+        )
       }
     />
   );
@@ -65,11 +69,10 @@ const Routes: React.FunctionComponent = () => {
             </Route>
           );
         })}
-        <PrivateRoute exact={true} path="/" component={Home} />
         <Route exact={true} path="/account/login" component={AuthContainer} />
         <Route exact={true} path="/account/select-client" component={AuthContainer} />
         <Route exact={true} path="/account/reset-password" component={AuthContainer} />
-        <PrivateRoute exact={true} path="/dashboard" component={DashboardHome} />
+        <PrivateRoute exact={true} path="/" component={DashboardHome} />
         <Route exact={true} path="/account/email-confirmation" component={AuthContainer} />
         <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
         <PrivateRoute
