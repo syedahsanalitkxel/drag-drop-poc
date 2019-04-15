@@ -1,14 +1,30 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-const FooterGuest = () => {
+interface Props {
+  // buttonsConfig:[{
+  //     text:string,
+  //     callback:()=>void
+  // }]
+  // [{
+  //     text:string,
+  //     handleNext:()=>void
+  // }]
+  callback: () => void;
+}
+// const FooterGuest:React.FunctionComponent<Props> = ({buttonsConfig:any}) => {
+const FooterGuest = (props: any) => {
   return (
     <div className="bottom-bar fixed-bottom p-10">
       <div className="container">
         <div className="row">
           <div className="col-sm-12 text-right">
-            <a href="#" className="btn btn-dark">
-              Skip for now
-            </a>
+            {props.buttonsConfig.map((item: any, i: number) => {
+              return (
+                <button key={i} onClick={() => item.callback()} className="btn btn-dark">
+                  {item.text}
+                </button>
+              );
+            })}
             <NavLink to="/evaluation/summary" className="btn btn-primary">
               Next <img src="/img/icons/arrow.svg" alt="arrow" />
             </NavLink>

@@ -6,8 +6,9 @@ import EvaluationClientHolder from '../../organisms/ClientHolder';
 import QuestionItem from '../../organisms/EvaluationQuestionItem';
 import FooterGuest from '../../organisms/FooterGuest';
 import GuestTemplate from '../../templates/GuestTemplate';
+import { withRouter } from 'react-router-dom';
 
-const EvaluatorQuestion = () => {
+const EvaluatorQuestion = (props: any) => {
   const questionArray = [
     {
       text: 'Level of proficiency significantly exceeds expectations.',
@@ -81,6 +82,21 @@ const EvaluatorQuestion = () => {
     name: 'Jasmine Rassol',
     designation: '(Manager) From Tkxel',
   };
+  const buttonsConfig = [
+    {
+      text: 'Skip for now',
+      callback: handleNext,
+    },
+    {
+      text: 'Next',
+      callback: handleNext,
+    },
+  ];
+
+  function handleNext() {
+    const { history } = props;
+    history.push('/evaluation/summary');
+  }
   return (
     <GuestTemplate>
       <div>
@@ -149,10 +165,10 @@ const EvaluatorQuestion = () => {
           <div className="form-group">
             <textarea className="form-control" placeholder="Add Comments" defaultValue={''} />
           </div>
-          <FooterGuest />
+          <FooterGuest buttonsConfig={buttonsConfig} />
         </div>
       </div>
     </GuestTemplate>
   );
 };
-export default EvaluatorQuestion;
+export default withRouter(EvaluatorQuestion);
