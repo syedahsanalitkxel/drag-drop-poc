@@ -63,7 +63,12 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               // remove={remove}
               // addInstrument={addInstrument}
             />
-            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
+            <Pager
+              pageSize={10}
+              totalRecords={10}
+              onPageChanged={onPageChange}
+              shouldReset={false}
+            />
           </PageBody>
         </div>
       </div>

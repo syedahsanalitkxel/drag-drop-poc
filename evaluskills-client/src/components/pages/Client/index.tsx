@@ -48,7 +48,12 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
+            <Pager
+              pageSize={10}
+              totalRecords={10}
+              onPageChanged={onPageChange}
+              shouldReset={false}
+            />
           </PageBody>
         </div>
       </div>
