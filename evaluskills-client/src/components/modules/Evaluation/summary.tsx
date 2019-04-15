@@ -19,6 +19,7 @@ const EvaluationSummary = (props: any) => {
   };
   const assessmentArray = [
     {
+      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -28,6 +29,7 @@ const EvaluationSummary = (props: any) => {
       classes: 'inline number mr-2',
     },
     {
+      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -37,6 +39,7 @@ const EvaluationSummary = (props: any) => {
       classes: 'inline number mr-2',
     },
     {
+      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -46,6 +49,7 @@ const EvaluationSummary = (props: any) => {
       classes: 'inline number mr-2',
     },
     {
+      isInProgress: true,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -114,23 +118,6 @@ const EvaluationSummary = (props: any) => {
             {assessmentArray.map((item, i) => {
               return <EvaluatorAssessmentItem key={i} {...item} />;
             })}
-
-            <div className="col-lg-12">
-              <div className="ibox">
-                <div className="ibox-content in-progress m-0">
-                  <a href="#">
-                    <div className="float-right">
-                      <span className="badge badge-warning">In Progress</span>
-                    </div>
-                    <div className="txt">
-                      <p className="m-0">
-                        Conscious knowledge of one’s own character, feelings, motives, and desires.
-                      </p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
           <Pager />
         </div>
