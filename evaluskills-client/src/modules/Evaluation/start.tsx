@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import EvaluationClientHolder from '../../organisms/ClientHolder';
-import GuestTemplate from '../../templates/GuestTemplate';
+import EvaluationClientHolder from '../../components/organisms/ClientHolder';
+import GuestTemplate from '../../components/templates/GuestTemplate';
 
 const EvaluatorHome = () => {
   const clientHolderObj = {
-    name: 'Jasmine Rassol',
     designation: '(Manager) From Tkxel',
+    name: 'Jasmine Rassol',
   };
   return (
     <GuestTemplate>

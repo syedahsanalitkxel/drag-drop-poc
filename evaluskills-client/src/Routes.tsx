@@ -23,7 +23,7 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 const UserContainer = lazy(() => import('./containers/UserContainer'));
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
-import { EvaluationRoutes } from './components/modules/Evaluation';
+import { EvaluationRoutes } from './modules/Evaluation';
 interface RouteItemInterface {
   Component: any;
   path: string;
@@ -49,23 +49,19 @@ const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({
   );
 };
 
-function renderRouteFromList(item: RouteItemInterface, i: number) {
+const renderRouteFromList = (isPrivate: boolean) => (item: RouteItemInterface, i: number) => {
   const { Component } = item;
-  return <PrivateRoute exact={true} key={i} path={item.path} component={Component} />;
-}
+  if (isPrivate) {
+    return <PrivateRoute exact={true} key={i} path={item.path} component={Component} />;
+  }
+  return <Route exact={true} key={i} path={item.path} component={Component} />;
+};
 
 const Routes: React.FunctionComponent = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        {EvaluationRoutes.map((item, i) => {
-          const { Component } = item;
-          return (
-            <Route exact={true} key={i} path={item.path}>
-              <Component />
-            </Route>
-          );
-        })}
+        {EvaluationRoutes.map(renderRouteFromList(false))}
         <Route exact={true} path="/" component={Home} />
         <Route exact={true} path="/login" component={AuthContainer} />
         <Route exact={true} path="/select-client" component={AuthContainer} />
@@ -84,7 +80,7 @@ const Routes: React.FunctionComponent = () => {
           component={AssessmentItemContainer}
         />
         <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
-        {InstrumentTemplateRoutes.map(renderRouteFromList)}
+        {InstrumentTemplateRoutes.map(renderRouteFromList(true))}
         <PrivateRoute
           exact={true}
           path="/client-assessment-detail/:id"

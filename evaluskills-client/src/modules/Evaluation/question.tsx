@@ -1,10 +1,11 @@
 import React from 'react';
-import ProgressBar from '../../atoms/ProgressBar';
-import EvaluationClientHolder from '../../organisms/ClientHolder';
-import QuestionItem from '../../organisms/EvaluationQuestionItem';
-import FooterGuest from '../../organisms/FooterGuest';
-import GuestTemplate from '../../templates/GuestTemplate';
 import { withRouter } from 'react-router-dom';
+
+import ProgressBar from '../../components/atoms/ProgressBar';
+import EvaluationClientHolder from '../../components/organisms/ClientHolder';
+import QuestionItem from '../../components/organisms/EvaluationQuestionItem';
+import FooterGuest from '../../components/organisms/FooterGuest';
+import GuestTemplate from '../../components/templates/GuestTemplate';
 
 const EvaluatorQuestion = (props: any) => {
   const questionArray = [
