@@ -42,7 +42,11 @@ const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({
       {...rest}
       exact={true}
       render={props =>
-        authContext.checkAuthentication() ? <Component {...props} /> : <Redirect to="/login" />
+        authContext.checkAuthentication() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/account/login" />
+        )
       }
     />
   );
