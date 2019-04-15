@@ -82,14 +82,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
     // values.clientTypeId = parseInt(values.clientTypeId, 10);
     changeListener({ ...formState, ...values });
     setFormState({ ...formState, ...values });
-    if (action === 'edit' && file) {
+    if (action === 'Edit' && file) {
       changeListener({ ...formState, ...values, clientLogo: file });
       setFormState({ ...formState, ...values, clientLogo: file });
     }
   }
 
   function ClientContactsFormState(values: any) {
-    if (action === 'edit' && file) {
+    if (action === 'Edit' && file) {
       setFormState({ ...formState, ...values, clientLogo: file });
     }
   }
@@ -101,12 +101,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
     }
   };
   const onClickAddContact = (event: React.MouseEvent) => {
-    if (action === 'edit') {
+    if (action === 'Edit') {
       event.preventDefault();
       toggleAddClientContactModal();
     }
 
-    if (action !== 'edit' && formState.clientContacts) {
+    if (action !== 'Edit' && formState.clientContacts) {
       const { clientContacts } = formState;
       const contactObj: ContactInterface = {
         email: '',
@@ -155,6 +155,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
         className="form"
         encType="multipart/form-data"
       >
+        <div className="PageHeader">
+          <div className="row">
+            <div className="col-lg-3 col-md-3">
+              <h2 className="font-weight-light">{action} Client</h2>
+            </div>
+          </div>
+        </div>
+
         <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
@@ -277,7 +285,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
         </div>
 
         <div>
-          {action === 'edit'
+          {action === 'Edit'
             ? formState &&
               formState.clientContacts && (
                 <ClientContactsList
@@ -330,7 +338,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
-            {action === 'add' && (
+            {action === 'Add' && (
               <StyledButton type="button" color="primary" size="lg">
                 Save &amp; Add More
               </StyledButton>

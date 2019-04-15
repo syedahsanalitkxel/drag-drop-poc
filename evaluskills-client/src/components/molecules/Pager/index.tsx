@@ -35,6 +35,7 @@ const Pager: React.FunctionComponent<Props> = ({
       currentPageNumber: 1,
       pageSize,
       totalPages: totalPagesCount,
+      totalPagesToDisplay: totalPagesCount > 5 ? 5 : totalPagesCount,
     });
   }, [shouldReset]);
 

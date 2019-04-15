@@ -49,7 +49,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   const [clients, setClients] = useState(ClientList);
   const [selectedClients, setSelectedClients] = useState(selectedClient);
   const [filters, setFilters] = useState({});
-  const [action, setAction] = useState('add');
+  const [action, setAction] = useState('Add');
 
   useEffect(() => {
     if (isEdit(match.params)) {
@@ -68,7 +68,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       const data: any = await getClientById(id);
       delete data.clientLogo;
       setSelectedClients(data);
-      setAction('edit');
+      setAction('Edit');
     } catch (error) {
       errorContext.setError(error);
     }
@@ -110,7 +110,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
 
   async function submitForm(values: any) {
-    if (action === 'add') {
+    if (action === 'Add') {
       await delete values.id;
       await delete values.clientUser.id;
       const formd: FormData = jsonToFormData(values);
@@ -123,7 +123,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       } catch (error) {
         errorContext.setError(error);
       }
-    } else if (action === 'edit') {
+    } else if (action === 'Edit') {
       const formd: FormData = jsonToFormData(values);
       await formd.append('clientLogo', values.clientLogo);
       try {
@@ -140,7 +140,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
       return (
-        <AddClient defaultValues={selectedClients} action="edit" changeListener={submitForm} />
+        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />
       );
     }
   }
