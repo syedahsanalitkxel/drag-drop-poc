@@ -130,7 +130,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
                 <UsersList listData={usersData} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

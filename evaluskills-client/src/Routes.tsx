@@ -1,11 +1,12 @@
-import React, { lazy, Suspense } from 'react';
-import { Route, Switch } from 'react-router';
+import React, { lazy, Suspense, useContext } from 'react';
+import { Redirect, Route, RouteProps, Switch } from 'react-router';
 
 import Spinner from './components/atoms/Spinner';
 
-import { InstrumentTemplateRoutes } from './components/modules/InstrumentTemplate';
+import { InstrumentTemplateRoutes } from './modules/InstrumentTemplate';
 
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
+import { AuthContext } from './modules/Auth/authContext';
 
 const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
@@ -13,132 +14,100 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
-const UserContainer = lazy(() => import('./containers/UserContainer'));
-const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
 const AddEditClientContainer = lazy(() => import('./containers/EditAddClientContainer'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
+const UserContainer = lazy(() => import('./containers/UserContainer'));
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
-const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 import { EvaluationRoutes } from './components/modules/Evaluation';
+interface RouteItemInterface {
+  Component: any;
+  path: string;
+}
 
-const Routes = () => (
-  <Suspense fallback={<Spinner />}>
-    <Switch>
-      <Route exact={true} path="/">
-        <Home />
-      </Route>
+interface PrivateRouteInterface extends RouteProps {
+  component: any;
+}
 
-      <Route exact={true} path="/login">
-        <AuthContainer />
-      </Route>
+const PrivateRoute: React.FunctionComponent<PrivateRouteInterface> = ({
+  component: Component,
+  ...rest
+}) => {
+  const authContext = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      exact={true}
+      render={props =>
+        authContext.checkAuthentication() ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
+  );
+};
 
-      <Route exact={true} path="/select-client">
-        <AuthContainer />
-      </Route>
+function renderRouteFromList(item: RouteItemInterface, i: number) {
+  const { Component } = item;
+  return <PrivateRoute exact={true} key={i} path={item.path} component={Component} />;
+}
 
-      <Route exact={true} path="/reset-password">
-        <AuthContainer />
-      </Route>
-
-      <Route exact={true} path="/dashboard">
-        <DashboardHome />
-      </Route>
-
-      <Route exact={true} path="/verify-email">
-        <DashboardHome />
-      </Route>
-
-      <Route exact={true} path="/assessment-items">
-        <AssessmentItemContainer />
-      </Route>
-      <Route exact={true} path="/assessment-items/add">
-        <AssessmentItemContainer />
-      </Route>
-      <Route exact={true} path="/assessment-items/edit/:id">
-        <AssessmentItemContainer />
-      </Route>
-
-      <Route exact={true} path="/instrument">
-        <InstrumentClientContainer />
-      </Route>
-
-      {InstrumentTemplateRoutes.map((item, i) => {
-        const { Component } = item;
-        return (
-          <Route exact={true} key={i} path={item.path}>
-            <Component />
-          </Route>
-        );
-      })}
-      {EvaluationRoutes.map((item, i) => {
-        const { Component } = item;
-        return (
-          <Route exact={true} key={i} path={item.path}>
-            <Component />
-          </Route>
-        );
-      })}
-
-      {/*<Route exact={true} path="/instrument-templates">*/}
-      {/*<InstrumentTemplateContainer />*/}
-      {/*</Route>*/}
-      {/*<Route exact={true} path="/instrument-templates/add">*/}
-      {/*<InstrumentTemplateContainer />*/}
-      {/*</Route>*/}
-      {/*<Route exact={true} path="/instrument-templates/edit/:id">*/}
-      {/*<InstrumentTemplateContainer />*/}
-      {/*</Route>*/}
-
-      <Route exact={true} path="/client-assessment-detail/:id">
-        <InstrumentDetailContainer />
-      </Route>
-
-      <Route exact={true} path="/clients">
-        <ClientContainer />
-      </Route>
-      <Route exact={true} path="/clients/add">
-        <AddEditClientContainer />
-      </Route>
-      <Route exact={true} path="/clients/edit/:id">
-        <AddEditClientContainer />
-      </Route>
-
-      <Route exact={true} path="/email/add">
-        <EmailTemplateContainer />
-      </Route>
-      <Route exact={true} path="/email/edit/:id">
-        <EmailTemplateContainer />
-      </Route>
-      <Route exact={true} path="/email">
-        <EmailTemplateContainer />
-      </Route>
-      <Route exact={true} path="/evaluation-instructions/add">
-        <InstructionsContainer />
-      </Route>
-      <Route exact={true} path="/evaluation-instructions/edit/:id">
-        <InstructionsContainer />
-      </Route>
-      <Route exact={true} path="/evaluation-instructions">
-        <InstructionsContainer />
-      </Route>
-
-      <Route exact={true} path="/addInstrumental">
-        <CreateEvaluation />
-      </Route>
-
-      <Route exact={true} path="/users">
-        <UserContainer />
-      </Route>
-
-      <Route exact={true} path="/participants">
-        <ParticipantHome />
-      </Route>
-    </Switch>
-  </Suspense>
-);
+const Routes: React.FunctionComponent = () => {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Switch>
+        {EvaluationRoutes.map((item, i) => {
+          const { Component } = item;
+          return (
+            <Route exact={true} key={i} path={item.path}>
+              <Component />
+            </Route>
+          );
+        })}
+        <Route exact={true} path="/" component={Home} />
+        <Route exact={true} path="/login" component={AuthContainer} />
+        <Route exact={true} path="/select-client" component={AuthContainer} />
+        <Route exact={true} path="/reset-password" component={AuthContainer} />
+        <PrivateRoute exact={true} path="/dashboard" component={DashboardHome} />
+        <Route exact={true} path="/verify-email" component={DashboardHome} />
+        <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
+        <PrivateRoute
+          exact={true}
+          path="/assessment-items/add"
+          component={AssessmentItemContainer}
+        />
+        <PrivateRoute
+          exact={true}
+          path="/assessment-items/edit/:id"
+          component={AssessmentItemContainer}
+        />
+        <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
+        {InstrumentTemplateRoutes.map(renderRouteFromList)}
+        <PrivateRoute
+          exact={true}
+          path="/client-assessment-detail/:id"
+          component={InstrumentDetailContainer}
+        />
+        <PrivateRoute exact={true} path="/clients" component={ClientContainer} />
+        <PrivateRoute exact={true} path="/clients/add" component={AddEditClientContainer} />
+        <PrivateRoute exact={true} path="/clients/edit/:id" component={AddEditClientContainer} />
+        <PrivateRoute exact={true} path="/email/add" component={EmailTemplateContainer} />
+        <PrivateRoute exact={true} path="/email/edit/:id" component={EmailTemplateContainer} />
+        <PrivateRoute exact={true} path="/email" component={EmailTemplateContainer} />
+        <Route exact={true} path="/evaluation-instructions/add" component={InstructionsContainer} />
+        <Route
+          exact={true}
+          path="/evaluation-instructions/edit/:id"
+          component={InstructionsContainer}
+        />
+        <Route exact={true} path="/evaluation-instructions" component={InstructionsContainer} />
+        <Route exact={true} path="/addInstrumental" component={CreateEvaluation} />
+        <PrivateRoute exact={true} path="/users" component={UserContainer} />
+        <Route exact={true} path="/participants" component={ParticipantHome} />
+      </Switch>
+    </Suspense>
+  );
+};
 
 export default Routes;

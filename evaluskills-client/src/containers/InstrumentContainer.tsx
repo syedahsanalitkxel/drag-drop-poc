@@ -6,7 +6,6 @@ import AddEditInstrumentTemplate from '../components/pages/AddEditInstrumentTemp
 import InstrumentTemplate from '../components/pages/InstrumentTemplate';
 import DashboardTemplate from '../components/templates/DashboardTemplate';
 import ErrorContext from '../context/ErrorContext';
-import LookupContext from '../context/LookupContext';
 import InstrumentTemplateInterface from '../interfaces/InstrumentTemplate';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import {
@@ -21,7 +20,6 @@ const InstrumentTemplateContainer: React.FunctionComponent<
   RouteComponentProps<RouteParamsInterface>
 > = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-  const lookupContext = useContext(LookupContext);
 
   const [instrumentTemplates, setInstrumentTemplates] = useState(InstrumentTemplates);
   const [selectedTemplate, setSelectedTemplate] = useState({});

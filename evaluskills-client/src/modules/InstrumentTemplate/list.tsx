@@ -1,24 +1,33 @@
 import React, { useState } from 'react';
 
-import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
-import { InstrumentTemplateInterface } from './interface';
+import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
-import PageBody from '../../atoms/PageBody';
-import PageHeader from '../../atoms/PageHeader';
-import ESModal from '../../molecules/Modal';
-import Pager from '../../molecules/Pager';
-import InstrumentFilters from '../../organisms/InstrumentFilters';
-import ListCardItems from '../../organisms/InstrumentListCardItems';
+import PageBody from '../../components/atoms/PageBody';
+import PageHeader from '../../components/atoms/PageHeader';
+import ESModal from '../../components/molecules/Modal';
+import Pager from '../../components/molecules/Pager';
+import ListCardItems from '../../components/organisms/InstrumentListCardItems';
+import InstrumentTemplateFilters from './filters';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
   navigate: (path: string) => void;
+  filterHandler: (filters: InstrumentTemplateFilterInterface) => void;
 }
 
-const InstrumentTemplate: React.FunctionComponent<Props> = ({ instrumentTemplates, navigate }) => {
+const InstrumentTemplate: React.FunctionComponent<Props> = ({
+  instrumentTemplates,
+  navigate,
+  filterHandler,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
+
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const onPageChange = (PageNumber: number) => {
+    applyFilters({ PageNumber });
   };
 
   const filtersClickHandler = (event: React.MouseEvent) => {
@@ -26,7 +35,10 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({ instrumentTemplate
     toggleFilterModal();
   };
 
-  const applyFilters = (filters: AssessmentFiltersInterface) => {};
+  const applyFilters = (filters: InstrumentTemplateFilterInterface) => {
+    filterHandler(filters);
+    setModalVisible(false);
+  };
 
   return (
     <React.Fragment>
@@ -49,7 +61,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({ instrumentTemplate
               // remove={remove}
               // addInstrument={addInstrument}
             />
-            <Pager />
+            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
           </PageBody>
         </div>
       </div>
@@ -63,7 +75,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({ instrumentTemplate
         secondaryText="Reset"
         secondaryAction="reset"
       >
-        <InstrumentFilters />
+        <InstrumentTemplateFilters />
       </ESModal>
     </React.Fragment>
   );

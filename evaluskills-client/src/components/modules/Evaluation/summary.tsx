@@ -119,7 +119,7 @@ const EvaluationSummary = (props: any) => {
               return <EvaluatorAssessmentItem key={i} {...item} />;
             })}
           </div>
-          <Pager />
+          {/*<Pager />*/}
         </div>
         <FooterGuest buttonsConfig={buttonsConfig} />
         <Modal isOpen={displayModal}>

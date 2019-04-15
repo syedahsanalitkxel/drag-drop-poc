@@ -59,7 +59,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               remove={remove}
               addInstrument={addInstrument}
             />
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

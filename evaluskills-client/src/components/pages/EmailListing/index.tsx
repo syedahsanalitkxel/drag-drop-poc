@@ -73,7 +73,7 @@ const EmailListing: React.FunctionComponent<Props> = ({
                 </table>
               </div>
             </div>
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

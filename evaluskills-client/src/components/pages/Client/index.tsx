@@ -45,7 +45,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

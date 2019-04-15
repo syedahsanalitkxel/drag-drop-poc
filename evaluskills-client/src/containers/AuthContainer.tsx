@@ -8,23 +8,19 @@ import Reset from '../components/pages/Auth/Reset';
 import LoginTemplate from '../components/templates/LoginTemplate';
 import ErrorContext from '../context/ErrorContext';
 import LoginInterface, { ResetPasswordInterface } from '../interfaces/Login';
+import { AuthContext } from '../modules/Auth/authContext';
 import { changePassword, login, resetPassword } from '../services/authService';
 
-const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({
-  location,
-  match,
-  history,
-}) => {
+const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location, match }) => {
   const errorContext = useContext(ErrorContext);
+  const authContext = useContext(AuthContext);
 
   const query = qs.parse(location.search) as { email: string; token: string };
 
   const handleLogin = async (loginDetails: LoginInterface) => {
     try {
       const authDetails = await login(loginDetails);
-      window.localStorage.setItem('token', authDetails.token);
-      window.localStorage.setItem('user', JSON.stringify(authDetails));
-      history.push('/dashboard');
+      authContext.authenticate(authDetails.token, JSON.stringify(authDetails));
     } catch (e) {
       errorContext.setError(e);
     }

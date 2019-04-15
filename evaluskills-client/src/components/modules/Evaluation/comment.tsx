@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Pager from '../../molecules/Pager';
 import GuestTemplate from '../../templates/GuestTemplate';
 import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
@@ -87,7 +87,7 @@ const EvaluatorComment = () => {
               return <EvaluatorAssessmentItem key={i} {...item} />;
             })}
           </div>
-          <Pager />
+          {/*<Pager />*/}
         </div>
       </div>
     </GuestTemplate>

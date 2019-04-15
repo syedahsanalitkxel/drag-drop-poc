@@ -26,8 +26,6 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   const isClientAdmin = () =>
     !window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'CLIENT_ADMIN';
 
-  // TODO: Add checkbox support
-  // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -105,11 +103,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   };
   function renderAllCards(item: any) {
     const content = renderContent(
-      item.assessmentItemsCount,
-      item.competencyCount,
-      item.influentialCount,
-      item.rationalCount,
-      item.faithBasedCount
+      item.competency + item.influential + item.rational,
+      item.competency,
+      item.influential,
+      item.rational,
+      item.isFaithBased
     );
 
     if (isSuperAdmin() === true) {

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import LookupContainer from '../../containers/LookupContainer';
 import Page from '../atoms/Page';
 import Footer from '../organisms/Footer';
 import Sidebar from '../organisms/SideBar';
