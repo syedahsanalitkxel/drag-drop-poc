@@ -12,3 +12,11 @@ export default interface AssessmentFiltersInterface {
     total: number;
   };
 }
+export interface AssessmentTemplateFilterInterface {
+  search?: string;
+  PageNumber?: number;
+  PageSize?: number;
+  recommendedApplicationId?: number;
+  status?: string;
+  TotalRecords?: number;
+}
