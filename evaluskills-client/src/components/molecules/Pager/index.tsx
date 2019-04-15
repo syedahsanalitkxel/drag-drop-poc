@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { PagerInterface } from '../../../interfaces/Pager';
 
@@ -27,7 +27,8 @@ const Pager: React.FunctionComponent<Props> = ({
   const [pagerState, setPagerState] = useState(initialState);
 
   useEffect(() => {
-    const totalPagesCount = pageSize > 0 && totalRecords > 0 ? totalRecords / pageSize + 1 : 0;
+    const totalPagesCount =
+      pageSize > 0 && totalRecords > 0 ? Math.floor(totalRecords / pageSize + 1) : 0;
     setPagerState({
       ...pagerState,
       currentFirstPageNumber: 1,
@@ -35,6 +36,7 @@ const Pager: React.FunctionComponent<Props> = ({
       currentPageNumber: 1,
       pageSize,
       totalPages: totalPagesCount,
+      totalPagesToDisplay: totalPagesCount > 5 ? 5 : totalPagesCount,
     });
   }, [shouldReset]);
 

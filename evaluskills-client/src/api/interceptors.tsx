@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { get } from 'lodash-es';
 import errorObject from './ErrorObject';
+import ResponseInterface from './ResponseInterface';
 
 export const errorResponseHandler = (error: AxiosError) => {
   if (
@@ -17,7 +18,14 @@ export const errorResponseHandler = (error: AxiosError) => {
   }
 };
 
-export function successResponseHandler(response: AxiosResponse) {
-  console.log(response);
-  return response;
+export function successResponseHandler(response: AxiosResponse): ResponseInterface {
+  const pageDetails = response.headers['x-pagination']
+    ? JSON.parse(response.headers['x-pagination'])
+    : undefined;
+
+  return {
+    ...response,
+    data: response.data,
+    pageDetails,
+  };
 }
