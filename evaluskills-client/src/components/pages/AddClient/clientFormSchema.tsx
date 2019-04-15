@@ -11,12 +11,10 @@ const clientFormSchema = Yup.object().shape({
         .required('Required'),
       firstName: stringValidation(1, 250, true),
       lastName: stringValidation(1, 250, true),
-      phone: stringValidation(1, 250, true),
       title: stringValidation(1, 250, true),
     })
   ),
   clientName: stringValidation(1, 250, true),
-  clientTypeId: numberValidation(1, 1, true),
   clientUser: Yup.object().shape({
     email: Yup.string()
       .email()

@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { AuthContextConsumer } from '../../../modules/Auth/authContext';
+
 const TopBar = () => (
   <div className="row border-bottom white-bg">
     <nav className="navbar navbar-static-top" role="navigation" style={{ marginBottom: 0 }}>
@@ -58,9 +60,13 @@ const TopBar = () => (
           </ul>
         </li>
         <li>
-          <a href="login.html">
-            <FontAwesomeIcon icon="sign-out-alt" /> Log out
-          </a>
+          <AuthContextConsumer>
+            {({ logout }) => (
+              <a onClick={() => logout()}>
+                <FontAwesomeIcon icon="sign-out-alt" /> Log out
+              </a>
+            )}
+          </AuthContextConsumer>
         </li>
       </ul>
     </nav>
