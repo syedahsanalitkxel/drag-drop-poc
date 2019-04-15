@@ -5,6 +5,7 @@ import AssessmentItem from '../components/pages/AssessmentItem';
 import ErrorContext from '../context/ErrorContext';
 import { initialState, Initalvalues } from '../components/pages/AddAssessment/InitialState';
 import AssessmentItemInterface, { AddAssessmentItemInterface } from '../interfaces/AssessmentItem';
+import { AssessmentTemplateFilterInterface } from '../interfaces/AssessmentFilters';
 import {
   getAssessments,
   addAssessment,
@@ -31,10 +32,26 @@ const AssessmentItems: AssessmentItemInterface[] = [
     type: 'Influential',
   },
 ];
-
+const defaultFilters: AssessmentTemplateFilterInterface = {
+  PageNumber: 1,
+  PageSize: 10,
+};
+interface State {
+  AssessmentTemplates: any;
+  AssessmentTemplate: any;
+  filters: AssessmentTemplateFilterInterface;
+  resetPager: boolean;
+}
 const AssessmentItemContainer: React.FunctionComponent<
   RouteComponentProps<RouteParamsInterface>
 > = ({ history, match }) => {
+  // const [state, setState] = useState<State>({
+  //   AssessmentTemplate,
+  //   AssessmentTemplates,
+  //   filters: defaultFilters,
+  //   resetPager: false,
+  // });
+
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
@@ -153,10 +170,22 @@ const AssessmentItemContainer: React.FunctionComponent<
       />
     );
   }
-  const filtersClickHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
-    toggleFilterModal();
-  };
+  // const filtersClickHandler = (event: React.MouseEvent) => {
+  //   const newFilterState = {
+  //     ...state,
+  //     filters: {
+  //       ...state.filters,
+  //       ...filters,
+  //     },
+  //     resetPager: false,
+  //   };
+  //   if (!filters.PageNumber) {
+  //     newFilterState.resetPager = true;
+  //     newFilterState.filters.PageNumber = 1;
+  //   }
+  //   setState(newFilterState);
+  //   toggleFilterModal();
+  // };
   return (
     <AssessmentItem
       assessments={assessments}
