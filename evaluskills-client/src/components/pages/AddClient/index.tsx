@@ -1,22 +1,27 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
+import { FormGroup, Input } from 'reactstrap';
 
-import { ContactInterface } from '../../../interfaces/AddEditClient';
-import FormikBag from '../../../interfaces/FormikBag';
+import AddEditClientInterface, {
+  ClientUserInterface,
+  ContactInterface,
+} from '../../../interfaces/AddEditClient';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
-import PageBody from '../../atoms/PageBody';
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import styles from '../../molecules/FormElement/FormElement.module.scss';
-import AddEditClientContacts from '../../organisms/AddClientContact';
+import FormikBag from '../../../interfaces/FormikBag';
+import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import EditClientContacts from '../../organisms/AddClientContact/index';
+import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
+import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
   changeListener: (formValues: any) => void;
@@ -63,7 +68,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   function removeContact(contactId: number) {
-    alert(`deleting => ${contactId}`);
+    const contactIndex = formState.clientContacts.findIndex(
+      (contact: any) => contact.id === contactId
+    );
+    const { clientContacts } = formState;
+    clientContacts.splice(contactIndex, 1);
+    setFormState({ ...formState, ...clientContacts });
   }
 
   function submitForm(values: any) {
@@ -74,6 +84,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
     setFormState({ ...formState, ...values });
     if (action === 'edit' && file) {
       changeListener({ ...formState, ...values, clientLogo: file });
+      setFormState({ ...formState, ...values, clientLogo: file });
+    }
+  }
+
+  function ClientContactsFormState(values: any) {
+    if (action === 'edit' && file) {
       setFormState({ ...formState, ...values, clientLogo: file });
     }
   }
@@ -273,22 +289,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
             : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>
 
-        <AddEditClientContacts
-          fprops={formState}
-          visible={addClientContactModalVisible}
-          toggle={toggleAddClientContactModal}
-          formValues={contactFormState}
-          name="Add"
-        />
-
-        <AddEditClientContacts
-          fprops={formState}
-          visible={editClientContactModalVisible}
-          toggle={toggleEditClientContactModal}
-          formValues={selectedContact}
-          name="Edit"
-        />
-
         <div className="form-header row">
           <div className="col-sm-6">
             <h2>User Information</h2>
@@ -348,6 +348,25 @@ export const AddClient: React.FunctionComponent<Props> = ({
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}
+      <PageBody>
+        <AddClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+          formValues={contactFormState}
+          name="Add"
+        />
+
+        <EditClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={editClientContactModalVisible}
+          toggle={toggleEditClientContactModal}
+          formValues={selectedContact}
+          name="Edit"
+        />
+      </PageBody>
     </DashboardTemplate>
   );
 };
