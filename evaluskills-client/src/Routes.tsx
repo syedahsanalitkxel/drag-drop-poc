@@ -22,7 +22,7 @@ const InstructionsContainer = lazy(() => import('./containers/EvaluationInstruct
 const UserContainer = lazy(() => import('./containers/UserContainer'));
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
-
+import { EvaluationRoutes } from './components/modules/Evaluation';
 interface RouteItemInterface {
   Component: any;
   path: string;
@@ -57,6 +57,14 @@ const Routes: React.FunctionComponent = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
+        {EvaluationRoutes.map((item, i) => {
+          const { Component } = item;
+          return (
+            <Route exact={true} key={i} path={item.path}>
+              <Component />
+            </Route>
+          );
+        })}
         <Route exact={true} path="/" component={Home} />
         <Route exact={true} path="/login" component={AuthContainer} />
         <Route exact={true} path="/select-client" component={AuthContainer} />
