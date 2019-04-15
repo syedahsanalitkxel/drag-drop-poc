@@ -25,4 +25,5 @@ export interface InstrumentTemplateFilterInterface {
   PageSize?: number;
   recommendedApplicationId?: number;
   status?: string;
+  TotalRecords?: number;
 }

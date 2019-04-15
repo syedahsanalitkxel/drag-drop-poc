@@ -13,12 +13,16 @@ interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
   navigate: (path: string) => void;
   filterHandler: (filters: InstrumentTemplateFilterInterface) => void;
+  appliedFilters: InstrumentTemplateFilterInterface;
+  resetPager: boolean;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
   instrumentTemplates,
   navigate,
   filterHandler,
+  appliedFilters,
+  resetPager,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -64,10 +68,10 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               // addInstrument={addInstrument}
             />
             <Pager
-              pageSize={10}
-              totalRecords={10}
+              pageSize={appliedFilters.PageSize || 10}
+              totalRecords={appliedFilters.TotalRecords || 10}
               onPageChanged={onPageChange}
-              shouldReset={false}
+              shouldReset={resetPager}
             />
           </PageBody>
         </div>
