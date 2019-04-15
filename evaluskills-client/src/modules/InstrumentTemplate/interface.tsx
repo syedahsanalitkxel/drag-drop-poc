@@ -20,10 +20,10 @@ export interface InstrumentTemplateInterface {
 
 // Instrument Filter
 export interface InstrumentTemplateFilterInterface {
-  search?: string;
+  Search?: string;
   PageNumber?: number;
   PageSize?: number;
   recommendedApplicationId?: number;
-  status?: string;
+  Status?: string;
   TotalRecords?: number;
 }

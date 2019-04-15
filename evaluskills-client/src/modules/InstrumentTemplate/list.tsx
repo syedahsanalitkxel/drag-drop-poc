@@ -52,8 +52,8 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Instrument Templates"
             filterAction={filtersClickHandler}
-            searchHandler={(search: string) => {
-              applyFilters({ search });
+            searchHandler={(Search: string) => {
+              applyFilters({ Search });
             }}
             actionButtonText="Add Instrument Template"
             actionHandler={() => navigate('/add')}

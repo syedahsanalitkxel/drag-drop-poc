@@ -1,6 +1,7 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { pickBy, identity } from 'lodash-es';
 
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
@@ -10,6 +11,8 @@ import RouteParamsInterface from '../../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../../utils/routerUtils';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
+import FilterContext from './context';
+import { USER_ROLE } from '../../utils';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -24,6 +27,7 @@ const instrumentTemplate: InstrumentTemplateInterface = {
 const defaultFilters: InstrumentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  Status: 'all',
 };
 
 interface State {
@@ -73,6 +77,15 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       newFilterState.resetPager = true;
       newFilterState.filters.PageNumber = 1;
     }
+    if (!filters.Search) {
+      delete newFilterState.filters.Search;
+    }
+    if (!filters.recommendedApplicationId) {
+      delete newFilterState.filters.recommendedApplicationId;
+    }
+    if (USER_ROLE.isSuperAdmin()) {
+      delete newFilterState.filters.Status;
+    }
     setState(newFilterState);
   }
 
@@ -112,13 +125,15 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <AddEditInstrumentTemplate />;
     }
     return (
-      <InstrumentTemplate
-        instrumentTemplates={state.instrumentTemplates}
-        navigate={navigate}
-        filterHandler={filterHandler}
-        pageDetails={state.pageDetails || defaultPageDetail}
-        resetPager={state.resetPager}
-      />
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <InstrumentTemplate
+          instrumentTemplates={state.instrumentTemplates}
+          navigate={navigate}
+          filterHandler={filterHandler}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+        />
+      </FilterContext.Provider>
     );
   }
 
