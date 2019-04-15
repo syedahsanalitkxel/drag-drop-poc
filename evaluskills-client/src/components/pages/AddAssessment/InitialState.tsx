@@ -4,7 +4,7 @@ export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
   clientId: 2,
   itemsStatusId: 1,
-  definition: '',
+  definition: 'asdasd',
   typeId: 1,
   competencyId: 1,
   categoryId: 1,
@@ -20,7 +20,7 @@ export const Initalvalues: AddAssessmentItemInterface = {
         {
           value: 5,
           title: 'Exceptional',
-          statement: '',
+          statement: 'asdasd',
           behaviour: '',
           scaling: '',
         },

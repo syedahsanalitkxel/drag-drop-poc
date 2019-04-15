@@ -68,6 +68,10 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].statement
+            }
+            id={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
             name={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -90,6 +94,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].behaviour
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -112,6 +119,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].scaling
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[0].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -140,6 +150,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             rows={2}
             type="textarea"
             name={`itemElements[${props.comNumber}].itemElementOptions[1].statement`}
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].statement
+            }
             placeholder={'Add Statement'}
             invalid={getValidation(
               `itemElements[${props.comNumber}].itemElementOptions[1].statement`
@@ -161,6 +174,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].behaviour
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -183,6 +199,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].scaling
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[1].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -210,6 +229,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].statement
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[2].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -232,6 +254,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].behaviour
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -254,6 +279,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].scaling
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[2].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -281,6 +309,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].statement
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[3].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -303,6 +334,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].behaviour
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -325,6 +359,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].scaling
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[3].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -352,6 +389,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].statement
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[4].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -374,6 +414,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].behaviour
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(
@@ -396,6 +439,9 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
             aria-multiline="true"
             rows={2}
             type="textarea"
+            value={
+              props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].scaling
+            }
             name={`itemElements[${props.comNumber}].itemElementOptions[4].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(

@@ -28,6 +28,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   assessmenData,
   edit,
 }) => {
+  console.log(assessmenData);
   const [formState, setFormState] = useState(initialState);
   const [forvalues, setFormvalues] = useState(assessmenData);
   const errorContext = useContext(ErrorContext);
@@ -38,11 +39,24 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
     //   setFormState({ ...formState, itemElements: list });
     // }
     if (edit) {
+      // setFormvalues(assessmenData);
       // setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
       //setFormvalues({ ...forvalues, assessmenListItems });
     }
   }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
+  }
+  function assessmentTypeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    if (parseInt(event.target.value, 10) === 1) {
+      const list: any = forvalues.itemElements;
+      if (list.length === 0) {
+        const clonedArray = JSON.parse(JSON.stringify(formState.elementObject));
+        clonedArray.title = 'default';
+        list.push(clonedArray);
+        setFormvalues({ ...forvalues, itemElements: list });
+      }
+    }
     setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
   }
   function fathchangehandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -308,7 +322,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         name="questionTypeId"
                         value={1}
                         currentSelection={forvalues && forvalues.questionTypeId}
-                        onChange={changeHandler}
+                        onChange={assessmentTypeHandler}
                       >
                         Rubric
                       </RadioButton>
@@ -316,24 +330,20 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         name="questionTypeId"
                         value={2}
                         currentSelection={forvalues && forvalues.questionTypeId}
-                        onChange={changeHandler}
+                        onChange={assessmentTypeHandler}
                       >
                         Open Ended
                       </RadioButton>
                     </div>
                   </div>
-                  <div className="isa_error">
-                    <span className="error text-danger">
-                      {forvalues && formState.assessmentType === '' ? 'Required' : null}
-                    </span>
-                  </div>
 
                   {forvalues &&
-                    formState.itemElements &&
+                    forvalues.questionTypeId === 1 &&
+                    forvalues.itemElements &&
                     forvalues.itemElements.map(renderElementList)}
                 </div>
               </div>
-              {forvalues.typeId === 3 ? (
+              {forvalues && forvalues.typeId === 3 && forvalues.questionTypeId === 1 ? (
                 <div className="">
                   <button
                     type="button"
@@ -380,7 +390,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
         <RadioButton
           name="categoryId"
           value={lookup.value}
-          currentSelection={forvalues.categoryId}
+          currentSelection={forvalues && forvalues.categoryId}
           onChange={changeHandler}
         >
           {lookup.text}
@@ -405,7 +415,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
         <RadioButton
           name="typeId"
           value={lookup.value}
-          currentSelection={forvalues.typeId}
+          currentSelection={forvalues && forvalues.typeId}
           onChange={changeHandler}
         >
           {lookup.text}
@@ -422,7 +432,9 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
             name="itemRecomendedApplications"
             value={lookup.value}
             isChecked={
-              lookup.value && forvalues.itemRecomendedApplications.includes(lookup.value)
+              lookup.value &&
+              forvalues &&
+              forvalues.itemRecomendedApplications.includes(lookup.value)
                 ? true
                 : false
             }
@@ -441,7 +453,11 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
         <Checkbox
           name="itemEntities"
           value={lookup.value}
-          isChecked={lookup.value && forvalues.itemEntities.includes(lookup.value) ? true : false}
+          isChecked={
+            lookup.value && forvalues && forvalues.itemEntities.includes(lookup.value)
+              ? true
+              : false
+          }
           onChange={entitycheckboxChangeHandler}
         >
           {lookup.text}

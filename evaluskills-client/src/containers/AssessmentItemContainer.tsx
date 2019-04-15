@@ -9,7 +9,7 @@ import {
   getAssessments,
   addAssessment,
   getFilteredAssessment,
-  editAssessment,
+  editAssessmentService,
 } from '../services/assessmentsService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
@@ -37,7 +37,7 @@ const AssessmentItemContainer: React.FunctionComponent<
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
-  const [editassessments, seteditAssessments] = useState();
+  const [editassessmentsState, seteditAssessments] = useState(Initalvalues);
   const [addAssessments, setAddAssessments] = useState(Initalvalues);
   // https://www.andreasreiterer.at/react-useeffect-hook-loop/
   // https://overreacted.io/a-complete-guide-to-useeffect/
@@ -63,7 +63,7 @@ const AssessmentItemContainer: React.FunctionComponent<
   }
   async function editAssessmentdata(id: string) {
     try {
-      const data = await editAssessment(id);
+      const data = await editAssessmentService(id);
       seteditAssessments(data);
     } catch (error) {
       errorContext.setError(error, true);
@@ -121,7 +121,7 @@ const AssessmentItemContainer: React.FunctionComponent<
   if (isEdit(match.params)) {
     return (
       <AddAssessmentComponenet
-        assessmenData={editassessments}
+        assessmenData={editassessmentsState}
         addAssessment={AddAssessmentdata}
         edit={true}
         assessmenListItems={assessmenListItems}
