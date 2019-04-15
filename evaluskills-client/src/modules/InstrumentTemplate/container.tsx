@@ -1,18 +1,17 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { pickBy, identity } from 'lodash-es';
 
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import RouteParamsInterface from '../../interfaces/RouteParams';
-import { isAdd, isEdit, isList } from '../../utils/routerUtils';
-import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
-import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
-import FilterContext from './context';
 import { USER_ROLE } from '../../utils';
+import { isAdd, isEdit, isList } from '../../utils/routerUtils';
+import FilterContext from './context';
+import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
+import { deleteInstrumentTemplate, getInstrumentTemplateById, getInstrumentTemplates } from './service';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -112,10 +111,22 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   function updateInstrument() {}
-  function deleteInstrument() {}
 
-  function navigate(path: string) {
-    history.push(`/instrument-templates${path}`);
+  async function deleteInstrument(id: string) {
+    try {
+      await deleteInstrumentTemplate(id);
+      await fetchAllInstruments(state.filters);
+    } catch (error) {
+      errorContext.setError(error);
+    }
+  }
+
+  function navigate(path: string, root?: boolean) {
+    if (root) {
+      history.push(path);
+    } else {
+      history.push(`/instrument-templates${path}`);
+    }
   }
 
   function renderPage() {
@@ -132,6 +143,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           filterHandler={filterHandler}
           pageDetails={state.pageDetails || defaultPageDetail}
           resetPager={state.resetPager}
+          handleDelete={deleteInstrument}
         />
       </FilterContext.Provider>
     );
