@@ -11,51 +11,18 @@ import Pager from '../../molecules/Pager';
 import UsersList from '../../organisms/UserList/index';
 import Editcomponent from '../../pages/AddUser';
 import UserFilter from '../../../components/organisms/UserFilter';
-import userFilters from '../../../interfaces/UserFilter';
-import { ClientFilters } from '../../../interfaces/ClientFilter';
-import { getFilteredClient } from '../../../services/clientsService';
-
-// interface Props {
-//   changeListener?: (formValues: User) => void;
-// }
+import UserFilterInterface from '../../../interfaces/UserFilter';
 
 interface Props {
   Users: any;
+  filterHandler: (filters: UserFilterInterface) => void;
 }
 
-const initialState = {
-  email: ' ',
-  firstName: ' ',
-  id: ' ',
-  lastName: ' ',
-  role: ' ',
-};
-
-const usersData = [
-  { id: '1', firstName: 'Robby', lastName: 'Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
-  { id: '2', firstName: 'Jhon', lastName: 'Doe', role: 'User', email: 'jhondoe@gmail.com' },
-  {
-    id: '3',
-    firstName: 'Bella',
-    lastName: 'William',
-    role: 'Admin',
-    email: 'bellawilliam@gmail.com',
-  },
-  { id: '4', firstName: 'Rash', lastName: 'Rash', role: 'User', email: 'rockrash@gmail.com' },
-];
-
-const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
+const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [formState, setFormState] = useState(initialState);
-
-  //
-  // useEffect(() => {
-  //   if (changeListener) {
-  //     changeListener(formState);
-  //   }
-  // });
+  const [formState, setFormState] = useState({});
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
@@ -69,48 +36,53 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
     setAddUserModalVisible(!addUserModalVisible);
   };
 
-  const filterAction = (event: React.MouseEvent) => {
-    // alert(`Filter button clicked ${event.timeStamp}`);
-    event.preventDefault();
-    toggleFilterModal();
-  };
+  function submitHandler(values: any) {
+    // setAddUserModalVisible(false);
+    // console.log(values);
+    // values.stateId = parseInt(values.stateId, 10);
+    // values.billingPlanId = parseInt(values.billingPlanId, 10);
+    // // values.clientTypeId = parseInt(values.clientTypeId, 10);
+    // changeListener({ ...formState, ...values });
+    // setFormState({ ...formState, ...values });
+    // if (action === 'edit' && file) {
+    //   changeListener({ ...formState, ...values, clientLogo: file });
+    //   setFormState({ ...formState, ...values, clientLogo: file });
+    // }
+  }
 
   const searchHandler = (searchQuery: string) => {
     // alert(searchQuery);
   };
+
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     toggleFilterModal();
   };
 
+  const onPageChange = (pageNumber: number) => {
+    applyFilters({ pageNumber });
+  };
+
   const addAction = (event: React.MouseEvent) => {
     event.preventDefault();
-    setFormState(initialState);
     toggleAddUserModal();
-    // history.push('/users/add');
-    // alert(`add button clicked ${event.timeStamp}`);
   };
 
   const editAction = (userId: string) => {
     // event.preventDefault();
-    const userD: any = usersData.find(user => user.id === userId);
-    setFormState(userD);
-    toggleEditUserModal();
+    // const userD: any = formState.find(user => user.id === userId);
+    // setFormState(userD);
+    // toggleEditUserModal();
     // history.push(`/users/edit/${userId}`);
   };
 
   const removeAction = (userId: string) => {
     // history.push(`/users/remove/${userId}`);
   };
-  async function applyFilters(filter: ClientFilters) {
-    // const param = { ...filter };
-    // toggleFilterModal();
-    // try {
-    //   const data: any = await getFilteredClient(param);
-    //   setClients(data);
-    // } catch (error) {
-    //   errorContext.setError(error, true);
-    // }
+
+  async function applyFilters(filter: UserFilterInterface) {
+    filterHandler(filter);
+    setModalVisible(false);
   }
 
   return (
@@ -119,7 +91,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
         <div className="col-lg-12">
           <PageHeader
             title="Users"
-            filterAction={filterAction}
+            filterAction={filtersClickHandler}
             searchHandler={searchHandler}
             actionButtonText="Add User"
             actionHandler={addAction}
@@ -127,13 +99,14 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
           <PageBody>
             <div className="ibox m-b-15">
               <div className="table-holder">
-                <UsersList listData={usersData} edit={editAction} remove={removeAction} />
+                <UsersList listData={Users} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            {/*<Pager />*/}
+            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
           </PageBody>
         </div>
       </div>
+
       <ESModal
         title="Filters"
         visible={modalVisible}
@@ -145,19 +118,22 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
       >
         <UserFilter />
       </ESModal>
+
       <AddUser
         visible={addUserModalVisible}
         toggle={toggleAddUserModal}
         name="Add"
         FormValues={formState}
+        submitHandler={submitHandler}
       />
+
       <Editcomponent
         visible={editUserModalVisible}
         toggle={toggleEditUserModal}
         name="Edit"
         FormValues={formState}
+        submitHandler={submitHandler}
       />
-      ;
     </DashboardTemplate>
   );
 };

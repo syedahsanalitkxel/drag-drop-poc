@@ -5,10 +5,10 @@ export interface UserClientInterface {
 }
 
 export default interface UserList {
-  firstName: string;
+  firstName?: string;
   middleName?: string;
-  lastName: string;
-  email: string;
+  lastName?: string;
+  email?: string;
   userClients?: UserClientInterface[];
-  id?: number;
+  id: number;
 }

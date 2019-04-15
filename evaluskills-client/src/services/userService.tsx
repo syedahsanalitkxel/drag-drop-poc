@@ -4,6 +4,10 @@ import { USERS } from '../api/endpoints';
 import API from '../api';
 import UserList from '../interfaces/UserList';
 import AddUserInterface from '../interfaces/User';
+import {
+  InstrumentTemplateFilterInterface,
+  InstrumentTemplateInterface,
+} from '../modules/InstrumentTemplate/interface';
 const api = new API();
 
 export async function getUsers(): Promise<UserList[]> {
@@ -17,7 +21,7 @@ export async function getUsers(): Promise<UserList[]> {
   );
 }
 
-export async function getUserById(id: string): Promise<AddUserInterface> {
+export async function getUserById(id: string): Promise<UserList> {
   return api.get(USERS, id).then(
     (res: AxiosResponse) => {
       return res.data;
@@ -28,7 +32,7 @@ export async function getUserById(id: string): Promise<AddUserInterface> {
   );
 }
 
-export async function getFilteredUser(params: any): Promise<AddUserInterface> {
+export async function getFilteredUser(params: any): Promise<UserList[]> {
   return api.get(USERS, undefined, params).then(
     (res: AxiosResponse) => {
       return res.data;

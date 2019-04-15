@@ -83,7 +83,19 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
             <th />
           </tr>
         </thead>
-        <tbody>{listData && listData.map(renderUserItem)}</tbody>
+        <tbody>
+          {listData.length > 0 ? (
+            listData && listData.map(renderUserItem)
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: 'center' }}>
+                <span className="label" style={{ textAlign: 'center' }}>
+                  No Record Found
+                </span>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </React.Fragment>
   );

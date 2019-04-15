@@ -15,7 +15,7 @@ interface Props {
 
 const initialState = {
   clientId: 1,
-  roleId: 1,
+  roleId: 0,
 };
 
 const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
@@ -40,16 +40,16 @@ const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
     }
   }
 
-  const renderClientsDropdown = (props: LookupContextInterface) => {
-    const { findKey } = props;
-    if (findKey) {
-      return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
-        <option key={lookup.value} value={lookup.value}>
-          {lookup.text}
-        </option>
-      ));
-    }
-  };
+  // const renderClientsDropdown = (props: LookupContextInterface) => {
+  //   const { findKey } = props;
+  //   if (findKey) {
+  //     return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
+  //       <option key={lookup.value} value={lookup.value}>
+  //         {lookup.text}
+  //       </option>
+  //     ));
+  //   }
+  // };
 
   const renderRoleDropdown = (props: LookupContextInterface) => {
     const { findKey } = props;
@@ -80,7 +80,9 @@ const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
           <label className="col-sm-4 col-form-label font-bold">Clients</label>
           <div className="col-sm-8">
             <Input type="select" name="clientId" id="plan-select" onChange={changeHandler}>
-              <LookupContextConsumer>{renderClientsDropdown}</LookupContextConsumer>
+              <option value="1">Tester 1</option>
+              <option value="7">Tester 7</option>
+              <option value="10">Tester 10</option>
             </Input>
           </div>
         </FormGroup>

@@ -1,56 +1,80 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
+import Spinner from '../components/atoms/Spinner';
 import UsersList from '../components/pages/User';
 import ErrorContext from '../context/ErrorContext';
 import UsersInterface from '../interfaces/UserList';
 import UsersFilterInterface from '../interfaces/UserFilter';
+import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import RouteParamsInterface from '../interfaces/RouteParams';
+import { getFilteredUser, getUserById, getUsers } from '../services/userService';
+import { InstrumentTemplateFilterInterface } from '../modules/InstrumentTemplate/interface';
 
-const initialState: any[] = [
-  {
-    email: '',
-    firstName: '',
-    id: 0,
-    lastName: '',
-  },
-];
+const users: UsersInterface[] = [];
 
-// const usersData = [
-//     { id: '1', firstName: 'Robby', lastName: 'Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
-//     { id: '2', firstName: 'Jhon', lastName: 'Doe', role: 'User', email: 'jhondoe@gmail.com' },
-//     {
-//         id: '3',
-//         firstName: 'Bella',
-//         lastName: 'William',
-//         role: 'Admin',
-//         email: 'bellawilliam@gmail.com',
-//     },
-//     { id: '4', firstName: 'Rash', lastName: 'Rash', role: 'User', email: 'rockrash@gmail.com' },
-// ];
+const user: UsersInterface = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  id: 0,
+};
 
-const UserListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const defaultFilters: UsersFilterInterface = {
+  pageNumber: 1,
+  pageSize: 10,
+};
+
+interface State {
+  users: UsersInterface[];
+  user: UsersInterface;
+  filters: UsersFilterInterface;
+}
+
+const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
+  history,
+  match,
+}) => {
   const errorContext = useContext(ErrorContext);
-  const [users, setUsers] = useState(initialState);
+  // const [users, setUsers] = useState(initialState);
+  const [state, setState] = useState<State>({
+    filters: defaultFilters,
+    user,
+    users,
+  });
 
   useEffect(() => {
-    // fetchClients();
-    return function cleanup() {
-      setUsers(initialState);
-    };
-  }, []);
-  //
-  // async function fetchClients() {
-  //     try {
-  //         const data = await getUsers();
-  //         setUsers(data);
-  //     } catch (error) {
-  //         errorContext.setError(error, true);
-  //     }
-  // }
+    if (isEdit(match.params)) {
+      fetchUserById(match.params.id);
+    } else if (isList(match.path)) {
+      fetchAllUsers(defaultFilters);
+    }
+  }, [match.path]);
 
-  function filterUsers(searchQuery: string) {
-    alert(searchQuery);
+  function filterHandler(filters: UsersFilterInterface) {
+    fetchAllUsers({ ...state.filters, ...filters });
   }
+
+  async function fetchAllUsers(filters?: UsersFilterInterface) {
+    try {
+      const data = await getFilteredUser(filters);
+      setState({ ...state, users: data });
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
+
+  async function fetchUserById(id: string) {
+    try {
+      const data = await getUserById(id);
+      setState({ ...state, user: data });
+    } catch (error) {
+      errorContext.setError(error);
+    }
+  }
+
+  // function filterUsers(searchQuery: string) {
+  //   alert(searchQuery);
+  // }
 
   // const filtersClickHandler = (event: React.MouseEvent) => {
   //     event.preventDefault();
@@ -80,7 +104,16 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps> = ({ histo
     alert(`deleting => ${clientId}`);
   }
 
-  return <UsersList Users={users} />;
+  function renderPage() {
+    if (isEdit(match.params)) {
+      // return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
+    } else if (isAdd(match.path)) {
+      // rseturn <AddEditInstrumentTemplate />;
+    }
+    return <UsersList Users={state.users} filterHandler={filterHandler} />;
+  }
+
+  return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;
 };
 
 export default withRouter(UserListContainer);
