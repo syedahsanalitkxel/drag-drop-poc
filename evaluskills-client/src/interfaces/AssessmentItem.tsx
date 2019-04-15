@@ -1,11 +1,11 @@
 import { array } from '@storybook/addon-knobs';
 
 export default interface AssessmentItemInterface {
-  category: string;
-  competency: string;
-  definition: string;
+  category?: string;
+  competency?: string;
+  definition?: string;
   id: string;
-  type: string;
+  type?: string;
 }
 export interface itemElementOptions {
   value: number;

@@ -475,8 +475,9 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   return (
     <DashboardTemplate>
       <Formik
+        enableReinitialize={true}
         initialValues={forvalues}
-        validationSchema={edit === false ? AddAssessmentSchema : ''}
+        validationSchema={AddAssessmentSchema}
         onSubmit={submitForm}
       >
         {formikprops => renderForm(formikprops)}
