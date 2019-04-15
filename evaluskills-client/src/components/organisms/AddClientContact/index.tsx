@@ -1,21 +1,22 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
-import styled from 'styled-components';
-import { ContactInterface } from '../../../interfaces/Client';
+import clientInterface, { ContactInterface } from '../../../interfaces/Client';
+import { styles } from '../../pages/AddUser/style';
+import clientContactSchema from './clientContactSchema';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import { styles } from '../../pages/AddUser/style';
-import clientContactSchema from './clientContactSchema';
+import styled from 'styled-components';
 
 interface Props {
   index?: number;
-  fprops: FormikBag;
+  fprops: any;
   children?: React.ReactNode;
   visible?: boolean;
   name?: string;
   toggle?: () => void;
+  formStateUpdate: (values: any) => void;
   formValues?: any;
 }
 
@@ -30,18 +31,21 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
   index,
   fprops,
   formValues,
+  formStateUpdate,
   name,
 }) => {
   function submitHandler(values: any) {
-    if (fprops.initialValues.clientContacts && toggle && name === 'Add') {
+    if (fprops.clientContacts && toggle && name === 'Add' && values) {
+      fprops.clientContacts.push(values);
+      formStateUpdate(fprops);
       toggle();
-      fprops.initialValues.clientContacts.push(values);
-    } else if (fprops.initialValues.clientContacts && toggle && name === 'Edit') {
-      toggle();
-      const contactIndex = fprops.initialValues.clientContacts.findIndex(
+    } else if (fprops.clientContacts && toggle && name === 'Edit') {
+      const contactIndex = fprops.clientContacts.findIndex(
         (contact: any) => contact.id === values.id
       );
-      fprops.initialValues.clientContacts[contactIndex] = values;
+      fprops.clientContacts[contactIndex] = values;
+      formStateUpdate(fprops);
+      toggle();
     }
   }
 

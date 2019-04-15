@@ -305,21 +305,23 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({
           />
         </div>
 
-        <AddClientContacts
-          fprops={formikprops}
-          visible={addClientContactModalVisible}
-          toggle={toggleAddClientContactModal}
-          formValues={contactFormState}
-          name={'Add'}
-        />
+        {/*<AddClientContacts*/}
+        {/*fprops={formikprops}*/}
+        {/*formStateUpdate={ClientContactsFormState}*/}
+        {/*visible={addClientContactModalVisible}*/}
+        {/*toggle={toggleAddClientContactModal}*/}
+        {/*formValues={contactFormState}*/}
+        {/*name={'Add'}*/}
+        {/*/>*/}
 
-        <EditClientContacts
-          fprops={formikprops}
-          visible={editClientContactModalVisible}
-          toggle={toggleEditClientContactModal}
-          formValues={contactFormState}
-          name="Edit"
-        />
+        {/*<EditClientContacts*/}
+        {/*fprops={formikprops}*/}
+        {/*formStateUpdate={ClientContactsFormState}*/}
+        {/*visible={editClientContactModalVisible}*/}
+        {/*toggle={toggleEditClientContactModal}*/}
+        {/*formValues={contactFormState}*/}
+        {/*name="Edit"*/}
+        {/*/>*/}
 
         <div className="form-header row">
           <div className="col-sm-6">
