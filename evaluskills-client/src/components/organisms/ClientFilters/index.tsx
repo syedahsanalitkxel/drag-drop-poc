@@ -4,16 +4,16 @@ import { Form, FormGroup, Input, Label } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
 import { ClientFilters } from '../../../interfaces/ClientFilter';
 import CheckBox from '../../atoms/CheckBox';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import { lookups } from '../../../modules/Lookup/enum';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
 
 interface Props {
   changeListener?: (formValues: ClientFilters) => void;
 }
 
-const initialState = {
-  billingPlanId: 1,
-  companyTypeId: 1,
-  statusId: false,
-};
+const initialState: ClientFilters = {};
 
 const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
   const [formState, setFormState] = useState(initialState);
@@ -36,6 +36,17 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
       setFormState({ ...formState, [event.target.name]: JSON.parse(event.target.value) });
     }
   }
+
+  const renderBillingPlanDropdown = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.billingPlansLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
 
   return (
     <React.Fragment>
@@ -67,9 +78,7 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
               Plan
             </Label>
             <Input type="select" name="billingPlanId" id="plan-select" onChange={changeHandler}>
-              <option value="Select Plan">Select Plan</option>
-              <option value="1">Billing option 1</option>
-              <option value="2">Billing option 2</option>
+              <LookupContextConsumer>{renderBillingPlanDropdown}</LookupContextConsumer>
             </Input>
           </div>
         </FormGroup>
