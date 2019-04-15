@@ -10,8 +10,12 @@ const usersData: any = [];
 function filterHandler(filters: UsersFilterInterface) {
   // fetchAllUsers({ ...state.filters, ...filters });
 }
+
+function submitForm(values: any, action: string, id?: string) {
+  // fetchAllUsers({ ...state.filters, ...filters });
+}
 storiesOf('Dashboard', module).add('User', () => (
-  <User Users={usersData} filterHandler={filterHandler}>
+  <User Users={usersData} filterHandler={filterHandler} submitForm={submitForm}>
     User Content
   </User>
 ));

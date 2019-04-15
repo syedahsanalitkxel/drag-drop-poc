@@ -7,8 +7,7 @@ import UsersInterface from '../interfaces/UserList';
 import UsersFilterInterface from '../interfaces/UserFilter';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
-import { getFilteredUser, getUserById, getUsers } from '../services/userService';
-import { InstrumentTemplateFilterInterface } from '../modules/InstrumentTemplate/interface';
+import { addUser, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
 
 const users: UsersInterface[] = [];
 
@@ -92,13 +91,28 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   //     }
   // }
 
-  function addUser() {
-    history.push('/clients/add');
+  async function submitForm(values: any, action: string, id?: string) {
+    if (action === 'Add') {
+      try {
+        const data = await addUser(values);
+        history.push('/users');
+      } catch (error) {
+        errorContext.setError(error);
+      }
+    } else if (action === 'Edit' && id) {
+      try {
+        const data = await editUser(values, id);
+        history.push('/users');
+      } catch (error) {
+        errorContext.setError(error);
+      }
+    }
   }
 
-  function editUser(clientId: number) {
-    history.push(`/clients/edit/${clientId}`);
-  }
+  //
+  // function editUser(clientId: number) {
+  //   history.push(`/clients/edit/${clientId}`);
+  // }
 
   function deleteUser(clientId: number) {
     alert(`deleting => ${clientId}`);
@@ -110,7 +124,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     } else if (isAdd(match.path)) {
       // rseturn <AddEditInstrumentTemplate />;
     }
-    return <UsersList Users={state.users} filterHandler={filterHandler} />;
+    return <UsersList Users={state.users} filterHandler={filterHandler} submitForm={submitForm} />;
   }
 
   return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;

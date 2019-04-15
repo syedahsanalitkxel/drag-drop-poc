@@ -43,8 +43,19 @@ export async function getFilteredUser(params: any): Promise<UserList[]> {
   );
 }
 
-export async function addUser(client: FormData) {
-  return api.post(USERS, client).then(
+export async function addUser(user: any) {
+  return api.post(USERS, user).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function editUser(user: any, id: any) {
+  return api.put(USERS, user, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },

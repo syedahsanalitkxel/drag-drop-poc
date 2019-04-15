@@ -16,38 +16,41 @@ import UserFilterInterface from '../../../interfaces/UserFilter';
 interface Props {
   Users: any;
   filterHandler: (filters: UserFilterInterface) => void;
+  submitForm: (values: any, action: string, id?: string) => void;
 }
 
-const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler }) => {
+const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler, submitForm }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState(Users);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [user, setUser] = useState({});
+  const [action, setAction] = useState('Add');
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
 
   const toggleEditUserModal = () => {
+    setAction('Edit');
     setEditUserModalVisible(!editUserModalVisible);
   };
 
   const toggleAddUserModal = () => {
+    setAction('Add');
     setAddUserModalVisible(!addUserModalVisible);
   };
 
   function submitHandler(values: any) {
-    // setAddUserModalVisible(false);
-    // console.log(values);
-    // values.stateId = parseInt(values.stateId, 10);
-    // values.billingPlanId = parseInt(values.billingPlanId, 10);
-    // // values.clientTypeId = parseInt(values.clientTypeId, 10);
-    // changeListener({ ...formState, ...values });
-    // setFormState({ ...formState, ...values });
-    // if (action === 'edit' && file) {
-    //   changeListener({ ...formState, ...values, clientLogo: file });
-    //   setFormState({ ...formState, ...values, clientLogo: file });
-    // }
+    setAddUserModalVisible(false);
+    setEditUserModalVisible(false);
+    if (action === 'Add') {
+      submitForm(values, action);
+    } else {
+      setFormState({ ...formState, ...values });
+      submitForm(values, action, values.id);
+    }
   }
 
   const searchHandler = (searchQuery: string) => {
@@ -69,11 +72,9 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler })
   };
 
   const editAction = (userId: string) => {
-    // event.preventDefault();
-    // const userD: any = formState.find(user => user.id === userId);
-    // setFormState(userD);
-    // toggleEditUserModal();
-    // history.push(`/users/edit/${userId}`);
+    const userD: any = formState.find((users: any) => users.id === userId);
+    setSelectedUser(userD);
+    toggleEditUserModal();
   };
 
   const removeAction = (userId: string) => {
@@ -123,7 +124,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler })
         visible={addUserModalVisible}
         toggle={toggleAddUserModal}
         name="Add"
-        FormValues={formState}
+        FormValues={user}
         submitHandler={submitHandler}
       />
 
@@ -131,7 +132,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler })
         visible={editUserModalVisible}
         toggle={toggleEditUserModal}
         name="Edit"
-        FormValues={formState}
+        FormValues={selectedUser}
         submitHandler={submitHandler}
       />
     </DashboardTemplate>

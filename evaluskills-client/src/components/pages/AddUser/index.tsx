@@ -28,17 +28,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
   submitHandler,
 }) => {
   function submitForm(values: any) {
-    console.log(values);
-    // if (fprops.initialValues.clientContacts && toggle && name === 'Add') {
-    //   toggle();
-    //   fprops.initialValues.clientContacts.push(values);
-    // } else if (fprops.initialValues.clientContacts && toggle && name === 'Edit') {
-    //   toggle();
-    //   const contactIndex = fprops.initialValues.clientContacts.findIndex(
-    //       (contact: any) => contact.id === values.id
-    //   );
-    //   fprops.initialValues.clientContacts[contactIndex] = values;
-    // }
+    submitHandler(values);
   }
 
   const addUserSchema = Yup.object().shape({
@@ -53,7 +43,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
-    role: Yup.string()
+    title: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
@@ -117,7 +107,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
               <div className="col-sm-10">
                 <Input
                   type="text"
-                  name="role"
+                  name="title"
                   className="form-control"
                   placeholder="Role"
                   tag={Field}
