@@ -27,7 +27,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   };
 
   const onPageChange = (PageNumber: number) => {
-    applyFilters({ PageNumber });
+    filterHandler({ PageNumber });
   };
 
   const filtersClickHandler = (event: React.MouseEvent) => {
@@ -47,7 +47,9 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Instrument Templates"
             filterAction={filtersClickHandler}
-            searchHandler={() => {}}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add Instrument Template"
             actionHandler={() => navigate('/add')}
           />

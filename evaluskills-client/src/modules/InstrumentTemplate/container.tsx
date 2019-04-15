@@ -21,7 +21,8 @@ const instrumentTemplate: InstrumentTemplateInterface = {
   title: '',
 };
 const defaultFilters: InstrumentTemplateFilterInterface = {
-  PageNumber: 1,
+  // PageNumber: 1,
+  // PageSize: 10,
 };
 
 interface State {
@@ -43,14 +44,18 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (isEdit(match.params)) {
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
-      fetchAllInstruments(defaultFilters);
+      fetchAllInstruments(state.filters);
     }
-  }, [match.path]);
+  }, [match.path, state.filters]);
 
   function filterHandler(filters: InstrumentTemplateFilterInterface) {
-    // TODO Buggy Code
-    // setState({ ...state, filters: { ...state.filters, ...filters } });
-    fetchAllInstruments({ ...state.filters, ...filters });
+    setState({
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+    });
   }
 
   async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
