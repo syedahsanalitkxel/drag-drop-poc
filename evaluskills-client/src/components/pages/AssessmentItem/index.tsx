@@ -16,6 +16,10 @@ interface Props {
   add: () => void;
   edit?: (assessmentId: string) => void;
   remove?: (assessmentId: string) => void;
+  toggleFilterModal: () => void;
+  applyFilters: (filters: any) => void;
+  modalVisible: boolean;
+  filtersClickHandler: (event: React.MouseEvent) => void;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
@@ -24,22 +28,11 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   add,
   edit,
   remove,
+  toggleFilterModal,
+  modalVisible,
+  filtersClickHandler,
+  applyFilters,
 }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const toggleFilterModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const filtersClickHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
-    toggleFilterModal();
-  };
-
-  const applyFilters = (filters: AssessmentFiltersInterface) => {
-    console.log(filters);
-  };
-
   return (
     <DashboardTemplate>
       <div className="row">
