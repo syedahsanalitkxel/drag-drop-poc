@@ -5,11 +5,12 @@ import Pager from '../../molecules/Pager';
 import EvaluationClientHolder from '../../organisms/ClientHolder';
 import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
 import GuestTemplate from '../../templates/GuestTemplate';
+import FooterGuest from '../../organisms/FooterGuest';
+import { withRouter } from 'react-router-dom';
 
-const EvaluationSummary = () => {
+const EvaluationSummary = (props: any) => {
   const [displayModal, setDisplayModal] = useState(false);
-  const toggleModal = (e: any) => {
-    e.preventDefault();
+  const toggleModal = () => {
     setDisplayModal(!displayModal);
   };
   const clientHolderObj = {
@@ -50,6 +51,24 @@ const EvaluationSummary = () => {
       score: '02',
     },
   ];
+  const buttonsConfig = [
+    {
+      text: 'Back',
+      src: '',
+      callback: handleBack,
+      classes: 'btn btn-dark',
+    },
+    {
+      text: 'Submit',
+      src: '/img/icons/arrow.svg',
+      callback: toggleModal,
+      classes: 'btn btn-primary',
+    },
+  ];
+  function handleBack() {
+    const { history } = props;
+    history.push('/evaluation/questions');
+  }
   return (
     <GuestTemplate>
       <div>
@@ -111,29 +130,7 @@ const EvaluationSummary = () => {
           </div>
           <Pager />
         </div>
-        <div className="bottom-bar fixed-bottom p-10">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-12 text-right">
-                <NavLink to="/evaluation/questions" className="btn btn-dark">
-                  Back
-                </NavLink>
-                <button
-                  onClick={toggleModal}
-                  type="button"
-                  className="btn btn-primary"
-                  data-toggle="modal"
-                  data-target="#verification"
-                >
-                  Submit <img src="/img/icons/arrow.svg" alt="arrow" />
-                </button>
-              </div>
-            </div>
-          </div>
-          <a href="#" className="m-10 position-absolute left bottom-logo">
-            <img src="/img/icons/main-pas-logo.png" alt="logo" />
-          </a>
-        </div>
+        <FooterGuest buttonsConfig={buttonsConfig} />
         <Modal isOpen={displayModal}>
           <ModalBody>
             <div className="modal-body pb-0">
@@ -166,4 +163,4 @@ const EvaluationSummary = () => {
     </GuestTemplate>
   );
 };
-export default EvaluationSummary;
+export default withRouter(EvaluationSummary);

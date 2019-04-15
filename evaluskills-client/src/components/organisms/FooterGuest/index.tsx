@@ -1,17 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-interface Props {
-  // buttonsConfig:[{
-  //     text:string,
-  //     callback:()=>void
-  // }]
-  // [{
-  //     text:string,
-  //     handleNext:()=>void
-  // }]
-  callback: () => void;
-}
-// const FooterGuest:React.FunctionComponent<Props> = ({buttonsConfig:any}) => {
+import Button from './../../atoms/Button';
 const FooterGuest = (props: any) => {
   return (
     <div className="bottom-bar fixed-bottom p-10">
@@ -20,14 +8,15 @@ const FooterGuest = (props: any) => {
           <div className="col-sm-12 text-right">
             {props.buttonsConfig.map((item: any, i: number) => {
               return (
-                <button key={i} onClick={() => item.callback()} className="btn btn-dark">
-                  {item.text}
-                </button>
+                <Button
+                  index={i}
+                  callback={() => item.callback()}
+                  classes={item.classes}
+                  text={item.text}
+                  imgSrc={item.src}
+                />
               );
             })}
-            <NavLink to="/evaluation/summary" className="btn btn-primary">
-              Next <img src="/img/icons/arrow.svg" alt="arrow" />
-            </NavLink>
           </div>
         </div>
       </div>

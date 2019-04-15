@@ -85,11 +85,15 @@ const EvaluatorQuestion = (props: any) => {
   const buttonsConfig = [
     {
       text: 'Skip for now',
+      src: '',
       callback: handleNext,
+      classes: 'btn btn-dark',
     },
     {
       text: 'Next',
+      src: '/img/icons/arrow.svg',
       callback: handleNext,
+      classes: 'btn btn-primary',
     },
   ];
 
