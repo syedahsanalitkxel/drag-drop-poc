@@ -8,12 +8,13 @@ import ESModal from '../../components/molecules/Modal';
 import Pager from '../../components/molecules/Pager';
 import ListCardItems from '../../components/organisms/InstrumentListCardItems';
 import InstrumentTemplateFilters from './filters';
+import { PageDetailsInterface } from '../../api/ResponseInterface';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
   navigate: (path: string) => void;
   filterHandler: (filters: InstrumentTemplateFilterInterface) => void;
-  appliedFilters: InstrumentTemplateFilterInterface;
+  pageDetails: PageDetailsInterface;
   resetPager: boolean;
 }
 
@@ -21,7 +22,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   instrumentTemplates,
   navigate,
   filterHandler,
-  appliedFilters,
+  pageDetails,
   resetPager,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,8 +69,8 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               // addInstrument={addInstrument}
             />
             <Pager
-              pageSize={appliedFilters.PageSize || 10}
-              totalRecords={appliedFilters.TotalRecords || 10}
+              pageSize={pageDetails.pageSize || 25}
+              totalRecords={pageDetails.totalCount || 25}
               onPageChanged={onPageChange}
               shouldReset={resetPager}
             />

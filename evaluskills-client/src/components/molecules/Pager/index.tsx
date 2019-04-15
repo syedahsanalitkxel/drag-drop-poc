@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { PagerInterface } from '../../../interfaces/Pager';
 
@@ -35,6 +35,7 @@ const Pager: React.FunctionComponent<Props> = ({
       currentPageNumber: 1,
       pageSize,
       totalPages: totalPagesCount,
+      totalPagesToDisplay: totalPagesCount > 5 ? 5 : totalPagesCount,
     });
   }, [shouldReset]);
 
@@ -73,7 +74,7 @@ const Pager: React.FunctionComponent<Props> = ({
     }
   }
 
-  const paginationItemsArray = new Array(pagerState.totalPagesToDisplay);
+  const paginationItemsArray = new Array(Math.floor(pagerState.totalPagesToDisplay));
 
   for (
     let i = pagerState.currentFirstPageNumber;

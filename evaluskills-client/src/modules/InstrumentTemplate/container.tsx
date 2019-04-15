@@ -2,6 +2,7 @@ import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
@@ -9,7 +10,6 @@ import RouteParamsInterface from '../../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../../utils/routerUtils';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
-import { filter } from 'lodash-es';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -22,8 +22,8 @@ const instrumentTemplate: InstrumentTemplateInterface = {
   title: '',
 };
 const defaultFilters: InstrumentTemplateFilterInterface = {
-  // PageNumber: 1,
-  // PageSize: 10,
+  PageNumber: 1,
+  PageSize: 10,
 };
 
 interface State {
@@ -31,7 +31,15 @@ interface State {
   instrumentTemplate: InstrumentTemplateInterface;
   filters: InstrumentTemplateFilterInterface;
   resetPager: boolean;
+  pageDetails?: PageDetailsInterface;
 }
+
+const defaultPageDetail = {
+  currentPage: defaultFilters.PageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
+};
+
 // TODO: Check user role. If use role is client admin, he can't edit instruments created by super admin
 const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
   const { history, match } = props;
@@ -40,6 +48,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     filters: defaultFilters,
     instrumentTemplate,
     instrumentTemplates,
+    pageDetails: defaultPageDetail,
     resetPager: false,
   });
 
@@ -69,8 +78,12 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
 
   async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
     try {
-      const data = await getInstrumentTemplates(filters);
-      setState({ ...state, instrumentTemplates: data });
+      const allTemplates = await getInstrumentTemplates(filters);
+      setState({
+        ...state,
+        instrumentTemplates: allTemplates.data,
+        pageDetails: allTemplates.pageDetails,
+      });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -103,7 +116,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         instrumentTemplates={state.instrumentTemplates}
         navigate={navigate}
         filterHandler={filterHandler}
-        appliedFilters={state.filters}
+        pageDetails={state.pageDetails || defaultPageDetail}
         resetPager={state.resetPager}
       />
     );
