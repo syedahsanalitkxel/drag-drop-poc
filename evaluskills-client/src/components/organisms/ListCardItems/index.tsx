@@ -97,7 +97,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return <React.Fragment>{listData && listData.map(renderAllCards)}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {listData && listData.length > 0 && listData.map(renderAllCards)}
+    </React.Fragment>
+  );
 };
 
 export default ListCardItems;

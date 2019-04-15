@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-
+import ResponseInterface, { PageDetailsInterface } from '../api/ResponseInterface';
 import API from '../api';
 import { ASSESSMENTS } from '../api/endpoints';
 import AssessmentItemInterface, { AddAssessmentItemInterface } from '../interfaces/AssessmentItem';
@@ -30,7 +30,9 @@ export async function addAssessment(assessment: any) {
 export async function updateAssessment(assessment: any, id: string) {
   return api.put(ASSESSMENTS, assessment, id).then(
     (res: AxiosResponse) => {
-      return res.data;
+      return {
+        data: res.data,
+      };
     },
     (error: AxiosError) => {
       throw error;
@@ -48,13 +50,18 @@ export async function editAssessmentService(id: string): Promise<any> {
   );
 }
 
-export async function getFilteredAssessment(params: any): Promise<AssessmentItemInterface[]> {
-  return api.get(ASSESSMENTS, undefined, params).then(
-    (res: AxiosResponse) => {
-      return res.data;
+export async function getFilteredAssessment(
+  filters?: any
+): Promise<{ data: AssessmentItemInterface[]; pageDetails?: PageDetailsInterface }> {
+  return api.get(ASSESSMENTS, undefined, filters).then(
+    (res: ResponseInterface) => {
+      return {
+        data: res.data,
+        pageDetails: res.pageDetails,
+      };
     },
     (error: AxiosError) => {
-      return error;
+      throw error;
     }
   );
 }

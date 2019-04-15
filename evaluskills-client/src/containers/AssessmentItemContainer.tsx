@@ -5,6 +5,7 @@ import AssessmentItem from '../components/pages/AssessmentItem';
 import ErrorContext from '../context/ErrorContext';
 import { initialState, Initalvalues } from '../components/pages/AddAssessment/InitialState';
 import AssessmentItemInterface, { AddAssessmentItemInterface } from '../interfaces/AssessmentItem';
+import { AssessmentTemplateFilterInterface } from '../interfaces/AssessmentFilters';
 import {
   getAssessments,
   addAssessment,
@@ -31,10 +32,32 @@ const AssessmentItems: AssessmentItemInterface[] = [
     type: 'Influential',
   },
 ];
+const defaultFilters: AssessmentTemplateFilterInterface = {
+  PageNumber: 1,
+  PageSize: 10,
+};
+const defaultPageDetail = {
+  currentPage: defaultFilters.PageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
+};
 
+interface State {
+  filters: AssessmentTemplateFilterInterface;
+  resetPager: boolean;
+  assessments: any;
+  pageDetails?: any;
+}
 const AssessmentItemContainer: React.FunctionComponent<
   RouteComponentProps<RouteParamsInterface>
 > = ({ history, match }) => {
+  const [state, setState] = useState<State>({
+    filters: defaultFilters,
+    resetPager: false,
+    assessments: {},
+    pageDetails: defaultPageDetail,
+  });
+
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
@@ -46,18 +69,22 @@ const AssessmentItemContainer: React.FunctionComponent<
     if (isEdit(match.params)) {
       editAssessmentdata(match.params.id);
     } else if (isList(match.path)) {
-      fetchAssessments();
+      fetchAssessments(state.filters);
     }
 
     return function cleanup() {
       setAssessments(AssessmentItems);
     };
-  }, [match.path]);
+  }, [match.path, state.filters]);
 
-  async function fetchAssessments() {
+  async function fetchAssessments(filter: any) {
     try {
-      const data = await getAssessments();
-      setAssessments(data);
+      const Assessdata = await getFilteredAssessment(filter);
+      setState({
+        ...state,
+        assessments: Assessdata.data,
+        pageDetails: Assessdata.pageDetails,
+      });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -153,21 +180,32 @@ const AssessmentItemContainer: React.FunctionComponent<
       />
     );
   }
-  const filtersClickHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const filtersClickHandler = (filters?: any) => {
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.PageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.PageNumber = 1;
+    }
+    setState(newFilterState);
     toggleFilterModal();
   };
+
   return (
     <AssessmentItem
-      assessments={assessments}
-      filterAssessments={filterAssessments}
+      assessments={state.assessments}
       add={routeaddAssessment}
       remove={deleteAssessment}
       edit={editAssessment}
-      modalVisible={modalVisible}
-      toggleFilterModal={toggleFilterModal}
-      filtersClickHandler={filtersClickHandler}
-      applyFilters={applyFilterAssessment}
+      filterHandler={filtersClickHandler}
+      resetPager={state.resetPager}
+      appliedFilters={state.filters}
     />
   );
 };
