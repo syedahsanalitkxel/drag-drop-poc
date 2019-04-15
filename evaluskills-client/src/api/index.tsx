@@ -42,7 +42,10 @@ export default class API {
     return this.instance.delete(`${url}/${id}`);
   }
 
-  public put(url: string, body: string): AxiosPromise {
+  public put(url: string, body: any, id?: string): AxiosPromise {
+    if (id) {
+      url += `/${id}`;
+    }
     return this.instance.put(url, body);
   }
 

@@ -2,15 +2,25 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import AddUser from '../../pages/AddUser';
 import User from '../../../interfaces/User';
+import UserListInterface from '../../../interfaces/UserList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import ESModal from '../../molecules/Modal';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
-import UsersList from '../../organisms/UserList';
+import UsersList from '../../organisms/UserList/index';
 import Editcomponent from '../../pages/AddUser';
+import UserFilter from '../../../components/organisms/UserFilter';
+import userFilters from '../../../interfaces/UserFilter';
+import { ClientFilters } from '../../../interfaces/ClientFilter';
+import { getFilteredClient } from '../../../services/clientsService';
+
+// interface Props {
+//   changeListener?: (formValues: User) => void;
+// }
 
 interface Props {
-  changeListener?: (formValues: User) => void;
+  Users: any;
 }
 
 const initialState = {
@@ -34,24 +44,25 @@ const usersData = [
   { id: '4', firstName: 'Rash', lastName: 'Rash', role: 'User', email: 'rockrash@gmail.com' },
 ];
 
-const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const DashboardHome: React.FunctionComponent<Props> = ({ Users }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [formState, setFormState] = useState(initialState);
 
-  useEffect(() => {
-    if (changeListener) {
-      changeListener(formState);
-    }
-  });
-
-  const toggleEditUserModal = () => {
-    setEditUserModalVisible(!editUserModalVisible);
-  };
+  //
+  // useEffect(() => {
+  //   if (changeListener) {
+  //     changeListener(formState);
+  //   }
+  // });
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const toggleEditUserModal = () => {
+    setEditUserModalVisible(!editUserModalVisible);
   };
 
   const toggleAddUserModal = () => {
@@ -66,6 +77,10 @@ const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
 
   const searchHandler = (searchQuery: string) => {
     // alert(searchQuery);
+  };
+  const filtersClickHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    toggleFilterModal();
   };
 
   const addAction = (event: React.MouseEvent) => {
@@ -87,6 +102,16 @@ const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
   const removeAction = (userId: string) => {
     // history.push(`/users/remove/${userId}`);
   };
+  async function applyFilters(filter: ClientFilters) {
+    // const param = { ...filter };
+    // toggleFilterModal();
+    // try {
+    //   const data: any = await getFilteredClient(param);
+    //   setClients(data);
+    // } catch (error) {
+    //   errorContext.setError(error, true);
+    // }
+  }
 
   return (
     <DashboardTemplate>
@@ -109,45 +134,17 @@ const DashboardHome: React.FunctionComponent<Props> = ({ changeListener }) => {
           </PageBody>
         </div>
       </div>
-      {/* Filter Modal */}
-      <div>
-        <Modal isOpen={modalVisible} toggle={toggleFilterModal}>
-          <ModalHeader toggle={toggleFilterModal}>Filters</ModalHeader>
-          <ModalBody>
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label font-bold">Role</label>
-              <div className="col-sm-8">
-                <select className="form-control m-b col-sm-12" name="role">
-                  <option>Select Role</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                </select>
-              </div>
-            </div>
-            <div className="hr-line-dashed" />
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label font-bold">Clients</label>
-              <div className="col-sm-8">
-                <select className="form-control m-b col-sm-12" name="name">
-                  <option>Select Clients</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                </select>
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={toggleFilterModal}>
-              Reset
-            </Button>
-            <Button color="secondary" onClick={toggleFilterModal}>
-              Apply
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>
+      <ESModal
+        title="Filters"
+        visible={modalVisible}
+        toggle={toggleFilterModal}
+        primaryAction={applyFilters}
+        primaryText="Apply"
+        secondaryText="Reset"
+        secondaryAction="reset"
+      >
+        <UserFilter />
+      </ESModal>
       <AddUser
         visible={addUserModalVisible}
         toggle={toggleAddUserModal}

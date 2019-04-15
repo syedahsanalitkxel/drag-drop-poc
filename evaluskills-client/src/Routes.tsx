@@ -19,8 +19,8 @@ const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailConta
 const AddEditClientContainer = lazy(() => import('./containers/EditAddClientContainer'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
+const UserContainer = lazy(() => import('./containers/UserContainer'));
 const CreateEvaluation = lazy(() => import('./components/pages/CreateInstruments'));
-const User = lazy(() => import('./components/pages/User'));
 const ParticipantHome = lazy(() => import('./components/pages/ParticipantEmailInvite'));
 
 interface RouteItemInterface {
@@ -95,7 +95,7 @@ const Routes: React.FunctionComponent = () => {
         />
         <Route exact={true} path="/evaluation-instructions" component={InstructionsContainer} />
         <Route exact={true} path="/addInstrumental" component={CreateEvaluation} />
-        <PrivateRoute exact={true} path="/users" component={User} />
+        <PrivateRoute exact={true} path="/users" component={UserContainer} />
         <Route exact={true} path="/participants" component={ParticipantHome} />
       </Switch>
     </Suspense>

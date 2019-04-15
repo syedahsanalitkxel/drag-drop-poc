@@ -2,6 +2,7 @@ export const BASE_URL = 'http://stage-api-evaluskills.peregrineacademics.com/api
 // export const BASE_URL = 'http://5c9223ebe7b1a00014078cc7.mockapi.io/api/v1/';
 export const ASSESSMENTS = 'Items';
 export const CLIENTS = 'Clients';
+export const USERS = 'Users';
 export const INSTRUMENT_TEMPLATES = 'InstrumentTemplates';
 export const LOGIN = 'Accounts/Login';
 export const SELECT_CLIENT = 'Accounts/SelectClient';
