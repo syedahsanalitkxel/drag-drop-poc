@@ -9,7 +9,7 @@ interface Props {
   comment: string;
   score: string;
   classes: string;
-  isInProgress: boolean;
+  isInProgress?: boolean;
 }
 
 const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({

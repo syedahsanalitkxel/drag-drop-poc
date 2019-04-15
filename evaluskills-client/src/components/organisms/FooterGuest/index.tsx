@@ -7,15 +7,7 @@ const FooterGuest = (props: any) => {
         <div className="row">
           <div className="col-sm-12 text-right">
             {props.buttonsConfig.map((item: any, i: number) => {
-              return (
-                <Button
-                  index={i}
-                  callback={() => item.callback()}
-                  classes={item.classes}
-                  text={item.text}
-                  imgSrc={item.src}
-                />
-              );
+              return <Button index={i} {...item} />;
             })}
           </div>
         </div>

@@ -4,10 +4,8 @@ import GuestTemplate from '../../templates/GuestTemplate';
 import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
 
 const EvaluatorComment = () => {
-  const [display, setDisplay] = useState(false);
   const assessmentArray = [
     {
-      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -17,7 +15,6 @@ const EvaluatorComment = () => {
       classes: 'inline number mr-2',
     },
     {
-      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -27,7 +24,6 @@ const EvaluatorComment = () => {
       classes: 'inline number mr-2',
     },
     {
-      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
@@ -37,7 +33,6 @@ const EvaluatorComment = () => {
       classes: 'inline number mr-2',
     },
     {
-      isInProgress: false,
       text: 'Receives feedback from others and uses the feedback to improve performance.',
       comment:
         'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
