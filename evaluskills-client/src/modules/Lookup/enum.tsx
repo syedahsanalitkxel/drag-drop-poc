@@ -11,4 +11,5 @@ export enum lookups {
   statesLookUp = 'statesLookUp',
   testTypesLookUp = 'testTypesLookUp',
   userRolesLookUp = 'userRolesLookUp',
+  clientTypesLookUp = 'clientTypesLookUp',
 }
