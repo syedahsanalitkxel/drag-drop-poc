@@ -2,7 +2,6 @@ import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-import { BadgeTypes } from '../../../enums';
 import IconButton from '../../atoms/IconButton';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
@@ -17,8 +16,6 @@ interface ListCardProps {
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, edit, remove, addInstrument }) => {
   const isSuperAdmin = () => window.localStorage.getItem('role') === 'SUPER_ADMIN';
-  const isClientAdmin = () =>
-    !window.localStorage.getItem('role') || window.localStorage.getItem('role') === 'CLIENT_ADMIN';
 
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {

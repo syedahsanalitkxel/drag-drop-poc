@@ -4,7 +4,7 @@ import { BadgeTypes } from '../../../enums';
 
 interface Props {
   label: string;
-  value: string;
+  value: string | number;
   badge?: BadgeTypes;
 }
 

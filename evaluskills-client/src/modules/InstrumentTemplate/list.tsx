@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
+import { PageDetailsInterface } from '../../api/ResponseInterface';
 import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
 import ESModal from '../../components/molecules/Modal';
 import Pager from '../../components/molecules/Pager';
-import ListCardItems from '../../components/organisms/InstrumentListCardItems';
+import { actionTypes } from '../../enums';
 import InstrumentTemplateFilters from './filters';
-import { PageDetailsInterface } from '../../api/ResponseInterface';
+import ListInstrumentTemplateCards from './listCards';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
@@ -45,6 +46,22 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
     setModalVisible(false);
   };
 
+  const actionHandler = (mode: actionTypes, id?: string | number) => {
+    switch (mode) {
+      case actionTypes.COPY:
+        console.log(id, mode);
+        break;
+      case actionTypes.EDIT:
+        console.log(id, mode);
+        break;
+      case actionTypes.DELETE:
+        console.log(id, mode);
+        break;
+      default:
+        console.log(mode);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="row">
@@ -59,15 +76,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
             actionHandler={() => navigate('/add')}
           />
           <PageBody>
-            <ListCardItems
-              titleKey="title"
-              listData={instrumentTemplates}
-              edit={(id: string) => {
-                navigate(`/edit/${id}`);
-              }}
-              // remove={remove}
-              // addInstrument={addInstrument}
-            />
+            <ListInstrumentTemplateCards actionHandler={actionHandler} instrumentTemplates={instrumentTemplates} />
             <Pager
               pageSize={pageDetails.pageSize || 25}
               totalRecords={pageDetails.totalCount || 25}
