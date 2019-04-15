@@ -68,7 +68,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
   }
 
   function removeContact(contactId: number) {
-    alert(`deleting => ${contactId}`);
+    const contactIndex = formState.clientContacts.findIndex(
+      (contact: any) => contact.id === contactId
+    );
+    const { clientContacts } = formState;
+    clientContacts.splice(contactIndex, 1);
+    setFormState({ ...formState, ...clientContacts });
   }
 
   function submitForm(values: any) {
@@ -79,6 +84,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
     setFormState({ ...formState, ...values });
     if (action === 'edit' && file) {
       changeListener({ ...formState, ...values, clientLogo: file });
+      setFormState({ ...formState, ...values, clientLogo: file });
+    }
+  }
+
+  function ClientContactsFormState(values: any) {
+    if (action === 'edit' && file) {
       setFormState({ ...formState, ...values, clientLogo: file });
     }
   }
@@ -278,22 +289,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
             : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>
 
-        <AddClientContacts
-          fprops={formState}
-          visible={addClientContactModalVisible}
-          toggle={toggleAddClientContactModal}
-          formValues={contactFormState}
-          name="Add"
-        />
-
-        <EditClientContacts
-          fprops={formState}
-          visible={editClientContactModalVisible}
-          toggle={toggleEditClientContactModal}
-          formValues={selectedContact}
-          name="Edit"
-        />
-
         <div className="form-header row">
           <div className="col-sm-6">
             <h2>User Information</h2>
@@ -353,6 +348,25 @@ export const AddClient: React.FunctionComponent<Props> = ({
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}
+      <PageBody>
+        <AddClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+          formValues={contactFormState}
+          name="Add"
+        />
+
+        <EditClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={editClientContactModalVisible}
+          toggle={toggleEditClientContactModal}
+          formValues={selectedContact}
+          name="Edit"
+        />
+      </PageBody>
     </DashboardTemplate>
   );
 };
