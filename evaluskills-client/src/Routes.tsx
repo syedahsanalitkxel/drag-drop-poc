@@ -13,6 +13,7 @@ const Home = lazy(() => import('./components/pages/LandingPage'));
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
+const UserContainer = lazy(() => import('./containers/UserContainer'));
 const AssessmentContainer = lazy(() => import('./containers/AddEditAssessmesntContainer'));
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
@@ -130,7 +131,7 @@ const Routes = () => (
       </Route>
 
       <Route exact={true} path="/users">
-        <User />
+        <UserContainer />
       </Route>
 
       <Route exact={true} path="/participants">

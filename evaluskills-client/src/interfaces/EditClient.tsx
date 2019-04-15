@@ -1,5 +1,5 @@
 export interface ContactInterface {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -9,25 +9,30 @@ export interface ContactInterface {
 }
 
 export interface ClientUserInterface {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
 }
 
 export default interface AddEditClientInterface {
-  id: number;
-  clientName: string;
-  subsidiary: string;
-  address1: string;
+  id?: number;
+  clientName?: string;
+  subsidiary?: string;
+  address1?: string;
   address2?: string;
-  city: string;
+  city?: string;
   stateId?: number;
-  zip: string;
+  zip?: string;
   clientLogo?: File;
   billingPlanId?: number;
   phone?: string;
   clientTypeId?: number;
-  clientContacts: ContactInterface[];
-  clientUser: ClientUserInterface;
+  billingPlanTitle?: string;
+  noOfAssesments?: number;
+  noOfParticipants?: number;
+  noOfEvaluators?: number;
+  isActivated?: false;
+  clientContacts?: ContactInterface[];
+  clientUser?: ClientUserInterface;
 }

@@ -18,6 +18,7 @@ export enum lookups {
   assessmentTypesLookUp = 'assessmentTypesLookUp',
   billingPlansLookUp = 'billingPlansLookUp',
   categoriesLookUp = 'categoriesLookUp',
+  clientTypesLookUp = 'clientTypesLookUp',
   competenciesLookUp = 'competenciesLookUp',
   emailTypesLookUp = 'emailTypesLookUp',
   entitiesLookUp = 'entitiesLookUp',
