@@ -1,8 +1,8 @@
-export default interface User {
+export default interface EditUser {
   firstName: string;
   middleName: string;
   lastName: string;
-  role: string;
+  role: [];
   email: string;
   phoneNumber: string;
   clientId: number;

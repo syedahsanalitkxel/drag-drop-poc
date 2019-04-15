@@ -14,6 +14,7 @@ export interface LookupInterface {
   assessmentTypesLookUp: LookupItemInterface[];
   billingPlansLookUp: LookupItemInterface[];
   categoriesLookUp: LookupItemInterface[];
+  clientTypesLookUp: LookupItemInterface[];
   competenciesLookUp: LookupItemInterface[];
   emailTypesLookUp: LookupItemInterface[];
   entitiesLookUp: LookupItemInterface[];
@@ -30,6 +31,7 @@ export const lookupInitialState: LookupInterface = {
   assessmentTypesLookUp: [],
   billingPlansLookUp: [],
   categoriesLookUp: [],
+  clientTypesLookUp: [],
   competenciesLookUp: [],
   emailTypesLookUp: [],
   entitiesLookUp: [],
