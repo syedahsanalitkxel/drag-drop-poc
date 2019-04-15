@@ -1,18 +1,22 @@
-import { Field, Formik, ErrorMessage } from 'formik';
-import React, { Component, Fragment, useContext, useEffect, useState } from 'react';
-import { FormFeedback, Input, Label } from 'reactstrap';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+
+import { ErrorMessage, Field, Formik } from 'formik';
+import { FormFeedback, Input } from 'reactstrap';
+
+import ErrorContext from '../../../context/ErrorContext';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 import Checkbox from '../../atoms/CheckBox';
-import Assessmentelement from '../../organisms/AssesmentElement';
 import RadioButton from '../../atoms/RadioButton';
+import Assessmentelement from '../../organisms/AssesmentElement';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import { Initalvalues, initialState } from './InitialState';
 import { AddAssessmentSchema } from './validationSchema';
+
 import { styles } from './style';
 import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
-import { initialState, Initalvalues } from './InitialState';
-import ErrorContext from '../../../context/ErrorContext';
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+
 interface PropsInterface {
   assessmenListItems: () => void;
   addAssessment: (value: AddAssessmentItemInterface) => void;
@@ -471,9 +475,8 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   return (
     <DashboardTemplate>
       <Formik
-        enableReinitialize={true}
         initialValues={forvalues}
-        validationSchema={AddAssessmentSchema}
+        validationSchema={edit === false ? AddAssessmentSchema : ''}
         onSubmit={submitForm}
       >
         {formikprops => renderForm(formikprops)}

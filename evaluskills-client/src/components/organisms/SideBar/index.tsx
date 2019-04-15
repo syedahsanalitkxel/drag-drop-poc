@@ -24,7 +24,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = ({ location }) => 
           <ProfileBadge
             name="Usman Tahir"
             designation="PSE"
-            profilePicture="img/profile_small.jpg"
+            profilePicture="/img/profile_small.jpg"
           />
         </li>
         {isSuperAdmin() && getNavItem('/dashboard', 'th-large', 'Dashboard')}

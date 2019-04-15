@@ -27,16 +27,16 @@ export async function addAssessment(assessment: any) {
     }
   );
 }
-// export async function updateAssessment(assessment: any, id: string) {
-//   return api.put(ASSESSMENTS, assessment, id).then(
-//     (res: AxiosResponse) => {
-//       return res.data;
-//     },
-//     (error: AxiosError) => {
-//       throw error;
-//     }
-//   );
-// }
+export async function updateAssessment(assessment: any, id: string) {
+  return api.put(ASSESSMENTS, assessment, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
 export async function editAssessmentService(id: string): Promise<any> {
   return api.get(ASSESSMENTS, id).then(
     (res: AxiosResponse) => {

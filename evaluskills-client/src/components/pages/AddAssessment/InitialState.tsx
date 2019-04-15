@@ -176,5 +176,4 @@ export const initialState = {
   recommendAppCorporate: false,
   recommendAppHigher: false,
   typeSelected: 'influval',
-  usage: '',
 };

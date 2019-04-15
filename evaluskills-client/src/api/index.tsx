@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { contentType } from '../enums';
 import { BASE_URL } from './endpoints';
-import errorResponseHandler from './errorHandler';
+import { errorResponseHandler, successResponseHandler } from './errorHandler';
 
 export default class API {
   private config: AxiosRequestConfig;
@@ -24,7 +24,7 @@ export default class API {
     };
 
     this.instance = axios.create(this.config);
-    this.instance.interceptors.response.use(response => response, errorResponseHandler);
+    this.instance.interceptors.response.use(successResponseHandler, errorResponseHandler);
   }
 
   public get(url: string, id?: string, params?: any): AxiosPromise {
@@ -42,7 +42,10 @@ export default class API {
     return this.instance.delete(`${url}/${id}`);
   }
 
-  public put(url: string, body: string): AxiosPromise {
+  public put(url: string, body: any, id?: string): AxiosPromise {
+    if (id) {
+      url += `/${id}`;
+    }
     return this.instance.put(url, body);
   }
 

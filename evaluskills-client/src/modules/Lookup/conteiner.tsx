@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Spinner from '../components/atoms/Spinner';
-import ErrorContext from '../context/ErrorContext';
-import { LookupContextProvider } from '../context/LookupContext';
-import { lookupInitialState, LookupItemInterface } from '../interfaces/Lookup';
-import { getLookups } from '../services/lookupService';
+import Spinner from '../../components/atoms/Spinner';
+import ErrorContext from '../../context/ErrorContext';
+import { LookupContextProvider } from './context';
+import { lookupInitialState } from './interface';
+import { getLookups } from './service';
 
 const LookupContainer: React.FunctionComponent = ({ children }) => {
   const [lookupState, setLookupState] = useState({ lookups: lookupInitialState, loading: true });

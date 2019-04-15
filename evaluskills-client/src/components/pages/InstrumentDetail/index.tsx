@@ -103,7 +103,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                 <ListCardItems titleKey="definition" listData={assessmentItems} />
               </TabPane>
             </TabContent>
-            <Pager />
+            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

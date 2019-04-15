@@ -1,13 +1,13 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import styled from 'styled-components';
 import { ContactInterface } from '../../../interfaces/Client';
-import { styles } from '../../pages/AddUser/style';
-import clientContactSchema from './clientContactSchema';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import styled from 'styled-components';
+import { styles } from '../../pages/AddUser/style';
+import clientContactSchema from './clientContactSchema';
 
 interface Props {
   index?: number;
@@ -32,100 +32,90 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
   formValues,
   name,
 }) => {
-  const maxNumber = (value: any) => {
-    return value.length > 0 ? Math.max(...value) : 0;
-  };
-
-  function submitForm(values: ContactInterface) {
-    if (fprops.initialValues.contact && toggle && name === 'Add' && values.id < 0) {
+  function submitHandler(values: any) {
+    if (fprops.initialValues.clientContacts && toggle && name === 'Add') {
       toggle();
-      const id =
-        maxNumber(fprops.initialValues.contact.map((contact: ContactInterface) => contact.id)) + 1;
-      values.id = id;
-      fprops.initialValues.contact.push(values);
-    } else if (fprops.initialValues.contact && toggle && name === 'Edit' && values.id > 0) {
+      fprops.initialValues.clientContacts.push(values);
+    } else if (fprops.initialValues.clientContacts && toggle && name === 'Edit') {
       toggle();
-      const contactIndex = fprops.initialValues.contact.findIndex(
+      const contactIndex = fprops.initialValues.clientContacts.findIndex(
         (contact: any) => contact.id === values.id
       );
-      fprops.initialValues.contact[contactIndex] = values;
+      fprops.initialValues.clientContacts[contactIndex] = values;
     }
   }
 
-  const renderForm = (formikprops: any) => (
-    <form onSubmit={formikprops.handleSubmit} className={'form'}>
-      <div className="row">
-        <div className="col-md-6">
-          <FormElement
-            label="First Name"
-            name="firstName"
-            placeholder="Add First Name"
-            formikprops={formikprops}
-            inline={true}
-          />
+  const renderForm = (formikprops: FormikBag) => {
+    return (
+      <form onSubmit={formikprops.handleSubmit.bind(formikprops)} className={'form'}>
+        <div className="row">
+          <div className="col-md-6">
+            <FormElement
+              label="First Name"
+              name="firstName"
+              placeholder="Add First Name"
+              formikprops={formikprops}
+              inline={true}
+            />
+          </div>
+          <div className="col-md-6">
+            <FormElement
+              label="Last Name"
+              name="lastName"
+              placeholder="Add Last Name"
+              formikprops={formikprops}
+              inline={true}
+            />
+          </div>
         </div>
-        <div className="col-md-6">
-          <FormElement
-            label="Last Name"
-            name="lastName"
-            placeholder="Add Last Name"
-            formikprops={formikprops}
-            inline={true}
-          />
-        </div>
-      </div>
 
-      <div className="row">
-        <div className="col-md-6">
-          <FormElement
-            label="Email"
-            name="email"
-            placeholder="Add Email"
-            formikprops={formikprops}
-            inline={true}
-          />
+        <div className="row">
+          <div className="col-md-6">
+            <FormElement
+              label="Email"
+              name="email"
+              placeholder="Add Email"
+              formikprops={formikprops}
+              inline={true}
+            />
+          </div>
+          <div className="col-md-6">
+            <FormElement
+              label="Phone"
+              name="phone"
+              placeholder="Add Phone"
+              formikprops={formikprops}
+              noValidate={true}
+              inline={true}
+            />
+          </div>
         </div>
-        <div className="col-md-6">
-          <FormElement
-            label="Phone"
-            name="phone"
-            placeholder="Add Phone"
-            formikprops={formikprops}
-            inline={true}
-          />
-        </div>
-      </div>
 
-      <div className="row">
-        <div className="col-md-6">
-          <FormElement
-            label="Role"
-            name="title"
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-            inline={true}
-            last={true}
-          >
-            <option value="">Select Role</option>
-            <option value="role1">Role 1</option>
-            <option value="role2">Role 2</option>
-          </FormElement>
+        <div className="row">
+          <div className="col-md-6">
+            <FormElement
+              label="Role"
+              name="title"
+              formikprops={formikprops}
+              inline={true}
+              last={true}
+            />
+          </div>
         </div>
-      </div>
 
-      <PageBody>
-        <div className="row m-b-2">
-          <StyledButton type="button" size="lg">
-            Cancel
-          </StyledButton>
-          <StyledButton type="submit" color="primary" size="lg">
-            Save
-          </StyledButton>
-        </div>
-      </PageBody>
-    </form>
-  );
-
+        <PageBody>
+          <div className="row m-b-2">
+            <StyledButton type="button" size="lg">
+              Cancel
+            </StyledButton>
+            <StyledButton type="submit" color="primary" size="lg">
+              Save
+            </StyledButton>
+          </div>
+        </PageBody>
+      </form>
+    );
+  };
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
       <ModalHeader toggle={toggle}>{name} Contact</ModalHeader>
@@ -133,7 +123,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
         <Formik
           initialValues={formValues}
           validationSchema={clientContactSchema}
-          onSubmit={submitForm}
+          onSubmit={submitHandler}
         >
           {formikprops => renderForm(formikprops)}
         </Formik>

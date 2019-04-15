@@ -5,9 +5,10 @@ import ModalContext from '../../../context/ModalContext';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
-import { LookupContextConsumer } from '../../../context/LookupContext';
-import { lookups } from '../../../enums';
-import { LookupContextInterface, LookupItemInterface } from '../../../interfaces/Lookup';
+import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { lookups } from '../../../modules/Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 interface Props {
   changeListener?: (formValues: any) => void;
 }

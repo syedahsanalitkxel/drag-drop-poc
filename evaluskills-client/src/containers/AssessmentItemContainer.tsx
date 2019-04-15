@@ -10,6 +10,7 @@ import {
   addAssessment,
   getFilteredAssessment,
   editAssessmentService,
+  updateAssessment,
 } from '../services/assessmentsService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
@@ -69,6 +70,23 @@ const AssessmentItemContainer: React.FunctionComponent<
       errorContext.setError(error, true);
     }
   }
+  async function updateAssessmentdata(data: any) {
+    try {
+      if (data.typeId != 1) {
+        data.competencyId = null;
+      }
+      if (data.questionTypeId != 1) {
+        data.itemElements = [];
+      }
+
+      data.saveAsNewVersion = false;
+      const returnData: any = await updateAssessment(data, match.params.id);
+      console.log(returnData);
+      assessmenListItems();
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
   async function applyFilterAssessment(filter: any) {
     const param = { ...filter };
     toggleFilterModal();
@@ -81,7 +99,12 @@ const AssessmentItemContainer: React.FunctionComponent<
   }
   async function AddAssessmentdata(values: AddAssessmentItemInterface) {
     try {
-      console.log(values);
+      if (values.typeId != 1) {
+        values.competencyId = null;
+      }
+      if (values.questionTypeId != 1) {
+        values.itemElements = [];
+      }
       const data = await addAssessment(values);
       console.log(data);
       assessmenListItems();
@@ -89,16 +112,7 @@ const AssessmentItemContainer: React.FunctionComponent<
       errorContext.setError(error, true);
     }
   }
-  async function updateAssessmentdata(values: AddAssessmentItemInterface) {
-    try {
-      console.log(values);
-      const data = await addAssessment(values);
-      console.log(data);
-      assessmenListItems();
-    } catch (error) {
-      errorContext.setError(error, true);
-    }
-  }
+
   function filterAssessments(searchQuery: string) {
     alert(searchQuery);
   }
@@ -122,7 +136,7 @@ const AssessmentItemContainer: React.FunctionComponent<
     return (
       <AddAssessmentComponenet
         assessmenData={editassessmentsState}
-        addAssessment={AddAssessmentdata}
+        addAssessment={updateAssessmentdata}
         edit={true}
         assessmenListItems={assessmenListItems}
       />
@@ -135,6 +149,7 @@ const AssessmentItemContainer: React.FunctionComponent<
         assessmenListItems={assessmenListItems}
         assessmenData={addAssessments}
         addAssessment={AddAssessmentdata}
+        edit={false}
       />
     );
   }
