@@ -13,12 +13,16 @@ interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
   navigate: (path: string) => void;
   filterHandler: (filters: InstrumentTemplateFilterInterface) => void;
+  appliedFilters: InstrumentTemplateFilterInterface;
+  resetPager: boolean;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
   instrumentTemplates,
   navigate,
   filterHandler,
+  appliedFilters,
+  resetPager,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,7 +31,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   };
 
   const onPageChange = (PageNumber: number) => {
-    applyFilters({ PageNumber });
+    filterHandler({ PageNumber });
   };
 
   const filtersClickHandler = (event: React.MouseEvent) => {
@@ -47,7 +51,9 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Instrument Templates"
             filterAction={filtersClickHandler}
-            searchHandler={() => {}}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add Instrument Template"
             actionHandler={() => navigate('/add')}
           />
@@ -61,7 +67,12 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
               // remove={remove}
               // addInstrument={addInstrument}
             />
-            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
+            <Pager
+              pageSize={appliedFilters.PageSize || 10}
+              totalRecords={appliedFilters.TotalRecords || 10}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>

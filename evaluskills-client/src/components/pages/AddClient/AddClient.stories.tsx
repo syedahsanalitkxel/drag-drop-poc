@@ -46,6 +46,7 @@ interface ModalProps {
   visible?: boolean;
   name?: string;
   toggle?: () => void;
+  formStateUpdate: (values: any) => void;
   formValues?: any;
 }
 const modalValues = {
@@ -70,10 +71,15 @@ const toggleEditClientContactModal = () => {
 function submitForm(values: any) {
   delete values.clientContacts;
   values.clientContacts = values.contact;
-  console.log(values);
+}
+
+function ContactHandler(values: any) {
+  delete values.clientContacts;
+  values.clientContacts = values.contact;
 }
 
 const addContactProps: ModalProps = {
+  formStateUpdate: ContactHandler,
   formValues: modalValues,
   fprops: formValues,
   name: 'Add',
@@ -82,6 +88,7 @@ const addContactProps: ModalProps = {
 };
 
 const editContactProps: ModalProps = {
+  formStateUpdate: ContactHandler,
   formValues: modalValues,
   fprops: formValues,
   name: 'Edit',

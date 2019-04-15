@@ -9,6 +9,7 @@ import RouteParamsInterface from '../../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../../utils/routerUtils';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
+import { filter } from 'lodash-es';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -21,13 +22,15 @@ const instrumentTemplate: InstrumentTemplateInterface = {
   title: '',
 };
 const defaultFilters: InstrumentTemplateFilterInterface = {
-  PageNumber: 1,
+  // PageNumber: 1,
+  // PageSize: 10,
 };
 
 interface State {
   instrumentTemplates: InstrumentTemplateInterface[];
   instrumentTemplate: InstrumentTemplateInterface;
   filters: InstrumentTemplateFilterInterface;
+  resetPager: boolean;
 }
 // TODO: Check user role. If use role is client admin, he can't edit instruments created by super admin
 const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
@@ -37,20 +40,31 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     filters: defaultFilters,
     instrumentTemplate,
     instrumentTemplates,
+    resetPager: false,
   });
 
   useEffect(() => {
     if (isEdit(match.params)) {
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
-      fetchAllInstruments(defaultFilters);
+      fetchAllInstruments(state.filters);
     }
-  }, [match.path]);
+  }, [match.path, state.filters]);
 
   function filterHandler(filters: InstrumentTemplateFilterInterface) {
-    // TODO Buggy Code
-    // setState({ ...state, filters: { ...state.filters, ...filters } });
-    fetchAllInstruments({ ...state.filters, ...filters });
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.PageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.PageNumber = 1;
+    }
+    setState(newFilterState);
   }
 
   async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
@@ -89,6 +103,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         instrumentTemplates={state.instrumentTemplates}
         navigate={navigate}
         filterHandler={filterHandler}
+        appliedFilters={state.filters}
+        resetPager={state.resetPager}
       />
     );
   }

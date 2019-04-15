@@ -5,7 +5,7 @@ const TopBarGuest = () => (
     <div className="row">
       <div className="col-md-6">
         <a href="#">
-          <img src="img/icons/main-pas-logo.png" alt="Peregrine" />
+          <img src="/img/icons/main-pas-logo.png" alt="Peregrine" />
         </a>
       </div>
       <div className="col-md-6">

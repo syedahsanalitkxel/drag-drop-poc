@@ -40,16 +40,20 @@ const ClientList: IClientList[] = [
   },
 ];
 
+const defaultFilters: ClientFilters = {
+  PageNumber: 1,
+  pageSize: 10,
+  totalRecords: 10,
+};
+
 const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
+  const [clientFilters, setClientFilters] = useState(defaultFilters);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchClients();
-    return function cleanup() {
-      setClients(ClientList);
-    };
   }, []);
 
   async function fetchClients() {
@@ -74,11 +78,23 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     toggleFilterModal();
   };
 
+  const onPageChange = (PageNumber: number) => {
+    applyFilterClients({ PageNumber });
+  };
+
   async function applyFilterClients(filter: ClientFilters) {
-    const param = { ...filter };
-    toggleFilterModal();
+    // const param = { ...filter };
+    filterHandler(filter);
+    setModalVisible(false);
+  }
+
+  async function filterHandler(filters: ClientFilters) {
+    fetchAllClients({ ...clientFilters, ...filters });
+  }
+
+  async function fetchAllClients(filters: ClientFilters) {
     try {
-      const data: any = await getFilteredClient(param);
+      const data: any = await getFilteredClient(filters);
       setClients(data);
     } catch (error) {
       errorContext.setError(error, true);
@@ -106,6 +122,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       edit={editClient}
       applyFilters={applyFilterClients}
       modalVisible={modalVisible}
+      onPageChange={onPageChange}
       filtersClickHandler={filtersClickHandler}
       toggleFilterModal={toggleFilterModal}
     />
