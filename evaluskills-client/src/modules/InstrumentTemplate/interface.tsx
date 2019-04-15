@@ -22,6 +22,8 @@ export interface InstrumentTemplateInterface {
 export interface InstrumentTemplateFilterInterface {
   search?: string;
   PageNumber?: number;
+  PageSize?: number;
   recommendedApplicationId?: number;
   status?: string;
+  TotalRecords?: number;
 }

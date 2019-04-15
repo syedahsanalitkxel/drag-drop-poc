@@ -1,3 +1,5 @@
+import { userType } from '../enums';
+
 function checkRole(role: string) {
   const rawUser = localStorage.getItem('user');
 
@@ -9,6 +11,6 @@ function checkRole(role: string) {
 }
 
 export const USER_ROLE = {
-  isClientAdmin: () => checkRole('ClientAdmin'),
-  isSuperAdmin: () => checkRole('SuperAdmin'),
+  isClientAdmin: () => checkRole(userType.CLIENT_ADMIN),
+  isSuperAdmin: () => checkRole(userType.SUPER_ADMIN),
 };

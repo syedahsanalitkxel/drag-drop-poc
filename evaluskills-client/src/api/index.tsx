@@ -2,10 +2,10 @@ import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { contentType } from '../enums';
 import { BASE_URL } from './endpoints';
-import { errorResponseHandler, successResponseHandler } from './errorHandler';
+import { errorResponseHandler, successResponseHandler } from './interceptors';
 
 export default class API {
-  private config: AxiosRequestConfig;
+  private readonly config: AxiosRequestConfig;
   private instance: AxiosInstance;
 
   constructor(
