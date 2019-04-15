@@ -1,6 +1,6 @@
 export interface ClientFilters {
   search?: string;
-  PageNumber?: number;
+  pageNumber?: number;
   pageSize?: number;
   totalRecords?: number;
   statusId?: boolean;

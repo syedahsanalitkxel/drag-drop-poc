@@ -8,7 +8,6 @@ import Pager from '../../molecules/Pager';
 import ClientFilter from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
-import { InstrumentTemplateFilterInterface } from '../../../modules/InstrumentTemplate/interface';
 
 interface Props {
   clients: ClientList[];
@@ -18,9 +17,11 @@ interface Props {
   remove: (clientId: number) => void;
   applyFilters: (filters: ClientFilters) => void;
   filtersClickHandler: (event: React.MouseEvent) => void;
-  onPageChange: (PageNumber: number) => void;
+  onPageChange: (pageNumber: number) => void;
   modalVisible: boolean;
   toggleFilterModal: () => void;
+  appliedFilters: ClientFilters;
+  resetPager: boolean;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -34,6 +35,8 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   onPageChange,
   modalVisible,
   toggleFilterModal,
+  appliedFilters,
+  resetPager,
 }) => {
   return (
     <DashboardTemplate>
@@ -49,10 +52,10 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
             <Pager
-              pageSize={10}
-              totalRecords={10}
+              pageSize={appliedFilters.pageSize || 10}
+              totalRecords={appliedFilters.totalRecords || 10}
               onPageChanged={onPageChange}
-              shouldReset={false}
+              shouldReset={resetPager}
             />
           </PageBody>
         </div>
