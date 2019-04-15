@@ -29,7 +29,7 @@ export async function getClientById(id: string): Promise<AddClientInterface> {
   );
 }
 
-export async function getFilteredClient(params: any): Promise<AddClientInterface> {
+export async function getFilteredClient(params: any): Promise<ClientInterface[]> {
   return api.get(CLIENTS, undefined, params).then(
     (res: AxiosResponse) => {
       return res.data;

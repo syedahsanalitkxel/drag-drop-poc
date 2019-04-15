@@ -6,6 +6,12 @@ import ErrorContext from '../context/ErrorContext';
 import IClientList, { ClientUserInterface, ContactInterface } from '../interfaces/Client';
 import { ClientFilters } from '../interfaces/ClientFilter';
 import { getClients, getFilteredClient } from '../services/clientsService';
+import {
+  InstrumentTemplateFilterInterface,
+  InstrumentTemplateInterface,
+} from '../modules/InstrumentTemplate/interface';
+import { getInstrumentTemplateById } from '../modules/InstrumentTemplate/service';
+import { isList } from '../utils/routerUtils';
 
 const client: ContactInterface = {
   clientId: 1,
@@ -24,46 +30,35 @@ const user: ClientUserInterface = {
   lastName: '',
 };
 
-const ClientList: IClientList[] = [
-  {
-    billingPlanTitle: '',
-    clientContact: client,
-    clientLogo: '',
-    clientName: '',
-    clientUser: user,
-    id: 1,
-    isActivated: true,
-    noOfAssessments: 0,
-    noOfEvaluators: 0,
-    noOfParticipants: 0,
-    phone: '',
-  },
-];
+const clients: IClientList[] = [];
 
+interface State {
+  clients: IClientList[];
+  filters: ClientFilters;
+  resetPager: boolean;
+}
 const defaultFilters: ClientFilters = {
-  PageNumber: 1,
+  pageNumber: 1,
   pageSize: 10,
-  totalRecords: 10,
+  // totalRecords: 10,
 };
 
-const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-  const [clients, setClients] = useState(ClientList);
+  // const [clients, setClients] = useState(ClientList);
   const [clientFilters, setClientFilters] = useState(defaultFilters);
   const [modalVisible, setModalVisible] = useState(false);
+  const [state, setState] = useState<State>({
+    clients,
+    filters: defaultFilters,
+    resetPager: false,
+  });
 
   useEffect(() => {
-    fetchClients();
-  }, []);
-
-  async function fetchClients() {
-    try {
-      const data = await getClients();
-      setClients(data);
-    } catch (error) {
-      errorContext.setError(error, true);
+    if (isList(match.path)) {
+      fetchAllClients(state.filters);
     }
-  }
+  }, [match.path, state.filters]);
 
   function filterClients(searchQuery: string) {
     alert(searchQuery);
@@ -78,24 +73,35 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     toggleFilterModal();
   };
 
-  const onPageChange = (PageNumber: number) => {
-    applyFilterClients({ PageNumber });
+  const onPageChange = (pageNumber: number) => {
+    filterHandler({ pageNumber });
   };
 
   async function applyFilterClients(filter: ClientFilters) {
-    // const param = { ...filter };
     filterHandler(filter);
     setModalVisible(false);
   }
 
   async function filterHandler(filters: ClientFilters) {
-    fetchAllClients({ ...clientFilters, ...filters });
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.pageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.pageNumber = 1;
+    }
+    setState(newFilterState);
   }
 
   async function fetchAllClients(filters: ClientFilters) {
     try {
       const data: any = await getFilteredClient(filters);
-      setClients(data);
+      setState({ ...state, clients: data });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -115,7 +121,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
 
   return (
     <ClientsList
-      clients={clients}
+      clients={state.clients}
       filterClients={filterClients}
       add={addClient}
       remove={deleteClient}
@@ -125,6 +131,8 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       onPageChange={onPageChange}
       filtersClickHandler={filtersClickHandler}
       toggleFilterModal={toggleFilterModal}
+      appliedFilters={state.filters}
+      resetPager={state.resetPager}
     />
   );
 };
