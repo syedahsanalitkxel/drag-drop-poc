@@ -149,9 +149,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         className="form-control"
                         tag={Field}
                         id={'definition'}
-                        invalid={
-                          !!(formikprops.touched.definition && formikprops.errors.definition)
-                        }
+                        invalid={!!(formikprops.touched.definition && formikprops.errors.definition)}
                       />
                       <FormFeedback tooltip={true}>{formikprops.errors.definition}</FormFeedback>
                     </div>
@@ -199,15 +197,8 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
                           <div className="col-md-6">
-                            <Input
-                              type="select"
-                              name="competencyId"
-                              id="competency-select"
-                              onChange={changeHandler}
-                            >
-                              <LookupContextConsumer>
-                                {rendercompetencyDropdown}
-                              </LookupContextConsumer>
+                            <Input type="select" name="competencyId" id="competency-select" onChange={changeHandler}>
+                              <LookupContextConsumer>{rendercompetencyDropdown}</LookupContextConsumer>
                             </Input>
                           </div>
                         </div>
@@ -221,9 +212,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="true"
-                        currentSelection={
-                          forvalues && forvalues.isFaithBased === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -231,9 +220,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="false"
-                        currentSelection={
-                          forvalues && forvalues.isFaithBased === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         No
@@ -250,9 +237,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                   </div>
                   <div className="hr-line-dashed" />
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">
-                      Recomended Application
-                    </label>
+                    <label className="col-sm-2 col-form-label font-bold">Recomended Application</label>
 
                     <div className="col-sm-10">
                       <LookupContextConsumer>{recommendedApplicationsLookUp}</LookupContextConsumer>
@@ -283,16 +268,12 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                   </div>
                   <div className="hr-line-dashed" />
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">
-                      Accerditation and Usage
-                    </label>
+                    <label className="col-sm-2 col-form-label font-bold">Accerditation and Usage</label>
                     <div className="col-sm-10">
                       <RadioButton
                         name="accreditationAlignment"
                         value="true"
-                        currentSelection={
-                          forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -300,9 +281,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="accreditationAlignment"
                         value="false"
-                        currentSelection={
-                          forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         No
@@ -364,13 +343,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                 <button type="button" style={styles.btn} className="btn btn-default btn-lg">
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  style={styles.btn}
-                  id={'submit'}
-                  name="submit"
-                  className="btn btn-primary btn-lg"
-                >
+                <button type="submit" style={styles.btn} id={'submit'} name="submit" className="btn btn-primary btn-lg">
                   Save
                 </button>
                 <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
@@ -430,24 +403,18 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map(
-        (lookup: LookupItemInterface, index) => (
-          <Checkbox
-            name="itemRecomendedApplications"
-            value={lookup.value}
-            isChecked={
-              lookup.value &&
-              forvalues &&
-              forvalues.itemRecomendedApplications.includes(lookup.value)
-                ? true
-                : false
-            }
-            onChange={checkboxChangeHandler}
-          >
-            {lookup.text}
-          </Checkbox>
-        )
-      );
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+        <Checkbox
+          name="itemRecomendedApplications"
+          value={lookup.value}
+          isChecked={
+            lookup.value && forvalues && forvalues.itemRecomendedApplications.includes(lookup.value) ? true : false
+          }
+          onChange={checkboxChangeHandler}
+        >
+          {lookup.text}
+        </Checkbox>
+      ));
     }
   };
   const itemEntitiesLookUp = (props: LookupContextInterface) => {
@@ -457,11 +424,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
         <Checkbox
           name="itemEntities"
           value={lookup.value}
-          isChecked={
-            lookup.value && forvalues && forvalues.itemEntities.includes(lookup.value)
-              ? true
-              : false
-          }
+          isChecked={lookup.value && forvalues && forvalues.itemEntities.includes(lookup.value) ? true : false}
           onChange={entitycheckboxChangeHandler}
         >
           {lookup.text}

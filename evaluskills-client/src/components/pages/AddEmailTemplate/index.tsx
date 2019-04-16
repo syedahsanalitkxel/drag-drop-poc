@@ -32,11 +32,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddEmailTemplate: React.FunctionComponent<Props> = ({
-  list,
-  edit,
-  changeListener,
-}) => {
+export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, changeListener }) => {
   const [formState, setFormState] = useState(initialState);
 
   useEffect(() => {

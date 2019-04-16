@@ -39,11 +39,7 @@ const ClientData: AddEditClientInterface[] = [
   },
 ];
 
-const EditClient: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
-  history,
-  location,
-  match,
-}) => {
+const EditClient: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({ history, location, match }) => {
   function submitForm(values: any) {
     delete values.clientContacts;
     values.clientContacts = values.contact;

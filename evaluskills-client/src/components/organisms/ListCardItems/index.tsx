@@ -23,18 +23,10 @@ const CheckboxContainer = styled.div`
   top: 30%;
 `;
 
-const ListCardItems: React.FunctionComponent<ListCardProps> = ({
-  titleKey,
-  listData,
-  edit,
-  remove,
-  checkbox,
-}) => {
+const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, edit, remove, checkbox }) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
-  const actionHandler = (assessmentId: string) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {
       if (edit) {
         edit(assessmentId);
@@ -97,11 +89,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return (
-    <React.Fragment>
-      {listData && listData.length > 0 && listData.map(renderAllCards)}
-    </React.Fragment>
-  );
+  return <React.Fragment>{listData && listData.length > 0 && listData.map(renderAllCards)}</React.Fragment>;
 };
 
 export default ListCardItems;

@@ -32,6 +32,15 @@ export async function getInstrumentTemplateById(id: string): Promise<InstrumentT
   );
 }
 
+export async function deleteInstrumentTemplate(id: string): Promise<InstrumentTemplateInterface> {
+  return api.delete(INSTRUMENT_TEMPLATES, id).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+
 export async function addInstrumentTemplates(instruments: InstrumentTemplateInterface) {
   return api.post(INSTRUMENT_TEMPLATES, instruments).then(
     (res: AxiosResponse) => {

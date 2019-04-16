@@ -22,9 +22,10 @@ const InstrumentList: ClientInstruments[] = [
   },
 ];
 
-const InstrumentClientContainer: React.FunctionComponent<
-  RouteComponentProps<RouteParamsInterface>
-> = ({ history, match }) => {
+const InstrumentClientContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
+  history,
+  match,
+}) => {
   const [Instruments, setInstruments] = useState(InstrumentList);
   const [filters, setFilters] = useState({});
 

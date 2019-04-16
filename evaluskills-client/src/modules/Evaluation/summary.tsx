@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Modal, ModalBody } from 'reactstrap';
-import Pager from '../../molecules/Pager';
-import EvaluationClientHolder from '../../organisms/ClientHolder';
-import EvaluatorAssessmentItem from '../../organisms/EvaluationCommentItem';
-import GuestTemplate from '../../templates/GuestTemplate';
-import FooterGuest from '../../organisms/FooterGuest';
+import Pager from '../../components/molecules/Pager';
+import EvaluationClientHolder from '../../components/organisms/ClientHolder';
+import EvaluatorAssessmentItem from '../../components/organisms/EvaluationCommentItem';
+import GuestTemplate from '../../components/templates/GuestTemplate';
+import FooterGuest from '../../components/organisms/FooterGuest';
 import { withRouter } from 'react-router-dom';
 
 const EvaluationSummary = (props: any) => {
@@ -129,19 +129,12 @@ const EvaluationSummary = (props: any) => {
                 <img src="/img/icons/confirmation.svg" alt="Confirmation" />
               </div>
               <div className="form-group row">
-                <h2 className="col-sm-12 font-bold text-center">
-                  Are you sure you want to submit?
-                </h2>
+                <h2 className="col-sm-12 font-bold text-center">Are you sure you want to submit?</h2>
                 <div className="col-sm-11 d-flex align-items-center" />
               </div>
             </div>
             <div className="modal-footer text-center justify-content-center border-0 pt-0">
-              <a
-                onClick={toggleModal}
-                href="#"
-                className="btn btn-default pr-4 pl-4"
-                data-dismiss="modal"
-              >
+              <a onClick={toggleModal} href="#" className="btn btn-default pr-4 pl-4" data-dismiss="modal">
                 No
               </a>
               <NavLink to="/evaluation/result" className="btn btn-primary pr-4 pl-4">

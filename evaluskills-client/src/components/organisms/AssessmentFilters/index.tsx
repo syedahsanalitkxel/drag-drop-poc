@@ -62,22 +62,16 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map(
-        (lookup: LookupItemInterface, index) => (
-          <Checkbox
-            name="itemRecomendedApplications"
-            value={lookup.value}
-            isChecked={
-              lookup.value && formState.itemRecomendedApplications.includes(lookup.value)
-                ? true
-                : false
-            }
-            onChange={checkboxChangeHandler}
-          >
-            {lookup.text}
-          </Checkbox>
-        )
-      );
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+        <Checkbox
+          name="itemRecomendedApplications"
+          value={lookup.value}
+          isChecked={lookup.value && formState.itemRecomendedApplications.includes(lookup.value) ? true : false}
+          onChange={checkboxChangeHandler}
+        >
+          {lookup.text}
+        </Checkbox>
+      ));
     }
   };
   const renderAssessmentRecommend = (props: LookupContextInterface) => {
@@ -113,12 +107,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label for="competency-select" className="font-bold">
               Competency
             </Label>
-            <Input
-              type="select"
-              name="competencyId"
-              id="competency-select"
-              onChange={changeHandler}
-            >
+            <Input type="select" name="competencyId" id="competency-select" onChange={changeHandler}>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>

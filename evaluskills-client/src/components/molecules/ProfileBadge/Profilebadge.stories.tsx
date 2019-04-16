@@ -19,6 +19,4 @@ storiesOf('Molecules.ProfileBadge', module)
   .add('Name Only', () => <ProfileBadge name="Default Name" />)
   .add('Designation Only', () => <ProfileBadge designation="Someone Somehow" />)
   .add('Picture', () => <ProfileBadge profilePicture="img/profile_small.jpg" />)
-  .add('All Props', () => (
-    <ProfileBadge name="Usman Tahir" designation="PSE" profilePicture="img/profile_small.jpg" />
-  ));
+  .add('All Props', () => <ProfileBadge name="Usman Tahir" designation="PSE" profilePicture="img/profile_small.jpg" />);

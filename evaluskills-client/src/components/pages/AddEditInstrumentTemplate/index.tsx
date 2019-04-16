@@ -46,8 +46,7 @@ const assessments: AssessmentItemInterface[] = [
   {
     category: 'Action',
     competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
+    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
     id: 'uuid-11-111',
     type: 'Influential',
   },
@@ -96,12 +95,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             <h3 className="m-l-10 p-t-20">Assessment Items {formState.assessmentItemsCount}</h3>
           </div>
           <div className="col-sm-6">
-            <Button
-              className="mt-3 float-right"
-              color="primary"
-              size="lg"
-              onClick={toggleFilterModal}
-            >
+            <Button className="mt-3 float-right" color="primary" size="lg" onClick={toggleFilterModal}>
               Edit Assessment Items
             </Button>
           </div>
@@ -203,11 +197,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
   function getPageHeader() {
     if (defaultValues && defaultValues.id) {
       return (
-        <PageHeader
-          title="Instrument Template"
-          actionButtonText="Delete Template"
-          actionHandler={deleteInstrument}
-        />
+        <PageHeader title="Instrument Template" actionButtonText="Delete Template" actionHandler={deleteInstrument} />
       );
     }
 
