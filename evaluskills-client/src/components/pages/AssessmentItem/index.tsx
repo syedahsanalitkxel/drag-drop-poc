@@ -62,8 +62,8 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
           <PageBody>
             <ListCardItems titleKey="definition" listData={assessments} edit={edit} remove={remove} />
             <Pager
-              pageSize={appliedFilters.PageSize || 10}
-              totalRecords={appliedFilters.TotalRecords || 10}
+              pageSize={appliedFilters.PageSize || 25}
+              totalRecords={appliedFilters.TotalRecords || 25}
               onPageChanged={onPageChange}
               shouldReset={resetPager}
             />
@@ -78,7 +78,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="reset"
+        secondaryAction="dismiss"
       >
         <AssessmentFilters />
       </ESModal>

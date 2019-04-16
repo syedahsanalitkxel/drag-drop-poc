@@ -14,7 +14,7 @@ interface Props {
 }
 
 const initialState = {
-  accreditation: undefined,
+  accreditation: 3,
   application: undefined,
   categoryId: undefined,
   competencyId: undefined,
@@ -70,7 +70,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+      return findKey(lookups.assessmentTypesLookUp).map((lookup: LookupItemInterface, index) => (
         <Checkbox
           name="itemRecomendedApplications"
           value={lookup.value}
@@ -217,7 +217,17 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
         <FormGroup className="row">
           <div className="col-md-12">
             <Label className="font-bold">Industry And Recommended Application</Label>
+
             <div className="d-flex align-items-center">
+              <RadioButton
+                name="application"
+                value={0}
+                currentSelection={formState.application}
+                onChange={changeHandler}
+              >
+                Both
+              </RadioButton>
+
               <LookupContextConsumer>{renderAssessmentRecommend}</LookupContextConsumer>
             </div>
           </div>
