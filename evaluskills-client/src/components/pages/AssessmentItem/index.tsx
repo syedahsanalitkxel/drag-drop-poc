@@ -18,6 +18,7 @@ interface Props {
   filterHandler: (filters: any) => void;
   appliedFilters: any;
   resetPager: boolean;
+  copy?: (assessmentId: string) => void;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
@@ -26,7 +27,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   add,
   edit,
   remove,
-
+  copy,
   filterHandler,
   appliedFilters,
   resetPager,
@@ -60,7 +61,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <ListCardItems titleKey="definition" listData={assessments} edit={edit} remove={remove} />
+            <ListCardItems titleKey="definition" listData={assessments} copy={copy} edit={edit} remove={remove} />
             <Pager
               pageSize={appliedFilters.PageSize || 10}
               totalRecords={appliedFilters.TotalRecords || 10}

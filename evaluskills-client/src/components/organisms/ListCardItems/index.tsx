@@ -14,6 +14,7 @@ interface ListCardProps {
   titleKey: string;
   edit?: (id: string) => void;
   remove?: (id: string) => void;
+  copy?: (id: string) => void;
   checkbox?: boolean;
 }
 
@@ -23,7 +24,14 @@ const CheckboxContainer = styled.div`
   top: 30%;
 `;
 
-const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, edit, remove, checkbox }) => {
+const ListCardItems: React.FunctionComponent<ListCardProps> = ({
+  titleKey,
+  listData,
+  edit,
+  remove,
+  copy,
+  checkbox,
+}) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -34,6 +42,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listD
     } else if (event.currentTarget.name === 'delete') {
       if (remove) {
         remove(assessmentId);
+      }
+    } else if (event.currentTarget.name === 'copy') {
+      if (copy) {
+        copy(assessmentId);
       }
     }
   };
@@ -71,6 +83,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listD
 
     return (
       <React.Fragment>
+        {edit && renderActionButton('copy', 'Copy', 'edit', 'btn-outline btn-primary')}
         {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
         {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
       </React.Fragment>

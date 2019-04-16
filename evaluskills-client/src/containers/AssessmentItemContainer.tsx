@@ -60,6 +60,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [copy, setcopy] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
   const [editassessmentsState, seteditAssessments] = useState(Initalvalues);
   const [addAssessments, setAddAssessments] = useState(Initalvalues);
@@ -99,6 +100,14 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
   async function updateAssessmentdata(data: any) {
     try {
+      if (copy) {
+        data.saveAsNewVersion = true;
+        data.ItemsStatusId = 1;
+        const returnData: any = await addAssessment(data);
+        setcopy(false);
+        assessmenListItems();
+        return;
+      }
       if (data.typeId != 1) {
         data.competencyId = null;
       }
@@ -153,6 +162,10 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
+  function copyAssessment(assessmentId: string) {
+    setcopy(true);
+    history.push(`/assessment-items/edit/${assessmentId}`);
+  }
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -203,6 +216,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       add={routeaddAssessment}
       remove={deleteAssessment}
       edit={editAssessment}
+      copy={copyAssessment}
       filterHandler={filtersClickHandler}
       resetPager={state.resetPager}
       appliedFilters={state.filters}
