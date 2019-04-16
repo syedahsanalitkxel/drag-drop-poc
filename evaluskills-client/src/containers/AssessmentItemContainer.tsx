@@ -98,14 +98,21 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       errorContext.setError(error, true);
     }
   }
+  async function copyAssessment(data: any) {
+    try {
+      data.saveAsNewVersion = true;
+      data.ItemsStatusId = 1;
+      const returnData: any = await addAssessment(data);
+      setcopy(false);
+      assessmenListItems();
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
   async function updateAssessmentdata(data: any) {
     try {
       if (copy) {
-        data.saveAsNewVersion = true;
-        data.ItemsStatusId = 1;
-        const returnData: any = await addAssessment(data);
-        setcopy(false);
-        assessmenListItems();
+        await copyAssessment(data);
         return;
       }
       if (data.typeId != 1) {
@@ -162,7 +169,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
-  function copyAssessment(assessmentId: string) {
+  function renderEditAssessment(assessmentId: string) {
     setcopy(true);
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
@@ -216,7 +223,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       add={routeaddAssessment}
       remove={deleteAssessment}
       edit={editAssessment}
-      copy={copyAssessment}
+      copy={renderEditAssessment}
       filterHandler={filtersClickHandler}
       resetPager={state.resetPager}
       appliedFilters={state.filters}
