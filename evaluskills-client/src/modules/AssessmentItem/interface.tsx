@@ -1,5 +1,6 @@
 // base item (values shared among every other)
 export interface Item {
+  id?: string;
   itemId?: number | string;
   itemVersionId?: number;
   defination?: string;

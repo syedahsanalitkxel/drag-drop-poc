@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { uniq } from 'lodash-es';
+import { uniq, uniqBy } from 'lodash-es';
 
 import { PageDetailsInterface } from '../../../api/ResponseInterface';
 import ErrorContext from '../../../context/ErrorContext';
@@ -12,6 +12,7 @@ import { getAssessments } from '../../../services/assessmentsService';
 import Spinner from '../../atoms/Spinner';
 import Pager from '../../molecules/Pager';
 import ListCardItems from '../../organisms/ListCardItems';
+import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
 
 interface Props {
   mode: 'new' | 'edit';
@@ -60,44 +61,38 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
     fetchAssessments();
   }, [state.filters]);
 
-  function markChecked(id: string) {
-    if (checkedItems.indexOf(id) > -1) {
-      // remove already selected
-      const index = checkedItems.indexOf(id);
-      checkedItems.splice(index, 1);
-      setCheckedItems(checkedItems);
-    } else {
-      // check assessment
-      const newChecked = [...checkedItems];
-      newChecked.push(id);
-      setCheckedItems(newChecked);
-    }
+  function markChecked(checkedItem: TemplateItem) {
+    /**
+     * check if the id already exist in checked items list
+     * if does, splice the array and also splice the modal state.
+     * push id in checked Items list and sync it with modal state
+     *
+     * if not found, push it in both and set state
+     */
+    if (checkedItem.id) {
+      // save context value in temp variable so we don't need to validate undefined checks too much
+      const modalContextValue =
+        modalContext.modalState && modalContext.modalState.length ? [...modalContext.modalState] : [];
+      const tempCheckedItemList = [...checkedItems];
 
-    // create a new array and to update modal state
-    let allSelectedAssessments = [];
+      // get indexes of found items
+      const checkedItemsIndex = tempCheckedItemList.findIndex(itemIds => itemIds === checkedItem.id);
+      const modalContextIndex = modalContextValue.findIndex((items: TemplateItem) => items.id === checkedItem.id);
 
-    if (checkedItems.indexOf(id) < 0) {
-      // find full object
-      const assessmentObject = state.templateItems.find(templateItem => {
-        return templateItem.id === id;
-      });
-      allSelectedAssessments.push(assessmentObject);
-    }
-
-    if (modalContext.setModalState) {
-      if (modalContext.modalState && modalContext.modalState.length) {
-        if (modalContext.modalState.findIndex((item: any) => item.id === id) !== -1) {
-          const index = modalContext.modalState.findIndex((item: any) => item.id === id);
-          modalContext.modalState.splice(index, 1);
-          if (allSelectedAssessments.findIndex((item: any) => item.id === id) !== -1) {
-            const i = allSelectedAssessments.findIndex((item: any) => item.id === id);
-            allSelectedAssessments.splice(i, 1);
-          }
-        }
-        allSelectedAssessments = allSelectedAssessments.concat(modalContext.modalState);
+      if (checkedItemsIndex === -1 && modalContextIndex === -1) {
+        // not found in checked items and modal context, add it
+        tempCheckedItemList.push(checkedItem.id);
+        modalContextValue.push(checkedItem);
+      } else {
+        // check index and delete the corresponding item
+        tempCheckedItemList.splice(checkedItemsIndex, 1);
+        modalContextValue.splice(modalContextIndex, 1);
       }
-      console.log(allSelectedAssessments);
-      modalContext.setModalState(allSelectedAssessments);
+
+      setCheckedItems(tempCheckedItemList);
+      if (modalContext && modalContext.setModalState) {
+        modalContext.setModalState(modalContextValue);
+      }
     }
   }
 
@@ -106,17 +101,27 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
     try {
       const { data, pageDetails } = await getAssessments(state.filters);
       if (selectedTemplateItems && selectedTemplateItems.length) {
-        const foundItems: string[] = [];
+        // initialize them so we can keep them among pages.
+        const foundItems: string[] = [...checkedItems];
+        const defaultModalContext: any[] =
+          modalContext && modalContext.modalState && modalContext.modalState.length ? [...modalContext.modalState] : [];
+
+        // find checked items and process them in placeholders
         selectedTemplateItems.forEach(item => {
           const matched = data.find(assessment => {
             return item.id === assessment.id;
           });
           if (matched) {
             foundItems.push(matched.id);
+            defaultModalContext.push(matched);
           }
         });
-        setCheckedItems(foundItems);
+        setCheckedItems(uniq(foundItems));
+        if (modalContext.setModalState) {
+          modalContext.setModalState(uniqBy(defaultModalContext, e => e.id));
+        }
       }
+
       setState({
         ...state,
         pageDetails,

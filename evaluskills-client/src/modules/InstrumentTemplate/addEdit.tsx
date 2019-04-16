@@ -58,14 +58,14 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
     const newFormState = {
       ...formState,
       ...values,
-      templateItems: formState.templateItems,
     };
 
     setFormState(newFormState);
-    if (defaultValue && defaultValue.id && !copy) {
-      handleAction(newFormState, actionTypes.EDIT);
-    } else {
+
+    if (!defaultValue || copy) {
       handleAction(newFormState, actionTypes.NEW);
+    } else {
+      handleAction(newFormState, actionTypes.EDIT);
     }
   }
 
@@ -248,11 +248,9 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
         visible={modalVisible}
         toggle={() => setModalVisible(!modalVisible)}
         primaryAction={data => {
-          let newFormState = formState.templateItems && formState.templateItems.concat(data);
-          newFormState = uniqBy(newFormState, (e: any) => e.id);
           setFormState({
             ...formState,
-            templateItems: newFormState,
+            templateItems: data,
           });
           setModalVisible(false);
         }}

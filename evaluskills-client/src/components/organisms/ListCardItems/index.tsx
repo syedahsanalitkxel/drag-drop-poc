@@ -8,6 +8,7 @@ import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
+import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
 
 interface ListCardProps {
   listData: any[];
@@ -15,7 +16,7 @@ interface ListCardProps {
   edit?: (id: string) => void;
   remove?: (id: string) => void;
   checkbox?: boolean;
-  handleCheckbox?: (id: string) => void;
+  handleCheckbox?: (templateItem: TemplateItem) => void;
   checkedItems?: string[];
 }
 
@@ -34,8 +35,6 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   checkedItems,
   handleCheckbox,
 }) => {
-  // TODO: Add checkbox support
-  // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {
       if (edit) {
@@ -62,16 +61,12 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     </React.Fragment>
   );
 
-  const renderActions = (id: string) => {
+  const renderActions = (id: string, item: any) => {
     const renderActionButton = (name: string, text: string, icon: IconProp, className: string) => (
       <IconButton name={name} icon={icon} className={className} actionHandler={actionHandler(id)}>
         {text}
       </IconButton>
     );
-
-    const isSelected = (item: string) => {
-      return item === id;
-    };
 
     if (checkbox) {
       return (
@@ -79,11 +74,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
           <Checkbox
             name="templateItem"
             value={id}
-            isChecked={checkedItems && !!checkedItems.find(isSelected)}
+            isChecked={checkedItems && !!checkedItems.find(checkedItem => checkedItem === id)}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               e.preventDefault();
               if (handleCheckbox) {
-                handleCheckbox(id);
+                handleCheckbox(item);
               }
             }}
           >
@@ -105,7 +100,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     const content =
       (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
 
-    const actions = renderActions(item.id);
+    const actions = renderActions(item.id, item);
 
     return (
       <ItemCard key={item.id} header={item[titleKey]}>

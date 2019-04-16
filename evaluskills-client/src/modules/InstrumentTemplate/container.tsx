@@ -138,7 +138,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       }
       navigate('');
     } catch (e) {
-      errorContext.setError(e);
+      errorContext.setError(e, true);
     }
   }
 
@@ -147,7 +147,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       await deleteInstrumentTemplate(id);
       await fetchAllInstruments(state.filters);
     } catch (error) {
-      errorContext.setError(error);
+      errorContext.setError(error, true);
     }
   }
 
@@ -164,19 +164,19 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <Spinner lightBg={true} />;
     }
 
-    if (isEdit(match.params)) {
-      return (
-        <AddEditInstrumentTemplate
-          defaultValue={state.instrumentTemplate}
-          handleAction={dataManipulationAction}
-          handleDelete={deleteInstrument}
-        />
-      );
-    } else if (isCopy(match.path)) {
+    if (isCopy(match.path)) {
       return (
         <AddEditInstrumentTemplate
           defaultValue={state.instrumentTemplate}
           copy={true}
+          handleAction={dataManipulationAction}
+          handleDelete={deleteInstrument}
+        />
+      );
+    } else if (isEdit(match.params)) {
+      return (
+        <AddEditInstrumentTemplate
+          defaultValue={state.instrumentTemplate}
           handleAction={dataManipulationAction}
           handleDelete={deleteInstrument}
         />
