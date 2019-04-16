@@ -120,7 +120,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       const data = await getInstrumentTemplateById(id);
       setState({ ...state, instrumentTemplate: data, isLoading: false });
     } catch (error) {
-      errorContext.setError(error);
+      errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
     }
   }

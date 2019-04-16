@@ -15,6 +15,8 @@ interface ListCardProps {
   edit?: (id: string) => void;
   remove?: (id: string) => void;
   checkbox?: boolean;
+  handleCheckbox?: (id: string) => void;
+  checkedItems?: string[];
 }
 
 const CheckboxContainer = styled.div`
@@ -23,7 +25,15 @@ const CheckboxContainer = styled.div`
   top: 30%;
 `;
 
-const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, edit, remove, checkbox }) => {
+const ListCardItems: React.FunctionComponent<ListCardProps> = ({
+  titleKey,
+  listData,
+  edit,
+  remove,
+  checkbox,
+  checkedItems,
+  handleCheckbox,
+}) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -59,10 +69,24 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listD
       </IconButton>
     );
 
+    const isSelected = (item: string) => {
+      return item === id;
+    };
+
     if (checkbox) {
       return (
         <CheckboxContainer className="pull-right">
-          <Checkbox name="example" value="val1">
+          <Checkbox
+            name="templateItem"
+            value={id}
+            isChecked={checkedItems && !!checkedItems.find(isSelected)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              e.preventDefault();
+              if (handleCheckbox) {
+                handleCheckbox(id);
+              }
+            }}
+          >
             {' '}
           </Checkbox>
         </CheckboxContainer>

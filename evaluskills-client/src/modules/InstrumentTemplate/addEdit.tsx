@@ -10,7 +10,9 @@ import PageHeader from '../../components/atoms/PageHeader';
 import RadioButton from '../../components/atoms/RadioButton';
 import DeleteModal from '../../components/molecules/DeleteModal';
 import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
+import ESModal from '../../components/molecules/Modal';
 import ListCardItems from '../../components/organisms/ListCardItems';
+import AssessmentItemsList from '../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
 import { actionTypes } from '../../enums';
 import FormikBag from '../../interfaces/FormikBag';
 import { LookupContextConsumer } from '../Lookup/context';
@@ -45,17 +47,27 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
   history,
 }) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
+  const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState({
     id: '',
     visible: false,
   });
 
   function submitForm(values: InstrumentTemplateInterface) {
-    setFormState({ ...formState, ...values });
+    const newFormState = {
+      ...formState,
+      ...values,
+    };
+
+    if (formState.templateItems && values.templateItems) {
+      newFormState.templateItems = formState.templateItems.concat(values.templateItems);
+    }
+
+    setFormState(newFormState);
     if (defaultValue && defaultValue.id && !copy) {
-      handleAction({ ...formState, ...values }, actionTypes.EDIT);
+      handleAction(newFormState, actionTypes.EDIT);
     } else {
-      handleAction({ ...formState, ...values }, actionTypes.NEW);
+      handleAction(newFormState, actionTypes.NEW);
     }
   }
 
@@ -108,13 +120,20 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
           </h3>
         </div>
         <div className="col-sm-6">
-          <Button className="mt-3 float-right" color="primary" size="lg" onClick={() => {}}>
+          <Button
+            className="mt-3 float-right"
+            color="primary"
+            size="lg"
+            onClick={() => {
+              setModalVisible(true);
+            }}
+          >
             Edit Assessment Items
           </Button>
         </div>
       </div>
 
-      <ListCardItems titleKey="defination" listData={assessments} />
+      <ListCardItems titleKey="definition" listData={assessments} />
     </React.Fragment>
   );
 
@@ -179,14 +198,23 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             <div className="row">
               <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
               <div className="col-sm-10">
-                <Button onClick={() => {}} size="lg" color="primary">
+                <Button
+                  onClick={() => {
+                    setModalVisible(true);
+                  }}
+                  size="lg"
+                  color="primary"
+                >
                   Add Assessment Items
                 </Button>
               </div>
             </div>
           )}
         </PageBody>
-        {!!defaultValue && defaultValue.templateItems && renderAssessmentList(defaultValue.templateItems)}
+        {!!formState &&
+          formState.templateItems &&
+          !!formState.templateItems.length &&
+          renderAssessmentList(formState.templateItems)}
         <div className="form-group row">
           <div className="col-sm-4 col-sm-offset-2">
             <StyledButton
@@ -213,6 +241,28 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
       <Formik initialValues={formState} onSubmit={submitForm}>
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
+
+      <ESModal
+        title="Add Assessment Items"
+        visible={modalVisible}
+        toggle={() => setModalVisible(!modalVisible)}
+        primaryAction={data => {
+          const newFormState = formState.templateItems && formState.templateItems.concat(data);
+          setFormState({
+            ...formState,
+            templateItems: newFormState,
+          });
+          setModalVisible(false);
+        }}
+        primaryText="Add"
+        secondaryText="Cancel"
+        secondaryAction="dismiss"
+        size="lg"
+        parentClass="addassessModal"
+      >
+        <AssessmentItemsList mode="edit" selectedTemplateItems={formState.templateItems} />
+      </ESModal>
+
       <DeleteModal
         visible={deleteModalState.visible}
         id={deleteModalState.id}
