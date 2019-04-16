@@ -25,6 +25,7 @@ interface Props {
   defaultValues?: any;
   action?: string;
   clients?: any;
+  cancelForm: () => void;
 }
 
 const StyledButton = styled(Button)`
@@ -32,11 +33,18 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action, clients }) => {
+export const AddClient: React.FunctionComponent<Props> = ({
+  changeListener,
+  defaultValues,
+  action,
+  clients,
+  cancelForm,
+}) => {
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
   const [selectedContact, setSelectedContact] = useState({});
+  const [addMore, setAddMore] = useState(false);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
@@ -67,9 +75,15 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
   function submitForm(values: any) {
     values.stateId = parseInt(values.stateId, 10);
     values.billingPlanId = parseInt(values.billingPlanId, 10);
-    // values.clientTypeId = parseInt(values.clientTypeId, 10);
-    changeListener({ ...formState, ...values });
-    setFormState({ ...formState, ...values });
+
+    if (addMore) {
+      changeListener({ ...formState, ...values, addMore });
+      setFormState({ ...formState, ...values, addMore });
+    } else {
+      changeListener({ ...formState, ...values });
+      setFormState({ ...formState, ...values });
+    }
+
     if (action === 'Edit' && file) {
       changeListener({ ...formState, ...values, clientLogo: file });
       setFormState({ ...formState, ...values, clientLogo: file });
@@ -305,14 +319,28 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
 
         <PageBody>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              type="button"
+              size="lg"
+              onClick={() => {
+                cancelForm();
+              }}
+            >
               Cancel
             </StyledButton>
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
             {action === 'Add' && (
-              <StyledButton type="button" color="primary" size="lg">
+              <StyledButton
+                type="button"
+                color="primary"
+                size="lg"
+                onClick={() => {
+                  setAddMore(true);
+                  formikprops.submitForm();
+                }}
+              >
                 Save &amp; Add More
               </StyledButton>
             )}

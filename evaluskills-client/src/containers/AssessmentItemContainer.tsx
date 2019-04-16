@@ -13,6 +13,7 @@ import {
   editAssessmentService,
   updateAssessment,
 } from '../services/assessmentsService';
+import FilterContext from '../components/organisms/AssessmentFilters/context';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
@@ -34,6 +35,12 @@ const AssessmentItems: AssessmentItemInterface[] = [
 const defaultFilters: AssessmentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  // accreditation: '',
+  // application: '',
+  // categoryId: '',
+  // competencyId: '',
+  // itemsStatusIds: '',
+  // itemRecomendedApplications: [0],
 };
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,
@@ -109,23 +116,31 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       errorContext.setError(error, true);
     }
   }
-  async function updateAssessmentdata(data: any) {
+  async function updateAssessmentdata(data: any, type?: string) {
     try {
       if (copy) {
         await copyAssessment(data);
         return;
       }
-      if (data.typeId != 1) {
-        data.competencyId = null;
-      }
-      if (data.questionTypeId != 1) {
-        data.itemElements = [];
-      }
+      if (type === 'd') {
+        assessmenListItems();
+      } else {
+        if (data.typeId != 1) {
+          data.competencyId = null;
+        }
+        if (data.questionTypeId != 1) {
+          data.itemElements = [];
+        }
 
-      data.saveAsNewVersion = false;
-      const returnData: any = await updateAssessment(data, match.params.id);
-      console.log(returnData);
-      assessmenListItems();
+        if (type === 'b') {
+          data.itemsStatusId = 2;
+        }
+
+        data.saveAsNewVersion = false;
+        const returnData: any = await updateAssessment(data, match.params.id);
+
+        assessmenListItems();
+      }
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -140,17 +155,29 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       errorContext.setError(error, true);
     }
   }
-  async function AddAssessmentdata(values: AddAssessmentItemInterface) {
+  async function AddAssessmentdata(values: AddAssessmentItemInterface, type?: string) {
     try {
-      if (values.typeId != 1) {
-        values.competencyId = null;
+      if (type === 'd') {
+        assessmenListItems();
+      } else {
+        if (values.typeId != 1) {
+          values.competencyId = null;
+        }
+        if (values.questionTypeId != 1) {
+          values.itemElements = [];
+        }
+
+        if (type === 'b') {
+          values.itemsStatusId = 2;
+        }
+        const data = await addAssessment(values);
+        console.log(data);
+        if (type === 'c') {
+          reloadAssessment();
+        } else {
+          assessmenListItems();
+        }
       }
-      if (values.questionTypeId != 1) {
-        values.itemElements = [];
-      }
-      const data = await addAssessment(values);
-      console.log(data);
-      assessmenListItems();
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -165,7 +192,9 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   function routeaddAssessment() {
     history.push('/assessment-items/add');
   }
-
+  function reloadAssessment() {
+    location.reload();
+  }
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
@@ -218,16 +247,18 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   };
 
   return (
-    <AssessmentItem
-      assessments={state.assessments}
-      add={routeaddAssessment}
-      remove={deleteAssessment}
-      edit={editAssessment}
-      copy={renderEditAssessment}
-      filterHandler={filtersClickHandler}
-      resetPager={state.resetPager}
-      appliedFilters={state.filters}
-    />
+    <FilterContext.Provider value={{ activeFilters: state.filters }}>
+      <AssessmentItem
+        assessments={state.assessments}
+        add={routeaddAssessment}
+        remove={deleteAssessment}
+        edit={editAssessment}
+        copy={renderEditAssessment}
+        filterHandler={filtersClickHandler}
+        resetPager={state.resetPager}
+        appliedFilters={state.filters}
+      />
+    </FilterContext.Provider>
   );
 };
 

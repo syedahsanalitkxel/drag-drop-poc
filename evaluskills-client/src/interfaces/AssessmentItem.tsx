@@ -32,7 +32,9 @@ export interface AddAssessmentItemInterface {
   itemEntities: [number];
   itemRecomendedApplications: [number];
   itemElements: Elementobj[];
+  saveAsNewVersion?: boolean;
 }
+
 export interface EditAssessmentItemInterface {
   saveAsNewVersion: boolean;
   versionId: number;

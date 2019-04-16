@@ -85,10 +85,10 @@ const PageHeader: React.FunctionComponent<Props> = ({
   return (
     <div className="PageHeader">
       <div className="row">
-        <div className="col-lg-3 col-md-3">
+        <div className="col-lg-4 col-md-4">
           <h2>{title}</h2>
         </div>
-        <div className="col-lg-9 col-md-9 text-right p-r-30">
+        <div className="col-lg-8 col-md-8 text-right p-r-30">
           <div className="form-group row d-flex justify-content-end">
             {filterAction && renderFilters()}
             {searchHandler && <label className="col-lg-1 col-form-label">Search:</label>}

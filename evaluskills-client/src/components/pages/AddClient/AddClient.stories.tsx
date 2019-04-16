@@ -48,6 +48,7 @@ interface ModalProps {
   toggle?: () => void;
   formStateUpdate: (values: any) => void;
   formValues?: any;
+  cancelForm?: () => void;
 }
 const modalValues = {
   email: 'maria@evaluskills.com',
@@ -78,11 +79,14 @@ function ContactHandler(values: any) {
   values.clientContacts = values.contact;
 }
 
+function cancelForm() {}
+
 const addContactProps: ModalProps = {
   formStateUpdate: ContactHandler,
   formValues: modalValues,
   fprops: formValues,
   name: 'Add',
+  cancelForm: cancelForm,
   toggle: toggleAddClientContactModal,
   visible: true,
 };
@@ -91,12 +95,13 @@ const editContactProps: ModalProps = {
   formStateUpdate: ContactHandler,
   formValues: modalValues,
   fprops: formValues,
+  cancelForm: cancelForm,
   name: 'Edit',
   toggle: toggleEditClientContactModal,
   visible: true,
 };
 
 storiesOf('AddClient', module)
-  .add('AddClient', () => <AddClient changeListener={submitForm} />)
+  .add('AddClient', () => <AddClient changeListener={submitForm} cancelForm={cancelForm} />)
   .add('AddClientContact renders with props', () => <AddClientContact {...addContactProps} />)
   .add('EditClientContact renders with props', () => <EditClientContact {...editContactProps} />);

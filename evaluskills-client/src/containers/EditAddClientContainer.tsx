@@ -52,6 +52,9 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (isEdit(match.params)) {
       fetchClients(match.params.id);
     }
+    if (isAdd(match.path)) {
+      setClients(ClientList);
+    }
     return function cleanup() {
       setClients(ClientList);
       setFilters({});
@@ -69,22 +72,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     } catch (error) {
       errorContext.setError(error);
     }
-  }
-
-  function filterClients(searchQuery: string) {
-    alert(searchQuery);
-  }
-
-  function addClients() {
-    history.push('/client/add');
-  }
-
-  function editClients(clientId: string) {
-    history.push(`/client/edit/${clientId}`);
-  }
-
-  function deleteClient(clientId: string) {
-    alert(`deleting => ${clientId}`);
   }
 
   function buildFormData(formData: any, data: any, parentKey?: any) {
@@ -116,7 +103,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         const data = await addClient(formd);
         setClients(ClientList);
         setAction('');
-        history.push('/clients');
+        if (values.addMore) {
+          location.reload();
+        } else {
+          history.push('/clients');
+        }
       } catch (error) {
         errorContext.setError(error);
       }
@@ -134,14 +125,20 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     }
   }
 
+  function cancelForm() {
+    history.push('/clients');
+  }
+
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
-      return <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />;
+      return (
+        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} cancelForm={cancelForm} />
+      );
     }
   }
 
   if (isAdd(match.path)) {
-    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} />;
+    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} cancelForm={cancelForm} />;
   }
 
   return <Spinner />;

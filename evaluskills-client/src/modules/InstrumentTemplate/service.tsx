@@ -51,3 +51,12 @@ export async function addInstrumentTemplates(instruments: InstrumentTemplateInte
     }
   );
 }
+
+export async function updateInstrumentTemplates(instrument: InstrumentTemplateInterface, id: number) {
+  return api.put(INSTRUMENT_TEMPLATES, instrument).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
