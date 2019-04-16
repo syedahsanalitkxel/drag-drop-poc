@@ -31,12 +31,7 @@ const ClientFilter: React.FunctionComponent = () => {
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    // setState({ ...state, [event.target.name]: event.target.value });
-    if (event.target.name !== 'statusId') {
-      setState({ ...state, [event.target.name]: parseInt(event.target.value, 10) });
-    } else {
-      setState({ ...state, [event.target.name]: event.target.value });
-    }
+    setState({ ...state, [event.target.name]: event.target.value });
   }
 
   function renderBillingPlanDropdown() {
@@ -75,7 +70,13 @@ const ClientFilter: React.FunctionComponent = () => {
             <Label id="billingPlanId" className="col-md-5 col-form-label font-bold">
               Plan
             </Label>
-            <Input type="select" name="billingPlanId" id="plan-select" onChange={changeHandler}>
+            <Input
+              type="select"
+              name="billingPlanId"
+              id="plan-select"
+              onChange={changeHandler}
+              value={state.billingPlanId}
+            >
               <option value="">All</option>
               {renderBillingPlanDropdown()}
             </Input>
@@ -91,7 +92,7 @@ const ClientFilter: React.FunctionComponent = () => {
             <div className="d-flex align-items-center">
               <RadioButton
                 name="companyTypeId"
-                value={0}
+                value=""
                 currentSelection={state.companyTypeId}
                 onChange={changeHandler}
               >
@@ -99,7 +100,7 @@ const ClientFilter: React.FunctionComponent = () => {
               </RadioButton>
               <RadioButton
                 name="companyTypeId"
-                value={1}
+                value="1"
                 currentSelection={state.companyTypeId}
                 onChange={changeHandler}
               >
@@ -107,7 +108,7 @@ const ClientFilter: React.FunctionComponent = () => {
               </RadioButton>
               <RadioButton
                 name="companyTypeId"
-                value={2}
+                value="2"
                 currentSelection={state.companyTypeId}
                 onChange={changeHandler}
               >

@@ -8,6 +8,8 @@ import { ClientFilters } from '../interfaces/ClientFilter';
 import { getClients, getFilteredClient } from '../services/clientsService';
 import { isList } from '../utils/routerUtils';
 import { PageDetailsInterface } from '../api/ResponseInterface';
+import FilterContext from '../components/organisms/ClientFilters/context';
+import Spinner from '../components/atoms/Spinner';
 
 const clients: IClientList[] = [];
 
@@ -16,10 +18,14 @@ interface State {
   filters: ClientFilters;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
+  isLoading: boolean;
 }
 const defaultFilters: ClientFilters = {
   pageNumber: 1,
   pageSize: 10,
+  billingPlanId: '',
+  companyTypeId: '',
+  statusId: '',
   // totalRecords: 10,
 };
 
@@ -35,6 +41,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
   const [state, setState] = useState<State>({
     clients,
     filters: defaultFilters,
+    isLoading: false,
     pageDetails: defaultPageDetail,
     resetPager: false,
   });
@@ -83,15 +90,6 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     if (!filters.search) {
       delete newFilterState.filters.search;
     }
-    if (!filters.billingPlanId) {
-      delete newFilterState.filters.billingPlanId;
-    }
-    if (!filters.statusId) {
-      delete newFilterState.filters.statusId;
-    }
-    if (!filters.companyTypeId) {
-      delete newFilterState.filters.companyTypeId;
-    }
     setState(newFilterState);
   }
 
@@ -117,21 +115,25 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
   }
 
   return (
-    <ClientsList
-      clients={state.clients}
-      filterClients={filterClients}
-      add={addClient}
-      remove={deleteClient}
-      edit={editClient}
-      applyFilters={applyFilterClients}
-      modalVisible={modalVisible}
-      onPageChange={onPageChange}
-      filtersClickHandler={filtersClickHandler}
-      toggleFilterModal={toggleFilterModal}
-      pageDetails={state.pageDetails || defaultPageDetail}
-      appliedFilters={state.filters}
-      resetPager={state.resetPager}
-    />
+    <React.Suspense fallback={<Spinner />}>
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <ClientsList
+          clients={state.clients}
+          filterClients={filterClients}
+          add={addClient}
+          remove={deleteClient}
+          edit={editClient}
+          applyFilters={applyFilterClients}
+          modalVisible={modalVisible}
+          onPageChange={onPageChange}
+          filtersClickHandler={filtersClickHandler}
+          toggleFilterModal={toggleFilterModal}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          appliedFilters={state.filters}
+          resetPager={state.resetPager}
+        />
+      </FilterContext.Provider>
+    </React.Suspense>
   );
 };
 

@@ -4,6 +4,6 @@ export interface ClientFilters {
   pageSize?: number;
   totalRecords?: number;
   statusId?: string;
-  billingPlanId?: number;
-  companyTypeId?: number;
+  billingPlanId?: string;
+  companyTypeId?: string;
 }
