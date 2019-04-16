@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ListCardItems from '../../organisms/ListCardItems';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
+import ListCardItems from '../../organisms/ListCardItems';
 
 interface Props {
   mode: 'new' | 'edit';

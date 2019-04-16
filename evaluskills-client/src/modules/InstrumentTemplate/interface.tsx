@@ -9,13 +9,15 @@ export interface InstrumentTemplateInterface {
   id?: number | string;
   title: string;
   recommendedApplicationId: number;
-  isSystemDefined: boolean;
-  clientId: number;
+  isSystemDefined?: boolean;
+  clientId?: number;
   templateItems?: TemplateItem[];
   competency?: number;
   influential?: number;
   isFaithBased?: number;
   rational?: number;
+  description?: string;
+  status?: boolean;
 }
 
 // Instrument Filter

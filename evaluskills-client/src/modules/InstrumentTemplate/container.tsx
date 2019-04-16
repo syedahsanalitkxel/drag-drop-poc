@@ -8,7 +8,7 @@ import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
-import { isAdd, isEdit, isList } from '../../utils/routerUtils';
+import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
 import FilterContext from './context';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import { deleteInstrumentTemplate, getInstrumentTemplateById, getInstrumentTemplates } from './service';
@@ -56,7 +56,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   });
 
   useEffect(() => {
-    if (isEdit(match.params)) {
+    if (isEdit(match.params) || isCopy(match.path)) {
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
       fetchAllInstruments(state.filters);
@@ -132,6 +132,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   function renderPage() {
     if (isEdit(match.params)) {
       return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
+    } else if (isCopy(match.path)) {
+      return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} copy={true} />;
     } else if (isAdd(match.path)) {
       return <AddEditInstrumentTemplate />;
     }
