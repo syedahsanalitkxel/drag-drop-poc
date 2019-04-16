@@ -7,6 +7,7 @@ interface Props {
   pageSize: number;
   shouldReset: boolean;
   onPageChanged: (pageNumber: number) => void;
+  pageNumber?: number;
 }
 
 const initialState: PagerInterface = {
@@ -18,11 +19,21 @@ const initialState: PagerInterface = {
   totalPagesToDisplay: 5,
 };
 
-const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageChanged, shouldReset }) => {
+const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, pageNumber, onPageChanged, shouldReset }) => {
+  if (pageNumber) {
+    initialState.currentPageNumber = pageNumber;
+  }
+
   const [pagerState, setPagerState] = useState(initialState);
 
   useEffect(() => {
-    const totalPage = pageSize > 0 && totalRecords > 0 ? Math.ceil(totalRecords / pageSize) : 0;
+    let totalPage;
+
+    if (pageNumber) {
+      totalPage = pageSize > 0 && totalRecords > 0 ? Math.floor(totalRecords / pageSize) : 0;
+    } else {
+      totalPage = pageSize > 0 && totalRecords > 0 ? Math.ceil(totalRecords / pageSize) : 0;
+    }
     const totalPagesRemainder = pageSize > 0 && totalRecords > 0 ? totalRecords % pageSize : 0;
     const totalPagesCount = totalPagesRemainder > 0 ? totalPage + 1 : totalPage;
 
@@ -30,7 +41,7 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
       ...pagerState,
       currentFirstPageNumber: 1,
       currentLastPageNumber: totalPagesCount > 5 ? 5 : totalPagesCount,
-      currentPageNumber: 1,
+      currentPageNumber: pageNumber || 1,
       pageSize,
       totalPages: totalPagesCount,
       totalPagesToDisplay: totalPagesCount > 5 ? 5 : totalPagesCount,
@@ -117,4 +128,4 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
   );
 };
 
-export default Pager;
+export default React.memo(Pager);

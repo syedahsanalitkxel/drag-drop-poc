@@ -6,6 +6,7 @@ import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
+import { actionTypes } from '../../enums';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
@@ -18,7 +19,6 @@ import {
   getInstrumentTemplates,
   updateInstrumentTemplates,
 } from './service';
-import { actionTypes } from '../../enums';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -66,6 +66,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
 
   useEffect(() => {
     if (isEdit(match.params) || isCopy(match.path)) {
+      setState({ ...state, isLoading: true });
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
       fetchAllInstruments(state.filters);
@@ -98,8 +99,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
-    setState({ ...state, isLoading: true });
     try {
+      setState({ ...state, isLoading: true });
       const allTemplates = await getInstrumentTemplates(filters);
       setState({
         ...state,
@@ -159,13 +160,17 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   function renderPage() {
-    // if (state.isLoading) {
-    //   return <Spinner lightBg={true} />;
-    // }
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
 
     if (isEdit(match.params)) {
       return (
-        <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} handleAction={dataManipulationAction} />
+        <AddEditInstrumentTemplate
+          defaultValue={state.instrumentTemplate}
+          handleAction={dataManipulationAction}
+          handleDelete={deleteInstrument}
+        />
       );
     } else if (isCopy(match.path)) {
       return (
@@ -173,6 +178,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           defaultValue={state.instrumentTemplate}
           copy={true}
           handleAction={dataManipulationAction}
+          handleDelete={deleteInstrument}
         />
       );
     } else if (isAdd(match.path)) {

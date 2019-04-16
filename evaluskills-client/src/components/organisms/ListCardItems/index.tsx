@@ -78,7 +78,8 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({ titleKey, listD
   };
 
   function renderAllCards(item: any) {
-    const content = renderContent(item.category, item.type, item.competency);
+    const content =
+      (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
 
     const actions = renderActions(item.id);
 

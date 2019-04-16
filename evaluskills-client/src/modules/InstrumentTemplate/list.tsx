@@ -92,6 +92,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
             <Pager
               pageSize={pageDetails.pageSize || 25}
               totalRecords={pageDetails.totalCount || 25}
+              pageNumber={pageDetails.currentPage}
               onPageChanged={onPageChange}
               shouldReset={resetPager}
             />

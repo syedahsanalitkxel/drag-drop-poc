@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 
 import { Formik } from 'formik';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
 import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
 import RadioButton from '../../components/atoms/RadioButton';
+import DeleteModal from '../../components/molecules/DeleteModal';
 import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
+import ListCardItems from '../../components/organisms/ListCardItems';
 import { actionTypes } from '../../enums';
 import FormikBag from '../../interfaces/FormikBag';
 import { LookupContextConsumer } from '../Lookup/context';
 import { lookups } from '../Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../Lookup/interface';
-import { InstrumentTemplateInterface } from './interface';
+import { InstrumentTemplateInterface, TemplateItem } from './interface';
 
-interface Props {
+interface Props extends RouteComponentProps {
   defaultValue?: InstrumentTemplateInterface;
   copy?: boolean;
   handleAction: (instrument: InstrumentTemplateInterface, mode: actionTypes) => void;
+  handleDelete?: (id: string) => void;
 }
 
 const initialState: InstrumentTemplateInterface = {
@@ -33,8 +37,18 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValue, copy, handleAction }) => {
+const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
+  defaultValue,
+  copy,
+  handleAction,
+  handleDelete,
+  history,
+}) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
+  const [deleteModalState, setDeleteModalState] = useState({
+    id: '',
+    visible: false,
+  });
 
   function submitForm(values: InstrumentTemplateInterface) {
     setFormState({ ...formState, ...values });
@@ -51,8 +65,11 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
 
   function deleteInstrument(event: React.MouseEvent) {
     event.preventDefault();
-    if (defaultValue) {
-      alert(defaultValue.id);
+    if (defaultValue && defaultValue.id) {
+      setDeleteModalState({
+        id: defaultValue.id.toString(),
+        visible: true,
+      });
     }
   }
 
@@ -81,6 +98,25 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
       ));
     }
   };
+
+  const renderAssessmentList = (assessments: TemplateItem[]) => (
+    <React.Fragment>
+      <div className="form-header row">
+        <div className="col-sm-6">
+          <h3 className="m-l-10 p-t-20">
+            Assessment Items {formState.templateItems && formState.templateItems.length}
+          </h3>
+        </div>
+        <div className="col-sm-6">
+          <Button className="mt-3 float-right" color="primary" size="lg" onClick={() => {}}>
+            Edit Assessment Items
+          </Button>
+        </div>
+      </div>
+
+      <ListCardItems titleKey="defination" listData={assessments} />
+    </React.Fragment>
+  );
 
   function renderForm(formikprops: FormikBag) {
     return (
@@ -138,10 +174,30 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
             <option value="">Select One</option>
             <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
           </FormElement>
+
+          {!defaultValue && (
+            <div className="row">
+              <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
+              <div className="col-sm-10">
+                <Button onClick={() => {}} size="lg" color="primary">
+                  Add Assessment Items
+                </Button>
+              </div>
+            </div>
+          )}
         </PageBody>
+        {!!defaultValue && defaultValue.templateItems && renderAssessmentList(defaultValue.templateItems)}
         <div className="form-group row">
           <div className="col-sm-4 col-sm-offset-2">
-            <StyledButton color="white">Cancel</StyledButton>
+            <StyledButton
+              onClick={(e: React.MouseEvent) => {
+                e.preventDefault();
+                history.push('/instrument-templates');
+              }}
+              color="white"
+            >
+              Cancel
+            </StyledButton>
             <StyledButton color="primary" type="submit">
               Save Changes
             </StyledButton>
@@ -157,6 +213,23 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
       <Formik initialValues={formState} onSubmit={submitForm}>
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
+      <DeleteModal
+        visible={deleteModalState.visible}
+        id={deleteModalState.id}
+        toggle={() =>
+          setDeleteModalState({
+            id: deleteModalState.id,
+            visible: !deleteModalState.visible,
+          })
+        }
+        actionHandler={(id: string) => {
+          setDeleteModalState({ id: '', visible: false });
+          if (handleDelete) {
+            handleDelete(id);
+            history.push('/instrument-templates');
+          }
+        }}
+      />
     </PageBody>
   );
 };
@@ -165,4 +238,4 @@ AddEditInstrumentTemplate.defaultProps = {
   copy: false,
 };
 
-export default AddEditInstrumentTemplate;
+export default withRouter(AddEditInstrumentTemplate);
