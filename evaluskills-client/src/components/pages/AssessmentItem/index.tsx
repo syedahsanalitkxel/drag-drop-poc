@@ -22,11 +22,9 @@ interface Props {
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
   assessments,
-
   add,
   edit,
   remove,
-
   filterHandler,
   appliedFilters,
   resetPager,

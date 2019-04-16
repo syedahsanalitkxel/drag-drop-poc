@@ -34,6 +34,7 @@ export interface AddAssessmentItemInterface {
   itemElements: Elementobj[];
   saveAsNewVersion?: boolean;
 }
+
 export interface EditAssessmentItemInterface {
   saveAsNewVersion: boolean;
   versionId: number;
