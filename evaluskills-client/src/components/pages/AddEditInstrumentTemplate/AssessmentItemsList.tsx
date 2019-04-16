@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { uniq } from 'lodash-es';
 
 import { PageDetailsInterface } from '../../../api/ResponseInterface';
 import ErrorContext from '../../../context/ErrorContext';
+import ModalContext from '../../../context/ModalContext';
 import LookupContext from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import { getAssessments } from '../../../services/assessmentsService';
 import Spinner from '../../atoms/Spinner';
 import Pager from '../../molecules/Pager';
 import ListCardItems from '../../organisms/ListCardItems';
-import ModalContext from '../../../context/ModalContext';
-import { template } from 'lodash-es';
 
 interface Props {
   mode: 'new' | 'edit';
@@ -61,15 +61,27 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
   }, [state.filters]);
 
   function markChecked(id: string) {
-    const newChecked = [...checkedItems];
-    newChecked.push(id);
-    setCheckedItems(newChecked);
+    if (checkedItems.indexOf(id) > -1) {
+      // remove already selected
+      const index = checkedItems.indexOf(id);
+      checkedItems.splice(index, 1);
+      setCheckedItems(checkedItems);
+    } else {
+      // check assessment
+      const newChecked = [...checkedItems];
+      newChecked.push(id);
+      setCheckedItems(newChecked);
+    }
 
+    // find full object
     const assessmentObject = state.templateItems.find(templateItem => {
       return templateItem.id === id;
     });
+
+    // create a new array and push it
     let allSelectedAssessments = [];
     allSelectedAssessments.push(assessmentObject);
+
     if (modalContext.setModalState) {
       if (modalContext.modalState && modalContext.modalState.length) {
         allSelectedAssessments = allSelectedAssessments.concat(modalContext.modalState);

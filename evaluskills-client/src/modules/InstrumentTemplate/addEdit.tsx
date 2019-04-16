@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
+import { uniqBy } from 'lodash-es';
 import styled from 'styled-components';
 
 import PageBody from '../../components/atoms/PageBody';
@@ -57,11 +58,8 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
     const newFormState = {
       ...formState,
       ...values,
+      templateItems: formState.templateItems,
     };
-
-    if (formState.templateItems && values.templateItems) {
-      newFormState.templateItems = formState.templateItems.concat(values.templateItems);
-    }
 
     setFormState(newFormState);
     if (defaultValue && defaultValue.id && !copy) {
@@ -247,7 +245,8 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
         visible={modalVisible}
         toggle={() => setModalVisible(!modalVisible)}
         primaryAction={data => {
-          const newFormState = formState.templateItems && formState.templateItems.concat(data);
+          let newFormState = formState.templateItems && formState.templateItems.concat(data);
+          newFormState = uniqBy(newFormState, (e: any) => e.id);
           setFormState({
             ...formState,
             templateItems: newFormState,
