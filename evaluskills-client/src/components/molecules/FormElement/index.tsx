@@ -106,36 +106,13 @@ const FormElement: React.FunctionComponent<Props> = ({
         );
       case FormElementTypes.DATE:
         return (
-          <Input
-            type="date"
-            name={name}
-            tag={Field}
-            placeholder={placeholder}
-            id={name}
-            invalid={getValidation()}
-          />
+          <Input type="date" name={name} tag={Field} placeholder={placeholder} id={name} invalid={getValidation()} />
         );
       case FormElementTypes.TEXT:
-        return (
-          <Input
-            name={name}
-            tag={Field}
-            placeholder={placeholder}
-            id={name}
-            invalid={getValidation()}
-          />
-        );
+        return <Input name={name} tag={Field} placeholder={placeholder} id={name} invalid={getValidation()} />;
 
       default:
-        return (
-          <Input
-            name={name}
-            placeholder={placeholder}
-            tag={Field}
-            id={name}
-            invalid={getValidation()}
-          />
-        );
+        return <Input name={name} placeholder={placeholder} tag={Field} id={name} invalid={getValidation()} />;
     }
   }
 
@@ -187,10 +164,7 @@ const FormElement: React.FunctionComponent<Props> = ({
   return (
     <React.Fragment>
       <FormGroup className={classNames({ row: !inline })}>
-        <Label
-          for={name}
-          className={classNames({ 'col-md-2 col-form-label': !inline }, 'font-bold')}
-        >
+        <Label for={name} className={classNames({ 'col-md-2 col-form-label': !inline }, 'font-bold')}>
           {label}
         </Label>
         {getInputContainer()}

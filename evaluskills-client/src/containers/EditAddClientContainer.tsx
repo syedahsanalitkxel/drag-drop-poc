@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { addClient, editClient, getClientById } from '../services/clientsService';
 import IClientList, { ClientUserInterface } from '../interfaces/AddEditClient';
+import { addClient, editClient, getClientById } from '../services/clientsService';
 
+import Spinner from '../components/atoms/Spinner';
 import AddClient from '../components/pages/AddClient';
 import ErrorContext from '../context/ErrorContext';
+import editClientInterface from '../interfaces/EditClient';
 import RouteParams from '../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
-import editClientInterface, { ContactInterface } from '../interfaces/EditClient';
-import Spinner from '../components/atoms/Spinner';
 
 const user: ClientUserInterface = {
   email: '',
@@ -41,10 +41,7 @@ const ClientList: IClientList = {
   zip: '',
 };
 const selectedClient: editClientInterface = {};
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
-  match,
-  history,
-}) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({ match, history }) => {
   const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
   const [selectedClients, setSelectedClients] = useState(selectedClient);
@@ -130,9 +127,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
-      return (
-        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />
-      );
+      return <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />;
     }
   }
 

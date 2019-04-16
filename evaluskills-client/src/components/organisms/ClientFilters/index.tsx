@@ -55,20 +55,10 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
           <div className="col-md-6">
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
-              <CheckBox
-                name="statusId"
-                value="true"
-                isChecked={formState.statusId}
-                onChange={changeHandler}
-              >
+              <CheckBox name="statusId" value="true" isChecked={formState.statusId} onChange={changeHandler}>
                 Active
               </CheckBox>
-              <CheckBox
-                name="statusId"
-                value="false"
-                onChange={changeHandler}
-                isChecked={formState.statusId !== true}
-              >
+              <CheckBox name="statusId" value="false" onChange={changeHandler} isChecked={formState.statusId !== true}>
                 InActive
               </CheckBox>
             </div>

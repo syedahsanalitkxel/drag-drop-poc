@@ -14,12 +14,7 @@ interface Props {
   sendPasswordResetEmail: (email: string) => void;
 }
 
-const Reset: React.FunctionComponent<Props> = ({
-  email,
-  token,
-  handlePasswordChange,
-  sendPasswordResetEmail,
-}) => {
+const Reset: React.FunctionComponent<Props> = ({ email, token, handlePasswordChange, sendPasswordResetEmail }) => {
   const initialState: ResetPasswordInterface = {
     email,
     password: '',
@@ -65,19 +60,11 @@ const Reset: React.FunctionComponent<Props> = ({
   }
 
   function checkDisabled() {
-    return (
-      !formState.password ||
-      !formState.resetPassword ||
-      formState.password !== formState.resetPassword
-    );
+    return !formState.password || !formState.resetPassword || formState.password !== formState.resetPassword;
   }
 
   function renderPasswordChangeNotification() {
-    if (
-      formState.password &&
-      formState.resetPassword &&
-      formState.password !== formState.resetPassword
-    ) {
+    if (formState.password && formState.resetPassword && formState.password !== formState.resetPassword) {
       return <div className="password-notification mb-4">* Both fields should match</div>;
     }
   }

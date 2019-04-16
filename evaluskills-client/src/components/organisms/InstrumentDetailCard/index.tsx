@@ -9,12 +9,7 @@ interface ListCardProps {
   view?: (evaluationId: string) => void;
 }
 
-const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({
-  titleKey,
-  participants,
-  evaluator,
-  view,
-}) => {
+const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, participants, evaluator, view }) => {
   return (
     <React.Fragment>
       <div className="ibox ">

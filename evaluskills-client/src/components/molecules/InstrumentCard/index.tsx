@@ -18,9 +18,7 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
     setCollapse(value);
   };
 
-  const actionHandler = (evaluationId: string) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const actionHandler = (evaluationId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'view') {
       if (view) {
         view(evaluationId);

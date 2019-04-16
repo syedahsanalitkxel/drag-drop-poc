@@ -10,13 +10,7 @@ interface Props {
   behaviour: string;
   isSelected: boolean;
 }
-const QuestionItem: React.FunctionComponent<Props> = ({
-  isSelected,
-  count,
-  text,
-  statement,
-  behaviour,
-}) => {
+const QuestionItem: React.FunctionComponent<Props> = ({ isSelected, count, text, statement, behaviour }) => {
   const [display, setDisplay] = useState(false);
   const toggleStatement = (e: any) => {
     e.preventDefault();

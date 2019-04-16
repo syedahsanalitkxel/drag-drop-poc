@@ -12,34 +12,40 @@ import DashboardTemplate from '../../templates/DashboardTemplate';
 
 interface Props {
   assessments: AssessmentItemInterface[];
-  filterAssessments: (searchQuery: string) => void;
   add: () => void;
   edit?: (assessmentId: string) => void;
   remove?: (assessmentId: string) => void;
+  filterHandler: (filters: any) => void;
+  appliedFilters: any;
+  resetPager: boolean;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
   assessments,
-  filterAssessments,
+
   add,
   edit,
   remove,
-}) => {
-  const [modalVisible, setModalVisible] = useState(false);
 
+  filterHandler,
+  appliedFilters,
+  resetPager,
+}) => {
+  const onPageChange = (PageNumber: number) => {
+    filterHandler({ PageNumber });
+  };
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
-
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     toggleFilterModal();
   };
-
-  const applyFilters = (filters: AssessmentFiltersInterface) => {
-    console.log(filters);
+  const [modalVisible, setModalVisible] = useState(false);
+  const applyFilters = (filters: any) => {
+    filterHandler(filters);
+    setModalVisible(false);
   };
-
   return (
     <DashboardTemplate>
       <div className="row">
@@ -47,18 +53,20 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Assessment Items"
             filterAction={filtersClickHandler}
-            searchHandler={filterAssessments}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add Assessment Item"
             actionHandler={add}
           />
           <PageBody>
-            <ListCardItems
-              titleKey="definition"
-              listData={assessments}
-              edit={edit}
-              remove={remove}
+            <ListCardItems titleKey="definition" listData={assessments} edit={edit} remove={remove} />
+            <Pager
+              pageSize={appliedFilters.PageSize || 10}
+              totalRecords={appliedFilters.TotalRecords || 10}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
             />
-            {/*<Pager />*/}
           </PageBody>
         </div>
       </div>

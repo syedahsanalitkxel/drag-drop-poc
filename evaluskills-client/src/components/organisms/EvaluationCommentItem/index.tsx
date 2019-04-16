@@ -12,13 +12,7 @@ interface Props {
   isInProgress?: boolean;
 }
 
-const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({
-  text,
-  comment,
-  score,
-  classes,
-  isInProgress,
-}) => {
+const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({ text, comment, score, classes, isInProgress }) => {
   const [display, setDisplay] = useState(false);
   const toggleComment = (e: any) => {
     e.preventDefault();

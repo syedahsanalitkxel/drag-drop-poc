@@ -26,9 +26,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
             </thead>
             <tbody>
               {listData.length > 0 ? (
-                listData.map((list, index) => (
-                  <ClientCard key={index} item={list} edit={edit} remove={remove} />
-                ))
+                listData.map((list, index) => <ClientCard key={index} item={list} edit={edit} remove={remove} />)
               ) : (
                 <tr>
                   <td colSpan={5}> No Contacts Added </td>

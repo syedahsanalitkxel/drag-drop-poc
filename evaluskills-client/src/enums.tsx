@@ -18,3 +18,11 @@ export enum userType {
   CLIENT_ADMIN = 'ClientAdmin',
   SUPER_ADMIN = 'SuperAdmin',
 }
+
+export enum actionTypes {
+  COPY = 'copy',
+  EDIT = 'edit',
+  NEW = 'new',
+  DELETE = 'delete',
+  START_EVALUATION = 'start_evaluation',
+}

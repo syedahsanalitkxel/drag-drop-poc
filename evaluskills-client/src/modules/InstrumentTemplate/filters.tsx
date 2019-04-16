@@ -7,13 +7,22 @@ import ModalContext from '../../context/ModalContext';
 import { USER_ROLE } from '../../utils';
 import LookupContext from '../Lookup/context';
 import { lookups } from '../Lookup/enum';
+import FilterContext from './context';
 
-const initialState = {};
+const initialState = {
+  recommendedApplicationId: '',
+  Status: 'all',
+};
 
 const InstrumentTemplateFilters: React.FunctionComponent = () => {
-  const [state, setState] = useState(initialState);
   const { setModalState } = useContext(ModalContext);
   const { findKey } = useContext(LookupContext);
+  const { activeFilters } = useContext(FilterContext);
+  const [state, setState] = useState({
+    ...initialState,
+    Status: activeFilters && activeFilters.Status,
+    recommendedApplicationId: activeFilters && activeFilters.recommendedApplicationId,
+  });
 
   useEffect(() => {
     if (setModalState) {
@@ -47,6 +56,7 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
           <Input
             type="select"
             name="recommendedApplicationId"
+            value={state.recommendedApplicationId}
             id="recommended-application"
             onChange={changeHandler}
           >
@@ -63,28 +73,13 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
               Status
             </Label>
             <div className="col-md-7">
-              <RadioButton
-                name="status"
-                value="all"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="Status" value="all" currentSelection={state.Status} onChange={changeHandler}>
                 All
               </RadioButton>
-              <RadioButton
-                name="status"
-                value="standard"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="Status" value="standard" currentSelection={state.Status} onChange={changeHandler}>
                 Standard
               </RadioButton>
-              <RadioButton
-                name="status"
-                value="customized"
-                currentSelection="all"
-                onChange={changeHandler}
-              >
+              <RadioButton name="Status" value="customized" currentSelection={state.Status} onChange={changeHandler}>
                 Customized
               </RadioButton>
             </div>

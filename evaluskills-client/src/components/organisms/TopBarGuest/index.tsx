@@ -9,9 +9,7 @@ const TopBarGuest = () => (
         </a>
       </div>
       <div className="col-md-6">
-        <button className="btn btn-primary btn-outline float-right font-size-16 font-bold">
-          Create Your Account
-        </button>
+        <button className="btn btn-primary btn-outline float-right font-size-16 font-bold">Create Your Account</button>
       </div>
     </div>
   </div>

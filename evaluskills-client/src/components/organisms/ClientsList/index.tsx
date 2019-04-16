@@ -61,20 +61,10 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
           )}
         </td>
         <td>
-          <IconButton
-            id="edit"
-            icon="edit"
-            className="btn-outline btn-primary"
-            actionHandler={actionHandler(id)}
-          >
+          <IconButton id="edit" icon="edit" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
             Edit
           </IconButton>
-          <IconButton
-            id="delete"
-            icon="trash"
-            className="btn-default"
-            actionHandler={actionHandler(id)}
-          >
+          <IconButton id="delete" icon="trash" className="btn-default" actionHandler={actionHandler(id)}>
             Delete
           </IconButton>
         </td>

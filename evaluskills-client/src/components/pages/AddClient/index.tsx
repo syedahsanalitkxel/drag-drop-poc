@@ -5,10 +5,7 @@ import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
 import { FormGroup, Input } from 'reactstrap';
 
-import AddEditClientInterface, {
-  ClientUserInterface,
-  ContactInterface,
-} from '../../../interfaces/AddEditClient';
+import AddEditClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/AddEditClient';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
@@ -35,12 +32,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({
-  changeListener,
-  defaultValues,
-  action,
-  clients,
-}) => {
+export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action, clients }) => {
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
@@ -60,18 +52,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
-      const contact: any = defaultValues.clientContacts.find(
-        (contacts: any) => contacts.id === contactId
-      );
+      const contact: any = defaultValues.clientContacts.find((contacts: any) => contacts.id === contactId);
       setSelectedContact(contact);
       toggleEditClientContactModal();
     }
   }
 
   function removeContact(contactId: number) {
-    const contactIndex = formState.clientContacts.findIndex(
-      (contact: any) => contact.id === contactId
-    );
+    const contactIndex = formState.clientContacts.findIndex((contact: any) => contact.id === contactId);
     const { clientContacts } = formState;
     clientContacts.splice(contactIndex, 1);
     setFormState({ ...formState, ...clientContacts });
@@ -157,11 +145,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
     };
 
     return (
-      <Form
-        onSubmit={formikprops.handleSubmit.bind(formikprops)}
-        className="form"
-        encType="multipart/form-data"
-      >
+      <Form onSubmit={formikprops.handleSubmit.bind(formikprops)} className="form" encType="multipart/form-data">
         <div className="PageHeader">
           <div className="row">
             <div className="col-lg-3 col-md-3">
@@ -191,9 +175,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div>
               <span className={styles['image-upload-label']}>Upload Photo</span>
               <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
-              {formikprops.touched.clientLogo &&
-                formikprops.errors.clientLogo &&
-                formikprops.errors.clientLogo}
+              {formikprops.touched.clientLogo && formikprops.errors.clientLogo && formikprops.errors.clientLogo}
             </div>
           </FormGroup>
           <div className="hr-line-dashed" />
@@ -280,12 +262,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <h2>Contact</h2>
           </div>
           <div className="col-sm-6">
-            <Button
-              className="mt-3 float-right"
-              color="primary"
-              size="lg"
-              onClick={onClickAddContact}
-            >
+            <Button className="mt-3 float-right" color="primary" size="lg" onClick={onClickAddContact}>
               Add Contact
             </Button>
           </div>
@@ -295,11 +272,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
           {action === 'Edit'
             ? formState &&
               formState.clientContacts && (
-                <ClientContactsList
-                  listData={formState.clientContacts}
-                  edit={editContact}
-                  remove={removeContact}
-                />
+                <ClientContactsList listData={formState.clientContacts} edit={editContact} remove={removeContact} />
               )
             : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>

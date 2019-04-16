@@ -16,11 +16,7 @@ interface Props {
   view?: (instrumentTemplateId: string) => void;
 }
 
-const InstrumentTemplate: React.FunctionComponent<Props> = ({
-  instruments,
-  filterInstruments,
-  view,
-}) => {
+const InstrumentTemplate: React.FunctionComponent<Props> = ({ instruments, filterInstruments, view }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleFilterModal = () => {
@@ -40,11 +36,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
     <DashboardTemplate>
       <div className="row">
         <div className="col-lg-12">
-          <PageHeader
-            title="Instrument"
-            filterAction={filtersClickHandler}
-            searchHandler={filterInstruments}
-          />
+          <PageHeader title="Instrument" filterAction={filtersClickHandler} searchHandler={filterInstruments} />
           <PageBody>
             <InstrumentListCard titleKey="title" listData={instruments} view={view} />
             {/*<Pager />*/}

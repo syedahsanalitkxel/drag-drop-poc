@@ -2,15 +2,21 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import API from '../../api';
 import { INSTRUMENT_TEMPLATES } from '../../api/endpoints';
+import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
 const api = new API();
 
 export async function getInstrumentTemplates(
   filters?: InstrumentTemplateFilterInterface
-): Promise<InstrumentTemplateInterface[]> {
+): Promise<{ data: InstrumentTemplateInterface[]; pageDetails?: PageDetailsInterface }> {
   return api.get(INSTRUMENT_TEMPLATES, undefined, filters).then(
-    (res: AxiosResponse) => res.data,
+    (res: ResponseInterface) => {
+      return {
+        data: res.data,
+        pageDetails: res.pageDetails,
+      };
+    },
     (error: AxiosError) => {
       throw error;
     }
@@ -19,6 +25,15 @@ export async function getInstrumentTemplates(
 
 export async function getInstrumentTemplateById(id: string): Promise<InstrumentTemplateInterface> {
   return api.get(INSTRUMENT_TEMPLATES, id).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+
+export async function deleteInstrumentTemplate(id: string): Promise<InstrumentTemplateInterface> {
+  return api.delete(INSTRUMENT_TEMPLATES, id).then(
     (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
       throw error;

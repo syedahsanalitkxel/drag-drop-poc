@@ -1,4 +1,6 @@
-export const Initalvalues = {
+import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
+
+export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
   clientId: 2,
   itemsStatusId: 1,
@@ -174,5 +176,4 @@ export const initialState = {
   recommendAppCorporate: false,
   recommendAppHigher: false,
   typeSelected: 'influval',
-  usage: '',
 };

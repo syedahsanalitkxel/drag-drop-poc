@@ -15,15 +15,26 @@ import { Initalvalues, initialState } from './InitialState';
 import { AddAssessmentSchema } from './validationSchema';
 
 import { styles } from './style';
+import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
 
-const AddAssessment: React.FunctionComponent<any> = ({
+interface PropsInterface {
+  assessmenListItems: () => void;
+  addAssessment: (value: AddAssessmentItemInterface) => void;
+  changeListener?: (formValues: any) => void;
+  edit?: boolean;
+  assessmenData: AddAssessmentItemInterface;
+}
+
+const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   assessmenListItems,
   addAssessment,
   changeListener,
+  assessmenData,
   edit,
 }) => {
+  console.log(assessmenData);
   const [formState, setFormState] = useState(initialState);
-  const [forvalues, setFormvalues] = useState(Initalvalues);
+  const [forvalues, setFormvalues] = useState(assessmenData);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
     // if (formState.itemElements.length === 0) {
@@ -32,10 +43,24 @@ const AddAssessment: React.FunctionComponent<any> = ({
     //   setFormState({ ...formState, itemElements: list });
     // }
     if (edit) {
-      setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
+      // setFormvalues(assessmenData);
+      // setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
+      //setFormvalues({ ...forvalues, assessmenListItems });
     }
   }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
+  }
+  function assessmentTypeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    if (parseInt(event.target.value, 10) === 1) {
+      const list: any = forvalues.itemElements;
+      if (list.length === 0) {
+        const clonedArray = JSON.parse(JSON.stringify(formState.elementObject));
+        clonedArray.title = 'default';
+        list.push(clonedArray);
+        setFormvalues({ ...forvalues, itemElements: list });
+      }
+    }
     setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
   }
   function fathchangehandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -124,9 +149,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                         className="form-control"
                         tag={Field}
                         id={'definition'}
-                        invalid={
-                          !!(formikprops.touched.definition && formikprops.errors.definition)
-                        }
+                        invalid={!!(formikprops.touched.definition && formikprops.errors.definition)}
                       />
                       <FormFeedback tooltip={true}>{formikprops.errors.definition}</FormFeedback>
                     </div>
@@ -168,21 +191,14 @@ const AddAssessment: React.FunctionComponent<any> = ({
                     </div>
                   </div>
                   <div className="hr-line-dashed" />
-                  {forvalues.typeId === 1 ? (
+                  {forvalues && forvalues.typeId && forvalues.typeId === 1 ? (
                     <Fragment>
                       <div className="form-group row">
                         <label className="col-sm-2 col-form-label font-bold">Competency</label>
                         <div className="col-sm-10">
                           <div className="col-md-6">
-                            <Input
-                              type="select"
-                              name="competencyId"
-                              id="competency-select"
-                              onChange={changeHandler}
-                            >
-                              <LookupContextConsumer>
-                                {rendercompetencyDropdown}
-                              </LookupContextConsumer>
+                            <Input type="select" name="competencyId" id="competency-select" onChange={changeHandler}>
+                              <LookupContextConsumer>{rendercompetencyDropdown}</LookupContextConsumer>
                             </Input>
                           </div>
                         </div>
@@ -196,7 +212,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="true"
-                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -204,7 +220,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="false"
-                        currentSelection={forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         No
@@ -221,9 +237,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                   </div>
                   <div className="hr-line-dashed" />
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">
-                      Recomended Application
-                    </label>
+                    <label className="col-sm-2 col-form-label font-bold">Recomended Application</label>
 
                     <div className="col-sm-10">
                       <LookupContextConsumer>{recommendedApplicationsLookUp}</LookupContextConsumer>
@@ -254,16 +268,12 @@ const AddAssessment: React.FunctionComponent<any> = ({
                   </div>
                   <div className="hr-line-dashed" />
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">
-                      Accerditation and Usage
-                    </label>
+                    <label className="col-sm-2 col-form-label font-bold">Accerditation and Usage</label>
                     <div className="col-sm-10">
                       <RadioButton
                         name="accreditationAlignment"
                         value="true"
-                        currentSelection={
-                          forvalues.accreditationAlignment === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -271,9 +281,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="accreditationAlignment"
                         value="false"
-                        currentSelection={
-                          forvalues.accreditationAlignment === true ? 'true' : 'false'
-                        }
+                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
                         onChange={fathchangehandler}
                       >
                         No
@@ -296,31 +304,29 @@ const AddAssessment: React.FunctionComponent<any> = ({
                       <RadioButton
                         name="questionTypeId"
                         value={1}
-                        currentSelection={forvalues.questionTypeId}
-                        onChange={changeHandler}
+                        currentSelection={forvalues && forvalues.questionTypeId}
+                        onChange={assessmentTypeHandler}
                       >
                         Rubric
                       </RadioButton>
                       <RadioButton
                         name="questionTypeId"
                         value={2}
-                        currentSelection={forvalues.questionTypeId}
-                        onChange={changeHandler}
+                        currentSelection={forvalues && forvalues.questionTypeId}
+                        onChange={assessmentTypeHandler}
                       >
                         Open Ended
                       </RadioButton>
                     </div>
                   </div>
-                  <div className="isa_error">
-                    <span className="error text-danger">
-                      {formState.assessmentType === '' ? 'Required' : null}
-                    </span>
-                  </div>
 
-                  {formState.itemElements && forvalues.itemElements.map(renderElementList)}
+                  {forvalues &&
+                    forvalues.questionTypeId === 1 &&
+                    forvalues.itemElements &&
+                    forvalues.itemElements.map(renderElementList)}
                 </div>
               </div>
-              {forvalues.typeId === 3 ? (
+              {forvalues && forvalues.typeId === 3 && forvalues.questionTypeId === 1 ? (
                 <div className="">
                   <button
                     type="button"
@@ -337,13 +343,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
                 <button type="button" style={styles.btn} className="btn btn-default btn-lg">
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  style={styles.btn}
-                  id={'submit'}
-                  name="submit"
-                  className="btn btn-primary btn-lg"
-                >
+                <button type="submit" style={styles.btn} id={'submit'} name="submit" className="btn btn-primary btn-lg">
                   Save
                 </button>
                 <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
@@ -367,7 +367,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
         <RadioButton
           name="categoryId"
           value={lookup.value}
-          currentSelection={forvalues.categoryId}
+          currentSelection={forvalues && forvalues.categoryId}
           onChange={changeHandler}
         >
           {lookup.text}
@@ -392,7 +392,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
         <RadioButton
           name="typeId"
           value={lookup.value}
-          currentSelection={forvalues.typeId}
+          currentSelection={forvalues && forvalues.typeId}
           onChange={changeHandler}
         >
           {lookup.text}
@@ -403,22 +403,18 @@ const AddAssessment: React.FunctionComponent<any> = ({
   const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map(
-        (lookup: LookupItemInterface, index) => (
-          <Checkbox
-            name="itemRecomendedApplications"
-            value={lookup.value}
-            isChecked={
-              lookup.value && forvalues.itemRecomendedApplications.includes(lookup.value)
-                ? true
-                : false
-            }
-            onChange={checkboxChangeHandler}
-          >
-            {lookup.text}
-          </Checkbox>
-        )
-      );
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+        <Checkbox
+          name="itemRecomendedApplications"
+          value={lookup.value}
+          isChecked={
+            lookup.value && forvalues && forvalues.itemRecomendedApplications.includes(lookup.value) ? true : false
+          }
+          onChange={checkboxChangeHandler}
+        >
+          {lookup.text}
+        </Checkbox>
+      ));
     }
   };
   const itemEntitiesLookUp = (props: LookupContextInterface) => {
@@ -428,7 +424,7 @@ const AddAssessment: React.FunctionComponent<any> = ({
         <Checkbox
           name="itemEntities"
           value={lookup.value}
-          isChecked={lookup.value && forvalues.itemEntities.includes(lookup.value) ? true : false}
+          isChecked={lookup.value && forvalues && forvalues.itemEntities.includes(lookup.value) ? true : false}
           onChange={entitycheckboxChangeHandler}
         >
           {lookup.text}
@@ -436,16 +432,8 @@ const AddAssessment: React.FunctionComponent<any> = ({
       ));
     }
   };
-  async function submitForm(values: any) {
-    try {
-      console.log(values);
-      const data = await addAssessment(values);
-      console.log(data);
-      assessmenListItems();
-    } catch (error) {
-      errorContext.setError(error, true);
-    }
-    setFormState({ ...formState, ...values });
+  function submitForm(values: any) {
+    addAssessment(values);
   }
   return (
     <DashboardTemplate>
