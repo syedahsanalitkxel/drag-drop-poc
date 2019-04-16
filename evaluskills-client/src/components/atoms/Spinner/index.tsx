@@ -1,12 +1,21 @@
 import React from 'react';
+
 import styles from './Spinner.module.scss';
 
-const Spinner = () => {
+interface Props {
+  lightBg?: boolean;
+}
+
+const Spinner: React.FunctionComponent<Props> = ({ lightBg }) => {
+  const colorStyles = {
+    background: lightBg ? '#2F4050' : 'white',
+  };
+
   return (
     <div className={styles.spinner}>
-      <div className={styles.bounce1} />
-      <div className={styles.bounce2} />
-      <div className={styles.bounce3} />
+      <div className={styles.bounce1} style={colorStyles} />
+      <div className={styles.bounce2} style={colorStyles} />
+      <div className={styles.bounce3} style={colorStyles} />
     </div>
   );
 };

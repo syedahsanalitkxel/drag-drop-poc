@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
@@ -8,8 +8,9 @@ import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
 import RadioButton from '../../components/atoms/RadioButton';
 import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
+import { actionTypes } from '../../enums';
 import FormikBag from '../../interfaces/FormikBag';
-import LookupContext, { LookupContextConsumer } from '../Lookup/context';
+import { LookupContextConsumer } from '../Lookup/context';
 import { lookups } from '../Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../Lookup/interface';
 import { InstrumentTemplateInterface } from './interface';
@@ -17,6 +18,7 @@ import { InstrumentTemplateInterface } from './interface';
 interface Props {
   defaultValue?: InstrumentTemplateInterface;
   copy?: boolean;
+  handleAction: (instrument: InstrumentTemplateInterface, mode: actionTypes) => void;
 }
 
 const initialState: InstrumentTemplateInterface = {
@@ -31,14 +33,16 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValue, copy }) => {
+const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValue, copy, handleAction }) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
-  const lookupContext = useContext(LookupContext);
-
-  console.log(lookupContext);
 
   function submitForm(values: InstrumentTemplateInterface) {
     setFormState({ ...formState, ...values });
+    if (defaultValue && defaultValue.id && !copy) {
+      handleAction({ ...formState, ...values }, actionTypes.EDIT);
+    } else {
+      handleAction({ ...formState, ...values }, actionTypes.NEW);
+    }
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -59,7 +63,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
         <PageHeader
           title={`${title} Instrument Template`}
           actionButtonText="Delete Template"
-          actionHandler={deleteInstrument}
+          actionHandler={copy ? undefined : deleteInstrument}
         />
       );
     }
@@ -100,6 +104,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
           />
 
           <FormGroup className="row">
+            {/*TODO: status is missing in API*/}
             <Label className="col-sm-2 col-form-label font-bold">Status</Label>
             <div className="col-md-10">
               <RadioButton
@@ -124,12 +129,13 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({ defaultValu
 
           <FormElement
             label="Instrument Application"
-            name="application"
+            name="recommendedApplicationId"
             fullLength={true}
             formikprops={formikprops}
             type={FormElementTypes.SELECT}
             last={!!defaultValue}
           >
+            <option value="">Select One</option>
             <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
           </FormElement>
         </PageBody>
