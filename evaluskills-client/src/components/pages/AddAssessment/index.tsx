@@ -19,7 +19,7 @@ import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
 
 interface PropsInterface {
   assessmenListItems: () => void;
-  addAssessment: (value: AddAssessmentItemInterface) => void;
+  addAssessment: (value: AddAssessmentItemInterface, buttonType?: string) => void;
   changeListener?: (formValues: any) => void;
   edit?: boolean;
   assessmenData: AddAssessmentItemInterface;
@@ -34,6 +34,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
 }) => {
   console.log(assessmenData);
   const [formState, setFormState] = useState(initialState);
+  const [submit, setSubmit] = useState();
   const [forvalues, setFormvalues] = useState(assessmenData);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
@@ -50,6 +51,10 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   }, []);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
+  }
+  function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    let check = forvalues && forvalues.saveAsNewVersion;
+    setFormvalues({ ...forvalues, saveAsNewVersion: !check });
   }
   function assessmentTypeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (parseInt(event.target.value, 10) === 1) {
@@ -340,18 +345,68 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                 </div>
               ) : null}
               <div className="m-t-15 m-b-15 button-wrapper">
-                <button type="button" style={styles.btn} className="btn btn-default btn-lg">
+                {edit ? (
+                  <div className="form-group row">
+                    <div className="col-sm-5 d-flex align-items-center">
+                      <Checkbox
+                        name="saveAsNewVersion"
+                        value="saveAsNewVersion"
+                        isChecked={forvalues && forvalues.saveAsNewVersion}
+                        onChange={versionHandler}
+                      >
+                        Save As New Version
+                      </Checkbox>
+                    </div>
+                  </div>
+                ) : null}
+                <div className="hr-line-dashed" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    OnCancelClick();
+                  }}
+                  style={styles.btn}
+                  className="btn btn-default btn-lg"
+                >
                   Cancel
                 </button>
-                <button type="submit" style={styles.btn} id={'submit'} name="submit" className="btn btn-primary btn-lg">
+                <button
+                  type="submit"
+                  style={styles.btn}
+                  id={'submit'}
+                  name="submit"
+                  onClick={() => {
+                    setSubmit('a');
+                    formikprops.submitForm();
+                  }}
+                  className="btn btn-primary btn-lg"
+                >
                   Save
                 </button>
-                <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
-                  Save As Draft
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubmit('b');
+                    formikprops.submitForm();
+                  }}
+                  style={styles.btn}
+                  className="btn btn-primary btn-lg"
+                >
+                  Save and publish
                 </button>
-                <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
-                  Save Add More
-                </button>
+                {edit ? null : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmit('c');
+                      formikprops.submitForm();
+                    }}
+                    style={styles.btn}
+                    className="btn btn-primary btn-lg"
+                  >
+                    Save and Add More
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -432,8 +487,27 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
       ));
     }
   };
+  function OnCancelClick() {
+    addAssessment(Initalvalues, 'd');
+  }
   function submitForm(values: any) {
-    addAssessment(values);
+    if (submit === 'a') {
+      // ...
+      addAssessment(values, 'a');
+    }
+
+    if (submit === 'b') {
+      // ...
+      addAssessment(values, 'b');
+    }
+    if (submit === 'c') {
+      // ...
+      addAssessment(values, 'c');
+    }
+    if (submit === 'd') {
+      // ...
+      addAssessment(values, 'c');
+    }
   }
   return (
     <DashboardTemplate>
