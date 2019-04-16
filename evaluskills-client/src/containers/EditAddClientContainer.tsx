@@ -125,14 +125,20 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     }
   }
 
+  function cancelForm() {
+    history.push('/clients');
+  }
+
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
-      return <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} />;
+      return (
+        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} cancelForm={cancelForm} />
+      );
     }
   }
 
   if (isAdd(match.path)) {
-    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} />;
+    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} cancelForm={cancelForm} />;
   }
 
   return <Spinner />;

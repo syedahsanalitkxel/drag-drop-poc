@@ -25,6 +25,7 @@ interface Props {
   defaultValues?: any;
   action?: string;
   clients?: any;
+  cancelForm: () => void;
 }
 
 const StyledButton = styled(Button)`
@@ -32,7 +33,13 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action, clients }) => {
+export const AddClient: React.FunctionComponent<Props> = ({
+  changeListener,
+  defaultValues,
+  action,
+  clients,
+  cancelForm,
+}) => {
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
@@ -312,7 +319,13 @@ export const AddClient: React.FunctionComponent<Props> = ({ changeListener, defa
 
         <PageBody>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              type="button"
+              size="lg"
+              onClick={() => {
+                cancelForm();
+              }}
+            >
               Cancel
             </StyledButton>
             <StyledButton type="submit" color="primary" size="lg">

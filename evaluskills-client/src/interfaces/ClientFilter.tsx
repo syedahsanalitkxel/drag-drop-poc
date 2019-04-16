@@ -3,7 +3,7 @@ export interface ClientFilters {
   pageNumber?: number;
   pageSize?: number;
   totalRecords?: number;
-  statusId?: boolean;
+  statusId?: string;
   billingPlanId?: number;
   companyTypeId?: number;
 }
