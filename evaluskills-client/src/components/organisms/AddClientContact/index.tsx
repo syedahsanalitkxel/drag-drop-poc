@@ -40,9 +40,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
       formStateUpdate(fprops);
       toggle();
     } else if (fprops.clientContacts && toggle && name === 'Edit') {
-      const contactIndex = fprops.clientContacts.findIndex(
-        (contact: any) => contact.id === values.id
-      );
+      const contactIndex = fprops.clientContacts.findIndex((contact: any) => contact.id === values.id);
       fprops.clientContacts[contactIndex] = values;
       formStateUpdate(fprops);
       toggle();
@@ -75,13 +73,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
 
         <div className="row">
           <div className="col-md-6">
-            <FormElement
-              label="Email"
-              name="email"
-              placeholder="Add Email"
-              formikprops={formikprops}
-              inline={true}
-            />
+            <FormElement label="Email" name="email" placeholder="Add Email" formikprops={formikprops} inline={true} />
           </div>
           <div className="col-md-6">
             <FormElement
@@ -97,13 +89,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
 
         <div className="row">
           <div className="col-md-6">
-            <FormElement
-              label="Role"
-              name="title"
-              formikprops={formikprops}
-              inline={true}
-              last={true}
-            />
+            <FormElement label="Role" name="title" formikprops={formikprops} inline={true} last={true} />
           </div>
         </div>
 
@@ -124,11 +110,7 @@ export const AddClientContact: React.FunctionComponent<Props> = ({
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
       <ModalHeader toggle={toggle}>{name} Contact</ModalHeader>
       <ModalBody>
-        <Formik
-          initialValues={formValues}
-          validationSchema={clientContactSchema}
-          onSubmit={submitHandler}
-        >
+        <Formik initialValues={formValues} validationSchema={clientContactSchema} onSubmit={submitHandler}>
           {formikprops => renderForm(formikprops)}
         </Formik>
       </ModalBody>

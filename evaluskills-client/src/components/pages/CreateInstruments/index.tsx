@@ -86,11 +86,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const CreateInstruments: React.FunctionComponent<Props> = ({
-  changeListener,
-  defaultValues,
-  action,
-}) => {
+export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action }) => {
   const [formState, setFormState] = useState(defaultValues || initialState);
   const [contactFormState, setContactFormState] = useState(initialContactState);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
@@ -182,13 +178,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({
         <PageBody card={true} wrapper={true} className="m-t-15">
           <div className="row">
             <div className="col-md-6">
-              <FormElement
-                label="Title"
-                name="title"
-                placeholder="Add Title"
-                formikprops={formikprops}
-                inline={true}
-              />
+              <FormElement label="Title" name="title" placeholder="Add Title" formikprops={formikprops} inline={true} />
             </div>
             <div className="form-group  col-md-6">
               <label className="col-sm-2 col-form-label font-bold">Status</label>
@@ -284,12 +274,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({
             <h3>Participants</h3>
           </div>
           <div className="col-sm-6">
-            <Button
-              className="mt-3 float-right"
-              color="primary"
-              size="lg"
-              onClick={onClickAddContact}
-            >
+            <Button className="mt-3 float-right" color="primary" size="lg" onClick={onClickAddContact}>
               Add Participants
             </Button>
           </div>
@@ -428,11 +413,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({
 
   return (
     <DashboardTemplate>
-      <Formik
-        initialValues={formState}
-        validationSchema={evaluationFormSchema}
-        onSubmit={submitForm}
-      >
+      <Formik initialValues={formState} validationSchema={evaluationFormSchema} onSubmit={submitForm}>
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
     </DashboardTemplate>

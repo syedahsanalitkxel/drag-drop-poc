@@ -43,7 +43,7 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   };
 
   function renderElement() {
-    if (match.path === '/reset-password') {
+    if (match.path === '/account/reset-password') {
       return (
         <Reset
           email={query.email}

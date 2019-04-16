@@ -18,8 +18,7 @@ const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Action',
     competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
+    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
     id: 'uuid-11-111',
     type: 'Influential',
   },
@@ -128,9 +127,10 @@ const InstrumentList: ClientInstruments[] = [
   },
 ];
 
-const InstrumentDetailContainer: React.FunctionComponent<
-  RouteComponentProps<RouteParamsInterface>
-> = ({ history, match }) => {
+const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
+  history,
+  match,
+}) => {
   const [instruments, setInstruments] = useState(InstrumentList);
   const [participants, setParticipants] = useState(participantsList);
   const [evaluator, setEvaluator] = useState(EvaluatorList);

@@ -7,9 +7,11 @@ import Spinner from '../../components/atoms/Spinner';
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import RouteParamsInterface from '../../interfaces/RouteParams';
-import { isAdd, isEdit, isList } from '../../utils/routerUtils';
+import { USER_ROLE } from '../../utils';
+import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
+import FilterContext from './context';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
-import { getInstrumentTemplateById, getInstrumentTemplates } from './service';
+import { deleteInstrumentTemplate, getInstrumentTemplateById, getInstrumentTemplates } from './service';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -24,6 +26,7 @@ const instrumentTemplate: InstrumentTemplateInterface = {
 const defaultFilters: InstrumentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  Status: 'all',
 };
 
 interface State {
@@ -53,7 +56,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   });
 
   useEffect(() => {
-    if (isEdit(match.params)) {
+    if (isEdit(match.params) || isCopy(match.path)) {
       fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
       fetchAllInstruments(state.filters);
@@ -72,6 +75,15 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (!filters.PageNumber) {
       newFilterState.resetPager = true;
       newFilterState.filters.PageNumber = 1;
+    }
+    if (!filters.Search) {
+      delete newFilterState.filters.Search;
+    }
+    if (!filters.recommendedApplicationId) {
+      delete newFilterState.filters.recommendedApplicationId;
+    }
+    if (USER_ROLE.isSuperAdmin()) {
+      delete newFilterState.filters.Status;
     }
     setState(newFilterState);
   }
@@ -99,26 +111,43 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   function updateInstrument() {}
-  function deleteInstrument() {}
 
-  function navigate(path: string) {
-    history.push(`/instrument-templates${path}`);
+  async function deleteInstrument(id: string) {
+    try {
+      await deleteInstrumentTemplate(id);
+      await fetchAllInstruments(state.filters);
+    } catch (error) {
+      errorContext.setError(error);
+    }
+  }
+
+  function navigate(path: string, root?: boolean) {
+    if (root) {
+      history.push(path);
+    } else {
+      history.push(`/instrument-templates${path}`);
+    }
   }
 
   function renderPage() {
     if (isEdit(match.params)) {
       return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
+    } else if (isCopy(match.path)) {
+      return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} copy={true} />;
     } else if (isAdd(match.path)) {
       return <AddEditInstrumentTemplate />;
     }
     return (
-      <InstrumentTemplate
-        instrumentTemplates={state.instrumentTemplates}
-        navigate={navigate}
-        filterHandler={filterHandler}
-        pageDetails={state.pageDetails || defaultPageDetail}
-        resetPager={state.resetPager}
-      />
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <InstrumentTemplate
+          instrumentTemplates={state.instrumentTemplates}
+          navigate={navigate}
+          filterHandler={filterHandler}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+          handleDelete={deleteInstrument}
+        />
+      </FilterContext.Provider>
     );
   }
 

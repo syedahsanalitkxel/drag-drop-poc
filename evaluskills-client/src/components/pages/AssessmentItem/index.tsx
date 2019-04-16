@@ -60,12 +60,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
             actionHandler={add}
           />
           <PageBody>
-            <ListCardItems
-              titleKey="definition"
-              listData={assessments}
-              edit={edit}
-              remove={remove}
-            />
+            <ListCardItems titleKey="definition" listData={assessments} edit={edit} remove={remove} />
             <Pager
               pageSize={appliedFilters.PageSize || 10}
               totalRecords={appliedFilters.TotalRecords || 10}

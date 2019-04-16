@@ -51,28 +51,13 @@ const InstrumentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
         <div className="col-md-6">
           <Label className="font-bold">Status</Label>
           <div className="d-flex align-items-center">
-            <RadioButton
-              name="status"
-              value="all"
-              currentSelection={formState.status}
-              onChange={changeHandler}
-            >
+            <RadioButton name="status" value="all" currentSelection={formState.status} onChange={changeHandler}>
               All
             </RadioButton>
-            <RadioButton
-              name="status"
-              value="standard"
-              currentSelection={formState.status}
-              onChange={changeHandler}
-            >
+            <RadioButton name="status" value="standard" currentSelection={formState.status} onChange={changeHandler}>
               Standard
             </RadioButton>
-            <RadioButton
-              name="status"
-              value="customized"
-              currentSelection={formState.status}
-              onChange={changeHandler}
-            >
+            <RadioButton name="status" value="customized" currentSelection={formState.status} onChange={changeHandler}>
               Customized
             </RadioButton>
           </div>

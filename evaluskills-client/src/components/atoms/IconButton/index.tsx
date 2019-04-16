@@ -18,20 +18,8 @@ const StyledButton = styled.button`
   margin-left: 5px;
 `;
 
-const IconButton: React.FunctionComponent<Props> = ({
-  icon,
-  className,
-  id,
-  name,
-  actionHandler,
-  children,
-}) => (
-  <StyledButton
-    name={name}
-    className={classNames(['btn', className])}
-    onClick={actionHandler}
-    id={id}
-  >
+const IconButton: React.FunctionComponent<Props> = ({ icon, className, id, name, actionHandler, children }) => (
+  <StyledButton name={name} className={classNames(['btn', className])} onClick={actionHandler} id={id}>
     {icon && <FontAwesomeIcon icon={icon} />}
     &nbsp;
     {children}

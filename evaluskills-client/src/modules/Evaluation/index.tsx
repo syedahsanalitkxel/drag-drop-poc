@@ -33,11 +33,11 @@ export const EvaluationRoutes = [
   },
 ];
 export default {
-  EvaluationRoutes,
   EvaluationComment,
   EvaluationList,
   EvaluationQuesetion,
   EvaluationResult,
+  EvaluationRoutes,
   EvaluationStart,
   EvaluationSummary,
 };

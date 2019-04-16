@@ -14,11 +14,11 @@ const ItemCard: React.FunctionComponent<Props> = ({ header, children }) => {
   return (
     <div className="es-card">
       <div className="row">
-        <div className="col-md-10">
+        <div className="col-md-9">
           <p className="es-card-title">{header}</p>
           <div className="row es-card-info">{content}</div>
         </div>
-        <div className="col-md-2 d-flex align-items-center">
+        <div className="col-md-3 d-flex align-items-center align-content-end">
           <div className="es-card-button">{actions}</div>
         </div>
       </div>

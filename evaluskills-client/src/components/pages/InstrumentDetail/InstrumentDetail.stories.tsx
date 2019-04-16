@@ -36,8 +36,7 @@ const AssessmentItems: AssessmentItemInterface[] = [
   {
     category: 'Action',
     competency: 'Good Coder',
-    definition:
-      'Has a set of moral principles used in job in accordance with the culture of organization',
+    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
     id: 'uuid-11-111',
     type: 'Influential',
   },

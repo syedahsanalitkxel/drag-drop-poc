@@ -11,12 +11,7 @@ interface ModalProps {
   FormValues: any;
 }
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({
-  visible,
-  toggle,
-  name,
-  FormValues,
-}) => {
+export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, name, FormValues }) => {
   const addUserSchema = Yup.object().shape({
     email: Yup.string()
       .required()
@@ -112,13 +107,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
           <button type="button" style={styles.btn} className="btn btn-default btn-lg">
             Cancel
           </button>
-          <button
-            type="button"
-            style={styles.btn}
-            id={'submit'}
-            name="submit"
-            className="btn btn-primary btn-lg"
-          >
+          <button type="button" style={styles.btn} id={'submit'} name="submit" className="btn btn-primary btn-lg">
             Save
           </button>
           <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
@@ -132,12 +121,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
       <ModalHeader toggle={toggle}>{name} User</ModalHeader>
-      <Formik
-        enableReinitialize={true}
-        initialValues={FormValues}
-        validationSchema={addUserSchema}
-        onSubmit={() => {}}
-      >
+      <Formik enableReinitialize={true} initialValues={FormValues} validationSchema={addUserSchema} onSubmit={() => {}}>
         {formikprops => renderForm(formikprops)}
       </Formik>
     </Modal>

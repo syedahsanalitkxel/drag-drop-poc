@@ -71,20 +71,12 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
           <PageBody>
             <Nav tabs={true}>
               <NavItem>
-                <NavLink
-                  id="1"
-                  className={classnames({ active: activeTab === '1' })}
-                  onClick={toggle}
-                >
+                <NavLink id="1" className={classnames({ active: activeTab === '1' })} onClick={toggle}>
                   Participants {participants.length}
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  id="2"
-                  className={classnames({ active: activeTab === '2' })}
-                  onClick={toggle}
-                >
+                <NavLink id="2" className={classnames({ active: activeTab === '2' })} onClick={toggle}>
                   Assessments Items {assessmentItems.length}
                 </NavLink>
               </NavItem>
@@ -92,12 +84,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
 
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                <InstrumentDetailCard
-                  titleKey="title"
-                  participants={participants}
-                  evaluator={evaluator}
-                  view={view}
-                />
+                <InstrumentDetailCard titleKey="title" participants={participants} evaluator={evaluator} view={view} />
               </TabPane>
               <TabPane tabId="2">
                 <ListCardItems titleKey="definition" listData={assessmentItems} />

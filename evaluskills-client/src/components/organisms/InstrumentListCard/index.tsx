@@ -12,16 +12,10 @@ const pStyle = {
   width: '50%',
 };
 
-const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({
-  titleKey,
-  listData,
-  view,
-}) => {
+const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, view }) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
-  const actionHandler = (assessmentId: string) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'view') {
       if (view) {
         view(assessmentId);
@@ -67,13 +61,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({
     return (
       <React.Fragment>
         {view && (
-          <button
-            id={id}
-            name="view"
-            type="button"
-            onClick={actionHandler(id)}
-            className="btn btn-default"
-          >
+          <button id={id} name="view" type="button" onClick={actionHandler(id)} className="btn btn-default">
             Detail
           </button>
         )}
