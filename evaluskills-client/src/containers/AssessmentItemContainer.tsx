@@ -13,6 +13,7 @@ import {
   editAssessmentService,
   updateAssessment,
 } from '../services/assessmentsService';
+import FilterContext from '../components/organisms/AssessmentFilters/context';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
@@ -34,6 +35,12 @@ const AssessmentItems: AssessmentItemInterface[] = [
 const defaultFilters: AssessmentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  // accreditation: '',
+  // application: '',
+  // categoryId: '',
+  // competencyId: '',
+  // itemsStatusIds: '',
+  // itemRecomendedApplications: [0],
 };
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,
@@ -220,15 +227,17 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   };
 
   return (
-    <AssessmentItem
-      assessments={state.assessments}
-      add={routeaddAssessment}
-      remove={deleteAssessment}
-      edit={editAssessment}
-      filterHandler={filtersClickHandler}
-      resetPager={state.resetPager}
-      appliedFilters={state.filters}
-    />
+    <FilterContext.Provider value={{ activeFilters: state.filters }}>
+      <AssessmentItem
+        assessments={state.assessments}
+        add={routeaddAssessment}
+        remove={deleteAssessment}
+        edit={editAssessment}
+        filterHandler={filtersClickHandler}
+        resetPager={state.resetPager}
+        appliedFilters={state.filters}
+      />
+    </FilterContext.Provider>
   );
 };
 
