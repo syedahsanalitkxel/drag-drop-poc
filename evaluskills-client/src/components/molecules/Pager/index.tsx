@@ -48,31 +48,31 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, pageNum
     });
   }, [shouldReset]);
 
-  function updatePager(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, pageNumber: number) {
+  function updatePager(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, currentPage: number) {
     event.preventDefault();
-    onPageChanged(pageNumber);
-    if (pageNumber >= pagerState.currentLastPageNumber && pagerState.currentLastPageNumber !== pagerState.totalPages) {
+    onPageChanged(currentPage);
+    if (currentPage >= pagerState.currentLastPageNumber && pagerState.currentLastPageNumber !== pagerState.totalPages) {
       setPagerState(prevState => {
         return {
           ...prevState,
           currentFirstPageNumber: prevState.currentFirstPageNumber + 1,
           currentLastPageNumber: prevState.currentLastPageNumber + 1,
-          currentPageNumber: pageNumber,
+          currentPageNumber: currentPage,
         };
       });
-    } else if (pageNumber === pagerState.currentFirstPageNumber && pagerState.currentFirstPageNumber !== 1) {
+    } else if (currentPage === pagerState.currentFirstPageNumber && pagerState.currentFirstPageNumber !== 1) {
       setPagerState(prevState => {
         return {
           ...prevState,
           currentFirstPageNumber: prevState.currentFirstPageNumber - 1,
           currentLastPageNumber: prevState.currentLastPageNumber - 1,
-          currentPageNumber: pageNumber,
+          currentPageNumber: currentPage,
         };
       });
     } else {
       setPagerState({
         ...pagerState,
-        currentPageNumber: pageNumber,
+        currentPageNumber: currentPage,
       });
     }
   }
