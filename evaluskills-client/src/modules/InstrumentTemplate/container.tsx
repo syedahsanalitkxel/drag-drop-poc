@@ -11,7 +11,14 @@ import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
 import FilterContext from './context';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
-import { deleteInstrumentTemplate, getInstrumentTemplateById, getInstrumentTemplates } from './service';
+import {
+  addInstrumentTemplates,
+  deleteInstrumentTemplate,
+  getInstrumentTemplateById,
+  getInstrumentTemplates,
+  updateInstrumentTemplates,
+} from './service';
+import { actionTypes } from '../../enums';
 
 const InstrumentTemplate = lazy(() => import('./list'));
 const AddEditInstrumentTemplate = lazy(() => import('./addEdit'));
@@ -35,6 +42,7 @@ interface State {
   filters: InstrumentTemplateFilterInterface;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
+  isLoading: boolean;
 }
 
 const defaultPageDetail = {
@@ -51,6 +59,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     filters: defaultFilters,
     instrumentTemplate,
     instrumentTemplates,
+    isLoading: false,
     pageDetails: defaultPageDetail,
     resetPager: false,
   });
@@ -89,28 +98,48 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   async function fetchAllInstruments(filters?: InstrumentTemplateFilterInterface) {
+    setState({ ...state, isLoading: true });
     try {
       const allTemplates = await getInstrumentTemplates(filters);
       setState({
         ...state,
         instrumentTemplates: allTemplates.data,
+        isLoading: false,
         pageDetails: allTemplates.pageDetails,
       });
     } catch (error) {
       errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
     }
   }
 
   async function fetchInstrument(id: string) {
+    setState({ ...state, isLoading: true });
     try {
       const data = await getInstrumentTemplateById(id);
-      setState({ ...state, instrumentTemplate: data });
+      setState({ ...state, instrumentTemplate: data, isLoading: false });
     } catch (error) {
       errorContext.setError(error);
+      setState({ ...state, isLoading: false });
     }
   }
 
-  function updateInstrument() {}
+  async function dataManipulationAction(instrument: InstrumentTemplateInterface, mode: actionTypes) {
+    try {
+      if (mode === actionTypes.NEW) {
+        await addInstrumentTemplates(instrument);
+      } else {
+        if (instrument.id) {
+          if (typeof instrument.id === 'number') {
+            await updateInstrumentTemplates(instrument, instrument.id);
+          }
+        }
+      }
+      navigate('');
+    } catch (e) {
+      errorContext.setError(e);
+    }
+  }
 
   async function deleteInstrument(id: string) {
     try {
@@ -130,12 +159,24 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   function renderPage() {
+    // if (state.isLoading) {
+    //   return <Spinner lightBg={true} />;
+    // }
+
     if (isEdit(match.params)) {
-      return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
+      return (
+        <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} handleAction={dataManipulationAction} />
+      );
     } else if (isCopy(match.path)) {
-      return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} copy={true} />;
+      return (
+        <AddEditInstrumentTemplate
+          defaultValue={state.instrumentTemplate}
+          copy={true}
+          handleAction={dataManipulationAction}
+        />
+      );
     } else if (isAdd(match.path)) {
-      return <AddEditInstrumentTemplate />;
+      return <AddEditInstrumentTemplate handleAction={dataManipulationAction} />;
     }
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
