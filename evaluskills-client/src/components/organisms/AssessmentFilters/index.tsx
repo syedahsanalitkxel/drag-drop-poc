@@ -5,28 +5,36 @@ import ModalContext from '../../../context/ModalContext';
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
-import InstrumentTemplateInterface from '../../../interfaces/InstrumentTemplate';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
+import FilterContext from './context';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 interface Props {
   changeListener?: (formValues: any) => void;
 }
 
 const initialState = {
-  accreditation: 1,
-  application: 1,
-  categoryId: 2,
-  competencyId: 1,
-  itemsStatusIds: 1,
-  itemRecomendedApplications: [1],
+  accreditation: undefined,
+  application: undefined,
+  categoryId: undefined,
+  competencyId: undefined,
+  itemsStatusIds: undefined,
+  itemRecomendedApplications: [0],
 };
 
 const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
+  //const [formState, setFormState] = useState(initialState);
 
   const { setModalState } = useContext(ModalContext);
-
+  const { activeFilters } = useContext(FilterContext);
+  const [formState, setFormState] = useState({
+    ...initialState,
+    accreditation: activeFilters && activeFilters.accreditation,
+    application: activeFilters && activeFilters.application,
+    categoryId: activeFilters && activeFilters.categoryId,
+    competencyId: activeFilters && activeFilters.competencyId,
+    itemsStatusIds: activeFilters && activeFilters.itemsStatusIds,
+  });
   useEffect(() => {
     if (changeListener) {
       changeListener(formState);
@@ -74,6 +82,26 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
       ));
     }
   };
+  const renderAssessmentCategory = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.categoriesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderCompitency = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.competenciesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
   const renderAssessmentRecommend = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
@@ -107,22 +135,18 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label for="competency-select" className="font-bold">
               Competency
             </Label>
-            <Input type="select" name="competencyId" id="competency-select" onChange={changeHandler}>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
+            <Input type="select" name="competencyId" id="competency-select" onChange={lookupchangeHandler}>
+              <option value="">Select One</option>
+              <LookupContextConsumer>{renderCompitency}</LookupContextConsumer>
             </Input>
           </div>
           <div className="col-md-6">
             <Label for="category-select" className="font-bold">
               Category
             </Label>
-            <Input type="select" name="categoryId" id="category-select" onChange={changeHandler}>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
+            <Input type="select" name="categoryId" id="competency-select" onChange={lookupchangeHandler}>
+              <option value="">Select One</option>
+              <LookupContextConsumer>{renderAssessmentCategory}</LookupContextConsumer>
             </Input>
           </div>
         </FormGroup>
