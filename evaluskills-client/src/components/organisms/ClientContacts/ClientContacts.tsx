@@ -23,6 +23,18 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
       <div className="row">
         <div className="col-md-6">
           <FormElement
+            label="Role"
+            placeholder="Add Contact Role"
+            name={getContactField('title')}
+            formikprops={formikprops}
+            noValidate={true}
+            inline={true}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6">
+          <FormElement
             label="First Name"
             name={getContactField('firstName')}
             placeholder="Add First Name"
@@ -51,6 +63,7 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             formikprops={formikprops}
             type={FormElementTypes.TEXT}
             inline={true}
+            last={true}
           />
         </div>
         <div className="col-md-6">
@@ -58,17 +71,6 @@ const ClientContacts: React.FunctionComponent<Props> = ({ index, formikprops }) 
             label="Phone"
             name={getContactField('phone')}
             placeholder="Add Phone"
-            formikprops={formikprops}
-            noValidate={true}
-            inline={true}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6">
-          <FormElement
-            label="Role"
-            name={getContactField('title')}
             formikprops={formikprops}
             noValidate={true}
             inline={true}

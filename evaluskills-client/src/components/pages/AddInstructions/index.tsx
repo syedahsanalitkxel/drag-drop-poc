@@ -45,10 +45,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ list, edit, ch
     }
   }, []);
 
-  function submitForm(
-    values: InsturmentsInterface,
-    formikActions: FormikActions<InsturmentsInterface>
-  ) {
+  function submitForm(values: InsturmentsInterface, formikActions: FormikActions<InsturmentsInterface>) {
     setFormState({ ...formState, ...values });
   }
 

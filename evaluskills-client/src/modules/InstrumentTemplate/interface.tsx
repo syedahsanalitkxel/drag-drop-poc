@@ -9,19 +9,23 @@ export interface InstrumentTemplateInterface {
   id?: number | string;
   title: string;
   recommendedApplicationId: number;
-  isSystemDefined: boolean;
-  clientId: number;
+  isSystemDefined?: boolean;
+  clientId?: number;
   templateItems?: TemplateItem[];
   competency?: number;
   influential?: number;
   isFaithBased?: number;
   rational?: number;
+  description?: string;
+  status?: boolean;
 }
 
 // Instrument Filter
 export interface InstrumentTemplateFilterInterface {
-  search?: string;
+  Search?: string;
   PageNumber?: number;
+  PageSize?: number;
   recommendedApplicationId?: number;
-  status?: string;
+  Status?: string;
+  TotalRecords?: number;
 }

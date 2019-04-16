@@ -49,12 +49,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <button
-            type="button"
-            onClick={handleSecondaryAction}
-            className="btn btn-default"
-            data-dismiss="modal"
-          >
+          <button type="button" onClick={handleSecondaryAction} className="btn btn-default" data-dismiss="modal">
             {secondaryText}
           </button>
           <button type="button" onClick={handlePrimaryAction} className="btn btn-primary">

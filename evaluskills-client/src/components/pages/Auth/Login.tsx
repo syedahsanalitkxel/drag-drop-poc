@@ -62,16 +62,11 @@ const Login: React.FunctionComponent<Props> = ({ handleLogin }) => {
           </span>
         </div>
         <div className="input-holder mb-5">
-          <NavLink className="forget-password d-inline-block clr-inherit" to="/reset-password">
+          <NavLink className="forget-password d-inline-block clr-inherit" to="/account/reset-password">
             Forgot password?
           </NavLink>
         </div>
-        <Button
-          color="success"
-          size="lg"
-          type="submit"
-          className="btn-rounded font-size-18 pl-5 pr-5"
-        >
+        <Button color="success" size="lg" type="submit" className="btn-rounded font-size-18 pl-5 pr-5">
           Sign In
         </Button>
       </Form>

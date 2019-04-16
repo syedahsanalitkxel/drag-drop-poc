@@ -8,6 +8,8 @@ import {
   InstrumentTemplateFilterInterface,
   InstrumentTemplateInterface,
 } from '../modules/InstrumentTemplate/interface';
+import UserFilterInterface from '../interfaces/UserFilter';
+import { PageDetailsInterface } from '../api/ResponseInterface';
 const api = new API();
 
 export async function getUsers(): Promise<UserList[]> {
@@ -32,8 +34,10 @@ export async function getUserById(id: string): Promise<UserList> {
   );
 }
 
-export async function getFilteredUser(params: any): Promise<UserList[]> {
-  return api.get(USERS, undefined, params).then(
+export async function getFilteredUser(
+  filters?: UserFilterInterface
+): Promise<{ data: any; pageDetails?: PageDetailsInterface }> {
+  return api.get(USERS, undefined, filters).then(
     (res: AxiosResponse) => {
       return res.data;
     },

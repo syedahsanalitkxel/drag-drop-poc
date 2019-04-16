@@ -2,32 +2,45 @@ import React, { useState } from 'react';
 
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
+import { PageDetailsInterface } from '../../api/ResponseInterface';
 import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
+import DeleteModal from '../../components/molecules/DeleteModal';
 import ESModal from '../../components/molecules/Modal';
 import Pager from '../../components/molecules/Pager';
-import ListCardItems from '../../components/organisms/InstrumentListCardItems';
+import { actionTypes } from '../../enums';
 import InstrumentTemplateFilters from './filters';
+import ListInstrumentTemplateCards from './listCards';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
-  navigate: (path: string) => void;
+  navigate: (path: string, root?: boolean) => void;
   filterHandler: (filters: InstrumentTemplateFilterInterface) => void;
+  pageDetails: PageDetailsInterface;
+  resetPager: boolean;
+  handleDelete: (id: string) => void;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
   instrumentTemplates,
   navigate,
   filterHandler,
+  pageDetails,
+  resetPager,
+  handleDelete,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalState, setDeleteModalState] = useState({
+    id: '',
+    visible: false,
+  });
 
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
 
   const onPageChange = (PageNumber: number) => {
-    applyFilters({ PageNumber });
+    filterHandler({ PageNumber });
   };
 
   const filtersClickHandler = (event: React.MouseEvent) => {
@@ -40,6 +53,27 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
     setModalVisible(false);
   };
 
+  const actionHandler = (mode: actionTypes, id?: string | number) => {
+    if (mode === actionTypes.DELETE) {
+      if (id) {
+        if (typeof id === 'string') {
+          setDeleteModalState({ visible: true, id });
+        } else {
+          setDeleteModalState({ visible: true, id: id.toString() });
+        }
+      }
+    } else if (mode === actionTypes.START_EVALUATION) {
+      navigate(`/addInstrumental`, true);
+    } else {
+      navigate(`/${mode}/${id}`);
+    }
+  };
+
+  const deleteModalAction = (id: string) => {
+    setDeleteModalState({ id: '', visible: false });
+    handleDelete(id);
+  };
+
   return (
     <React.Fragment>
       <div className="row">
@@ -47,24 +81,35 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Instrument Templates"
             filterAction={filtersClickHandler}
-            searchHandler={() => {}}
+            searchHandler={(Search: string) => {
+              applyFilters({ Search });
+            }}
             actionButtonText="Add Instrument Template"
             actionHandler={() => navigate('/add')}
           />
           <PageBody>
-            <ListCardItems
-              titleKey="title"
-              listData={instrumentTemplates}
-              edit={(id: string) => {
-                navigate(`/edit/${id}`);
-              }}
-              // remove={remove}
-              // addInstrument={addInstrument}
+            <ListInstrumentTemplateCards actionHandler={actionHandler} instrumentTemplates={instrumentTemplates} />
+            <Pager
+              pageSize={pageDetails.pageSize || 25}
+              totalRecords={pageDetails.totalCount || 25}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
             />
-            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
           </PageBody>
         </div>
       </div>
+
+      <DeleteModal
+        visible={deleteModalState.visible}
+        id={deleteModalState.id}
+        toggle={() =>
+          setDeleteModalState({
+            id: deleteModalState.id,
+            visible: !deleteModalState.visible,
+          })
+        }
+        actionHandler={deleteModalAction}
+      />
 
       <ESModal
         title="Filters"
@@ -73,7 +118,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="reset"
+        secondaryAction="dismiss"
       >
         <InstrumentTemplateFilters />
       </ESModal>

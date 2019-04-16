@@ -2,16 +2,27 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 
+import RadioButton from '../../components/atoms/RadioButton';
 import ModalContext from '../../context/ModalContext';
+import { USER_ROLE } from '../../utils';
 import LookupContext from '../Lookup/context';
 import { lookups } from '../Lookup/enum';
+import FilterContext from './context';
 
-const initialState = {};
+const initialState = {
+  recommendedApplicationId: '',
+  Status: 'all',
+};
 
 const InstrumentTemplateFilters: React.FunctionComponent = () => {
-  const [state, setState] = useState(initialState);
   const { setModalState } = useContext(ModalContext);
   const { findKey } = useContext(LookupContext);
+  const { activeFilters } = useContext(FilterContext);
+  const [state, setState] = useState({
+    ...initialState,
+    Status: activeFilters && activeFilters.Status,
+    recommendedApplicationId: activeFilters && activeFilters.recommendedApplicationId,
+  });
 
   useEffect(() => {
     if (setModalState) {
@@ -45,13 +56,36 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
           <Input
             type="select"
             name="recommendedApplicationId"
+            value={state.recommendedApplicationId}
             id="recommended-application"
             onChange={changeHandler}
           >
+            <option value="">Select One</option>
             {renderRecommendedApplicationFilter()}
           </Input>
         </div>
       </FormGroup>
+      {USER_ROLE.isClientAdmin() && (
+        <React.Fragment>
+          <div className="hr-line-dashed" />
+          <FormGroup className="row">
+            <Label id="status" className="col-md-5 col-form-label font-bold">
+              Status
+            </Label>
+            <div className="col-md-7">
+              <RadioButton name="Status" value="all" currentSelection={state.Status} onChange={changeHandler}>
+                All
+              </RadioButton>
+              <RadioButton name="Status" value="standard" currentSelection={state.Status} onChange={changeHandler}>
+                Standard
+              </RadioButton>
+              <RadioButton name="Status" value="customized" currentSelection={state.Status} onChange={changeHandler}>
+                Customized
+              </RadioButton>
+            </div>
+          </FormGroup>
+        </React.Fragment>
+      )}
     </Form>
   );
 };

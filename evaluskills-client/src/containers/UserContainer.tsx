@@ -8,6 +8,8 @@ import UsersFilterInterface from '../interfaces/UserFilter';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import { addUser, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
+import { PageDetailsInterface } from '../api/ResponseInterface';
+import FilterContext from '../components/organisms/ClientFilters/context';
 
 const users: UsersInterface[] = [];
 
@@ -23,40 +25,59 @@ const defaultFilters: UsersFilterInterface = {
   pageSize: 10,
 };
 
+const defaultPageDetail = {
+  currentPage: defaultFilters.pageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
+};
+
 interface State {
-  users: UsersInterface[];
+  users: any;
   user: UsersInterface;
   filters: UsersFilterInterface;
+  isLoading: boolean;
+  pageDetails?: PageDetailsInterface;
+  resetPager: boolean;
 }
 
-const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
-  history,
-  match,
-}) => {
+const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-  // const [users, setUsers] = useState(initialState);
   const [state, setState] = useState<State>({
     filters: defaultFilters,
+    isLoading: false,
+    pageDetails: defaultPageDetail,
+    resetPager: false,
     user,
     users,
   });
 
   useEffect(() => {
-    if (isEdit(match.params)) {
-      fetchUserById(match.params.id);
-    } else if (isList(match.path)) {
-      fetchAllUsers(defaultFilters);
-    }
-  }, [match.path]);
+    console.log(state.filters);
+    fetchAllUsers(state.filters);
+  }, [match.path, state.filters]);
 
   function filterHandler(filters: UsersFilterInterface) {
-    fetchAllUsers({ ...state.filters, ...filters });
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.pageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.pageNumber = 1;
+    }
+    if (!filters.search) {
+      delete newFilterState.filters.search;
+    }
   }
 
   async function fetchAllUsers(filters?: UsersFilterInterface) {
     try {
       const data = await getFilteredUser(filters);
-      setState({ ...state, users: data });
+      setState({ ...state, users: data, pageDetails: data.pageDetails });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -124,7 +145,17 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     } else if (isAdd(match.path)) {
       // rseturn <AddEditInstrumentTemplate />;
     }
-    return <UsersList Users={state.users} filterHandler={filterHandler} submitForm={submitForm} />;
+    return (
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <UsersList
+          Users={state.users}
+          filterHandler={filterHandler}
+          submitForm={submitForm}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+        />
+      </FilterContext.Provider>
+    );
   }
 
   return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;

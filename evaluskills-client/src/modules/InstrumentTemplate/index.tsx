@@ -1,7 +1,4 @@
 import { lazy } from 'react';
-import InstrumentTemplateAddEdit from './addEdit';
-import InstrumentTemplateContainer from './container';
-import InstrumentTemplateList from './list';
 
 const InstrumentTemplateRoutes = [
   {
@@ -16,11 +13,10 @@ const InstrumentTemplateRoutes = [
     Component: lazy(() => import('./container')),
     path: '/instrument-templates/edit/:id',
   },
+  {
+    Component: lazy(() => import('./container')),
+    path: '/instrument-templates/copy/:id',
+  },
 ];
 
-export {
-  InstrumentTemplateAddEdit,
-  InstrumentTemplateContainer,
-  InstrumentTemplateList,
-  InstrumentTemplateRoutes,
-};
+export { InstrumentTemplateRoutes };

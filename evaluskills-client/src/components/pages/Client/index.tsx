@@ -8,6 +8,7 @@ import Pager from '../../molecules/Pager';
 import ClientFilter from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
 
 interface Props {
   clients: ClientList[];
@@ -17,8 +18,12 @@ interface Props {
   remove: (clientId: number) => void;
   applyFilters: (filters: ClientFilters) => void;
   filtersClickHandler: (event: React.MouseEvent) => void;
+  onPageChange: (pageNumber: number) => void;
+  pageDetails: PageDetailsInterface;
   modalVisible: boolean;
   toggleFilterModal: () => void;
+  appliedFilters: ClientFilters;
+  resetPager: boolean;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -29,8 +34,12 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   remove,
   applyFilters,
   filtersClickHandler,
+  onPageChange,
   modalVisible,
+  pageDetails,
   toggleFilterModal,
+  appliedFilters,
+  resetPager,
 }) => {
   return (
     <DashboardTemplate>
@@ -39,13 +48,20 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Client"
             filterAction={filtersClickHandler}
-            searchHandler={filterClients}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add Client"
             actionHandler={add}
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            {/*<Pager />*/}
+            <Pager
+              pageSize={pageDetails.pageSize || 25}
+              totalRecords={pageDetails.totalCount || 25}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>
@@ -57,7 +73,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="reset"
+        secondaryAction="dismiss"
       >
         <ClientFilter />
       </ESModal>

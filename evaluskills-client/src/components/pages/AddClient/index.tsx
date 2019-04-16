@@ -1,28 +1,31 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
+import { FormGroup, Input } from 'reactstrap';
 
-import { ContactInterface } from '../../../interfaces/AddEditClient';
-import FormikBag from '../../../interfaces/FormikBag';
+import AddEditClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/AddEditClient';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
-import PageBody from '../../atoms/PageBody';
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import styles from '../../molecules/FormElement/FormElement.module.scss';
-import AddEditClientContacts from '../../organisms/AddClientContact';
+import FormikBag from '../../../interfaces/FormikBag';
+import AddClientContacts from '../../organisms/AddClientContact/index';
 import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
 import ClientContactsList from '../../organisms/ClientContactsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import EditClientContacts from '../../organisms/AddClientContact/index';
+import PageBody from '../../atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import clientFormSchema from './clientFormSchema';
+import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
   changeListener: (formValues: any) => void;
   defaultValues?: any;
   action?: string;
   clients?: any;
+  cancelForm: () => void;
 }
 
 const StyledButton = styled(Button)`
@@ -35,11 +38,13 @@ export const AddClient: React.FunctionComponent<Props> = ({
   defaultValues,
   action,
   clients,
+  cancelForm,
 }) => {
   const [formState, setFormState] = useState(defaultValues);
   const [file, setfile] = useState({});
   const [contactFormState, setContactFormState] = useState(defaultValues.clientContacts);
   const [selectedContact, setSelectedContact] = useState({});
+  const [addMore, setAddMore] = useState(false);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
 
@@ -54,26 +59,39 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
   function editContact(contactId: number) {
     if (defaultValues && defaultValues.clientContacts) {
-      const contact: any = defaultValues.clientContacts.find(
-        (contacts: any) => contacts.id === contactId
-      );
+      const contact: any = defaultValues.clientContacts.find((contacts: any) => contacts.id === contactId);
       setSelectedContact(contact);
       toggleEditClientContactModal();
     }
   }
 
   function removeContact(contactId: number) {
-    alert(`deleting => ${contactId}`);
+    const contactIndex = formState.clientContacts.findIndex((contact: any) => contact.id === contactId);
+    const { clientContacts } = formState;
+    clientContacts.splice(contactIndex, 1);
+    setFormState({ ...formState, ...clientContacts });
   }
 
   function submitForm(values: any) {
     values.stateId = parseInt(values.stateId, 10);
     values.billingPlanId = parseInt(values.billingPlanId, 10);
-    // values.clientTypeId = parseInt(values.clientTypeId, 10);
-    changeListener({ ...formState, ...values });
-    setFormState({ ...formState, ...values });
-    if (action === 'edit' && file) {
+
+    if (addMore) {
+      changeListener({ ...formState, ...values, addMore });
+      setFormState({ ...formState, ...values, addMore });
+    } else {
+      changeListener({ ...formState, ...values });
+      setFormState({ ...formState, ...values });
+    }
+
+    if (action === 'Edit' && file) {
       changeListener({ ...formState, ...values, clientLogo: file });
+      setFormState({ ...formState, ...values, clientLogo: file });
+    }
+  }
+
+  function ClientContactsFormState(values: any) {
+    if (action === 'Edit' && file) {
       setFormState({ ...formState, ...values, clientLogo: file });
     }
   }
@@ -85,12 +103,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
     }
   };
   const onClickAddContact = (event: React.MouseEvent) => {
-    if (action === 'edit') {
+    if (action === 'Edit') {
       event.preventDefault();
       toggleAddClientContactModal();
     }
 
-    if (action !== 'edit' && formState.clientContacts) {
+    if (action !== 'Edit' && formState.clientContacts) {
       const { clientContacts } = formState;
       const contactObj: ContactInterface = {
         email: '',
@@ -134,11 +152,15 @@ export const AddClient: React.FunctionComponent<Props> = ({
     };
 
     return (
-      <Form
-        onSubmit={formikprops.handleSubmit.bind(formikprops)}
-        className="form"
-        encType="multipart/form-data"
-      >
+      <Form onSubmit={formikprops.handleSubmit.bind(formikprops)} className="form" encType="multipart/form-data">
+        <div className="PageHeader">
+          <div className="row">
+            <div className="col-lg-3 col-md-3">
+              <h2 className="font-weight-light">{action} Client</h2>
+            </div>
+          </div>
+        </div>
+
         <PageBody card={true} wrapper={true} className="m-t-15">
           <FormElement
             label="Client Name"
@@ -160,9 +182,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <div>
               <span className={styles['image-upload-label']}>Upload Photo</span>
               <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
-              {formikprops.touched.clientLogo &&
-                formikprops.errors.clientLogo &&
-                formikprops.errors.clientLogo}
+              {formikprops.touched.clientLogo && formikprops.errors.clientLogo && formikprops.errors.clientLogo}
             </div>
           </FormGroup>
           <div className="hr-line-dashed" />
@@ -249,45 +269,20 @@ export const AddClient: React.FunctionComponent<Props> = ({
             <h2>Contact</h2>
           </div>
           <div className="col-sm-6">
-            <Button
-              className="mt-3 float-right"
-              color="primary"
-              size="lg"
-              onClick={onClickAddContact}
-            >
+            <Button className="mt-3 float-right" color="primary" size="lg" onClick={onClickAddContact}>
               Add Contact
             </Button>
           </div>
         </div>
 
         <div>
-          {action === 'edit'
+          {action === 'Edit'
             ? formState &&
               formState.clientContacts && (
-                <ClientContactsList
-                  listData={formState.clientContacts}
-                  edit={editContact}
-                  remove={removeContact}
-                />
+                <ClientContactsList listData={formState.clientContacts} edit={editContact} remove={removeContact} />
               )
             : formState.clientContacts && formState.clientContacts.map(renderContactList)}
         </div>
-
-        <AddEditClientContacts
-          fprops={formState}
-          visible={addClientContactModalVisible}
-          toggle={toggleAddClientContactModal}
-          formValues={contactFormState}
-          name="Add"
-        />
-
-        <AddEditClientContacts
-          fprops={formState}
-          visible={editClientContactModalVisible}
-          toggle={toggleEditClientContactModal}
-          formValues={selectedContact}
-          name="Edit"
-        />
 
         <div className="form-header row">
           <div className="col-sm-6">
@@ -324,14 +319,28 @@ export const AddClient: React.FunctionComponent<Props> = ({
 
         <PageBody>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              type="button"
+              size="lg"
+              onClick={() => {
+                cancelForm();
+              }}
+            >
               Cancel
             </StyledButton>
             <StyledButton type="submit" color="primary" size="lg">
               Save
             </StyledButton>
-            {action === 'add' && (
-              <StyledButton type="button" color="primary" size="lg">
+            {action === 'Add' && (
+              <StyledButton
+                type="button"
+                color="primary"
+                size="lg"
+                onClick={() => {
+                  setAddMore(true);
+                  formikprops.submitForm();
+                }}
+              >
                 Save &amp; Add More
               </StyledButton>
             )}
@@ -348,6 +357,25 @@ export const AddClient: React.FunctionComponent<Props> = ({
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}
+      <PageBody>
+        <AddClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={addClientContactModalVisible}
+          toggle={toggleAddClientContactModal}
+          formValues={contactFormState}
+          name="Add"
+        />
+
+        <EditClientContacts
+          fprops={formState}
+          formStateUpdate={ClientContactsFormState}
+          visible={editClientContactModalVisible}
+          toggle={toggleEditClientContactModal}
+          formValues={selectedContact}
+          name="Edit"
+        />
+      </PageBody>
     </DashboardTemplate>
   );
 };

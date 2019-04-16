@@ -13,13 +13,23 @@ import Editcomponent from '../../pages/AddUser';
 import UserFilter from '../../../components/organisms/UserFilter';
 import UserFilterInterface from '../../../interfaces/UserFilter';
 
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
+
 interface Props {
   Users: any;
   filterHandler: (filters: UserFilterInterface) => void;
   submitForm: (values: any, action: string, id?: string) => void;
+  pageDetails: PageDetailsInterface;
+  resetPager: boolean;
 }
 
-const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler, submitForm }) => {
+const DashboardHome: React.FunctionComponent<Props> = ({
+  Users,
+  filterHandler,
+  submitForm,
+  pageDetails,
+  resetPager,
+}) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,7 +73,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler, s
   };
 
   const onPageChange = (pageNumber: number) => {
-    applyFilters({ pageNumber });
+    filterHandler({ pageNumber });
   };
 
   const addAction = (event: React.MouseEvent) => {
@@ -93,7 +103,9 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler, s
           <PageHeader
             title="Users"
             filterAction={filtersClickHandler}
-            searchHandler={searchHandler}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add User"
             actionHandler={addAction}
           />
@@ -103,7 +115,12 @@ const DashboardHome: React.FunctionComponent<Props> = ({ Users, filterHandler, s
                 <UsersList listData={Users} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            <Pager pageSize={10} totalRecords={10} onPageChanged={onPageChange} />
+            <Pager
+              pageSize={(pageDetails && pageDetails.pageSize) || 25}
+              totalRecords={(pageDetails && pageDetails.totalCount) || 25}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>

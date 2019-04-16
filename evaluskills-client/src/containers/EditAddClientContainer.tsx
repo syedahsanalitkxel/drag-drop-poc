@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { addClient, editClient, getClientById } from '../services/clientsService';
 import IClientList, { ClientUserInterface } from '../interfaces/AddEditClient';
+import { addClient, editClient, getClientById } from '../services/clientsService';
 
+import Spinner from '../components/atoms/Spinner';
 import AddClient from '../components/pages/AddClient';
 import ErrorContext from '../context/ErrorContext';
+import editClientInterface from '../interfaces/EditClient';
 import RouteParams from '../interfaces/RouteParams';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
-import editClientInterface, { ContactInterface } from '../interfaces/EditClient';
-import Spinner from '../components/atoms/Spinner';
 
 const user: ClientUserInterface = {
   email: '',
@@ -41,19 +41,19 @@ const ClientList: IClientList = {
   zip: '',
 };
 const selectedClient: editClientInterface = {};
-const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({
-  match,
-  history,
-}) => {
+const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParams>> = ({ match, history }) => {
   const errorContext = useContext(ErrorContext);
   const [clients, setClients] = useState(ClientList);
   const [selectedClients, setSelectedClients] = useState(selectedClient);
   const [filters, setFilters] = useState({});
-  const [action, setAction] = useState('add');
+  const [action, setAction] = useState('Add');
 
   useEffect(() => {
     if (isEdit(match.params)) {
       fetchClients(match.params.id);
+    }
+    if (isAdd(match.path)) {
+      setClients(ClientList);
     }
     return function cleanup() {
       setClients(ClientList);
@@ -68,26 +68,10 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       const data: any = await getClientById(id);
       delete data.clientLogo;
       setSelectedClients(data);
-      setAction('edit');
+      setAction('Edit');
     } catch (error) {
       errorContext.setError(error);
     }
-  }
-
-  function filterClients(searchQuery: string) {
-    alert(searchQuery);
-  }
-
-  function addClients() {
-    history.push('/client/add');
-  }
-
-  function editClients(clientId: string) {
-    history.push(`/client/edit/${clientId}`);
-  }
-
-  function deleteClient(clientId: string) {
-    alert(`deleting => ${clientId}`);
   }
 
   function buildFormData(formData: any, data: any, parentKey?: any) {
@@ -110,7 +94,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
 
   async function submitForm(values: any) {
-    if (action === 'add') {
+    if (action === 'Add') {
       await delete values.id;
       await delete values.clientUser.id;
       const formd: FormData = jsonToFormData(values);
@@ -119,11 +103,15 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         const data = await addClient(formd);
         setClients(ClientList);
         setAction('');
-        history.push('/clients');
+        if (values.addMore) {
+          location.reload();
+        } else {
+          history.push('/clients');
+        }
       } catch (error) {
         errorContext.setError(error);
       }
-    } else if (action === 'edit') {
+    } else if (action === 'Edit') {
       const formd: FormData = jsonToFormData(values);
       await formd.append('clientLogo', values.clientLogo);
       try {
@@ -137,16 +125,20 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     }
   }
 
+  function cancelForm() {
+    history.push('/clients');
+  }
+
   if (isEdit(match.params)) {
     if (Object.keys(selectedClients).length > 0) {
       return (
-        <AddClient defaultValues={selectedClients} action="edit" changeListener={submitForm} />
+        <AddClient defaultValues={selectedClients} action="Edit" changeListener={submitForm} cancelForm={cancelForm} />
       );
     }
   }
 
   if (isAdd(match.path)) {
-    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} />;
+    return <AddClient action={action} defaultValues={clients} changeListener={submitForm} cancelForm={cancelForm} />;
   }
 
   return <Spinner />;

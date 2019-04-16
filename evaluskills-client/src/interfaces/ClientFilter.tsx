@@ -1,5 +1,9 @@
 export interface ClientFilters {
-  statusId?: boolean;
-  billingPlanId?: number;
-  companyTypeId?: number;
+  search?: string;
+  pageNumber?: number;
+  pageSize?: number;
+  totalRecords?: number;
+  statusId?: string;
+  billingPlanId?: string;
+  companyTypeId?: string;
 }

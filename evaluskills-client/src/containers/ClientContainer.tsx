@@ -6,60 +6,51 @@ import ErrorContext from '../context/ErrorContext';
 import IClientList, { ClientUserInterface, ContactInterface } from '../interfaces/Client';
 import { ClientFilters } from '../interfaces/ClientFilter';
 import { getClients, getFilteredClient } from '../services/clientsService';
+import { isList } from '../utils/routerUtils';
+import { PageDetailsInterface } from '../api/ResponseInterface';
+import FilterContext from '../components/organisms/ClientFilters/context';
+import Spinner from '../components/atoms/Spinner';
 
-const client: ContactInterface = {
-  clientId: 1,
-  email: '',
-  firstName: '',
-  id: 1,
-  lastName: '',
-  phone: '',
-  title: '',
+const clients: IClientList[] = [];
+
+interface State {
+  clients: IClientList[];
+  filters: ClientFilters;
+  resetPager: boolean;
+  pageDetails?: PageDetailsInterface;
+  isLoading: boolean;
+}
+const defaultFilters: ClientFilters = {
+  pageNumber: 1,
+  pageSize: 10,
+  billingPlanId: '',
+  companyTypeId: '',
+  statusId: '',
+  // totalRecords: 10,
 };
 
-const user: ClientUserInterface = {
-  email: '',
-  firstName: '',
-  id: 1,
-  lastName: '',
+const defaultPageDetail = {
+  currentPage: defaultFilters.pageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
 };
 
-const ClientList: IClientList[] = [
-  {
-    billingPlanTitle: '',
-    clientContact: client,
-    clientLogo: '',
-    clientName: '',
-    clientUser: user,
-    id: 1,
-    isActivated: true,
-    noOfAssessments: 0,
-    noOfEvaluators: 0,
-    noOfParticipants: 0,
-    phone: '',
-  },
-];
-
-const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-  const [clients, setClients] = useState(ClientList);
   const [modalVisible, setModalVisible] = useState(false);
+  const [state, setState] = useState<State>({
+    clients,
+    filters: defaultFilters,
+    isLoading: false,
+    pageDetails: defaultPageDetail,
+    resetPager: false,
+  });
 
   useEffect(() => {
-    fetchClients();
-    return function cleanup() {
-      setClients(ClientList);
-    };
-  }, []);
-
-  async function fetchClients() {
-    try {
-      const data = await getClients();
-      setClients(data);
-    } catch (error) {
-      errorContext.setError(error, true);
+    if (isList(match.path)) {
+      fetchAllClients(state.filters);
     }
-  }
+  }, [match.path, state.filters]);
 
   function filterClients(searchQuery: string) {
     alert(searchQuery);
@@ -74,12 +65,38 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     toggleFilterModal();
   };
 
-  async function applyFilterClients(filter: ClientFilters) {
-    const param = { ...filter };
-    toggleFilterModal();
+  const onPageChange = (pageNumber: number) => {
+    filterHandler({ pageNumber });
+  };
+
+  const applyFilterClients = (filter: ClientFilters) => {
+    filterHandler(filter);
+    setModalVisible(false);
+  };
+
+  async function filterHandler(filters: ClientFilters) {
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.pageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.pageNumber = 1;
+    }
+    if (!filters.search) {
+      delete newFilterState.filters.search;
+    }
+    setState(newFilterState);
+  }
+
+  async function fetchAllClients(filters: ClientFilters) {
     try {
-      const data: any = await getFilteredClient(param);
-      setClients(data);
+      const data: any = await getFilteredClient(filters);
+      setState({ ...state, clients: data, pageDetails: data.pageDetails });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -98,17 +115,25 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
   }
 
   return (
-    <ClientsList
-      clients={clients}
-      filterClients={filterClients}
-      add={addClient}
-      remove={deleteClient}
-      edit={editClient}
-      applyFilters={applyFilterClients}
-      modalVisible={modalVisible}
-      filtersClickHandler={filtersClickHandler}
-      toggleFilterModal={toggleFilterModal}
-    />
+    <React.Suspense fallback={<Spinner />}>
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <ClientsList
+          clients={state.clients}
+          filterClients={filterClients}
+          add={addClient}
+          remove={deleteClient}
+          edit={editClient}
+          applyFilters={applyFilterClients}
+          modalVisible={modalVisible}
+          onPageChange={onPageChange}
+          filtersClickHandler={filtersClickHandler}
+          toggleFilterModal={toggleFilterModal}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          appliedFilters={state.filters}
+          resetPager={state.resetPager}
+        />
+      </FilterContext.Provider>
+    </React.Suspense>
   );
 };
 

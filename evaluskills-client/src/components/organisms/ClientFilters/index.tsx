@@ -2,38 +2,47 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
-import { ClientFilters } from '../../../interfaces/ClientFilter';
-import CheckBox from '../../atoms/CheckBox';
-
-interface Props {
-  changeListener?: (formValues: ClientFilters) => void;
-}
+import { lookups } from '../../../modules/Lookup/enum';
+import LookupContext from '../../../modules/Lookup/context';
+import FilterContext from './context';
+import RadioButton from '../../../components/atoms/RadioButton';
 
 const initialState = {
-  billingPlanId: 1,
-  companyTypeId: 1,
-  statusId: false,
+  billingPlanId: '',
+  companyTypeId: 0,
+  statusId: '',
 };
 
-const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
-
+const ClientFilter: React.FunctionComponent = () => {
   const { setModalState } = useContext(ModalContext);
+  const { findKey } = useContext(LookupContext);
+  const { activeFilters } = useContext(FilterContext);
+  const [state, setState] = useState({
+    ...initialState,
+    billingPlanId: activeFilters && activeFilters.billingPlanId,
+    companyTypeId: activeFilters && activeFilters.companyTypeId,
+    statusId: activeFilters && activeFilters.statusId,
+  });
 
   useEffect(() => {
-    if (changeListener) {
-      changeListener(formState);
-    }
     if (setModalState) {
-      setModalState(formState);
+      setModalState(state);
     }
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.name !== 'statusId') {
-      setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
-    } else {
-      setFormState({ ...formState, [event.target.name]: JSON.parse(event.target.value) });
+    setState({ ...state, [event.target.name]: event.target.value });
+  }
+
+  function renderBillingPlanDropdown() {
+    if (findKey) {
+      return findKey(lookups.billingPlansLookUp).map(application => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
     }
   }
 
@@ -42,59 +51,69 @@ const ClientFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
       <Form>
         <FormGroup className="row">
           <div className="col-md-6">
-            <Label className="font-bold">Status</Label>
+            <Label id="statusId" className="col-md-5 col-form-label font-bold">
+              Status
+            </Label>
             <div className="d-flex align-items-center">
-              <CheckBox
-                name="statusId"
-                value="true"
-                isChecked={formState.statusId}
-                onChange={changeHandler}
-              >
+              <RadioButton name="statusId" value="" currentSelection={state.statusId} onChange={changeHandler}>
+                All
+              </RadioButton>
+              <RadioButton name="statusId" value="true" currentSelection={state.statusId} onChange={changeHandler}>
                 Active
-              </CheckBox>
-              <CheckBox
-                name="statusId"
-                value="false"
-                onChange={changeHandler}
-                isChecked={formState.statusId !== true}
-              >
+              </RadioButton>
+              <RadioButton name="statusId" value="false" currentSelection={state.statusId} onChange={changeHandler}>
                 InActive
-              </CheckBox>
+              </RadioButton>
             </div>
           </div>
           <div className="col-md-6">
-            <Label for="plan-select" className="font-bold">
+            <Label id="billingPlanId" className="col-md-5 col-form-label font-bold">
               Plan
             </Label>
-            <Input type="select" name="billingPlanId" id="plan-select" onChange={changeHandler}>
-              <option value="Select Plan">Select Plan</option>
-              <option value="1">Billing option 1</option>
-              <option value="2">Billing option 2</option>
+            <Input
+              type="select"
+              name="billingPlanId"
+              id="plan-select"
+              onChange={changeHandler}
+              value={state.billingPlanId}
+            >
+              <option value="">All</option>
+              {renderBillingPlanDropdown()}
             </Input>
           </div>
         </FormGroup>
-
         <div className="hr-line-dashed" />
+
         <FormGroup className="row">
           <div className="col-md-12">
-            <Label className="font-bold">Type</Label>
+            <Label id="companyTypeId" className="col-md-5 col-form-label font-bold">
+              Type
+            </Label>
             <div className="d-flex align-items-center">
-              <CheckBox
+              <RadioButton
+                name="companyTypeId"
+                value=""
+                currentSelection={state.companyTypeId}
+                onChange={changeHandler}
+              >
+                All
+              </RadioButton>
+              <RadioButton
                 name="companyTypeId"
                 value="1"
+                currentSelection={state.companyTypeId}
                 onChange={changeHandler}
-                isChecked={formState.companyTypeId === 1}
               >
                 Higher Education
-              </CheckBox>
-              <CheckBox
+              </RadioButton>
+              <RadioButton
                 name="companyTypeId"
                 value="2"
+                currentSelection={state.companyTypeId}
                 onChange={changeHandler}
-                isChecked={formState.companyTypeId === 2}
               >
                 Business/Agency
-              </CheckBox>
+              </RadioButton>
             </div>
           </div>
         </FormGroup>

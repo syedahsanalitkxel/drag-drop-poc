@@ -38,9 +38,5 @@ function viewAssessmentDetail() {
 }
 
 storiesOf('Instrument', module).add('Instrument', () => (
-  <Instrument
-    instruments={instruments}
-    filterInstruments={fetchInstrumentTemplates}
-    view={viewAssessmentDetail}
-  />
+  <Instrument instruments={instruments} filterInstruments={fetchInstrumentTemplates} view={viewAssessmentDetail} />
 ));

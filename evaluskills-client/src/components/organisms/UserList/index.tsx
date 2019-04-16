@@ -20,13 +20,7 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
     }
   };
 
-  const renderContent = (
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    role: string
-  ) => (
+  const renderContent = (id: string, firstName: string, lastName: string, email: string, role: string) => (
     <React.Fragment>
       <tr>
         <td>{id}</td>
@@ -38,20 +32,10 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
         </td>
         <td>{email}</td>
         <td>
-          <IconButton
-            id="edit"
-            icon="edit"
-            className="btn-outline btn-primary"
-            actionHandler={actionHandler(id)}
-          >
+          <IconButton id="edit" icon="edit" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
             Edit
           </IconButton>
-          <IconButton
-            id="delete"
-            icon="trash"
-            className="btn-default"
-            actionHandler={actionHandler(id)}
-          >
+          <IconButton id="delete" icon="trash" className="btn-default" actionHandler={actionHandler(id)}>
             Delete
           </IconButton>
         </td>
@@ -60,13 +44,7 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
   );
 
   const renderUserItem = (userItem: any) => {
-    const content = renderContent(
-      userItem.id,
-      userItem.role,
-      userItem.email,
-      userItem.firstName,
-      userItem.lastName
-    );
+    const content = renderContent(userItem.id, userItem.role, userItem.email, userItem.firstName, userItem.lastName);
 
     return <UserCard key={userItem.id}>{{ content }}</UserCard>;
   };

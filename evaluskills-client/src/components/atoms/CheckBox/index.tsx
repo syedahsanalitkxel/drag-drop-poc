@@ -13,13 +13,7 @@ interface Props {
   isChecked?: boolean;
 }
 
-const CheckBox: React.FunctionComponent<Props> = ({
-  name,
-  value,
-  children,
-  onChange,
-  isChecked,
-}) => {
+const CheckBox: React.FunctionComponent<Props> = ({ name, value, children, onChange, isChecked }) => {
   const [hover, setHover] = useState(false);
 
   const mouseEvent = (event: React.MouseEvent) => {
@@ -35,13 +29,7 @@ const CheckBox: React.FunctionComponent<Props> = ({
     <div className="i-checks d-inline m-r-25">
       <label onMouseEnter={mouseEvent} onMouseLeave={mouseEvent}>
         <div className={classnames(['icheckbox_square-green', { hover, checked: isChecked }])}>
-          <input
-            type="checkbox"
-            value={value}
-            name={name}
-            checked={isChecked}
-            onChange={onChange}
-          />
+          <input type="checkbox" value={value} name={name} checked={isChecked} onChange={onChange} />
           <ins className="iCheck-helper" />
         </div>
         <span className="iradio-text">{children}</span>

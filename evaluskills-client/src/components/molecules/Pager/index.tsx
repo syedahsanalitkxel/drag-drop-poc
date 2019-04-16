@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { PagerInterface } from '../../../interfaces/Pager';
 
 interface Props {
   totalRecords: number;
   pageSize: number;
+  shouldReset: boolean;
   onPageChanged: (pageNumber: number) => void;
 }
 
@@ -17,26 +18,29 @@ const initialState: PagerInterface = {
   totalPagesToDisplay: 5,
 };
 
-const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageChanged }) => {
+const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageChanged, shouldReset }) => {
   const [pagerState, setPagerState] = useState(initialState);
 
   useEffect(() => {
-    const totalPagesCount = pageSize > 0 && totalRecords > 0 ? totalRecords / pageSize + 1 : 0;
+    const totalPage = pageSize > 0 && totalRecords > 0 ? Math.ceil(totalRecords / pageSize) : 0;
+    const totalPagesRemainder = pageSize > 0 && totalRecords > 0 ? totalRecords % pageSize : 0;
+    const totalPagesCount = totalPagesRemainder > 0 ? totalPage + 1 : totalPage;
+
     setPagerState({
       ...pagerState,
+      currentFirstPageNumber: 1,
       currentLastPageNumber: totalPagesCount > 5 ? 5 : totalPagesCount,
+      currentPageNumber: 1,
       pageSize,
       totalPages: totalPagesCount,
+      totalPagesToDisplay: totalPagesCount > 5 ? 5 : totalPagesCount,
     });
-  }, [totalRecords]);
+  }, [shouldReset]);
 
   function updatePager(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, pageNumber: number) {
     event.preventDefault();
     onPageChanged(pageNumber);
-    if (
-      pageNumber >= pagerState.currentLastPageNumber &&
-      pagerState.currentLastPageNumber !== pagerState.totalPages
-    ) {
+    if (pageNumber >= pagerState.currentLastPageNumber && pagerState.currentLastPageNumber !== pagerState.totalPages) {
       setPagerState(prevState => {
         return {
           ...prevState,
@@ -45,10 +49,7 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
           currentPageNumber: pageNumber,
         };
       });
-    } else if (
-      pageNumber === pagerState.currentFirstPageNumber &&
-      pagerState.currentFirstPageNumber !== 1
-    ) {
+    } else if (pageNumber === pagerState.currentFirstPageNumber && pagerState.currentFirstPageNumber !== 1) {
       setPagerState(prevState => {
         return {
           ...prevState,
@@ -74,7 +75,7 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
   ) {
     paginationItemsArray[i - pagerState.currentFirstPageNumber] = i;
   }
-  return (
+  return pagerState.totalPages > 1 ? (
     <Pagination aria-label="Page navigation example">
       <PaginationItem disabled={pagerState.currentPageNumber === 1}>
         <PaginationLink
@@ -111,6 +112,8 @@ const Pager: React.FunctionComponent<Props> = ({ totalRecords, pageSize, onPageC
         </PaginationLink>
       </PaginationItem>
     </Pagination>
+  ) : (
+    <div />
   );
 };
 

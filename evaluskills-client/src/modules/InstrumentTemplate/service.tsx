@@ -2,15 +2,21 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import API from '../../api';
 import { INSTRUMENT_TEMPLATES } from '../../api/endpoints';
+import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
 import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 
 const api = new API();
 
 export async function getInstrumentTemplates(
   filters?: InstrumentTemplateFilterInterface
-): Promise<InstrumentTemplateInterface[]> {
+): Promise<{ data: InstrumentTemplateInterface[]; pageDetails?: PageDetailsInterface }> {
   return api.get(INSTRUMENT_TEMPLATES, undefined, filters).then(
-    (res: AxiosResponse) => res.data,
+    (res: ResponseInterface) => {
+      return {
+        data: res.data,
+        pageDetails: res.pageDetails,
+      };
+    },
     (error: AxiosError) => {
       throw error;
     }
@@ -26,11 +32,29 @@ export async function getInstrumentTemplateById(id: string): Promise<InstrumentT
   );
 }
 
+export async function deleteInstrumentTemplate(id: string): Promise<InstrumentTemplateInterface> {
+  return api.delete(INSTRUMENT_TEMPLATES, id).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+
 export async function addInstrumentTemplates(instruments: InstrumentTemplateInterface) {
   return api.post(INSTRUMENT_TEMPLATES, instruments).then(
     (res: AxiosResponse) => {
       return res.data;
     },
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+
+export async function updateInstrumentTemplates(instrument: InstrumentTemplateInterface, id: number) {
+  return api.put(INSTRUMENT_TEMPLATES, instrument).then(
+    (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
       throw error;
     }

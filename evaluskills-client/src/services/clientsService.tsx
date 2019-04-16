@@ -5,6 +5,8 @@ import API from '../api';
 import ClientInterface from '../interfaces/Client';
 import AddClientInterface from '../interfaces/AddEditClient';
 import { contentType } from '../enums';
+import { PageDetailsInterface } from '../api/ResponseInterface';
+import { ClientFilters } from '../interfaces/ClientFilter';
 const api = new API();
 
 export async function getClients(): Promise<ClientInterface[]> {
@@ -29,8 +31,10 @@ export async function getClientById(id: string): Promise<AddClientInterface> {
   );
 }
 
-export async function getFilteredClient(params: any): Promise<AddClientInterface> {
-  return api.get(CLIENTS, undefined, params).then(
+export async function getFilteredClient(
+  filters?: ClientFilters
+): Promise<{ data: ClientInterface[]; pageDetails?: PageDetailsInterface }> {
+  return api.get(CLIENTS, undefined, filters).then(
     (res: AxiosResponse) => {
       return res.data;
     },

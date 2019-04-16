@@ -8,9 +8,8 @@ interface Props {
 }
 
 const ClientCard: React.FunctionComponent<Props> = ({ item, edit, remove }) => {
-  const actionHandler = (contactId: number) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const actionHandler = (contactId: number) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
     if (event.currentTarget.name === 'edit') {
       edit(contactId);
     } else if (event.currentTarget.name === 'delete') {

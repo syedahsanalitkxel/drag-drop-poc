@@ -12,13 +12,7 @@ interface Props {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RadioButton: React.FunctionComponent<Props> = ({
-  name,
-  value,
-  children,
-  currentSelection,
-  onChange,
-}) => {
+const RadioButton: React.FunctionComponent<Props> = ({ name, value, children, currentSelection, onChange }) => {
   const [hover, setHover] = useState(false);
 
   const mouseEvent = (event: React.MouseEvent) => {
@@ -30,22 +24,13 @@ const RadioButton: React.FunctionComponent<Props> = ({
     }
   };
 
-  const radioClasses = classnames([
-    'iradio_square-green',
-    { hover, checked: currentSelection === value },
-  ]);
+  const radioClasses = classnames(['iradio_square-green', { hover, checked: currentSelection === value }]);
 
   return (
     <div className="i-checks d-inline m-r-25">
       <label onMouseEnter={mouseEvent} onMouseLeave={mouseEvent}>
         <div className={radioClasses}>
-          <input
-            type="radio"
-            value={value}
-            name={name}
-            checked={currentSelection === value}
-            onChange={onChange}
-          />
+          <input type="radio" value={value} name={name} checked={currentSelection === value} onChange={onChange} />
           <ins className="iCheck-helper" />
         </div>
         <span className="iradio-text">{children}</span>

@@ -2,65 +2,47 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
-import UserFilters from '../../../interfaces/UserFilter';
-
 import { lookups } from '../../../modules/Lookup/enum';
 
-import { LookupContextConsumer } from '../../../modules/Lookup/context';
-import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
-
-interface Props {
-  changeListener?: (formValues: UserFilters) => void;
-}
+import LookupContext from '../../../modules/Lookup/context';
+import FilterContext from './context';
 
 const initialState = {
-  clientId: 1,
-  roleId: 0,
+  clientId: '',
+  roleId: '',
 };
 
-const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
-
+const UserFilter: React.FunctionComponent = () => {
   const { setModalState } = useContext(ModalContext);
+  const { findKey } = useContext(LookupContext);
+  const { activeFilters } = useContext(FilterContext);
+  const [state, setState] = useState({
+    ...initialState,
+    clientId: activeFilters && activeFilters.clientId,
+    roleId: activeFilters && activeFilters.roleId,
+  });
 
   useEffect(() => {
-    if (changeListener) {
-      changeListener(formState);
-    }
     if (setModalState) {
-      setModalState(formState);
+      setModalState(state);
     }
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.name) {
-      setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
-    } else {
-      setFormState({ ...formState, [event.target.name]: JSON.parse(event.target.value) });
-    }
+    setState({ ...state, [event.target.name]: event.target.value });
   }
 
-  // const renderClientsDropdown = (props: LookupContextInterface) => {
-  //   const { findKey } = props;
-  //   if (findKey) {
-  //     return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
-  //       <option key={lookup.value} value={lookup.value}>
-  //         {lookup.text}
-  //       </option>
-  //     ));
-  //   }
-  // };
-
-  const renderRoleDropdown = (props: LookupContextInterface) => {
-    const { findKey } = props;
+  function renderRoleDropdown() {
     if (findKey) {
-      return findKey(lookups.userRolesLookUp).map((lookup: LookupItemInterface) => (
-        <option key={lookup.value} value={lookup.value}>
-          {lookup.text}
-        </option>
-      ));
+      return findKey(lookups.userRolesLookUp).map(application => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
     }
-  };
+  }
 
   return (
     <React.Fragment>
@@ -68,8 +50,9 @@ const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
         <FormGroup className="row">
           <label className="col-sm-4 col-form-label font-bold">Role</label>
           <div className="col-sm-8">
-            <Input type="select" name="roleId" id="plan-select" onChange={changeHandler}>
-              <LookupContextConsumer>{renderRoleDropdown}</LookupContextConsumer>
+            <Input type="select" name="roleId" id="roleId" onChange={changeHandler} value={state.roleId}>
+              <option value="">All</option>
+              {renderRoleDropdown()}
             </Input>
           </div>
         </FormGroup>
@@ -79,7 +62,8 @@ const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
         <FormGroup className="row">
           <label className="col-sm-4 col-form-label font-bold">Clients</label>
           <div className="col-sm-8">
-            <Input type="select" name="clientId" id="plan-select" onChange={changeHandler}>
+            <Input type="select" name="clientId" id="plan-select" onChange={changeHandler} value={state.clientId}>
+              <option value="">All</option>
               <option value="1">Tester 1</option>
               <option value="7">Tester 7</option>
               <option value="10">Tester 10</option>
