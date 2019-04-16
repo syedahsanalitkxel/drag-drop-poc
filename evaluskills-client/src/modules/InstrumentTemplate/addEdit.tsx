@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import { Formik } from 'formik';
+import { uniqBy } from 'lodash-es';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
-import { uniqBy } from 'lodash-es';
 import styled from 'styled-components';
 
 import PageBody from '../../components/atoms/PageBody';
@@ -186,13 +186,16 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             fullLength={true}
             formikprops={formikprops}
             type={FormElementTypes.SELECT}
-            last={!!defaultValue}
+            last={
+              defaultValue && defaultValue.templateItems && defaultValue.templateItems.length !== 0 && !!defaultValue
+            }
           >
             <option value="">Select One</option>
             <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
           </FormElement>
 
-          {!defaultValue && (
+          {((defaultValue && defaultValue.templateItems && defaultValue.templateItems.length === 0) ||
+            !defaultValue) && (
             <div className="row">
               <div className="col-sm-2 col-form-label font-bold">Assessment Items</div>
               <div className="col-sm-10">

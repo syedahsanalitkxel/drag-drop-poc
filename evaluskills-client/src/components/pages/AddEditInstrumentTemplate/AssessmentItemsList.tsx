@@ -73,19 +73,30 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
       setCheckedItems(newChecked);
     }
 
-    // find full object
-    const assessmentObject = state.templateItems.find(templateItem => {
-      return templateItem.id === id;
-    });
-
-    // create a new array and push it
+    // create a new array and to update modal state
     let allSelectedAssessments = [];
-    allSelectedAssessments.push(assessmentObject);
+
+    if (checkedItems.indexOf(id) < 0) {
+      // find full object
+      const assessmentObject = state.templateItems.find(templateItem => {
+        return templateItem.id === id;
+      });
+      allSelectedAssessments.push(assessmentObject);
+    }
 
     if (modalContext.setModalState) {
       if (modalContext.modalState && modalContext.modalState.length) {
+        if (modalContext.modalState.findIndex((item: any) => item.id === id) !== -1) {
+          const index = modalContext.modalState.findIndex((item: any) => item.id === id);
+          modalContext.modalState.splice(index, 1);
+          if (allSelectedAssessments.findIndex((item: any) => item.id === id) !== -1) {
+            const i = allSelectedAssessments.findIndex((item: any) => item.id === id);
+            allSelectedAssessments.splice(i, 1);
+          }
+        }
         allSelectedAssessments = allSelectedAssessments.concat(modalContext.modalState);
       }
+      console.log(allSelectedAssessments);
       modalContext.setModalState(allSelectedAssessments);
     }
   }
@@ -125,7 +136,7 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
         ...state.filters,
         ...filters,
       },
-      shoudReset: true,
+      shouldReset: true,
     };
     setState(newFilters);
   }
