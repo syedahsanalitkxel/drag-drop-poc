@@ -55,6 +55,9 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (isEdit(match.params)) {
       fetchClients(match.params.id);
     }
+    if (isAdd(match.path)) {
+      setClients(ClientList);
+    }
     return function cleanup() {
       setClients(ClientList);
       setFilters({});
@@ -72,22 +75,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     } catch (error) {
       errorContext.setError(error);
     }
-  }
-
-  function filterClients(searchQuery: string) {
-    alert(searchQuery);
-  }
-
-  function addClients() {
-    history.push('/client/add');
-  }
-
-  function editClients(clientId: string) {
-    history.push(`/client/edit/${clientId}`);
-  }
-
-  function deleteClient(clientId: string) {
-    alert(`deleting => ${clientId}`);
   }
 
   function buildFormData(formData: any, data: any, parentKey?: any) {
@@ -119,7 +106,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         const data = await addClient(formd);
         setClients(ClientList);
         setAction('');
-        history.push('/clients');
+        if (values.addMore) {
+          location.reload();
+        } else {
+          history.push('/clients');
+        }
       } catch (error) {
         errorContext.setError(error);
       }
