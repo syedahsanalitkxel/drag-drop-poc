@@ -97,19 +97,27 @@ const AssessmentItemContainer: React.FunctionComponent<
       errorContext.setError(error, true);
     }
   }
-  async function updateAssessmentdata(data: any) {
+  async function updateAssessmentdata(data: any, type?: string) {
     try {
-      if (data.typeId != 1) {
-        data.competencyId = null;
-      }
-      if (data.questionTypeId != 1) {
-        data.itemElements = [];
-      }
+      if (type === 'd') {
+        assessmenListItems();
+      } else {
+        if (data.typeId != 1) {
+          data.competencyId = null;
+        }
+        if (data.questionTypeId != 1) {
+          data.itemElements = [];
+        }
 
-      data.saveAsNewVersion = false;
-      const returnData: any = await updateAssessment(data, match.params.id);
-      console.log(returnData);
-      assessmenListItems();
+        if (type === 'b') {
+          data.itemsStatusId = 2;
+        }
+
+        data.saveAsNewVersion = false;
+        const returnData: any = await updateAssessment(data, match.params.id);
+
+        assessmenListItems();
+      }
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -124,17 +132,29 @@ const AssessmentItemContainer: React.FunctionComponent<
       errorContext.setError(error, true);
     }
   }
-  async function AddAssessmentdata(values: AddAssessmentItemInterface) {
+  async function AddAssessmentdata(values: AddAssessmentItemInterface, type?: string) {
     try {
-      if (values.typeId != 1) {
-        values.competencyId = null;
+      if (type === 'd') {
+        assessmenListItems();
+      } else {
+        if (values.typeId != 1) {
+          values.competencyId = null;
+        }
+        if (values.questionTypeId != 1) {
+          values.itemElements = [];
+        }
+
+        if (type === 'b') {
+          values.itemsStatusId = 2;
+        }
+        const data = await addAssessment(values);
+        console.log(data);
+        if (type === 'c') {
+          reloadAssessment();
+        } else {
+          assessmenListItems();
+        }
       }
-      if (values.questionTypeId != 1) {
-        values.itemElements = [];
-      }
-      const data = await addAssessment(values);
-      console.log(data);
-      assessmenListItems();
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -149,7 +169,9 @@ const AssessmentItemContainer: React.FunctionComponent<
   function routeaddAssessment() {
     history.push('/assessment-items/add');
   }
-
+  function reloadAssessment() {
+    location.reload();
+  }
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
