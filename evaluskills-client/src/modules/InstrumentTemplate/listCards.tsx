@@ -60,6 +60,9 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
 
   const superAdminActions = (id?: string | number) => (
     <React.Fragment>
+      <IconButton icon="copy" className="btn-outline btn-primary" actionHandler={clickHandler(actionTypes.COPY, id)}>
+        Copy
+      </IconButton>
       <IconButton icon="edit" className="btn-outline btn-primary" actionHandler={clickHandler(actionTypes.EDIT, id)}>
         Edit
       </IconButton>
@@ -96,7 +99,7 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
       <ItemCard key={instrumentTemplate.id} header={instrumentTemplate.title}>
         {{
           actions:
-            USER_ROLE.isClientAdmin() || instrumentTemplate.isSystemDefined
+            USER_ROLE.isClientAdmin() && instrumentTemplate.isSystemDefined
               ? clientAdminActions(instrumentTemplate.id)
               : superAdminActions(instrumentTemplate.id),
           content,
