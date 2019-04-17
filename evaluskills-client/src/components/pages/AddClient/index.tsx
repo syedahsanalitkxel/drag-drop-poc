@@ -376,12 +376,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
   return (
     <DashboardTemplate>
       {formState && (
-        <Formik
-          enableReinitialize={true}
-          initialValues={formState}
-          validationSchema={action === 'Edit' ? clientEditFormSchema : clientFormSchema}
-          onSubmit={submitForm}
-        >
+        <Formik initialValues={formState} validationSchema={clientEditFormSchema} onSubmit={submitForm}>
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}
