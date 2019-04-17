@@ -54,6 +54,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
     const newFormState = {
       ...formState,
       ...values,
+      templateItems: formState.templateItems,
     };
 
     setFormState(newFormState);
