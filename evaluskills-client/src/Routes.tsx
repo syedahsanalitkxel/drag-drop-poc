@@ -66,6 +66,7 @@ const Routes: React.FunctionComponent = () => {
         <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/assessment-items/add" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/assessment-items/edit/:id" component={AssessmentItemContainer} />
+        <PrivateRoute exact={true} path="/assessment-items/copy/:id" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
         {InstrumentTemplateRoutes.map(renderRouteFromList(true))}
         <PrivateRoute exact={true} path="/client-assessment-detail/:id" component={InstrumentDetailContainer} />

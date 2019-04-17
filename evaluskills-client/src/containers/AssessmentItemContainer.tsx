@@ -14,7 +14,7 @@ import {
   updateAssessment,
 } from '../services/assessmentsService';
 import FilterContext from '../components/organisms/AssessmentFilters/context';
-import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import { isAdd, isEdit, isList, isCopy } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
   {
@@ -194,13 +194,24 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
   function renderEditAssessment(assessmentId: string) {
     setcopy(true);
-    history.push(`/assessment-items/edit/${assessmentId}`);
+    history.push(`/assessment-items/copy/${assessmentId}`);
   }
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
   function deleteAssessment(assessmentId: string) {
     alert(`deleting => ${assessmentId}`);
+  }
+  if (isCopy(match.path)) {
+    return (
+      <AddAssessmentComponenet
+        assessmenListItems={assessmenListItems}
+        assessmenData={editassessmentsState}
+        copy={true}
+        addAssessment={AddAssessmentdata}
+        edit={false}
+      />
+    );
   }
   if (isEdit(match.params)) {
     return (
