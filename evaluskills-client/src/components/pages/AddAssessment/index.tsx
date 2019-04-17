@@ -40,14 +40,9 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   const [forvalues, setFormvalues] = useState(assessmenData);
   const errorContext = useContext(ErrorContext);
   useEffect(() => {
-    // if (formState.itemElements.length === 0) {
-    //   const list: any = formState.itemElements;
-    //   list.push(JSON.parse(JSON.stringify(formState.elementObject)));
-    //   setFormState({ ...formState, itemElements: list });
-    // }
     if (edit) {
       // setFormvalues(assessmenData);
-      // setFormState({ ...formState, componenetName: 'Edit Assessment Items ' });
+      setFormvalues({ ...forvalues, componenetName: 'Edit Assessment Items ' });
       //setFormvalues({ ...forvalues, assessmenListItems });
     }
   }, []);
@@ -112,7 +107,17 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
       itemEntities: arr,
     });
   }
-
+  function onelementhandleChange(event: any, key: number, itemOption: number, objectname: string) {
+    let list = forvalues.itemElements;
+    if (objectname === 'statement') {
+      list[key].itemElementOptions[itemOption].statement = event.target.value;
+    } else if (objectname === 'behaviour') {
+      list[key].itemElementOptions[itemOption].behaviour = event.target.value;
+    } else if (objectname === 'scaling') {
+      list[key].itemElementOptions[itemOption].scaling = event.target.value;
+    }
+    setFormvalues({ ...forvalues, itemElements: list });
+  }
   function addElement() {
     const list: any = forvalues.itemElements;
 
@@ -140,8 +145,8 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
           comNumber={index}
           tag={Field}
           key={index}
-          onChange={elementChange}
           formikprops={formikprops}
+          onChange={onelementhandleChange}
         />
       </Fragment>
     );
@@ -152,7 +157,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
             <div className="PageHeader">
               <div className="row">
                 <div className="col-lg-5 col-md-5">
-                  <h2 className="font-weight-light">{formState.componenetName}</h2>
+                  <h2 className="font-weight-light">{forvalues.componenetName}</h2>
                 </div>
               </div>
             </div>

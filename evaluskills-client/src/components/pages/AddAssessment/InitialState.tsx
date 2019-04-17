@@ -11,6 +11,7 @@ export const Initalvalues: AddAssessmentItemInterface = {
   competencyId: undefined,
   questionTypeId: 1,
   itemEntities: [],
+  componenetName: 'Add Assessment',
   itemRecomendedApplications: [],
   itemElements: [
     {
