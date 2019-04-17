@@ -12,6 +12,7 @@ import UsersList from '../../organisms/UserList/index';
 import Editcomponent from '../../pages/AddUser';
 import UserFilter from '../../../components/organisms/UserFilter';
 import UserFilterInterface from '../../../interfaces/UserFilter';
+import { getUserById } from '../../../services/userService';
 
 import { PageDetailsInterface } from '../../../api/ResponseInterface';
 
@@ -56,10 +57,16 @@ const DashboardHome: React.FunctionComponent<Props> = ({
     setAddUserModalVisible(!addUserModalVisible);
   };
 
+  function cancelHandler() {
+    setAddUserModalVisible(false);
+    setEditUserModalVisible(false);
+  }
+
   function submitHandler(values: any) {
     setAddUserModalVisible(false);
     setEditUserModalVisible(false);
     if (action === 'Add') {
+      setFormState({ ...formState, ...values });
       submitForm(values, action);
     } else {
       setFormState({ ...formState, ...values });
@@ -82,10 +89,18 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   };
 
   const editAction = (userId: string) => {
-    const userD: any = formState.find((users: any) => users.id === userId);
-    setSelectedUser(userD);
-    toggleEditUserModal();
+    fetchUserById(userId);
   };
+
+  async function fetchUserById(id: any) {
+    try {
+      const data = await getUserById(id);
+      await setSelectedUser(data);
+      toggleEditUserModal();
+    } catch (error) {
+      // errorContext.setError(error);
+    }
+  }
 
   const removeAction = (userId: string) => {
     // history.push(`/users/remove/${userId}`);
@@ -147,6 +162,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         name="Add"
         FormValues={user}
         submitHandler={submitHandler}
+        cancelHandler={cancelHandler}
       />
 
       <Editcomponent
@@ -155,6 +171,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         name="Edit"
         FormValues={selectedUser}
         submitHandler={submitHandler}
+        cancelHandler={cancelHandler}
       />
     </DashboardTemplate>
   );

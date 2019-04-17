@@ -12,7 +12,7 @@ import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/organisms/UserFilter/context';
 import { LookupInterface } from '../modules/Lookup/interface';
 
-const users: UsersInterface[] = [];
+const users: any[] = [];
 const clientLookup: any = [];
 
 const user: UsersInterface = {
@@ -92,27 +92,19 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     }
   }
 
-  async function fetchUserById(id: string) {
-    try {
-      const data = await getUserById(id);
-      setState({ ...state, user: data });
-    } catch (error) {
-      errorContext.setError(error);
-    }
-  }
-
   async function submitForm(values: any, action: string, id?: string) {
     if (action === 'Add') {
       try {
         const data = await addUser(values);
-        history.push('/users');
+        setState({ ...state, users: { ...state.users, values } });
+        location.reload();
       } catch (error) {
         errorContext.setError(error);
       }
     } else if (action === 'Edit' && id) {
       try {
         const data = await editUser(values, id);
-        history.push('/users');
+        location.reload();
       } catch (error) {
         errorContext.setError(error);
       }
@@ -122,15 +114,17 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   function renderPage() {
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
-        <UsersList
-          Users={state.users}
-          filterHandler={filterHandler}
-          submitForm={submitForm}
-          pageDetails={state.pageDetails || defaultPageDetail}
-          resetPager={state.resetPager}
-          defaultFilters={defaultFilters}
-          clientLookup={state.clientLookup}
-        />
+        {state.users.length > 0 && (
+          <UsersList
+            Users={state.users}
+            filterHandler={filterHandler}
+            submitForm={submitForm}
+            pageDetails={state.pageDetails || defaultPageDetail}
+            resetPager={state.resetPager}
+            defaultFilters={defaultFilters}
+            clientLookup={state.clientLookup}
+          />
+        )}
       </FilterContext.Provider>
     );
   }

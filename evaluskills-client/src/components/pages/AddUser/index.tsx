@@ -1,11 +1,14 @@
 import { Field, Formik } from 'formik';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, FormFeedback, Input, Modal, ModalFooter, ModalHeader } from 'reactstrap';
 import * as Yup from 'yup';
 import { styles } from './style';
 import PageBody from '../../atoms/PageBody';
 import styled from 'styled-components';
 import FormikBag from '../../../interfaces/FormikBag';
+import { lookups } from '../../../modules/Lookup/enum';
+import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
+import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 
 interface ModalProps {
   visible?: boolean;
@@ -13,6 +16,7 @@ interface ModalProps {
   submitHandler: (values: any) => void;
   name?: string;
   FormValues: any;
+  cancelHandler: () => void;
 }
 
 const StyledButton = styled(Button)`
@@ -20,7 +24,17 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, name, FormValues, submitHandler }) => {
+export const AddUser: React.FunctionComponent<ModalProps> = ({
+  visible,
+  toggle,
+  name,
+  FormValues,
+  submitHandler,
+  cancelHandler,
+}) => {
+  const { findKey } = useContext(LookupContext);
+  const [disabled, setDisabled] = useState(false);
+
   function submitForm(values: any) {
     submitHandler(values);
   }
@@ -42,6 +56,18 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, 
       .max(50, 'Too Long!')
       .required('Required'),
   });
+
+  function renderUserRoleDropdown() {
+    if (findKey) {
+      return findKey(lookups.userRolesLookUp).map(application => {
+        return (
+          <option value={application.text} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
+    }
+  }
 
   const renderForm = (formikprops: FormikBag) => (
     <form onSubmit={formikprops.handleSubmit} className={'form'}>
@@ -84,31 +110,43 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, 
             <div className="col-sm-6">
               <label className="col-sm-10 col-form-label font-bold">Email</label>
               <div className="col-sm-10">
-                <Input
-                  type="text"
-                  name="email"
-                  className="form-control"
-                  placeholder="Email"
-                  tag={Field}
-                  invalid={!!(formikprops.touched.email && formikprops.errors.email)}
-                />
+                {name === 'Edit' ? (
+                  <Input
+                    type="text"
+                    name="email"
+                    className="form-control"
+                    disabled={true}
+                    placeholder="Email"
+                    tag={Field}
+                    invalid={!!(formikprops.touched.email && formikprops.errors.email)}
+                  />
+                ) : (
+                  <Input
+                    type="text"
+                    name="email"
+                    className="form-control"
+                    placeholder="Email"
+                    tag={Field}
+                    invalid={!!(formikprops.touched.email && formikprops.errors.email)}
+                  />
+                )}
 
                 <FormFeedback tooltip={true}>{formikprops.errors.email}</FormFeedback>
               </div>
             </div>
             <div className="col-sm-6">
-              <label className="col-sm-10 col-form-label font-bold">Role</label>
               <div className="col-sm-10">
-                <Input
-                  type="text"
+                <FormElement
+                  label="Role"
                   name="role"
-                  className="form-control"
-                  placeholder="Role"
-                  tag={Field}
-                  invalid={!!(formikprops.touched.role && formikprops.errors.role)}
-                />
-
-                <FormFeedback tooltip={true}>{formikprops.errors.role}</FormFeedback>
+                  formikprops={formikprops}
+                  type={FormElementTypes.SELECT}
+                  inline={true}
+                  last={true}
+                >
+                  <option value=""> Select One</option>
+                  {renderUserRoleDropdown()}
+                </FormElement>
               </div>
             </div>
           </div>
@@ -117,17 +155,12 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, 
 
       <PageBody>
         <div className="row m-b-25">
-          <StyledButton type="button" size="lg">
+          <StyledButton type="button" size="lg" onClick={cancelHandler}>
             Cancel
           </StyledButton>
           <StyledButton type="submit" color="primary" size="lg">
             Save
           </StyledButton>
-          {name === 'add' && (
-            <StyledButton type="button" color="primary" size="lg">
-              Save &amp; Add More
-            </StyledButton>
-          )}
         </div>
       </PageBody>
     </form>
