@@ -16,7 +16,7 @@ import {
   updateAssessment,
 } from '../services/assessmentsService';
 import FilterContext from '../components/organisms/AssessmentFilters/context';
-import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import { isAdd, isEdit, isList, isCopy } from '../utils/routerUtils';
 import AddAssessmentComponenet from '../components/pages/AddAssessment';
 const AssessmentItems: AssessmentItemInterface[] = [
   {
@@ -65,6 +65,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [copy, setcopy] = useState(false);
   const [assessments, setAssessments] = useState(AssessmentItems);
   const [editassessmentsState, seteditAssessments] = useState(Initalvalues);
   const [addAssessments, setAddAssessments] = useState(Initalvalues);
@@ -109,8 +110,21 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       errorContext.setError(error, true);
     }
   }
+  async function copyAssessment(data: any) {
+    try {
+      await addAssessment(data);
+      setcopy(false);
+      assessmenListItems();
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
   async function updateAssessmentdata(data: any, type?: string) {
     try {
+      if (copy) {
+        await copyAssessment(data);
+        return;
+      }
       if (type === 'd') {
         assessmenListItems();
       } else {
@@ -189,6 +203,10 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   function editAssessment(assessmentId: string) {
     history.push(`/assessment-items/edit/${assessmentId}`);
   }
+  function renderEditAssessment(assessmentId: string) {
+    setcopy(true);
+    history.push(`/assessment-items/copy/${assessmentId}`);
+  }
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -199,6 +217,17 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     console.log('state', state);
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
+    }
+    if (isCopy(match.path)) {
+      return (
+        <AddAssessmentComponenet
+          assessmenListItems={assessmenListItems}
+          assessmenData={editassessmentsState}
+          copy={true}
+          addAssessment={AddAssessmentdata}
+          edit={false}
+        />
+      );
     }
     if (isEdit(match.params)) {
       return (
@@ -268,6 +297,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
           add={routeaddAssessment}
           remove={deleteAssessment}
           edit={editAssessment}
+          copy={renderEditAssessment}
           filterHandler={filtersClickHandler}
           resetPager={state.resetPager}
           appliedFilters={state.filters}

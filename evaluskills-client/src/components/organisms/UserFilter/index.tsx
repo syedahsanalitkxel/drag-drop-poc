@@ -2,74 +2,72 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
-import UserFilters from '../../../interfaces/UserFilter';
-
 import { lookups } from '../../../modules/Lookup/enum';
 
-import { LookupContextConsumer } from '../../../modules/Lookup/context';
-import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import LookupContext from '../../../modules/Lookup/context';
+import FilterContext from './context';
 
 interface Props {
-  changeListener?: (formValues: UserFilters) => void;
+  clientLookUp?: any;
 }
-
 const initialState = {
-  clientId: 1,
-  roleId: 1,
+  clientId: '',
+  roleId: '',
 };
 
-const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
-
+const UserFilter: React.FunctionComponent<Props> = ({ clientLookUp }) => {
   const { setModalState } = useContext(ModalContext);
+  const { findKey } = useContext(LookupContext);
+  const { activeFilters } = useContext(FilterContext);
+  const [state, setState] = useState({
+    ...initialState,
+    clientId: activeFilters && activeFilters.clientId,
+    roleId: activeFilters && activeFilters.roleId,
+  });
 
   useEffect(() => {
-    if (changeListener) {
-      changeListener(formState);
-    }
     if (setModalState) {
-      setModalState(formState);
+      setModalState(state);
     }
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.name) {
-      setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
-    } else {
-      setFormState({ ...formState, [event.target.name]: JSON.parse(event.target.value) });
+    setState({ ...state, [event.target.name]: event.target.value });
+  }
+
+  function renderRoleDropdown() {
+    if (findKey) {
+      return findKey(lookups.userRolesLookUp).map((application: any) => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
     }
   }
 
-  const renderClientsDropdown = (props: LookupContextInterface) => {
-    const { findKey } = props;
-    if (findKey) {
-      return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
-        <option key={lookup.value} value={lookup.value}>
-          {lookup.text}
-        </option>
-      ));
+  function renderClientDropdown() {
+    if (clientLookUp) {
+      return clientLookUp.map((application: any) => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
     }
-  };
-
-  const renderRoleDropdown = (props: LookupContextInterface) => {
-    const { findKey } = props;
-    if (findKey) {
-      return findKey(lookups.userRolesLookUp).map((lookup: LookupItemInterface) => (
-        <option key={lookup.value} value={lookup.value}>
-          {lookup.text}
-        </option>
-      ));
-    }
-  };
+  }
 
   return (
-    <React.Fragment>
-      <Form>
+    <Form>
+      <React.Fragment>
         <FormGroup className="row">
           <label className="col-sm-4 col-form-label font-bold">Role</label>
           <div className="col-sm-8">
-            <Input type="select" name="roleId" id="plan-select" onChange={changeHandler}>
-              <LookupContextConsumer>{renderRoleDropdown}</LookupContextConsumer>
+            <Input type="select" name="roleId" id="roleId" onChange={changeHandler} value={state.roleId}>
+              <option value="">All</option>
+              {renderRoleDropdown()}
             </Input>
           </div>
         </FormGroup>
@@ -79,13 +77,14 @@ const UserFilter: React.FunctionComponent<Props> = ({ changeListener }) => {
         <FormGroup className="row">
           <label className="col-sm-4 col-form-label font-bold">Clients</label>
           <div className="col-sm-8">
-            <Input type="select" name="clientId" id="plan-select" onChange={changeHandler}>
-              <LookupContextConsumer>{renderClientsDropdown}</LookupContextConsumer>
+            <Input type="select" name="clientId" id="plan-select" onChange={changeHandler} value={state.clientId}>
+              <option value="">All</option>
+              {renderClientDropdown()}
             </Input>
           </div>
         </FormGroup>
-      </Form>
-    </React.Fragment>
+      </React.Fragment>
+    </Form>
   );
 };
 

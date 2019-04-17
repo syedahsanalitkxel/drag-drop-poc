@@ -22,6 +22,7 @@ interface PropsInterface {
   addAssessment: (value: AddAssessmentItemInterface, buttonType?: string) => void;
   changeListener?: (formValues: any) => void;
   edit?: boolean;
+  copy?: boolean;
   assessmenData: AddAssessmentItemInterface;
 }
 
@@ -31,6 +32,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   changeListener,
   assessmenData,
   edit,
+  copy,
 }) => {
   console.log(assessmenData);
   const [formState, setFormState] = useState(initialState);
@@ -532,5 +534,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
     </Formik>
   );
 };
-
+AddAssessment.defaultProps = {
+  copy: false,
+};
 export default AddAssessment;
