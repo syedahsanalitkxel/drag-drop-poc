@@ -161,6 +161,8 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
         if (type === 'b') {
           values.itemsStatusId = 2;
+        } else {
+          values.itemsStatusId = 1;
         }
         const data = await addAssessment(values);
         console.log(data);
