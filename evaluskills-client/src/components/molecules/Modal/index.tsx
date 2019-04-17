@@ -37,7 +37,8 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
 
   const handleSecondaryAction = () => {
     if (secondaryAction === 'reset') {
-      console.log('hit reset');
+      setModalState(initialState);
+      primaryAction(initialState);
     } else {
       toggle();
     }
