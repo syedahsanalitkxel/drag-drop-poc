@@ -18,7 +18,7 @@ export interface FilterAssessmentItemInterface {
   categoryId?: number | string;
   competencyId?: number | string;
   itemsStatusIds?: string;
-  itemRecomendedApplications?: [number | string];
+  itemRecomendedApplications?: number | string[];
 }
 export interface AssessmentTemplateFilterInterface {
   search?: string;
@@ -32,5 +32,5 @@ export interface AssessmentTemplateFilterInterface {
   categoryId?: number | string;
   competencyId?: number | string;
   itemsStatusIds?: number | string;
-  itemRecomendedApplications?: [number | string];
+  itemRecomendedApplications?: number[];
 }

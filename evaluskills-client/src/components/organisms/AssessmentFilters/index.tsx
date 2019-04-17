@@ -118,7 +118,6 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   return (
     <React.Fragment>
       <Form>
-        <div className="hr-line-dashed" />
         <div className="form-group row">
           <label className="col-sm-2 col-form-label font-bold">Type</label>
 
