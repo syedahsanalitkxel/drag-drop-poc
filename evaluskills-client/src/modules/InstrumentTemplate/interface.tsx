@@ -16,8 +16,6 @@ export interface InstrumentTemplateInterface {
   influential?: number;
   isFaithBased?: number;
   rational?: number;
-  description?: string;
-  status?: boolean;
 }
 
 // Instrument Filter
@@ -26,6 +24,6 @@ export interface InstrumentTemplateFilterInterface {
   PageNumber?: number;
   PageSize?: number;
   recommendedApplicationId?: number;
-  Status?: string;
+  type?: string;
   TotalRecords?: number;
 }

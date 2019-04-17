@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
-import RadioButton from '../../components/atoms/RadioButton';
 import DeleteModal from '../../components/molecules/DeleteModal';
 import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
 import ESModal from '../../components/molecules/Modal';
@@ -28,9 +27,7 @@ interface Props extends RouteComponentProps {
 }
 
 const initialState: InstrumentTemplateInterface = {
-  description: '',
   recommendedApplicationId: 0,
-  status: false,
   templateItems: [],
   title: '',
 };
@@ -66,10 +63,6 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
     } else {
       handleAction(newFormState, actionTypes.EDIT);
     }
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, status: JSON.parse(event.target.value) });
   }
 
   function deleteInstrument(event: React.MouseEvent) {
@@ -145,39 +138,6 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             fullLength={true}
             formikprops={formikprops}
           />
-
-          <FormElement
-            label="Description"
-            name="description"
-            placeholder="Add Detail"
-            fullLength={true}
-            formikprops={formikprops}
-            type={FormElementTypes.TEXT_AREA}
-          />
-
-          <FormGroup className="row">
-            {/*TODO: status is missing in API*/}
-            <Label className="col-sm-2 col-form-label font-bold">Status</Label>
-            <div className="col-md-10">
-              <RadioButton
-                name="status"
-                value="true"
-                currentSelection={formState.status ? formState.status.toString() : ''}
-                onChange={handleChange}
-              >
-                Active
-              </RadioButton>
-              <RadioButton
-                name="status"
-                value="false"
-                currentSelection={formState.status !== undefined ? formState.status.toString() : ''}
-                onChange={handleChange}
-              >
-                Inactive
-              </RadioButton>
-            </div>
-          </FormGroup>
-          <div className="hr-line-dashed" />
 
           <FormElement
             label="Instrument Application"

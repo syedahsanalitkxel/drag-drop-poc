@@ -1,6 +1,6 @@
 import React from 'react';
-
-const FilterContext = React.createContext<{ activeFilters: any }>({
+import { AssessmentTemplateFilterInterface } from '../../../interfaces/AssessmentFilters';
+const FilterContext = React.createContext<{ activeFilters: AssessmentTemplateFilterInterface }>({
   activeFilters: {},
 });
 

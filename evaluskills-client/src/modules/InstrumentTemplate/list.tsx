@@ -121,7 +121,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="dismiss"
+        secondaryAction="reset"
       >
         <InstrumentTemplateFilters />
       </ESModal>

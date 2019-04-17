@@ -12,6 +12,14 @@ export default interface AssessmentFiltersInterface {
     total: number;
   };
 }
+export interface FilterAssessmentItemInterface {
+  accreditation?: number | string;
+  application?: number | string;
+  categoryId?: number | string;
+  competencyId?: number | string;
+  itemsStatusIds?: string;
+  itemRecomendedApplications?: [number | string];
+}
 export interface AssessmentTemplateFilterInterface {
   search?: string;
   PageNumber?: number;
@@ -19,4 +27,10 @@ export interface AssessmentTemplateFilterInterface {
   recommendedApplicationId?: number;
   status?: string;
   TotalRecords?: number;
+  accreditation?: number | string;
+  application?: number | string;
+  categoryId?: number | string;
+  competencyId?: number | string;
+  itemsStatusIds?: number | string;
+  itemRecomendedApplications?: [number | string];
 }

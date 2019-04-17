@@ -20,20 +20,21 @@ export interface Elementobj {
 }
 export interface AddAssessmentItemInterface {
   isSystemDefined: boolean;
-  clientId: number | null;
-  itemsStatusId: number | null;
+  clientId: number | null | string;
+  itemsStatusId: number | null | string;
   definition: string;
-  typeId: number;
-  competencyId: number | null;
-  categoryId: number;
-  isFaithBased: boolean;
-  accreditationAlignment: boolean;
-  questionTypeId: number;
-  itemEntities: [number];
-  itemRecomendedApplications: [number];
+  typeId: number | string;
+  competencyId: number | null | string;
+  categoryId: number | string;
+  isFaithBased: boolean | string;
+  accreditationAlignment: boolean | string;
+  questionTypeId: number | string;
+  itemEntities: [number | string];
+  itemRecomendedApplications: [number | string];
   itemElements: Elementobj[];
   saveAsNewVersion?: boolean;
 }
+
 export interface EditAssessmentItemInterface {
   saveAsNewVersion: boolean;
   versionId: number;
