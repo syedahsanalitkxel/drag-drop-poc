@@ -9,6 +9,7 @@ interface ModalProps {
   toggle: () => void;
   name?: string;
   submitHandler: (values: any) => void;
+  cancelHandler: () => void;
   FormValues: any;
 }
 
@@ -27,11 +28,13 @@ const toggleAddUserModal = () => {
 };
 
 const submitHandler = (values: any) => {};
+const cancelHandlers = () => {};
 
 const props: ModalProps = {
   visible: true,
   toggle: toggleAddUserModal,
   submitHandler: submitHandler,
+  cancelHandler: cancelHandlers,
   name: 'Add',
   FormValues: modalValues,
 };
