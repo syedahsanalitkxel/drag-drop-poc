@@ -14,6 +14,7 @@ import ListCardItems from '../../components/organisms/ListCardItems';
 import AssessmentItemsList from '../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
 import { actionTypes } from '../../enums';
 import FormikBag from '../../interfaces/FormikBag';
+import { isAdd, isList } from '../../utils/routerUtils';
 import { LookupContextConsumer } from '../Lookup/context';
 import { lookups } from '../Lookup/enum';
 import { LookupContextInterface, LookupItemInterface } from '../Lookup/interface';
@@ -42,6 +43,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
   handleAction,
   handleDelete,
   history,
+  match,
 }) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
   const [modalVisible, setModalVisible] = useState(false);
@@ -188,7 +190,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
               Cancel
             </StyledButton>
             <StyledButton color="primary" type="submit">
-              Save Changes
+              {isAdd(match.path) ? 'Save' : 'Save Changes'}
             </StyledButton>
           </div>
         </div>
