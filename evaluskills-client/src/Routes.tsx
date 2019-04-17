@@ -61,8 +61,8 @@ const Routes: React.FunctionComponent = () => {
         <Route exact={true} path="/account/login" component={AuthContainer} />
         <Route exact={true} path="/account/select-client" component={AuthContainer} />
         <Route exact={true} path="/account/reset-password" component={AuthContainer} />
-        <PrivateRoute exact={true} path="/" component={DashboardHome} />
         <Route exact={true} path="/account/email-confirmation" component={AuthContainer} />
+        <PrivateRoute exact={true} path="/" component={DashboardHome} />
         <PrivateRoute exact={true} path="/assessment-items" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/assessment-items/add" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/assessment-items/edit/:id" component={AssessmentItemContainer} />

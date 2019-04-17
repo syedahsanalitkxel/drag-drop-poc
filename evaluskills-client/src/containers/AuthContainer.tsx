@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import qs from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -12,6 +12,9 @@ import { AuthContext } from '../modules/Auth/authContext';
 import { changePassword, login, resetPassword } from '../services/authService';
 
 const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location, match }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+
   const errorContext = useContext(ErrorContext);
   const authContext = useContext(AuthContext);
 
@@ -35,10 +38,15 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   };
 
   const sendPasswordResetEmail = async (userEmail: string) => {
+    setIsLoading(true);
+    setEmailSent(false);
     try {
       await resetPassword(userEmail);
+      setIsLoading(false);
+      setEmailSent(true);
     } catch (e) {
       errorContext.setError(e);
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +58,8 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
           token={query.token}
           handlePasswordChange={handleChangePassword}
           sendPasswordResetEmail={sendPasswordResetEmail}
+          isLoading={isLoading}
+          emailSent={emailSent}
         />
       );
     }
