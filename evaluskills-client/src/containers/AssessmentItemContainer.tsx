@@ -107,9 +107,8 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   }
   async function copyAssessment(data: any) {
     try {
-      data.saveAsNewVersion = true;
       data.ItemsStatusId = 1;
-      const returnData: any = await addAssessment(data);
+      await addAssessment(data);
       setcopy(false);
       assessmenListItems();
     } catch (error) {
