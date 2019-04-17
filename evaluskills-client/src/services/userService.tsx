@@ -1,13 +1,9 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { USERS } from '../api/endpoints';
+import { CLIENTS, LOOK_UPS, USERS } from '../api/endpoints';
 
 import API from '../api';
 import UserList from '../interfaces/UserList';
 import AddUserInterface from '../interfaces/User';
-import {
-  InstrumentTemplateFilterInterface,
-  InstrumentTemplateInterface,
-} from '../modules/InstrumentTemplate/interface';
 import UserFilterInterface from '../interfaces/UserFilter';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 const api = new API();
@@ -60,6 +56,19 @@ export async function addUser(user: any) {
 
 export async function editUser(user: any, id: any) {
   return api.put(USERS, user, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function clientLookUps() {
+  let url: any = CLIENTS;
+  url += `/Lookup`;
+  return api.get(url).then(
     (res: AxiosResponse) => {
       return res.data;
     },

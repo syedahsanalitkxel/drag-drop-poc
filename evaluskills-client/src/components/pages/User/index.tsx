@@ -22,6 +22,7 @@ interface Props {
   pageDetails: PageDetailsInterface;
   resetPager: boolean;
   defaultFilters: any;
+  clientLookup?: any;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   pageDetails,
   resetPager,
   defaultFilters,
+  clientLookup,
 }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
@@ -136,7 +138,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         secondaryAction="reset"
         defaultFilters={defaultFilters}
       >
-        <UserFilter />
+        <UserFilter clientLookUp={clientLookup} />
       </ESModal>
 
       <AddUser

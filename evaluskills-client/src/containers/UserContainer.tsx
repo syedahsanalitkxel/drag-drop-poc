@@ -7,11 +7,13 @@ import UsersInterface from '../interfaces/UserList';
 import UsersFilterInterface from '../interfaces/UserFilter';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
-import { addUser, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
+import { addUser, clientLookUps, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/organisms/UserFilter/context';
+import { LookupInterface } from '../modules/Lookup/interface';
 
 const users: UsersInterface[] = [];
+const clientLookup: any = [];
 
 const user: UsersInterface = {
   email: '',
@@ -40,11 +42,13 @@ interface State {
   isLoading: boolean;
   pageDetails?: PageDetailsInterface;
   resetPager: boolean;
+  clientLookup: any;
 }
 
 const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
   const [state, setState] = useState<State>({
+    clientLookup,
     filters: defaultFilters,
     isLoading: false,
     pageDetails: defaultPageDetail,
@@ -80,8 +84,9 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
 
   async function fetchAllUsers(filters?: UsersFilterInterface) {
     try {
+      const lookup = await clientLookUps();
       const data = await getFilteredUser(filters);
-      setState({ ...state, users: data, pageDetails: data.pageDetails });
+      setState({ ...state, users: data, pageDetails: data.pageDetails, clientLookup: lookup });
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -124,6 +129,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
           pageDetails={state.pageDetails || defaultPageDetail}
           resetPager={state.resetPager}
           defaultFilters={defaultFilters}
+          clientLookup={state.clientLookup}
         />
       </FilterContext.Provider>
     );

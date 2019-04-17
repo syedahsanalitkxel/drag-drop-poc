@@ -7,12 +7,15 @@ import { lookups } from '../../../modules/Lookup/enum';
 import LookupContext from '../../../modules/Lookup/context';
 import FilterContext from './context';
 
+interface Props {
+  clientLookUp?: any;
+}
 const initialState = {
   clientId: '',
   roleId: '',
 };
 
-const UserFilter: React.FunctionComponent = () => {
+const UserFilter: React.FunctionComponent<Props> = ({ clientLookUp }) => {
   const { setModalState } = useContext(ModalContext);
   const { findKey } = useContext(LookupContext);
   const { activeFilters } = useContext(FilterContext);
@@ -34,7 +37,19 @@ const UserFilter: React.FunctionComponent = () => {
 
   function renderRoleDropdown() {
     if (findKey) {
-      return findKey(lookups.userRolesLookUp).map(application => {
+      return findKey(lookups.userRolesLookUp).map((application: any) => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
+    }
+  }
+
+  function renderClientDropdown() {
+    if (clientLookUp) {
+      return clientLookUp.map((application: any) => {
         return (
           <option value={application.value} key={application.value}>
             {application.text}
@@ -64,9 +79,7 @@ const UserFilter: React.FunctionComponent = () => {
           <div className="col-sm-8">
             <Input type="select" name="clientId" id="plan-select" onChange={changeHandler} value={state.clientId}>
               <option value="">All</option>
-              <option value="1">Tester 1</option>
-              <option value="7">Tester 7</option>
-              <option value="10">Tester 10</option>
+              {renderClientDropdown()}
             </Input>
           </div>
         </FormGroup>
