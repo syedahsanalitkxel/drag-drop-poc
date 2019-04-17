@@ -14,11 +14,11 @@ interface Props {
 }
 
 const initialState = {
-  accreditation: undefined,
-  application: undefined,
-  categoryId: undefined,
-  competencyId: undefined,
-  itemsStatusIds: undefined,
+  accreditation: '',
+  application: '',
+  categoryId: '',
+  competencyId: '',
+  itemsStatusIds: '',
   itemRecomendedApplications: [0],
 };
 
@@ -36,16 +36,13 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
     itemsStatusIds: activeFilters && activeFilters.itemsStatusIds,
   });
   useEffect(() => {
-    if (changeListener) {
-      changeListener(formState);
-    }
     if (setModalState) {
       setModalState(formState);
     }
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
+    setFormState({ ...formState, [event.target.name]: event.target.value });
   }
   function lookupchangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
@@ -70,7 +67,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+      return findKey(lookups.assessmentTypesLookUp).map((lookup: LookupItemInterface, index) => (
         <Checkbox
           name="itemRecomendedApplications"
           value={lookup.value}
@@ -135,7 +132,13 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label for="competency-select" className="font-bold">
               Competency
             </Label>
-            <Input type="select" name="competencyId" id="competency-select" onChange={lookupchangeHandler}>
+            <Input
+              type="select"
+              name="competencyId"
+              value={formState.competencyId}
+              id="competency-select"
+              onChange={lookupchangeHandler}
+            >
               <option value="">Select One</option>
               <LookupContextConsumer>{renderCompitency}</LookupContextConsumer>
             </Input>
@@ -144,7 +147,13 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label for="category-select" className="font-bold">
               Category
             </Label>
-            <Input type="select" name="categoryId" id="competency-select" onChange={lookupchangeHandler}>
+            <Input
+              type="select"
+              value={formState.categoryId}
+              name="categoryId"
+              id="competency-select"
+              onChange={lookupchangeHandler}
+            >
               <option value="">Select One</option>
               <LookupContextConsumer>{renderAssessmentCategory}</LookupContextConsumer>
             </Input>
@@ -158,7 +167,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <div className="d-flex align-items-center">
               <RadioButton
                 name="accreditation"
-                value={3}
+                value=""
                 currentSelection={formState.accreditation}
                 onChange={changeHandler}
               >
@@ -166,7 +175,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               </RadioButton>
               <RadioButton
                 name="accreditation"
-                value={1}
+                value={'1'}
                 currentSelection={formState.accreditation}
                 onChange={changeHandler}
               >
@@ -174,7 +183,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               </RadioButton>
               <RadioButton
                 name="accreditation"
-                value={2}
+                value={'2'}
                 currentSelection={formState.accreditation}
                 onChange={changeHandler}
               >
@@ -187,7 +196,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <div className="d-flex align-items-center">
               <RadioButton
                 name="itemsStatusIds"
-                value={3}
+                value=""
                 currentSelection={formState.itemsStatusIds}
                 onChange={changeHandler}
               >
@@ -195,7 +204,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               </RadioButton>
               <RadioButton
                 name="itemsStatusIds"
-                value={1}
+                value={'1'}
                 currentSelection={formState.itemsStatusIds}
                 onChange={changeHandler}
               >
@@ -203,7 +212,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               </RadioButton>
               <RadioButton
                 name="itemsStatusIds"
-                value={2}
+                value={'2'}
                 currentSelection={formState.itemsStatusIds}
                 onChange={changeHandler}
               >
@@ -217,7 +226,17 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
         <FormGroup className="row">
           <div className="col-md-12">
             <Label className="font-bold">Industry And Recommended Application</Label>
+
             <div className="d-flex align-items-center">
+              <RadioButton
+                name="application"
+                value=""
+                currentSelection={formState.application}
+                onChange={changeHandler}
+              >
+                All
+              </RadioButton>
+
               <LookupContextConsumer>{renderAssessmentRecommend}</LookupContextConsumer>
             </div>
           </div>

@@ -8,6 +8,7 @@ import Pager from '../../molecules/Pager';
 import ClientFilter from '../../organisms/ClientFilters';
 import ClientsList from '../../organisms/ClientsList';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
 
 interface Props {
   clients: ClientList[];
@@ -18,10 +19,12 @@ interface Props {
   applyFilters: (filters: ClientFilters) => void;
   filtersClickHandler: (event: React.MouseEvent) => void;
   onPageChange: (pageNumber: number) => void;
+  pageDetails: PageDetailsInterface;
   modalVisible: boolean;
   toggleFilterModal: () => void;
   appliedFilters: ClientFilters;
   resetPager: boolean;
+  defaultFilters: any;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -34,9 +37,11 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   filtersClickHandler,
   onPageChange,
   modalVisible,
+  pageDetails,
   toggleFilterModal,
   appliedFilters,
   resetPager,
+  defaultFilters,
 }) => {
   return (
     <DashboardTemplate>
@@ -45,18 +50,23 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Client"
             filterAction={filtersClickHandler}
-            searchHandler={filterClients}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
             actionButtonText="Add Client"
             actionHandler={add}
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            <Pager
-              pageSize={appliedFilters.pageSize || 10}
-              totalRecords={appliedFilters.totalRecords || 10}
-              onPageChanged={onPageChange}
-              shouldReset={resetPager}
-            />
+            {clients.length > 0 && (
+              <Pager
+                pageSize={pageDetails.pageSize || 0}
+                totalRecords={pageDetails.totalCount || 0}
+                pageNumber={pageDetails.currentPage}
+                onPageChanged={onPageChange}
+                shouldReset={resetPager}
+              />
+            )}
           </PageBody>
         </div>
       </div>
@@ -69,6 +79,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         primaryText="Apply"
         secondaryText="Reset"
         secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <ClientFilter />
       </ESModal>

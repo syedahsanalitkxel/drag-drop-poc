@@ -2,10 +2,11 @@ import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
-
+import PageBody from '../../atoms/PageBody';
 import { BadgeTypes } from '../../../enums';
 import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
+import EmptyPage from '../../atoms/EmptyPage';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
 import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
@@ -109,7 +110,17 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return <React.Fragment>{listData && listData.length > 0 && listData.map(renderAllCards)}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {listData.length > 0 ? (
+        listData && listData.map(renderAllCards)
+      ) : (
+        <PageBody card={true} wrapper={true} className="m-t-15">
+          <EmptyPage />
+        </PageBody>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default ListCardItems;

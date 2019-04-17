@@ -22,11 +22,9 @@ interface Props {
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
   assessments,
-
   add,
   edit,
   remove,
-
   filterHandler,
   appliedFilters,
   resetPager,
@@ -62,8 +60,8 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
           <PageBody>
             <ListCardItems titleKey="definition" listData={assessments} edit={edit} remove={remove} />
             <Pager
-              pageSize={appliedFilters.PageSize || 10}
-              totalRecords={appliedFilters.TotalRecords || 10}
+              pageSize={appliedFilters.PageSize || 0}
+              totalRecords={appliedFilters.TotalRecords || 0}
               onPageChanged={onPageChange}
               shouldReset={resetPager}
             />
@@ -78,7 +76,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="reset"
+        secondaryAction="dismiss"
       >
         <AssessmentFilters />
       </ESModal>
