@@ -377,7 +377,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                   name="submit"
                   onClick={() => {
                     setSubmit('a');
-                    formikprops.submitForm();
+                    //formikprops.submitForm();
                   }}
                   className="btn btn-primary btn-lg"
                 >
