@@ -16,6 +16,7 @@ interface ListCardProps {
   titleKey: string;
   edit?: (id: string) => void;
   remove?: (id: string) => void;
+  copy?: (id: string) => void;
   checkbox?: boolean;
   handleCheckbox?: (templateItem: TemplateItem) => void;
   checkedItems?: string[];
@@ -32,6 +33,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   listData,
   edit,
   remove,
+  copy,
   checkbox,
   checkedItems,
   handleCheckbox,
@@ -44,6 +46,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     } else if (event.currentTarget.name === 'delete') {
       if (remove) {
         remove(assessmentId);
+      }
+    } else if (event.currentTarget.name === 'copy') {
+      if (copy) {
+        copy(assessmentId);
       }
     }
   };
@@ -91,6 +97,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
 
     return (
       <React.Fragment>
+        {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
         {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
         {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
       </React.Fragment>
