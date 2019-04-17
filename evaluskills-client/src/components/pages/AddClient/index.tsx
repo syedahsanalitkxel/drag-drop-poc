@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Formik } from 'formik';
-import { Button, Form } from 'reactstrap';
+import { ErrorMessage, Field, Formik } from 'formik';
+import { Button, Form, FormFeedback } from 'reactstrap';
 import styled from 'styled-components';
 import { FormGroup, Input } from 'reactstrap';
 
@@ -17,7 +17,7 @@ import DashboardTemplate from '../../templates/DashboardTemplate';
 import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-import clientFormSchema from './clientFormSchema';
+import clientFormSchema, { clientEditFormSchema } from './clientFormSchema';
 import styles from '../../molecules/FormElement/FormElement.module.scss';
 
 interface Props {
@@ -122,7 +122,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
     }
   };
 
-  const renderForm = (formikprops: FormikBag) => {
+  const renderForm = (formikprops: any) => {
+    function getValidation(name: string) {
+      return !!(formikprops.touched[name] && formikprops.errors[name]);
+    }
+
     const renderContactList = (clientContacts: any, index: number) => (
       <Fragment key={index}>
         <ClientContacts formikprops={formikprops} index={index} />
@@ -181,10 +185,27 @@ export const AddClient: React.FunctionComponent<Props> = ({
           <FormGroup>
             <div>
               <span className={styles['image-upload-label']}>Upload Photo</span>
-              <Input type="file" name="clientLogo" id="exampleFile" onChange={uploadImage} />
-              {formikprops.touched.clientLogo && formikprops.errors.clientLogo && formikprops.errors.clientLogo}
+              <Input
+                type="file"
+                name="clientLogo"
+                id="exampleFile"
+                onChange={uploadImage}
+                className="form-control"
+                invalid={getValidation('clientLogo')}
+              />
             </div>
+            <ErrorMessage
+              name="clientLogo"
+              render={msg => {
+                return (
+                  <div className="isa_error">
+                    <span className="error text-danger">{msg}</span>
+                  </div>
+                );
+              }}
+            />
           </FormGroup>
+
           <div className="hr-line-dashed" />
 
           <div className="row">
@@ -355,7 +376,12 @@ export const AddClient: React.FunctionComponent<Props> = ({
   return (
     <DashboardTemplate>
       {formState && (
-        <Formik initialValues={formState} validationSchema={clientFormSchema} onSubmit={submitForm}>
+        <Formik
+          enableReinitialize={true}
+          initialValues={formState}
+          validationSchema={action === 'Edit' ? clientEditFormSchema : clientFormSchema}
+          onSubmit={submitForm}
+        >
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}

@@ -31,6 +31,7 @@ const ClientList = {
       title: '',
     },
   ],
+  clientLogo: undefined,
   clientName: '',
   clientTypeId: '',
   clientUser: user,
