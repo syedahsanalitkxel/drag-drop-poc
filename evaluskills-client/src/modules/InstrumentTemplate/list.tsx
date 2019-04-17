@@ -11,6 +11,7 @@ import Pager from '../../components/molecules/Pager';
 import { actionTypes } from '../../enums';
 import InstrumentTemplateFilters from './filters';
 import ListInstrumentTemplateCards from './listCards';
+import EmptyPage from '../../components/atoms/EmptyPage';
 
 interface Props {
   instrumentTemplates: InstrumentTemplateInterface[];
@@ -88,10 +89,11 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
             actionHandler={() => navigate('/add')}
           />
           <PageBody>
+            {instrumentTemplates.length === 0 && <EmptyPage />}
             <ListInstrumentTemplateCards actionHandler={actionHandler} instrumentTemplates={instrumentTemplates} />
             <Pager
-              pageSize={pageDetails.pageSize || 25}
-              totalRecords={pageDetails.totalCount || 25}
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
               pageNumber={pageDetails.currentPage}
               onPageChanged={onPageChange}
               shouldReset={resetPager}

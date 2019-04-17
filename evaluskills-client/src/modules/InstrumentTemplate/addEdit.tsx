@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Formik } from 'formik';
-import { uniqBy } from 'lodash-es';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
