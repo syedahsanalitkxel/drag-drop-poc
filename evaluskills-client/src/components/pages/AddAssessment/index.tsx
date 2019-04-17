@@ -165,7 +165,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
               <div className="ibox">
                 <div className="ibox-content">
                   <div className="form-group  row">
-                    <label className="col-sm-2 col-form-label font-bold">Defination</label>
+                    <label className="col-sm-2 col-form-label font-bold">definition</label>
                     <div className="col-md-12">
                       <Input
                         type="text"
