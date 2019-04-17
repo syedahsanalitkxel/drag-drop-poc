@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
-
+import PageBody from '../../atoms/PageBody';
 import { BadgeTypes } from '../../../enums';
 import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
@@ -109,7 +109,23 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return <React.Fragment>{listData && listData.length > 0 && listData.map(renderAllCards)}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {listData.length > 0 ? (
+        listData && listData.map(renderAllCards)
+      ) : (
+        <PageBody card={true} wrapper={true} className="m-t-15">
+          <tr>
+            <td colSpan={9} style={{ textAlign: 'center' }}>
+              <span className="label" style={{ textAlign: 'center' }}>
+                No Record Found
+              </span>
+            </td>
+          </tr>
+        </PageBody>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default ListCardItems;
