@@ -19,7 +19,7 @@ const initialState = {
   categoryId: '',
   competencyId: '',
   itemsStatusIds: '',
-  itemRecomendedApplications: [1],
+  itemRecomendedApplications: [0],
 };
 
 const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) => {
@@ -167,7 +167,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <div className="d-flex align-items-center">
               <RadioButton
                 name="accreditation"
-                value={''}
+                value=""
                 currentSelection={formState.accreditation}
                 onChange={changeHandler}
               >
@@ -196,7 +196,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <div className="d-flex align-items-center">
               <RadioButton
                 name="itemsStatusIds"
-                value={''}
+                value=""
                 currentSelection={formState.itemsStatusIds}
                 onChange={changeHandler}
               >
@@ -230,11 +230,11 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <div className="d-flex align-items-center">
               <RadioButton
                 name="application"
-                value={''}
+                value=""
                 currentSelection={formState.application}
                 onChange={changeHandler}
               >
-                Both
+                All
               </RadioButton>
 
               <LookupContextConsumer>{renderAssessmentRecommend}</LookupContextConsumer>
