@@ -1,17 +1,21 @@
 // base item (values shared among every other)
 export interface Item {
-  itemId: number | string;
+  id?: string;
+  itemId?: number | string;
   itemVersionId?: number;
-  defination: string;
+  // TODO: This should be removed after API correct it
+  defination?: string;
+  definition?: string;
 }
 
 // Partial item (In Array list)
 export interface AssessmentItemShort extends Item {
+  id?: string;
   category: string;
   type: string;
   competency: string;
-  isFaithBased: boolean;
-  isSystemDefined: boolean;
+  isFaithBased?: boolean;
+  isSystemDefined?: boolean;
 }
 
 // Used inside Assessment Item detailed object

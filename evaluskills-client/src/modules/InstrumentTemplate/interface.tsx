@@ -1,6 +1,6 @@
-import { Item } from '../AssessmentItem/interface';
+import { AssessmentItemShort } from '../AssessmentItem/interface';
 
-export interface TemplateItem extends Item {
+export interface TemplateItem extends AssessmentItemShort {
   commentsRequired: boolean;
 }
 
@@ -16,8 +16,6 @@ export interface InstrumentTemplateInterface {
   influential?: number;
   isFaithBased?: number;
   rational?: number;
-  description?: string;
-  status?: boolean;
 }
 
 // Instrument Filter
@@ -26,6 +24,6 @@ export interface InstrumentTemplateFilterInterface {
   PageNumber?: number;
   PageSize?: number;
   recommendedApplicationId?: number;
-  Status?: string;
+  type?: string;
   TotalRecords?: number;
 }

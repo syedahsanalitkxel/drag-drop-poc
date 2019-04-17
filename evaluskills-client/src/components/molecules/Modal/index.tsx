@@ -13,6 +13,7 @@ interface ModalProps {
   secondaryAction: 'reset' | 'dismiss';
   size?: string;
   parentClass?: string;
+  defaultFilters?: any;
 }
 
 const ESModal: React.FunctionComponent<ModalProps> = ({
@@ -26,6 +27,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   secondaryText,
   size,
   parentClass,
+  defaultFilters,
 }) => {
   const initialState = {};
   const [modalState, setModalState] = useState(initialState);
@@ -36,8 +38,11 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
   };
 
   const handleSecondaryAction = () => {
-    if (secondaryAction === 'reset') {
-      console.log('hit reset');
+    if (secondaryAction === 'reset' && !defaultFilters) {
+      setModalState(initialState);
+      primaryAction(initialState);
+    } else if (secondaryAction === 'reset' && defaultFilters) {
+      primaryAction(defaultFilters);
     } else {
       toggle();
     }

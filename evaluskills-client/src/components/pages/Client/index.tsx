@@ -24,6 +24,7 @@ interface Props {
   toggleFilterModal: () => void;
   appliedFilters: ClientFilters;
   resetPager: boolean;
+  defaultFilters: any;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -40,6 +41,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   toggleFilterModal,
   appliedFilters,
   resetPager,
+  defaultFilters,
 }) => {
   return (
     <DashboardTemplate>
@@ -56,12 +58,15 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            <Pager
-              pageSize={pageDetails.pageSize || 25}
-              totalRecords={pageDetails.totalCount || 25}
-              onPageChanged={onPageChange}
-              shouldReset={resetPager}
-            />
+            {clients.length > 0 && (
+              <Pager
+                pageSize={pageDetails.pageSize || 0}
+                totalRecords={pageDetails.totalCount || 0}
+                pageNumber={pageDetails.currentPage}
+                onPageChanged={onPageChange}
+                shouldReset={resetPager}
+              />
+            )}
           </PageBody>
         </div>
       </div>
@@ -73,7 +78,8 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="dismiss"
+        secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <ClientFilter />
       </ESModal>
