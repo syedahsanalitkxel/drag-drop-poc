@@ -1,17 +1,30 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
-import { FormFeedback, Input, Modal, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, FormFeedback, Input, Modal, ModalFooter, ModalHeader } from 'reactstrap';
 import * as Yup from 'yup';
 import { styles } from './style';
+import PageBody from '../../atoms/PageBody';
+import styled from 'styled-components';
+import FormikBag from '../../../interfaces/FormikBag';
 
 interface ModalProps {
   visible?: boolean;
   toggle: () => void;
+  submitHandler: (values: any) => void;
   name?: string;
   FormValues: any;
 }
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, name, FormValues }) => {
+const StyledButton = styled(Button)`
+  margin-left: 20px;
+  margin-right: 5px;
+`;
+
+export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, name, FormValues, submitHandler }) => {
+  function submitForm(values: any) {
+    submitHandler(values);
+  }
+
   const addUserSchema = Yup.object().shape({
     email: Yup.string()
       .required()
@@ -30,7 +43,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, 
       .required('Required'),
   });
 
-  const renderForm = (formikprops: any) => (
+  const renderForm = (formikprops: FormikBag) => (
     <form onSubmit={formikprops.handleSubmit} className={'form'}>
       <div className=" ">
         <div className="no-borders">
@@ -102,26 +115,33 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, 
         </div>
       </div>
 
-      <ModalFooter>
-        <div className="m-t-15 m-b-15">
-          <button type="button" style={styles.btn} className="btn btn-default btn-lg">
+      <PageBody>
+        <div className="row m-b-25">
+          <StyledButton type="button" size="lg">
             Cancel
-          </button>
-          <button type="button" style={styles.btn} id={'submit'} name="submit" className="btn btn-primary btn-lg">
+          </StyledButton>
+          <StyledButton type="submit" color="primary" size="lg">
             Save
-          </button>
-          <button type="button" style={styles.btn} className="btn btn-primary btn-lg">
-            Save &amp; Add More
-          </button>
+          </StyledButton>
+          {name === 'add' && (
+            <StyledButton type="button" color="primary" size="lg">
+              Save &amp; Add More
+            </StyledButton>
+          )}
         </div>
-      </ModalFooter>
+      </PageBody>
     </form>
   );
 
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
       <ModalHeader toggle={toggle}>{name} User</ModalHeader>
-      <Formik enableReinitialize={true} initialValues={FormValues} validationSchema={addUserSchema} onSubmit={() => {}}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={FormValues}
+        validationSchema={addUserSchema}
+        onSubmit={submitForm}
+      >
         {formikprops => renderForm(formikprops)}
       </Formik>
     </Modal>
