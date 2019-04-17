@@ -3,10 +3,12 @@ import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
   clientId: 2,
-
+  isFaithBased: undefined,
   definition: '',
   typeId: 1,
-
+  categoryId: undefined,
+  accreditationAlignment: undefined,
+  competencyId: undefined,
   questionTypeId: 1,
   itemEntities: [],
   itemRecomendedApplications: [],

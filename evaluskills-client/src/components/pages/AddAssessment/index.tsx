@@ -217,11 +217,21 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         <div className="col-sm-10">
                           <div className="col-md-6">
                             <Input type="select" name="competencyId" id="competency-select" onChange={changeHandler}>
+                              <option value={''}>Add Competency</option>
                               <LookupContextConsumer>{rendercompetencyDropdown}</LookupContextConsumer>
                             </Input>
+                            <ErrorMessage
+                              name={`competencyId`}
+                              render={msg => (
+                                <div className="isa_error">
+                                  <span className="error text-danger">Please select Compitency</span>
+                                </div>
+                              )}
+                            />
                           </div>
                         </div>
                       </div>
+
                       <div className="hr-line-dashed" />
                     </Fragment>
                   ) : null}
