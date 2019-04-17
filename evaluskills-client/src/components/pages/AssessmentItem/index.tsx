@@ -9,7 +9,7 @@ import Pager from '../../molecules/Pager';
 import AssessmentFilters from '../../organisms/AssessmentFilters';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
-
+import { AssessmentTemplateFilterInterface } from '../../../interfaces/AssessmentFilters';
 interface Props {
   assessments: AssessmentItemInterface[];
   add: () => void;
@@ -18,6 +18,7 @@ interface Props {
   filterHandler: (filters: any) => void;
   appliedFilters: any;
   resetPager: boolean;
+  defaultFilters: any;
   copy?: (assessmentId: string) => void;
 }
 
@@ -30,9 +31,18 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   filterHandler,
   appliedFilters,
   resetPager,
+  defaultFilters,
 }) => {
   const onPageChange = (PageNumber: number) => {
     filterHandler({ PageNumber });
+  };
+  const initialState = {
+    accreditation: undefined,
+    application: undefined,
+    categoryId: undefined,
+    competencyId: undefined,
+    itemsStatusIds: undefined,
+    itemRecomendedApplications: [],
   };
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
@@ -41,6 +51,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
     event.preventDefault();
     toggleFilterModal();
   };
+
   const [modalVisible, setModalVisible] = useState(false);
   const applyFilters = (filters: any) => {
     filterHandler(filters);
@@ -78,7 +89,8 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="dismiss"
+        secondaryAction="reset"
+        defaultFilters={initialState}
       >
         <AssessmentFilters />
       </ESModal>

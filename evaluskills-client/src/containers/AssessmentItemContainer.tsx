@@ -259,12 +259,35 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         },
         resetPager: false,
       };
-      if (!filters.PageNumber) {
+      if (!filters.pageNumber) {
         newFilterState.resetPager = true;
-        newFilterState.filters.PageNumber = 1;
+        newFilterState.filters.pageNumber = 1;
+      }
+      if (!filters.accreditation) {
+        delete newFilterState.filters.accreditation;
+      }
+      if (!filters.application) {
+        delete newFilterState.filters.application;
+      }
+      if (!filters.accreditation) {
+        delete newFilterState.filters.accreditation;
+      }
+      if (!filters.categoryId) {
+        delete newFilterState.filters.categoryId;
+      }
+      if (!filters.competencyId) {
+        delete newFilterState.filters.competencyId;
+      }
+      if (filters.itemRecomendedApplications && filters.itemRecomendedApplications.length === 0) {
+        delete newFilterState.filters.itemRecomendedApplications;
+      }
+      if (!filters.categoryId) {
+        delete newFilterState.filters.categoryId;
+      }
+      if (!filters.search) {
+        delete newFilterState.filters.search;
       }
       setState(newFilterState);
-      toggleFilterModal();
     };
 
     return (
@@ -278,6 +301,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
           filterHandler={filtersClickHandler}
           resetPager={state.resetPager}
           appliedFilters={state.filters}
+          defaultFilters={defaultFilters}
         />
       </FilterContext.Provider>
     );

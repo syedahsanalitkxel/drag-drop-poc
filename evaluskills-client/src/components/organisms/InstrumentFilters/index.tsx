@@ -47,7 +47,6 @@ const InstrumentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   const Clientfilter = () => {
     return (
       <Fragment>
-        <div className="hr-line-dashed" />
         <div className="col-md-6">
           <Label className="font-bold">Status</Label>
           <div className="d-flex align-items-center">

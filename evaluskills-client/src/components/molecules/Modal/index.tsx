@@ -42,6 +42,7 @@ const ESModal: React.FunctionComponent<ModalProps> = ({
       setModalState(initialState);
       primaryAction(initialState);
     } else if (secondaryAction === 'reset' && defaultFilters) {
+      setModalState(defaultFilters);
       primaryAction(defaultFilters);
     } else {
       toggle();
