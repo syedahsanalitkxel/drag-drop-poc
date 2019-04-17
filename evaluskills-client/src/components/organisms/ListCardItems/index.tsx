@@ -2,12 +2,13 @@ import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
-
+import PageBody from '../../atoms/PageBody';
 import { BadgeTypes } from '../../../enums';
 import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
+import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
 
 interface ListCardProps {
   listData: any[];
@@ -16,6 +17,8 @@ interface ListCardProps {
   remove?: (id: string) => void;
   copy?: (id: string) => void;
   checkbox?: boolean;
+  handleCheckbox?: (templateItem: TemplateItem) => void;
+  checkedItems?: string[];
 }
 
 const CheckboxContainer = styled.div`
@@ -31,9 +34,9 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   remove,
   copy,
   checkbox,
+  checkedItems,
+  handleCheckbox,
 }) => {
-  // TODO: Add checkbox support
-  // TODO: Add support remove action handlers and replace them with CheckBox
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {
       if (edit) {
@@ -64,7 +67,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     </React.Fragment>
   );
 
-  const renderActions = (id: string) => {
+  const renderActions = (id: string, item: any) => {
     const renderActionButton = (name: string, text: string, icon: IconProp, className: string) => (
       <IconButton name={name} icon={icon} className={className} actionHandler={actionHandler(id)}>
         {text}
@@ -74,7 +77,17 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     if (checkbox) {
       return (
         <CheckboxContainer className="pull-right">
-          <Checkbox name="example" value="val1">
+          <Checkbox
+            name="templateItem"
+            value={id}
+            isChecked={checkedItems && !!checkedItems.find(checkedItem => checkedItem === id)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              e.preventDefault();
+              if (handleCheckbox) {
+                handleCheckbox(item);
+              }
+            }}
+          >
             {' '}
           </Checkbox>
         </CheckboxContainer>
@@ -91,9 +104,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   };
 
   function renderAllCards(item: any) {
-    const content = renderContent(item.category, item.type, item.competency);
+    const content =
+      (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
 
-    const actions = renderActions(item.id);
+    const actions = renderActions(item.id, item);
 
     return (
       <ItemCard key={item.id} header={item[titleKey]}>
@@ -102,7 +116,23 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return <React.Fragment>{listData && listData.length > 0 && listData.map(renderAllCards)}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {listData.length > 0 ? (
+        listData && listData.map(renderAllCards)
+      ) : (
+        <PageBody card={true} wrapper={true} className="m-t-15">
+          <tr>
+            <td colSpan={9} style={{ textAlign: 'center' }}>
+              <span className="label" style={{ textAlign: 'center' }}>
+                No Record Found
+              </span>
+            </td>
+          </tr>
+        </PageBody>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default ListCardItems;

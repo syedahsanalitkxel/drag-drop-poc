@@ -35,12 +35,6 @@ const AssessmentItems: AssessmentItemInterface[] = [
 const defaultFilters: AssessmentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
-  // accreditation: '',
-  // application: '',
-  // categoryId: '',
-  // competencyId: '',
-  // itemsStatusIds: '',
-  // itemRecomendedApplications: [0],
 };
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,

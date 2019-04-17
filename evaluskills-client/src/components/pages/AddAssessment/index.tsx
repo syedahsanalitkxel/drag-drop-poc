@@ -71,7 +71,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   function fathchangehandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.value === 'true') {
       setFormvalues({ ...forvalues, [event.target.name]: true });
-    } else {
+    } else if (event.target.value === 'false') {
       setFormvalues({ ...forvalues, [event.target.name]: false });
     }
   }
