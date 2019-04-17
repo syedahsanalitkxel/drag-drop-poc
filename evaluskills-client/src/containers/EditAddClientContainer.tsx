@@ -17,10 +17,10 @@ const user: ClientUserInterface = {
   lastName: '',
 };
 
-const ClientList: IClientList = {
+const ClientList = {
   address1: '',
   address2: '',
-  billingPlanId: 1,
+  billingPlanId: '',
   city: '',
   clientContacts: [
     {
@@ -32,11 +32,11 @@ const ClientList: IClientList = {
     },
   ],
   clientName: '',
-  clientTypeId: 1,
+  clientTypeId: '',
   clientUser: user,
   id: 1,
   phone: '',
-  stateId: 1,
+  stateId: '',
   subsidiary: '',
   zip: '',
 };
@@ -58,8 +58,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     return function cleanup() {
       setClients(ClientList);
       setFilters({});
-      // setSelectedClients(selectedClient);
-      // setAction('');
     };
   }, [match.path]);
 

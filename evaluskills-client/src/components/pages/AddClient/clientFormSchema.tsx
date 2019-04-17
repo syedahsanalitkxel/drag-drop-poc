@@ -3,6 +3,7 @@ import { numberValidation, stringValidation } from '../../../utils/validations';
 
 const clientFormSchema = Yup.object().shape({
   address1: stringValidation(2, 250, true),
+  billingPlanId: numberValidation(1, 1, true),
   city: stringValidation(1, 250, true),
   clientContacts: Yup.array().of(
     Yup.object().shape({
@@ -15,6 +16,7 @@ const clientFormSchema = Yup.object().shape({
     })
   ),
   clientName: stringValidation(1, 250, true),
+  clientTypeId: numberValidation(1, 1, true),
   clientUser: Yup.object().shape({
     email: Yup.string()
       .email()
