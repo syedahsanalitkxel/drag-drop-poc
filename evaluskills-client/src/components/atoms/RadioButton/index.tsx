@@ -14,7 +14,8 @@ interface Props {
 
 const RadioButton: React.FunctionComponent<Props> = ({ name, value, children, currentSelection, onChange }) => {
   const [hover, setHover] = useState(false);
-
+  console.log('valuee', value);
+  console.log('current selection', currentSelection);
   const mouseEvent = (event: React.MouseEvent) => {
     event.preventDefault();
     if (event.type === 'mouseenter') {
