@@ -53,7 +53,7 @@ export async function addInstrumentTemplates(instruments: InstrumentTemplateInte
 }
 
 export async function updateInstrumentTemplates(instrument: InstrumentTemplateInterface, id: number) {
-  return api.put(INSTRUMENT_TEMPLATES, instrument).then(
+  return api.put(INSTRUMENT_TEMPLATES + '/' + id, instrument).then(
     (res: AxiosResponse) => res.data,
     (error: AxiosError) => {
       throw error;
