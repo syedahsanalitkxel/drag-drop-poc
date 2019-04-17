@@ -71,7 +71,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   function fathchangehandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.value === 'true') {
       setFormvalues({ ...forvalues, [event.target.name]: true });
-    } else if (event.target.value === 'false') {
+    } else {
       setFormvalues({ ...forvalues, [event.target.name]: false });
     }
   }
@@ -119,6 +119,18 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
     setFormvalues({ ...forvalues, itemElements: list });
     setFormState({ ...formState, countAssetelement: formState.countAssetelement + 1 });
   }
+
+  const getChecked = (forvalues: any, key: string) => {
+    if (forvalues) {
+      if (forvalues[key] === undefined) {
+        return undefined;
+      } else if (typeof forvalues[key] === 'boolean') {
+        return forvalues[key].toString();
+      }
+    }
+    return undefined;
+  };
+
   const renderForm = (formikprops: any) => {
     const renderElementList = (contact: any, index: number) => (
       <Fragment key={index}>
@@ -212,12 +224,12 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                     </Fragment>
                   ) : null}
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">Fath Based</label>
+                    <label className="col-sm-2 col-form-label font-bold">Faith Based</label>
                     <div className="col-sm-10">
                       <RadioButton
                         name="isFaithBased"
                         value="true"
-                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={getChecked(forvalues, 'isFaithBased')}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -225,13 +237,13 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="isFaithBased"
                         value="false"
-                        currentSelection={forvalues && forvalues.isFaithBased === true ? 'true' : 'false'}
+                        currentSelection={getChecked(forvalues, 'isFaithBased')}
                         onChange={fathchangehandler}
                       >
                         No
                       </RadioButton>
                       <ErrorMessage
-                        name={`fathSelected`}
+                        name={`isFaithBased`}
                         render={msg => (
                           <div className="isa_error">
                             <span className="error text-danger">{msg}</span>
@@ -278,7 +290,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="accreditationAlignment"
                         value="true"
-                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
+                        currentSelection={getChecked(forvalues, 'accreditationAlignment')}
                         onChange={fathchangehandler}
                       >
                         Yes
@@ -286,13 +298,13 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                       <RadioButton
                         name="accreditationAlignment"
                         value="false"
-                        currentSelection={forvalues && forvalues.accreditationAlignment === true ? 'true' : 'false'}
+                        currentSelection={getChecked(forvalues, 'accreditationAlignment')}
                         onChange={fathchangehandler}
                       >
                         No
                       </RadioButton>
                       <ErrorMessage
-                        name={`usage`}
+                        name={`accreditationAlignment`}
                         render={msg => (
                           <div className="isa_error">
                             <span className="error text-danger">{msg}</span>
@@ -304,7 +316,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                   <div className="hr-line-dashed" />
 
                   <div className="form-group row">
-                    <label className="col-sm-2 col-form-label font-bold">Assesment Type</label>
+                    <label className="col-sm-2 col-form-label font-bold">Question Type Id </label>
                     <div className="col-sm-10 d-flex align-items-center">
                       <RadioButton
                         name="questionTypeId"

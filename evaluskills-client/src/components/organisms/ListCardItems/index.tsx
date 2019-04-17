@@ -6,6 +6,7 @@ import PageBody from '../../atoms/PageBody';
 import { BadgeTypes } from '../../../enums';
 import Checkbox from '../../atoms/CheckBox';
 import IconButton from '../../atoms/IconButton';
+import EmptyPage from '../../atoms/EmptyPage';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
 import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
@@ -115,13 +116,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
         listData && listData.map(renderAllCards)
       ) : (
         <PageBody card={true} wrapper={true} className="m-t-15">
-          <tr>
-            <td colSpan={9} style={{ textAlign: 'center' }}>
-              <span className="label" style={{ textAlign: 'center' }}>
-                No Record Found
-              </span>
-            </td>
-          </tr>
+          <EmptyPage />
         </PageBody>
       )}
     </React.Fragment>

@@ -104,7 +104,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         assessmenListItems();
       } else {
         if (data.typeId != 1) {
-          data.competencyId = null;
+          data.competencyId = undefined;
         }
         if (data.questionTypeId != 1) {
           data.itemElements = [];
@@ -139,7 +139,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         assessmenListItems();
       } else {
         if (values.typeId != 1) {
-          values.competencyId = null;
+          values.competencyId = undefined;
         }
         if (values.questionTypeId != 1) {
           values.itemElements = [];

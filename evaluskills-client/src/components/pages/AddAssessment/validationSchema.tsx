@@ -12,6 +12,8 @@ export const AddAssessmentSchema = Yup.object().shape({
   itemRecomendedApplications: Yup.array()
     .min(1)
     .required('required'),
+  isFaithBased: Yup.boolean().required('Required'),
+  accreditationAlignment: Yup.boolean().required('Required'),
   typeId: Yup.number().required('Required'),
   itemElements: Yup.array().of(
     Yup.object().shape({
