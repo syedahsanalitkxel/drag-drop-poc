@@ -3,18 +3,37 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import User from '.';
+import UserList from '../../../interfaces/UserList';
+import UsersFilterInterface from '../../../interfaces/UserFilter';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
 
-const usersData = [
-  { id: '1', firstName: 'Robby', lastName: 'Rash', role: 'Admin', email: 'robbyrash@gmail.com' },
-  { id: '2', firstName: 'Jhon', lastName: 'Doe', role: 'User', email: 'jhondoe@gmail.com' },
-  {
-    id: '3',
-    firstName: 'Bella',
-    lastName: 'William',
-    role: 'Admin',
-    email: 'bellawilliam@gmail.com',
-  },
-  { id: '4', firstName: 'Rash', lastName: 'Rash', role: 'User', email: 'rockrash@gmail.com' },
-];
+const filter: PageDetailsInterface = {
+  currentPage: 1,
+  pageSize: 10,
+};
 
-storiesOf('Dashboard', module).add('User', () => <User Users={usersData}>User Content</User>);
+const defaultFilters = {
+  currentPage: 1,
+  pageSize: 10,
+};
+
+const usersData: any = [];
+function filterHandler(filters: UsersFilterInterface) {
+  // fetchAllUsers({ ...state.filters, ...filters });
+}
+
+function submitForm(values: any, action: string, id?: string) {
+  // fetchAllUsers({ ...state.filters, ...filters });
+}
+storiesOf('Dashboard', module).add('User', () => (
+  <User
+    Users={usersData}
+    filterHandler={filterHandler}
+    submitForm={submitForm}
+    pageDetails={filter}
+    resetPager={false}
+    defaultFilters={defaultFilters}
+  >
+    User Content
+  </User>
+));

@@ -1,4 +1,8 @@
 export default interface UserFilters {
-  clientId?: number;
-  roleId?: number;
+  search?: string;
+  clientId?: string;
+  roleId?: string;
+  pageSize?: number;
+  totalRecords?: number;
+  pageNumber?: number;
 }
