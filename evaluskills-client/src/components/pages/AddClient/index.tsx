@@ -189,7 +189,9 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 type="file"
                 name="clientLogo"
                 id="exampleFile"
-                onChange={uploadImage}
+                onChange={event => {
+                  formikprops.setFieldValue('clientLogo', event.currentTarget.files && event.currentTarget.files[0]);
+                }}
                 className="form-control"
                 invalid={getValidation('clientLogo')}
               />
@@ -376,7 +378,11 @@ export const AddClient: React.FunctionComponent<Props> = ({
   return (
     <DashboardTemplate>
       {formState && (
-        <Formik initialValues={formState} validationSchema={clientEditFormSchema} onSubmit={submitForm}>
+        <Formik
+          initialValues={formState}
+          validationSchema={action === 'Edit' ? clientEditFormSchema : clientFormSchema}
+          onSubmit={submitForm}
+        >
           {(formikprops: FormikBag) => renderForm(formikprops)}
         </Formik>
       )}

@@ -100,11 +100,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       await formd.append('clientLogo', values.clientLogo);
       try {
         const data = await addClient(formd);
-        setClients(ClientList);
-        setAction('');
         if (values.addMore) {
           location.reload();
-        } else {
+        } else if (!data.fail) {
+          setClients(ClientList);
+          setAction('');
           history.push('/clients');
         }
       } catch (error) {
