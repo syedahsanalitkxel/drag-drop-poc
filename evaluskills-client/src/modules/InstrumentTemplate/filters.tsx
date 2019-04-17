@@ -11,7 +11,7 @@ import FilterContext from './context';
 
 const initialState = {
   recommendedApplicationId: '',
-  Status: 'all',
+  type: 'all',
 };
 
 const InstrumentTemplateFilters: React.FunctionComponent = () => {
@@ -20,8 +20,8 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
   const { activeFilters } = useContext(FilterContext);
   const [state, setState] = useState({
     ...initialState,
-    Status: activeFilters && activeFilters.Status,
     recommendedApplicationId: activeFilters && activeFilters.recommendedApplicationId,
+    type: activeFilters && activeFilters.type,
   });
 
   useEffect(() => {
@@ -70,16 +70,16 @@ const InstrumentTemplateFilters: React.FunctionComponent = () => {
           <div className="hr-line-dashed" />
           <FormGroup className="row">
             <Label id="status" className="col-md-5 col-form-label font-bold">
-              Status
+              Type
             </Label>
             <div className="col-md-7">
-              <RadioButton name="Status" value="all" currentSelection={state.Status} onChange={changeHandler}>
+              <RadioButton name="type" value="all" currentSelection={state.type} onChange={changeHandler}>
                 All
               </RadioButton>
-              <RadioButton name="Status" value="standard" currentSelection={state.Status} onChange={changeHandler}>
+              <RadioButton name="type" value="standard" currentSelection={state.type} onChange={changeHandler}>
                 Standard
               </RadioButton>
-              <RadioButton name="Status" value="customized" currentSelection={state.Status} onChange={changeHandler}>
+              <RadioButton name="type" value="customized" currentSelection={state.type} onChange={changeHandler}>
                 Customized
               </RadioButton>
             </div>

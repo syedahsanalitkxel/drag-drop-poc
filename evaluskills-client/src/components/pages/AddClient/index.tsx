@@ -219,6 +219,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
+                <option value=""> Select One</option>
                 <LookupContextConsumer>{renderStatesDropdown}</LookupContextConsumer>
               </FormElement>
             </div>
@@ -244,6 +245,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 inline={true}
                 last={true}
               >
+                <option value=""> Select One</option>
                 <LookupContextConsumer>{renderBillingPlanDropdown}</LookupContextConsumer>
               </FormElement>
             </div>
@@ -253,10 +255,10 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 name="clientTypeId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
-                noValidate={true}
                 inline={true}
                 last={true}
               >
+                <option value="">Select One</option>
                 <option value="1">Co-oprate</option>
                 <option value="2">Educational Institute</option>
               </FormElement>
