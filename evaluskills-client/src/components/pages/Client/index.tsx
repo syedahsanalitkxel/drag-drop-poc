@@ -50,8 +50,8 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           <PageHeader
             title="Client"
             filterAction={filtersClickHandler}
-            searchHandler={(search: string) => {
-              applyFilters({ search });
+            searchHandler={(keyword: string) => {
+              applyFilters({ keyword });
             }}
             actionButtonText="Add Client"
             actionHandler={add}

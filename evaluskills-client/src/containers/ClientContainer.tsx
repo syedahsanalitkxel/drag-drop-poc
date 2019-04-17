@@ -87,9 +87,6 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       newFilterState.resetPager = true;
       newFilterState.filters.pageNumber = 1;
     }
-    if (!filters.search) {
-      delete newFilterState.filters.search;
-    }
     setState(newFilterState);
   }
 

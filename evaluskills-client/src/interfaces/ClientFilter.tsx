@@ -1,5 +1,5 @@
 export interface ClientFilters {
-  search?: string;
+  keyword?: string;
   pageNumber?: number;
   pageSize?: number;
   totalRecords?: number;
