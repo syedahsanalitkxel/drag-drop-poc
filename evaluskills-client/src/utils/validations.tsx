@@ -21,6 +21,9 @@ export const numberValidation = (min?: number, max?: number, required?: boolean)
   }
   return Yup.number().min(min || 1, 'Too Short!');
 };
+export const imageValidation = () => {
+  return Yup.mixed().required('image required');
+};
 export const emailValidation = (required?: boolean) => {
   if (required) {
     Yup.string()
