@@ -3,6 +3,7 @@ export interface Item {
   id?: string;
   itemId?: number | string;
   itemVersionId?: number;
+  // TODO: This should be removed after API correct it
   defination?: string;
   definition?: string;
 }

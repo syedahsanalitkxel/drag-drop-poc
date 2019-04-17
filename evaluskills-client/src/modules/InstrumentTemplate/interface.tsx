@@ -1,6 +1,6 @@
-import { Item } from '../AssessmentItem/interface';
+import { AssessmentItemShort } from '../AssessmentItem/interface';
 
-export interface TemplateItem extends Item {
+export interface TemplateItem extends AssessmentItemShort {
   commentsRequired: boolean;
 }
 

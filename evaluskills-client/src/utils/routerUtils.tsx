@@ -1,6 +1,11 @@
 import RouteParamsInterface from '../interfaces/RouteParams';
 
-export const isEdit = (params: RouteParamsInterface) => params && params.id;
+export const isEdit = (params: RouteParamsInterface, path?: string) => {
+  if (path) {
+    return path.includes('edit') && params && params.id;
+  }
+  return params && params.id;
+};
 
 export const isAdd = (path: string) => path.includes('add');
 

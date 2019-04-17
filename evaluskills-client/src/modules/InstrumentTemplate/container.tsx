@@ -173,7 +173,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           handleDelete={deleteInstrument}
         />
       );
-    } else if (isEdit(match.params)) {
+    } else if (isEdit(match.params, match.path)) {
       return (
         <AddEditInstrumentTemplate
           defaultValue={state.instrumentTemplate}

@@ -100,10 +100,10 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     const content =
       (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
 
-    const actions = renderActions(item.id, item);
+    const actions = renderActions(item.id || item.itemId, item);
 
     return (
-      <ItemCard key={item.id} header={item[titleKey]}>
+      <ItemCard key={item.id || item.itemId} header={item[titleKey]}>
         {{ content, actions }}
       </ItemCard>
     );
