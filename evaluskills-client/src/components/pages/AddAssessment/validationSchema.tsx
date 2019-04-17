@@ -12,10 +12,12 @@ export const AddAssessmentSchema = Yup.object().shape({
   itemRecomendedApplications: Yup.array()
     .min(1)
     .required('required'),
-  competencyId: Yup.number().when('typeId', {
-    is: 1,
-    then: Yup.number().required('Required'),
-  }),
+  competencyId: Yup.number()
+    .nullable()
+    .when('typeId', {
+      is: 1,
+      then: Yup.number().required('Required'),
+    }),
   isFaithBased: Yup.boolean().required('Required'),
   accreditationAlignment: Yup.boolean().required('Required'),
   typeId: Yup.number().required('Required'),

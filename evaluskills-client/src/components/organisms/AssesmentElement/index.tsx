@@ -5,7 +5,7 @@ interface AssessmentElementProps {
   key: number;
   comNumber: number;
   tag?: any;
-  onChange?: (event: any, key: number) => void;
+  onChange: (event: any, key: number, objectKey: number, objectName: string) => void;
   formikprops: any;
 }
 const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props => {
@@ -13,7 +13,8 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
   //   super(props);
   //   onhandlechange = onhandlechange.bind(this);
   // }
-  function onhandlechange(event: any) {
+  function onhandlechange(event: any, key: number, objectName: string) {
+    props.onChange(event, props.comNumber, key, objectName);
     props.formikprops.handleChange(event);
   }
   function getValidation(name: string) {
@@ -62,14 +63,15 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].statement}
             id={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
             name={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[0].statement`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 0, 'statement');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[0].statement`}
@@ -84,13 +86,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].behaviour}
             name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 0, 'behaviour');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[0].behaviour`}
@@ -105,13 +108,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[0].scaling}
             name={`itemElements[${props.comNumber}].itemElementOptions[0].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[0].scaling`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 0, 'scaling');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[0].scaling`}
@@ -129,13 +133,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             name={`itemElements[${props.comNumber}].itemElementOptions[1].statement`}
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].statement}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[1].statement`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 1, 'statement');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[1].statement`}
@@ -150,13 +155,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].behaviour}
             name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 1, 'behaviour');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[1].behaviour`}
@@ -171,13 +177,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[1].scaling}
             name={`itemElements[${props.comNumber}].itemElementOptions[1].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[1].scaling`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 1, 'scaling');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[1].scaling`}
@@ -197,13 +204,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].statement}
             name={`itemElements[${props.comNumber}].itemElementOptions[2].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[2].statement`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 2, 'statement');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[2].statement`}
@@ -218,13 +226,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].behaviour}
             name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 2, 'behaviour');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[2].behaviour`}
@@ -239,13 +248,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[2].scaling}
             name={`itemElements[${props.comNumber}].itemElementOptions[2].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[2].scaling`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 2, 'scaling');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[2].scaling`}
@@ -263,13 +273,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].statement}
             name={`itemElements[${props.comNumber}].itemElementOptions[3].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[3].statement`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 3, 'statement');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[3].statement`}
@@ -284,13 +295,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].behaviour}
             name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 3, 'behaviour');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[3].behaviour`}
@@ -305,13 +317,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[3].scaling}
             name={`itemElements[${props.comNumber}].itemElementOptions[3].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[3].scaling`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 3, 'scaling');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[3].scaling`}
@@ -329,13 +342,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].statement}
             name={`itemElements[${props.comNumber}].itemElementOptions[4].statement`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[4].statement`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 4, 'statement');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[4].statement`}
@@ -350,13 +364,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].behaviour}
             name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 4, 'behaviour');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[4].behaviour`}
@@ -371,13 +386,14 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
           <Input
             className="assesmentTextarea"
             aria-multiline="true"
-            rows={2}
             type="textarea"
             value={props.formikprops.values.itemElements[props.comNumber].itemElementOptions[4].scaling}
             name={`itemElements[${props.comNumber}].itemElementOptions[4].scaling`}
             placeholder={'Add Statement'}
             invalid={getValidation(`itemElements[${props.comNumber}].itemElementOptions[4].scaling`)}
-            onChange={onhandlechange}
+            onChange={e => {
+              onhandlechange(e, 4, 'scaling');
+            }}
           />
           <ErrorMessage
             name={`itemElements[${props.comNumber}].itemElementOptions[4].scaling`}

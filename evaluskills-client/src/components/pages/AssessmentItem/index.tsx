@@ -9,6 +9,7 @@ import Pager from '../../molecules/Pager';
 import AssessmentFilters from '../../organisms/AssessmentFilters';
 import ListCardItems from '../../organisms/ListCardItems';
 import DashboardTemplate from '../../templates/DashboardTemplate';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
 import { AssessmentTemplateFilterInterface } from '../../../interfaces/AssessmentFilters';
 interface Props {
   assessments: AssessmentItemInterface[];
@@ -20,6 +21,7 @@ interface Props {
   resetPager: boolean;
   defaultFilters: any;
   copy?: (assessmentId: string) => void;
+  pageDetails: PageDetailsInterface;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
@@ -32,6 +34,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   appliedFilters,
   resetPager,
   defaultFilters,
+  pageDetails,
 }) => {
   const onPageChange = (PageNumber: number) => {
     filterHandler({ PageNumber });
@@ -73,8 +76,9 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
           <PageBody>
             <ListCardItems titleKey="definition" listData={assessments} copy={copy} edit={edit} remove={remove} />
             <Pager
-              pageSize={appliedFilters.PageSize || 0}
-              totalRecords={appliedFilters.TotalRecords || 0}
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
+              pageNumber={pageDetails.currentPage}
               onPageChanged={onPageChange}
               shouldReset={resetPager}
             />

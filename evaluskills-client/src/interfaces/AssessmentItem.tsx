@@ -20,6 +20,7 @@ export interface Elementobj {
   itemElementOptions: itemElementOptions[];
 }
 export interface AddAssessmentItemInterface {
+  componenetName?: string;
   isSystemDefined: boolean;
   clientId: number | null | string;
   itemsStatusId?: number | string;
