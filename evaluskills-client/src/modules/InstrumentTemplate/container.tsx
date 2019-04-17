@@ -33,7 +33,7 @@ const instrumentTemplate: InstrumentTemplateInterface = {
 const defaultFilters: InstrumentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
-  Status: 'all',
+  type: 'all',
 };
 
 interface State {
@@ -93,7 +93,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       delete newFilterState.filters.recommendedApplicationId;
     }
     if (USER_ROLE.isSuperAdmin()) {
-      delete newFilterState.filters.Status;
+      delete newFilterState.filters.type;
     }
     setState(newFilterState);
   }
