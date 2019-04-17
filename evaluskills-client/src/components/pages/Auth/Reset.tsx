@@ -132,7 +132,9 @@ const Reset: React.FunctionComponent<Props> = ({
       <h1 className="font-bold mb-4 mt-0">Reset Password</h1>
       {renderError()}
       {emailSent ? (
-        <span className="txt d-block success-element clr-green font-size-20 mb-4">Your password has been changed</span>
+        <span className="txt d-block success-element clr-green font-size-20 mb-4">
+          Instructions to reset password has been sent to your email.
+        </span>
       ) : (
         <div className="input-holder mb-4">
           <Input

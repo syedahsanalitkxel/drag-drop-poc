@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import qs from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -19,6 +19,10 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   const authContext = useContext(AuthContext);
 
   const query = qs.parse(location.search) as { email: string; token: string };
+
+  useEffect(() => {
+    setEmailSent(false);
+  }, [match.path]);
 
   const handleLogin = async (loginDetails: LoginInterface) => {
     try {
