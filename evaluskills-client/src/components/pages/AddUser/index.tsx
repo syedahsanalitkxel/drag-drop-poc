@@ -20,13 +20,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({
-  visible,
-  toggle,
-  name,
-  FormValues,
-  submitHandler,
-}) => {
+export const AddUser: React.FunctionComponent<ModalProps> = ({ visible, toggle, name, FormValues, submitHandler }) => {
   function submitForm(values: any) {
     submitHandler(values);
   }
@@ -43,7 +37,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
-    title: Yup.string()
+    role: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
@@ -107,7 +101,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
               <div className="col-sm-10">
                 <Input
                   type="text"
-                  name="title"
+                  name="role"
                   className="form-control"
                   placeholder="Role"
                   tag={Field}

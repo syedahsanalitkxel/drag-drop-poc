@@ -45,8 +45,8 @@ const UserFilter: React.FunctionComponent = () => {
   }
 
   return (
-    <React.Fragment>
-      <Form>
+    <Form>
+      <React.Fragment>
         <FormGroup className="row">
           <label className="col-sm-4 col-form-label font-bold">Role</label>
           <div className="col-sm-8">
@@ -70,8 +70,8 @@ const UserFilter: React.FunctionComponent = () => {
             </Input>
           </div>
         </FormGroup>
-      </Form>
-    </React.Fragment>
+      </React.Fragment>
+    </Form>
   );
 };
 

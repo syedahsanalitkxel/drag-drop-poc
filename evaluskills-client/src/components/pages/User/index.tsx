@@ -21,6 +21,7 @@ interface Props {
   submitForm: (values: any, action: string, id?: string) => void;
   pageDetails: PageDetailsInterface;
   resetPager: boolean;
+  defaultFilters: any;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -29,6 +30,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   submitForm,
   pageDetails,
   resetPager,
+  defaultFilters,
 }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
@@ -62,10 +64,6 @@ const DashboardHome: React.FunctionComponent<Props> = ({
       submitForm(values, action, values.id);
     }
   }
-
-  const searchHandler = (searchQuery: string) => {
-    // alert(searchQuery);
-  };
 
   const filtersClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -115,12 +113,15 @@ const DashboardHome: React.FunctionComponent<Props> = ({
                 <UsersList listData={Users} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            <Pager
-              pageSize={(pageDetails && pageDetails.pageSize) || 25}
-              totalRecords={(pageDetails && pageDetails.totalCount) || 25}
-              onPageChanged={onPageChange}
-              shouldReset={resetPager}
-            />
+            {Users && (
+              <Pager
+                pageSize={(pageDetails && pageDetails.pageSize) || 0}
+                totalRecords={(pageDetails && pageDetails.totalCount) || 0}
+                pageNumber={pageDetails.currentPage}
+                onPageChanged={onPageChange}
+                shouldReset={resetPager}
+              />
+            )}
           </PageBody>
         </div>
       </div>
@@ -133,6 +134,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         primaryText="Apply"
         secondaryText="Reset"
         secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <UserFilter />
       </ESModal>

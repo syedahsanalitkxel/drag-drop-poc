@@ -9,7 +9,7 @@ import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import { addUser, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
 import { PageDetailsInterface } from '../api/ResponseInterface';
-import FilterContext from '../components/organisms/ClientFilters/context';
+import FilterContext from '../components/organisms/UserFilter/context';
 
 const users: UsersInterface[] = [];
 
@@ -21,8 +21,10 @@ const user: UsersInterface = {
 };
 
 const defaultFilters: UsersFilterInterface = {
+  clientId: '',
   pageNumber: 1,
   pageSize: 10,
+  roleId: '',
 };
 
 const defaultPageDetail = {
@@ -52,8 +54,9 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   });
 
   useEffect(() => {
-    console.log(state.filters);
-    fetchAllUsers(state.filters);
+    if (isList(match.path)) {
+      fetchAllUsers(state.filters);
+    }
   }, [match.path, state.filters]);
 
   function filterHandler(filters: UsersFilterInterface) {
@@ -72,6 +75,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     if (!filters.search) {
       delete newFilterState.filters.search;
     }
+    setState(newFilterState);
   }
 
   async function fetchAllUsers(filters?: UsersFilterInterface) {
@@ -92,26 +96,6 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     }
   }
 
-  // function filterUsers(searchQuery: string) {
-  //   alert(searchQuery);
-  // }
-
-  // const filtersClickHandler = (event: React.MouseEvent) => {
-  //     event.preventDefault();
-  //     toggleFilterModal();
-  // };
-
-  // async function applyFilterUsers(filter: UsersFilterInterface) {
-  //     const param = { ...filter };
-  //     toggleFilterModal();
-  //     try {
-  //         const data: any = await getFilteredUser(param);
-  //         setUsers(data);
-  //     } catch (error) {
-  //         errorContext.setError(error, true);
-  //     }
-  // }
-
   async function submitForm(values: any, action: string, id?: string) {
     if (action === 'Add') {
       try {
@@ -130,21 +114,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     }
   }
 
-  //
-  // function editUser(clientId: number) {
-  //   history.push(`/clients/edit/${clientId}`);
-  // }
-
-  function deleteUser(clientId: number) {
-    alert(`deleting => ${clientId}`);
-  }
-
   function renderPage() {
-    if (isEdit(match.params)) {
-      // return <AddEditInstrumentTemplate defaultValue={state.instrumentTemplate} />;
-    } else if (isAdd(match.path)) {
-      // rseturn <AddEditInstrumentTemplate />;
-    }
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
         <UsersList
@@ -153,6 +123,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
           submitForm={submitForm}
           pageDetails={state.pageDetails || defaultPageDetail}
           resetPager={state.resetPager}
+          defaultFilters={defaultFilters}
         />
       </FilterContext.Provider>
     );

@@ -11,6 +11,12 @@ const filter: PageDetailsInterface = {
   currentPage: 1,
   pageSize: 10,
 };
+
+const defaultFilters = {
+  currentPage: 1,
+  pageSize: 10,
+};
+
 const usersData: any = [];
 function filterHandler(filters: UsersFilterInterface) {
   // fetchAllUsers({ ...state.filters, ...filters });
@@ -20,7 +26,14 @@ function submitForm(values: any, action: string, id?: string) {
   // fetchAllUsers({ ...state.filters, ...filters });
 }
 storiesOf('Dashboard', module).add('User', () => (
-  <User Users={usersData} filterHandler={filterHandler} submitForm={submitForm} pageDetails={filter} resetPager={false}>
+  <User
+    Users={usersData}
+    filterHandler={filterHandler}
+    submitForm={submitForm}
+    pageDetails={filter}
+    resetPager={false}
+    defaultFilters={defaultFilters}
+  >
     User Content
   </User>
 ));
