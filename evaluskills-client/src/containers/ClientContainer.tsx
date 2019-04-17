@@ -131,6 +131,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
           pageDetails={state.pageDetails || defaultPageDetail}
           appliedFilters={state.filters}
           resetPager={state.resetPager}
+          defaultFilters={defaultFilters}
         />
       </FilterContext.Provider>
     </React.Suspense>

@@ -24,6 +24,7 @@ interface Props {
   toggleFilterModal: () => void;
   appliedFilters: ClientFilters;
   resetPager: boolean;
+  defaultFilters: any;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -40,6 +41,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   toggleFilterModal,
   appliedFilters,
   resetPager,
+  defaultFilters,
 }) => {
   return (
     <DashboardTemplate>
@@ -76,7 +78,8 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         primaryAction={applyFilters}
         primaryText="Apply"
         secondaryText="Reset"
-        secondaryAction="dismiss"
+        secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <ClientFilter />
       </ESModal>
