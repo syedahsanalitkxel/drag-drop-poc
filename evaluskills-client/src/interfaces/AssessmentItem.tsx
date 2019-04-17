@@ -22,16 +22,16 @@ export interface Elementobj {
 export interface AddAssessmentItemInterface {
   isSystemDefined: boolean;
   clientId: number | null | string;
-  itemsStatusId: number | null | string;
+  itemsStatusId?: number | string;
   definition: string;
-  typeId: number | string;
-  competencyId: number | null | string;
-  categoryId: number | string;
-  isFaithBased: boolean | string;
-  accreditationAlignment: boolean | string;
-  questionTypeId: number | string;
-  itemEntities: [number | string];
-  itemRecomendedApplications: [number | string];
+  typeId?: number | string;
+  competencyId?: number | string;
+  categoryId?: number | string;
+  isFaithBased?: boolean | string;
+  accreditationAlignment?: boolean | string;
+  questionTypeId?: number | string;
+  itemEntities: number[];
+  itemRecomendedApplications: number[];
   itemElements: Elementobj[];
   saveAsNewVersion?: boolean;
 }
