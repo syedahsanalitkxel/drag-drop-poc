@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
@@ -45,7 +45,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
     setModalVisible(false);
   };
   return (
-    <DashboardTemplate>
+    <Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
@@ -80,7 +80,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
       >
         <AssessmentFilters />
       </ESModal>
-    </DashboardTemplate>
+    </Fragment>
   );
 };
 

@@ -522,16 +522,14 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
     }
   }
   return (
-    <DashboardTemplate>
-      <Formik
-        enableReinitialize={true}
-        initialValues={forvalues}
-        validationSchema={AddAssessmentSchema}
-        onSubmit={submitForm}
-      >
-        {formikprops => renderForm(formikprops)}
-      </Formik>
-    </DashboardTemplate>
+    <Formik
+      enableReinitialize={true}
+      initialValues={forvalues}
+      validationSchema={AddAssessmentSchema}
+      onSubmit={submitForm}
+    >
+      {formikprops => renderForm(formikprops)}
+    </Formik>
   );
 };
 

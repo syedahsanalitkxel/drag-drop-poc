@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import Spinner from '../components/atoms/Spinner';
 import RouteParamsInterface from '../interfaces/RouteParams';
 import AssessmentItem from '../components/pages/AssessmentItem';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
 import ErrorContext from '../context/ErrorContext';
 import { initialState, Initalvalues } from '../components/pages/AddAssessment/InitialState';
 import AssessmentItemInterface, { AddAssessmentItemInterface } from '../interfaces/AssessmentItem';
@@ -47,6 +49,7 @@ interface State {
   resetPager: boolean;
   assessments: any;
   pageDetails?: any;
+  isLoading: boolean;
 }
 const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
   history,
@@ -56,6 +59,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     filters: defaultFilters,
     resetPager: false,
     assessments: {},
+    isLoading: false,
     pageDetails: defaultPageDetail,
   });
 
@@ -68,6 +72,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   // https://overreacted.io/a-complete-guide-to-useeffect/
   useEffect(() => {
     if (isEdit(match.params)) {
+      setState({ ...state, isLoading: true });
       editAssessmentdata(match.params.id);
     } else if (isList(match.path)) {
       fetchAssessments(state.filters);
@@ -80,21 +85,27 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
 
   async function fetchAssessments(filter: any) {
     try {
+      setState({ ...state, isLoading: true });
       const Assessdata = await getFilteredAssessment(filter);
       setState({
         ...state,
         assessments: Assessdata.data,
+        isLoading: false,
         pageDetails: Assessdata.pageDetails,
       });
     } catch (error) {
       errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
     }
   }
   async function editAssessmentdata(id: string) {
     try {
+      setState({ ...state, isLoading: true });
       const data = await editAssessmentService(id);
       seteditAssessments(data);
+      setState({ ...state, isLoading: false });
     } catch (error) {
+      setState({ ...state, isLoading: false });
       errorContext.setError(error, true);
     }
   }
@@ -184,56 +195,67 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   function deleteAssessment(assessmentId: string) {
     alert(`deleting => ${assessmentId}`);
   }
-  if (isEdit(match.params)) {
-    return (
-      <AddAssessmentComponenet
-        assessmenData={editassessmentsState}
-        addAssessment={updateAssessmentdata}
-        edit={true}
-        assessmenListItems={assessmenListItems}
-      />
-    );
-  }
-
-  if (isAdd(match.path)) {
-    return (
-      <AddAssessmentComponenet
-        assessmenListItems={assessmenListItems}
-        assessmenData={addAssessments}
-        addAssessment={AddAssessmentdata}
-        edit={false}
-      />
-    );
-  }
-  const filtersClickHandler = (filters?: any) => {
-    const newFilterState = {
-      ...state,
-      filters: {
-        ...state.filters,
-        ...filters,
-      },
-      resetPager: false,
-    };
-    if (!filters.PageNumber) {
-      newFilterState.resetPager = true;
-      newFilterState.filters.PageNumber = 1;
+  function renderPage() {
+    console.log('state', state);
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
     }
-    setState(newFilterState);
-    toggleFilterModal();
-  };
+    if (isEdit(match.params)) {
+      return (
+        <AddAssessmentComponenet
+          assessmenData={editassessmentsState}
+          addAssessment={updateAssessmentdata}
+          edit={true}
+          assessmenListItems={assessmenListItems}
+        />
+      );
+    }
 
+    if (isAdd(match.path)) {
+      return (
+        <AddAssessmentComponenet
+          assessmenListItems={assessmenListItems}
+          assessmenData={addAssessments}
+          addAssessment={AddAssessmentdata}
+          edit={false}
+        />
+      );
+    }
+    const filtersClickHandler = (filters?: any) => {
+      const newFilterState = {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...filters,
+        },
+        resetPager: false,
+      };
+      if (!filters.PageNumber) {
+        newFilterState.resetPager = true;
+        newFilterState.filters.PageNumber = 1;
+      }
+      setState(newFilterState);
+      toggleFilterModal();
+    };
+
+    return (
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <AssessmentItem
+          assessments={state.assessments}
+          add={routeaddAssessment}
+          remove={deleteAssessment}
+          edit={editAssessment}
+          filterHandler={filtersClickHandler}
+          resetPager={state.resetPager}
+          appliedFilters={state.filters}
+        />
+      </FilterContext.Provider>
+    );
+  }
   return (
-    <FilterContext.Provider value={{ activeFilters: state.filters }}>
-      <AssessmentItem
-        assessments={state.assessments}
-        add={routeaddAssessment}
-        remove={deleteAssessment}
-        edit={editAssessment}
-        filterHandler={filtersClickHandler}
-        resetPager={state.resetPager}
-        appliedFilters={state.filters}
-      />
-    </FilterContext.Provider>
+    <DashboardTemplate>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
+    </DashboardTemplate>
   );
 };
 
