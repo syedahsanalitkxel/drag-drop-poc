@@ -6,13 +6,13 @@ import { uniq, uniqBy } from 'lodash-es';
 import { PageDetailsInterface } from '../../../api/ResponseInterface';
 import ErrorContext from '../../../context/ErrorContext';
 import ModalContext from '../../../context/ModalContext';
+import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
 import LookupContext from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import { getAssessments } from '../../../services/assessmentsService';
 import Spinner from '../../atoms/Spinner';
 import Pager from '../../molecules/Pager';
 import ListCardItems from '../../organisms/ListCardItems';
-import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
 
 interface Props {
   mode: 'new' | 'edit';
@@ -32,7 +32,7 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
   const lookupContext = useContext(LookupContext);
   const modalContext = useContext(ModalContext);
 
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useState<any[]>([]);
 
   const [dropdownState, setDropdownState] = useState({
     Search: '',
@@ -69,19 +69,28 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
      *
      * if not found, push it in both and set state
      */
-    if (checkedItem.id) {
+
+    if (checkedItem.id && !checkedItem.itemId) {
+      // remove id from checkedItem and add
+      checkedItem.itemId = checkedItem.id;
+      delete checkedItem.id;
+    }
+
+    if (checkedItem.itemId) {
       // save context value in temp variable so we don't need to validate undefined checks too much
       const modalContextValue =
         modalContext.modalState && modalContext.modalState.length ? [...modalContext.modalState] : [];
       const tempCheckedItemList = [...checkedItems];
 
-      // get indexes of found items
-      const checkedItemsIndex = tempCheckedItemList.findIndex(itemIds => itemIds === checkedItem.id);
-      const modalContextIndex = modalContextValue.findIndex((items: TemplateItem) => items.id === checkedItem.id);
+      // get indexes of found items so we can use them again
+      const checkedItemsIndex = tempCheckedItemList.findIndex(itemIds => itemIds === checkedItem.itemId);
+      const modalContextIndex = modalContextValue.findIndex(
+        (items: TemplateItem) => items.itemId === checkedItem.itemId
+      );
 
       if (checkedItemsIndex === -1 && modalContextIndex === -1) {
         // not found in checked items and modal context, add it
-        tempCheckedItemList.push(checkedItem.id);
+        tempCheckedItemList.push(checkedItem.itemId);
         modalContextValue.push(checkedItem);
       } else {
         // check index and delete the corresponding item
@@ -109,16 +118,18 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
         // find checked items and process them in placeholders
         selectedTemplateItems.forEach(item => {
           const matched = data.find(assessment => {
-            return item.id === assessment.id;
+            return item.itemId === assessment.id;
           });
           if (matched) {
             foundItems.push(matched.id);
+            matched.itemId = matched.id;
+            delete matched.id;
             defaultModalContext.push(matched);
           }
         });
         setCheckedItems(uniq(foundItems));
         if (modalContext.setModalState) {
-          modalContext.setModalState(uniqBy(defaultModalContext, e => e.id));
+          modalContext.setModalState(uniqBy(defaultModalContext, e => e.itemId));
         }
       }
 

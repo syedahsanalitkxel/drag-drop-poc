@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { pickBy, identity } from 'lodash-es';
+import { identity, pickBy } from 'lodash-es';
 
 import API from '../api';
 import { ASSESSMENTS } from '../api/endpoints';
@@ -65,7 +65,6 @@ export async function getFilteredAssessment(
 ): Promise<{ data: AssessmentItemInterface[]; pageDetails?: PageDetailsInterface }> {
   return api.get(ASSESSMENTS, undefined, filters).then(
     (res: ResponseInterface) => {
-      console.log('page', res.pageDetails);
       return {
         data: res.data,
         pageDetails: res.pageDetails,
