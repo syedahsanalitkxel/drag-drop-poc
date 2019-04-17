@@ -8,7 +8,15 @@ export const errorResponseHandler = (error: AxiosError) => {
     error &&
     (get(error, 'status') === 401 || get(error, 'status') === 403 || get(error, 'response.status') === 403)
   ) {
-    // Logout
+    error.message = "You're UnAuthorized, check login or user privileges";
+  }
+
+  if (error && (get(error, 'status') === 404 || get(error, 'response.status') === 404)) {
+    error.message = 'Not Found';
+  }
+
+  if (error && (get(error, 'status') === 503 || get(error, 'response.status')) === 503) {
+    error.message = 'Internal Server Error';
   }
 
   if (error) {
