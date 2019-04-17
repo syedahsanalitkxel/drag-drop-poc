@@ -97,7 +97,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
 
     return (
       <React.Fragment>
-        {edit && renderActionButton('copy', 'Copy', 'edit', 'btn-outline btn-primary')}
+        {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
         {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
         {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
       </React.Fragment>
