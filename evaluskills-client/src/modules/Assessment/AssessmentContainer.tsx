@@ -142,7 +142,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         }
 
         if (type === 'b') {
-          data.itemStatusId = 2;
+          data.itemsStatusId = 2;
         }
 
         data.saveAsNewVersion = false;
