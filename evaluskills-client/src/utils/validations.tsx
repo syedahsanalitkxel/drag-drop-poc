@@ -12,6 +12,20 @@ export const stringValidation = (min?: number, max?: number, required?: boolean)
     .max(max || 100, 'Too Long!');
 };
 
+export const alphabetsValidation = (min?: number, max?: number, required?: boolean) => {
+  if (required) {
+    return Yup.string()
+      .min(min || 0, 'Too Short!')
+      .max(max || 100, 'Too Long!')
+      .matches(/^[a-zA-Z ]+$/, 'Name Must be in Alphabets')
+      .required('Required Field');
+  }
+  return Yup.string()
+    .min(min || 0, 'Too Short!')
+    .max(max || 100, 'Too Long!')
+    .matches(/^[a-zA-Z ]+$/, 'Name Must be in Alphabets');
+};
+
 export const numberValidation = (min?: number, max?: number, required?: boolean) => {
   if (required) {
     return Yup.number()

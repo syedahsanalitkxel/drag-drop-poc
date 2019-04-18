@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import AddClientContact from '../../organisms/AddClientContact/index';
-import AddClient from './index';
-import EditClientContact from '../../organisms/AddClientContact/index';
+import AddClientContact from '../../components/organisms/AddClientContact/index';
+import AddClient from './addClient';
+import EditClientContact from '../../components/organisms/AddClientContact/index';
 import { Simulate } from 'react-dom/test-utils';
 import submit = Simulate.submit;
 

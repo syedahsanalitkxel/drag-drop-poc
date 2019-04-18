@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
-import ClientsList from '../components/pages/Client';
-import ErrorContext from '../context/ErrorContext';
-import IClientList, { ClientUserInterface, ContactInterface } from '../interfaces/Client';
-import { ClientFilters } from '../interfaces/ClientFilter';
-import { getClients, getFilteredClient } from '../services/clientsService';
-import { isList } from '../utils/routerUtils';
-import { PageDetailsInterface } from '../api/ResponseInterface';
-import FilterContext from '../components/organisms/ClientFilters/context';
-import Spinner from '../components/atoms/Spinner';
+const ClientsList = lazy(() => import('./list'));
+import DashboardTemplate from '../../components/templates/DashboardTemplate';
+import ErrorContext from '../../context/ErrorContext';
+import IClientList, { ClientUserInterface, ContactInterface } from './clientListInterface';
+import { ClientFilters } from './clientFilterInterface';
+import { getClients, getFilteredClient } from './service';
+import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
+import { PageDetailsInterface } from '../../api/ResponseInterface';
+import FilterContext from './context';
+import Spinner from '../../components/atoms/Spinner';
 
 const clients: IClientList[] = [];
 
@@ -92,10 +92,12 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
 
   async function fetchAllClients(filters: ClientFilters) {
     try {
+      setState({ ...state, isLoading: true });
       const data: any = await getFilteredClient(filters);
-      setState({ ...state, clients: data, pageDetails: data.pageDetails });
+      setState({ ...state, clients: data.clientsData, isLoading: false, pageDetails: data.pageDetails });
     } catch (error) {
       errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
     }
   }
 
@@ -111,8 +113,12 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     alert(`deleting => ${clientId}`);
   }
 
-  return (
-    <React.Suspense fallback={<Spinner />}>
+  function renderPage() {
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
+
+    return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
         <ClientsList
           clients={state.clients}
@@ -131,7 +137,13 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
           defaultFilters={defaultFilters}
         />
       </FilterContext.Provider>
-    </React.Suspense>
+    );
+  }
+
+  return (
+    <DashboardTemplate>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
+    </DashboardTemplate>
   );
 };
 

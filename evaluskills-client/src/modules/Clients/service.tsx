@@ -1,12 +1,12 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { CLIENTS } from '../api/endpoints';
+import { CLIENTS } from '../../api/endpoints';
 
-import API from '../api';
-import ClientInterface from '../interfaces/Client';
-import AddClientInterface from '../interfaces/AddEditClient';
-import { contentType } from '../enums';
-import { PageDetailsInterface } from '../api/ResponseInterface';
-import { ClientFilters } from '../interfaces/ClientFilter';
+import API from '../../api';
+import ClientInterface from './clientListInterface';
+import AddClientInterface from './addClientInterface';
+import { contentType } from '../../enums';
+import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
+import { ClientFilters } from './clientFilterInterface';
 const api = new API();
 
 export async function getClients(): Promise<ClientInterface[]> {
@@ -31,12 +31,13 @@ export async function getClientById(id: string): Promise<AddClientInterface> {
   );
 }
 
-export async function getFilteredClient(
-  filters?: ClientFilters
-): Promise<{ data: ClientInterface[]; pageDetails?: PageDetailsInterface }> {
+export async function getFilteredClient(filters?: ClientFilters) {
   return api.get(CLIENTS, undefined, filters).then(
-    (res: AxiosResponse) => {
-      return res.data;
+    (res: ResponseInterface) => {
+      return {
+        clientsData: res.data,
+        pageDetails: res.pageDetails,
+      };
     },
     (error: AxiosError) => {
       return error;

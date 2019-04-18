@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
 import Spinner from '../components/atoms/Spinner';
 import UsersList from '../components/pages/User';
 import ErrorContext from '../context/ErrorContext';
@@ -84,11 +85,19 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
 
   async function fetchAllUsers(filters?: UsersFilterInterface) {
     try {
+      setState({ ...state, isLoading: true });
       const lookup = await clientLookUps();
-      const data = await getFilteredUser(filters);
-      setState({ ...state, users: data, pageDetails: data.pageDetails, clientLookup: lookup });
+      const data: any = await getFilteredUser(filters);
+      setState({
+        ...state,
+        clientLookup: lookup,
+        isLoading: false,
+        pageDetails: data.pageDetails,
+        users: data.userData,
+      });
     } catch (error) {
       errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
     }
   }
 
@@ -112,24 +121,30 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   }
 
   function renderPage() {
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
+
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
-        {state.users.length > 0 && (
-          <UsersList
-            Users={state.users}
-            filterHandler={filterHandler}
-            submitForm={submitForm}
-            pageDetails={state.pageDetails || defaultPageDetail}
-            resetPager={state.resetPager}
-            defaultFilters={defaultFilters}
-            clientLookup={state.clientLookup}
-          />
-        )}
+        <UsersList
+          Users={state.users}
+          filterHandler={filterHandler}
+          submitForm={submitForm}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+          defaultFilters={defaultFilters}
+          clientLookup={state.clientLookup}
+        />
       </FilterContext.Provider>
     );
   }
 
-  return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;
+  return (
+    <DashboardTemplate>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
+    </DashboardTemplate>
+  );
 };
 
 export default withRouter(UserListContainer);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ContactInterface } from '../../../interfaces/Client';
+import { ContactInterface } from '../../../modules/Clients/clientListInterface';
 import ClientCard from '../../molecules/ClientCard';
 
 interface Props {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClientFilters } from '../../../interfaces/ClientFilter';
+import { ClientFilters } from './clientFilterInterface';
 
 const FilterContext = React.createContext<{ activeFilters: ClientFilters }>({
   activeFilters: {},

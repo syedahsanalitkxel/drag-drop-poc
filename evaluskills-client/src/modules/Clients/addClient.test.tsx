@@ -3,9 +3,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AddClientContact from '../../organisms/AddClientContact/index';
-import AddClient from './index';
-import EditClientContact from '../../organisms/AddClientContact/index';
+import AddClientContact from '../../components/organisms/AddClientContact/index';
+import AddClient from './addClient';
+import EditClientContact from '../../components/organisms/AddClientContact/index';
 
 configure({ adapter: new Adapter() });
 

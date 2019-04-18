@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import IClientList, { ClientUserInterface } from '../interfaces/AddEditClient';
-import { addClient, editClient, getClientById } from '../services/clientsService';
+import IClientList, { ClientUserInterface } from './addClientInterface';
+import { addClient, editClient, getClientById } from './service';
 
-import Spinner from '../components/atoms/Spinner';
-import AddClient from '../components/pages/AddClient';
-import ErrorContext from '../context/ErrorContext';
-import editClientInterface from '../interfaces/EditClient';
-import RouteParams from '../interfaces/RouteParams';
-import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import Spinner from '../../components/atoms/Spinner';
+import AddClient from './addClient';
+import ErrorContext from '../../context/ErrorContext';
+import editClientInterface from './editClientInterface';
+import RouteParams from '../../interfaces/RouteParams';
+import { isAdd, isEdit, isList } from '../../utils/routerUtils';
 
 const user: ClientUserInterface = {
   email: '',

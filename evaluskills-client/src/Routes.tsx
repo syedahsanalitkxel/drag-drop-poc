@@ -4,6 +4,7 @@ import { Redirect, Route, RouteProps, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
 
 import { InstrumentTemplateRoutes } from './modules/InstrumentTemplate';
+import { ClientRoutes } from './modules/Clients';
 
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
 import { AuthContext } from './modules/Auth/authContext';
@@ -12,11 +13,9 @@ const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
 const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
-const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
 const EmailTemplateContainer = lazy(() => import('./containers/AddEditEmailContainer'));
-const AddEditClientContainer = lazy(() => import('./containers/EditAddClientContainer'));
 const InstructionsContainer = lazy(() => import('./containers/EvaluationInstructionContainer'));
 
 const UserContainer = lazy(() => import('./containers/UserContainer'));
@@ -70,9 +69,7 @@ const Routes: React.FunctionComponent = () => {
         <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
         {InstrumentTemplateRoutes.map(renderRouteFromList(true))}
         <PrivateRoute exact={true} path="/client-assessment-detail/:id" component={InstrumentDetailContainer} />
-        <PrivateRoute exact={true} path="/clients" component={ClientContainer} />
-        <PrivateRoute exact={true} path="/clients/add" component={AddEditClientContainer} />
-        <PrivateRoute exact={true} path="/clients/edit/:id" component={AddEditClientContainer} />
+        {ClientRoutes.map(renderRouteFromList(true))}
         <PrivateRoute exact={true} path="/email/add" component={EmailTemplateContainer} />
         <PrivateRoute exact={true} path="/email/edit/:id" component={EmailTemplateContainer} />
         <PrivateRoute exact={true} path="/email" component={EmailTemplateContainer} />
