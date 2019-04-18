@@ -209,7 +209,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     };
     if (!filters.PageNumber) {
       newFilterState.resetPager = true;
-      newFilterState.filters.pageNumber = 1;
+      newFilterState.filters.PageNumber = 1;
     }
     if (!filters.accreditation) {
       delete newFilterState.filters.accreditation;
