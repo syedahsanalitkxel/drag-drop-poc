@@ -48,6 +48,9 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setFormvalues({ ...forvalues, [event.target.name]: parseInt(event.target.value, 10) });
   }
+  function definitionchangeHandler(event: any) {
+    setFormvalues({ ...forvalues, definition: event.target.value });
+  }
   function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
     let check = forvalues && forvalues.saveAsNewVersion;
     setFormvalues({ ...forvalues, saveAsNewVersion: !check });
@@ -172,6 +175,7 @@ const AddAssessment: React.FunctionComponent<PropsInterface> = ({
                         className="form-control"
                         tag={Field}
                         id={'definition'}
+                        onChange={definitionchangeHandler}
                         invalid={!!(formikprops.touched.definition && formikprops.errors.definition)}
                       />
                       <FormFeedback tooltip={true}>{formikprops.errors.definition}</FormFeedback>

@@ -60,7 +60,7 @@ export const Initalvalues: AddAssessmentItemInterface = {
 export const initialState = {
   assessmentType: 'rubricval',
   categorySelected: '',
-  itemsStatusId: 1,
+  ItemStatusId: 1,
   accreditationAlignment: false,
   questionTypeId: 1,
   itemEntities: [1],

@@ -23,7 +23,7 @@ export interface AddAssessmentItemInterface {
   componenetName?: string;
   isSystemDefined: boolean;
   clientId: number | null | string;
-  itemsStatusId?: number | string;
+  ItemStatusId?: number | string;
   definition: string;
   typeId?: number | string;
   competencyId?: number | string;
@@ -47,7 +47,7 @@ export interface AssessmentTemplateFilterInterface {
   application?: number | string;
   categoryId?: number | string;
   competencyId?: number | string;
-  itemsStatusIds?: number | string;
+  ItemStatusId?: number | string;
   itemRecomendedApplications?: number[];
 }
 export interface EditAssessmentItemInterface {
@@ -56,7 +56,7 @@ export interface EditAssessmentItemInterface {
   versionNo: number;
   isSystemDefined: boolean;
   clientId: number | null;
-  itemStatusId: number | null;
+  ItemStatusId: number | null;
   definition: string;
   typeId: number;
   competencyId: number | null;

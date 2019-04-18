@@ -142,7 +142,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         }
 
         if (type === 'b') {
-          data.itemsStatusId = 2;
+          data.ItemStatusId = 2;
         }
 
         data.saveAsNewVersion = false;
@@ -177,9 +177,9 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
         }
 
         if (type === 'b') {
-          values.itemsStatusId = 2;
+          values.ItemStatusId = 2;
         } else {
-          values.itemsStatusId = 1;
+          values.ItemStatusId = 1;
         }
         const data = await addAssessment(values);
         console.log(data);
