@@ -112,7 +112,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
@@ -130,15 +130,13 @@ const DashboardHome: React.FunctionComponent<Props> = ({
                 <UsersList listData={Users} edit={editAction} remove={removeAction} />
               </div>
             </div>
-            {Users && (
-              <Pager
-                pageSize={(pageDetails && pageDetails.pageSize) || 0}
-                totalRecords={(pageDetails && pageDetails.totalCount) || 0}
-                pageNumber={pageDetails.currentPage}
-                onPageChanged={onPageChange}
-                shouldReset={resetPager}
-              />
-            )}
+            <Pager
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
+              pageNumber={pageDetails.currentPage}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>
@@ -173,7 +171,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
       />
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

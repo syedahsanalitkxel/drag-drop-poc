@@ -5,7 +5,7 @@ import API from '../api';
 import UserList from '../interfaces/UserList';
 import AddUserInterface from '../interfaces/User';
 import UserFilterInterface from '../interfaces/UserFilter';
-import { PageDetailsInterface } from '../api/ResponseInterface';
+import ResponseInterface, { PageDetailsInterface } from '../api/ResponseInterface';
 const api = new API();
 
 export async function getUsers(): Promise<UserList[]> {
@@ -30,12 +30,13 @@ export async function getUserById(id: string): Promise<UserList> {
   );
 }
 
-export async function getFilteredUser(
-  filters?: UserFilterInterface
-): Promise<{ data: any; pageDetails?: PageDetailsInterface }> {
+export async function getFilteredUser(filters?: UserFilterInterface) {
   return api.get(USERS, undefined, filters).then(
-    (res: AxiosResponse) => {
-      return res.data;
+    (res: ResponseInterface) => {
+      return {
+        pageDetails: res.pageDetails,
+        userData: res.data,
+      };
     },
     (error: AxiosError) => {
       return error;

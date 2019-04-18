@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { imageValidation, numberValidation, stringValidation } from '../../../utils/validations';
+import { alphabetsValidation, imageValidation, numberValidation, stringValidation } from '../../utils/validations';
 
 const clientFormSchema = Yup.object().shape({
   address1: stringValidation(2, 250, true),
@@ -10,8 +10,8 @@ const clientFormSchema = Yup.object().shape({
       email: Yup.string()
         .email()
         .required('Required'),
-      firstName: stringValidation(1, 250, true),
-      lastName: stringValidation(1, 250, true),
+      firstName: alphabetsValidation(1, 250, true),
+      lastName: alphabetsValidation(1, 250, true),
       title: stringValidation(1, 250, true),
     })
   ),
@@ -22,8 +22,8 @@ const clientFormSchema = Yup.object().shape({
     email: Yup.string()
       .email()
       .required('Required'),
-    firstName: stringValidation(1, 250, true),
-    lastName: stringValidation(1, 250, true),
+    firstName: alphabetsValidation(1, 250, true),
+    lastName: alphabetsValidation(1, 250, true),
   }),
   stateId: numberValidation(1, 1, true),
   subsidiary: stringValidation(2, 250, true),
@@ -39,8 +39,8 @@ export const clientEditFormSchema = Yup.object().shape({
       email: Yup.string()
         .email()
         .required('Required'),
-      firstName: stringValidation(1, 250, true),
-      lastName: stringValidation(1, 250, true),
+      firstName: alphabetsValidation(1, 250, true),
+      lastName: alphabetsValidation(1, 250, true),
       title: stringValidation(1, 250, true),
     })
   ),
@@ -50,8 +50,8 @@ export const clientEditFormSchema = Yup.object().shape({
     email: Yup.string()
       .email()
       .required('Required'),
-    firstName: stringValidation(1, 250, true),
-    lastName: stringValidation(1, 250, true),
+    firstName: alphabetsValidation(1, 250, true),
+    lastName: alphabetsValidation(1, 250, true),
   }),
   stateId: numberValidation(1, 1, true),
   subsidiary: stringValidation(2, 250, true),

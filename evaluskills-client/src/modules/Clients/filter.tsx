@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import ModalContext from '../../../context/ModalContext';
-import { lookups } from '../../../modules/Lookup/enum';
-import LookupContext from '../../../modules/Lookup/context';
+import ModalContext from '../../context/ModalContext';
+import { lookups } from '../Lookup/enum';
+import LookupContext from '../../modules/Lookup/context';
 import FilterContext from './context';
-import RadioButton from '../../../components/atoms/RadioButton';
+import RadioButton from '../../components/atoms/RadioButton';
 
 const initialState = {
   billingPlanId: '',

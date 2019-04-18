@@ -5,20 +5,20 @@ import { Button, Form, FormFeedback } from 'reactstrap';
 import styled from 'styled-components';
 import { FormGroup, Input } from 'reactstrap';
 
-import AddEditClientInterface, { ClientUserInterface, ContactInterface } from '../../../interfaces/AddEditClient';
-import { LookupContextConsumer } from '../../../modules/Lookup/context';
-import { lookups } from '../../../modules/Lookup/enum';
-import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
-import FormikBag from '../../../interfaces/FormikBag';
-import AddClientContacts from '../../organisms/AddClientContact/index';
-import ClientContacts from '../../organisms/ClientContacts/ClientContacts';
-import ClientContactsList from '../../organisms/ClientContactsList';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-import EditClientContacts from '../../organisms/AddClientContact/index';
-import PageBody from '../../atoms/PageBody';
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+import AddEditClientInterface, { ClientUserInterface, ContactInterface } from './addClientInterface';
+import { LookupContextConsumer } from '../Lookup/context';
+import { lookups } from '../Lookup/enum';
+import { LookupContextInterface, LookupItemInterface } from '../Lookup/interface';
+import FormikBag from '../../interfaces/FormikBag';
+import AddClientContacts from '../../components/organisms/AddClientContact/index';
+import ClientContacts from '../../components/organisms/ClientContacts/ClientContacts';
+import ClientContactsList from '../../components/organisms/ClientContactsList';
+import DashboardTemplate from '../../components/templates/DashboardTemplate';
+import EditClientContacts from '../../components/organisms/AddClientContact/index';
+import PageBody from '../../components/atoms/PageBody';
+import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
 import clientFormSchema, { clientEditFormSchema } from './clientFormSchema';
-import styles from '../../molecules/FormElement/FormElement.module.scss';
+import styles from '../../components/molecules/FormElement/FormElement.module.scss';
 
 interface Props {
   changeListener: (formValues: any) => void;

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import ClientList from '../../../interfaces/Client';
-import { ClientFilters } from '../../../interfaces/ClientFilter';
-import PageBody from '../../atoms/PageBody';
-import PageHeader from '../../atoms/PageHeader';
-import ESModal from '../../molecules/Modal';
-import Pager from '../../molecules/Pager';
-import ClientFilter from '../../organisms/ClientFilters';
-import ClientsList from '../../organisms/ClientsList';
-import DashboardTemplate from '../../templates/DashboardTemplate';
-import { PageDetailsInterface } from '../../../api/ResponseInterface';
+import ClientList from './clientListInterface';
+import { ClientFilters } from './clientFilterInterface';
+import PageBody from '../../components/atoms/PageBody';
+import PageHeader from '../../components/atoms/PageHeader';
+import ESModal from '../../components/molecules/Modal';
+import Pager from '../../components/molecules/Pager';
+import ClientFilter from './filter';
+import ClientsList from './listCard';
+import { PageDetailsInterface } from '../../api/ResponseInterface';
 
 interface Props {
   clients: ClientList[];
@@ -44,7 +43,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   defaultFilters,
 }) => {
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
@@ -58,15 +57,13 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />
-            {clients.length > 0 && (
-              <Pager
-                pageSize={pageDetails.pageSize || 0}
-                totalRecords={pageDetails.totalCount || 0}
-                pageNumber={pageDetails.currentPage}
-                onPageChanged={onPageChange}
-                shouldReset={resetPager}
-              />
-            )}
+            <Pager
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
+              pageNumber={pageDetails.currentPage}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>
@@ -83,7 +80,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
       >
         <ClientFilter />
       </ESModal>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

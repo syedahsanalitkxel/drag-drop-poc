@@ -1,7 +1,6 @@
 import { Field, Formik } from 'formik';
 import React from 'react';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
-import clientInterface, { ContactInterface } from '../../../interfaces/Client';
 import { styles } from '../../pages/AddUser/style';
 import clientContactSchema from './clientContactSchema';
 import FormikBag from '../../../interfaces/FormikBag';

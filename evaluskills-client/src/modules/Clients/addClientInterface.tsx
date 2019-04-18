@@ -15,7 +15,7 @@ export interface ClientUserInterface {
   email: string;
 }
 
-export default interface AddEditClientInterface {
+export default interface AddClientInterface {
   id: number;
   clientName: string;
   subsidiary: string;

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Client from '../../../modules/Clients/clientListInterface';
-import IconButton from '../../atoms/IconButton';
-import ClientCard from '../../molecules/ClientListCard';
+import Client from './clientListInterface';
+import IconButton from '../../components/atoms/IconButton';
+import ClientCard from '../../components/molecules/ClientListCard';
 
 interface Props {
   listData: Client[];
