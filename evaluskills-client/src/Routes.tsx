@@ -11,7 +11,7 @@ import { AuthContext } from './modules/Auth/authContext';
 const AuthContainer = lazy(() => import('./containers/AuthContainer'));
 
 const DashboardHome = lazy(() => import('./components/pages/Dashboard'));
-const AssessmentItemContainer = lazy(() => import('./containers/AssessmentItemContainer'));
+const AssessmentItemContainer = lazy(() => import('./modules/Assessment/AssessmentContainer'));
 const ClientContainer = lazy(() => import('./containers/ClientContainer'));
 
 const InstrumentDetailContainer = lazy(() => import('./containers/InstrumentDetailContainer'));
