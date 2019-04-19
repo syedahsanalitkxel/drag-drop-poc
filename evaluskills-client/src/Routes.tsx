@@ -4,6 +4,7 @@ import { Redirect, Route, RouteProps, Switch } from 'react-router';
 import Spinner from './components/atoms/Spinner';
 
 import { InstrumentTemplateRoutes } from './modules/InstrumentTemplate';
+import { EvaluationInstruction } from './modules/EvaluationInstruction';
 import { ClientRoutes } from './modules/Clients';
 
 import InstrumentClientContainer from './containers/InstrumentClientContainer';
@@ -68,14 +69,13 @@ const Routes: React.FunctionComponent = () => {
         <PrivateRoute exact={true} path="/assessment-items/copy/:id" component={AssessmentItemContainer} />
         <PrivateRoute exact={true} path="/instrument" component={InstrumentClientContainer} />
         {InstrumentTemplateRoutes.map(renderRouteFromList(true))}
+        {EvaluationInstruction.map(renderRouteFromList(true))}
         <PrivateRoute exact={true} path="/client-assessment-detail/:id" component={InstrumentDetailContainer} />
         {ClientRoutes.map(renderRouteFromList(true))}
         <PrivateRoute exact={true} path="/email/add" component={EmailTemplateContainer} />
         <PrivateRoute exact={true} path="/email/edit/:id" component={EmailTemplateContainer} />
         <PrivateRoute exact={true} path="/email" component={EmailTemplateContainer} />
-        <Route exact={true} path="/evaluation-instructions/add" component={InstructionsContainer} />
-        <Route exact={true} path="/evaluation-instructions/edit/:id" component={InstructionsContainer} />
-        <Route exact={true} path="/evaluation-instructions" component={InstructionsContainer} />
+
         <Route exact={true} path="/addInstrumental" component={CreateEvaluation} />
         <PrivateRoute exact={true} path="/users" component={UserContainer} />
         <Route exact={true} path="/participants" component={ParticipantHome} />
