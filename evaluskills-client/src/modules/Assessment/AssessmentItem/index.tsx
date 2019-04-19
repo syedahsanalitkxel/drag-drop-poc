@@ -20,6 +20,7 @@ interface Props {
   defaultFilters: any;
   copy?: (assessmentId: string) => void;
   pageDetails: PageDetailsInterface;
+  savedSearch?: string;
 }
 
 const AssessmentItem: React.FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
   resetPager,
   defaultFilters,
   pageDetails,
+  savedSearch,
 }) => {
   const onPageChange = (PageNumber: number) => {
     filterHandler({ PageNumber });
@@ -71,6 +73,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
             }}
             actionButtonText="Add Assessment Item"
             actionHandler={add}
+            savedSearch={savedSearch}
           />
           <PageBody>
             <ListCardItems titleKey="definition" listData={assessments} copy={copy} edit={edit} remove={remove} />

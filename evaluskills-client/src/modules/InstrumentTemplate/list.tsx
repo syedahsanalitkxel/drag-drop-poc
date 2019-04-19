@@ -20,6 +20,7 @@ interface Props {
   pageDetails: PageDetailsInterface;
   resetPager: boolean;
   handleDelete: (id: string) => void;
+  savedSearch?: string;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
@@ -29,6 +30,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   pageDetails,
   resetPager,
   handleDelete,
+  savedSearch,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState({
@@ -87,6 +89,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
             }}
             actionButtonText="Add Instrument Template"
             actionHandler={() => navigate('/add')}
+            savedSearch={savedSearch}
           />
           <PageBody>
             {instrumentTemplates.length === 0 && <EmptyPage />}

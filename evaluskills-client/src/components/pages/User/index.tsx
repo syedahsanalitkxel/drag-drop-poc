@@ -24,6 +24,7 @@ interface Props {
   resetPager: boolean;
   defaultFilters: any;
   clientLookup?: any;
+  savedSearch?: string;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -34,6 +35,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   resetPager,
   defaultFilters,
   clientLookup,
+  savedSearch,
 }) => {
   const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
@@ -123,6 +125,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             }}
             actionButtonText="Add User"
             actionHandler={addAction}
+            savedSearch={savedSearch}
           />
           <PageBody>
             <div className="ibox m-b-15">
