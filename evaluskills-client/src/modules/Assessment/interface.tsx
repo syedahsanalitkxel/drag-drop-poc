@@ -47,8 +47,8 @@ export interface AssessmentTemplateFilterInterface {
   application?: number | string;
   categoryId?: number | string;
   competencyId?: number | string;
-  ItemStatusId?: number | string;
-  itemRecomendedApplications?: number[];
+  itemStatusIds?: number | string;
+  TypeIds: number[];
 }
 export interface EditAssessmentItemInterface {
   saveAsNewVersion: boolean;

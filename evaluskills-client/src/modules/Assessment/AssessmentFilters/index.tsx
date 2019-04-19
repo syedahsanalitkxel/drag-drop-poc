@@ -2,24 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import ModalContext from '../../../context/ModalContext';
-import AssessmentFiltersInterface from '../../../interfaces/AssessmentFilters';
 import RadioButton from '../../../components/atoms/RadioButton';
 import Checkbox from '../../../components/atoms/CheckBox';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { lookups } from '../../../modules/Lookup/enum';
 import FilterContext from './context';
+import { AssessmentTemplateFilterInterface } from '../interface';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 interface Props {
   changeListener?: (formValues: any) => void;
 }
 
-const initialState = {
-  accreditation: '',
-  application: '',
-  categoryId: '',
-  competencyId: '',
-  itemsStatusIds: '',
-  itemRecomendedApplications: [0],
+const initialState: AssessmentTemplateFilterInterface = {
+  TypeIds: [],
 };
 
 const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) => {
@@ -33,7 +28,8 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
     application: activeFilters && activeFilters.application,
     categoryId: activeFilters && activeFilters.categoryId,
     competencyId: activeFilters && activeFilters.competencyId,
-    itemsStatusIds: activeFilters && activeFilters.itemsStatusIds,
+    itemStatusIds: activeFilters && activeFilters.itemStatusIds,
+    TypeIds: activeFilters && activeFilters.TypeIds,
   });
   useEffect(() => {
     if (setModalState) {
@@ -42,14 +38,16 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    debugger;
     setFormState({ ...formState, [event.target.name]: event.target.value });
   }
   function lookupchangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    debugger;
     setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
   }
   function checkboxChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     const number = parseInt(event.target.value, 10);
-    let arr = formState.itemRecomendedApplications;
+    let arr = formState.TypeIds;
     let check = arr.includes(number);
 
     if (check) {
@@ -61,17 +59,19 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
 
     setFormState({
       ...formState,
-      itemRecomendedApplications: arr,
+      TypeIds: arr,
     });
   }
-  const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
+  const TypeLookUp = (props: LookupContextInterface) => {
     const { findKey } = props;
     if (findKey) {
       return findKey(lookups.assessmentTypesLookUp).map((lookup: LookupItemInterface, index) => (
         <Checkbox
-          name="itemRecomendedApplications"
+          name="TypeIds"
           value={lookup.value}
-          isChecked={lookup.value && formState.itemRecomendedApplications.includes(lookup.value) ? true : false}
+          isChecked={
+            lookup.value && formState && formState.TypeIds && formState.TypeIds.includes(lookup.value) ? true : false
+          }
           onChange={checkboxChangeHandler}
         >
           {lookup.text}
@@ -122,7 +122,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
           <label className="col-sm-2 col-form-label font-bold">Type</label>
 
           <div className="col-sm-10">
-            <LookupContextConsumer>{recommendedApplicationsLookUp}</LookupContextConsumer>
+            <LookupContextConsumer>{TypeLookUp}</LookupContextConsumer>
           </div>
         </div>
         <div className="hr-line-dashed" />
@@ -194,25 +194,25 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
               <RadioButton
-                name="itemsStatusIds"
+                name="itemStatusIds"
                 value=""
-                currentSelection={formState.itemsStatusIds}
+                currentSelection={formState.itemStatusIds}
                 onChange={changeHandler}
               >
                 All
               </RadioButton>
               <RadioButton
-                name="itemsStatusIds"
+                name="itemStatusIds"
                 value={'1'}
-                currentSelection={formState.itemsStatusIds}
+                currentSelection={formState.itemStatusIds}
                 onChange={changeHandler}
               >
                 Published
               </RadioButton>
               <RadioButton
-                name="itemsStatusIds"
+                name="itemStatusIds"
                 value={'2'}
-                currentSelection={formState.itemsStatusIds}
+                currentSelection={formState.itemStatusIds}
                 onChange={changeHandler}
               >
                 Drafted

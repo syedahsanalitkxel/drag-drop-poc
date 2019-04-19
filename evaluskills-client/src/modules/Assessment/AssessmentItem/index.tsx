@@ -8,7 +8,7 @@ import ESModal from '../../../components/molecules/Modal';
 import Pager from '../../../components/molecules/Pager';
 import AssessmentFilters from '../AssessmentFilters';
 import ListCardItems from './ListCardItems';
-
+import EmptyPage from '../../../components/atoms/EmptyPage';
 interface Props {
   assessments: AssessmentItemInterface[];
   add: () => void;
@@ -44,8 +44,8 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
     application: undefined,
     categoryId: undefined,
     competencyId: undefined,
-    itemsStatusIds: undefined,
-    itemRecomendedApplications: [],
+    itemStatusIds: undefined,
+    TypeIds: [],
   };
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
@@ -76,6 +76,7 @@ const AssessmentItem: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
+            {assessments.length === 0 && <EmptyPage />}
             <ListCardItems titleKey="definition" listData={assessments} copy={copy} edit={edit} remove={remove} />
             <Pager
               pageSize={pageDetails.pageSize || 0}

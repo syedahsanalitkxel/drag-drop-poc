@@ -39,6 +39,7 @@ const AssessmentItems: AssessmentItemInterface[] = [
 const defaultFilters: AssessmentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  TypeIds: [],
 };
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,
@@ -220,15 +221,14 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (!filters.accreditation) {
       delete newFilterState.filters.accreditation;
     }
+
     if (!filters.categoryId) {
       delete newFilterState.filters.categoryId;
     }
     if (!filters.competencyId) {
       delete newFilterState.filters.competencyId;
     }
-    if (filters.itemRecomendedApplications && filters.itemRecomendedApplications.length === 0) {
-      delete newFilterState.filters.itemRecomendedApplications;
-    }
+
     if (!filters.categoryId) {
       delete newFilterState.filters.categoryId;
     }
