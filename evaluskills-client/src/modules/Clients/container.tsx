@@ -133,6 +133,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
           toggleFilterModal={toggleFilterModal}
           pageDetails={state.pageDetails || defaultPageDetail}
           appliedFilters={state.filters}
+          savedSearch={state.filters.keyword}
           resetPager={state.resetPager}
           defaultFilters={defaultFilters}
         />

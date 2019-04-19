@@ -133,6 +133,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
           submitForm={submitForm}
           pageDetails={state.pageDetails || defaultPageDetail}
           resetPager={state.resetPager}
+          savedSearch={state.filters.search}
           defaultFilters={defaultFilters}
           clientLookup={state.clientLookup}
         />

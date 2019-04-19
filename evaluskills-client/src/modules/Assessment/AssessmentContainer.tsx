@@ -305,6 +305,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
           filterHandler={filtersClickHandler}
           resetPager={state.resetPager}
           appliedFilters={state.filters}
+          savedSearch={state.filters.search}
           defaultFilters={defaultFilters}
           pageDetails={state.pageDetails}
         />

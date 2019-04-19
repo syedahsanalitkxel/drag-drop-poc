@@ -14,6 +14,7 @@ interface Props {
   viewButtonActionHandler?: (event: MouseEvent) => void;
   cancelButtonText?: string;
   cancelButtonActionHandler?: (event: MouseEvent) => void;
+  savedSearch?: any;
 }
 
 const PageHeader: React.FunctionComponent<Props> = ({
@@ -27,10 +28,10 @@ const PageHeader: React.FunctionComponent<Props> = ({
   viewButtonText,
   viewButtonActionHandler,
   cancelButtonText,
+  savedSearch,
   cancelButtonActionHandler,
 }) => {
-  const [searchString, setSearchString] = useState('');
-
+  const [searchString, setSearchString] = useState(savedSearch || '');
   const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
   };

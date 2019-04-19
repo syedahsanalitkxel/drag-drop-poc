@@ -24,6 +24,7 @@ interface Props {
   appliedFilters: ClientFilters;
   resetPager: boolean;
   defaultFilters: any;
+  savedSearch?: string;
 }
 
 const DashboardHome: React.FunctionComponent<Props> = ({
@@ -41,6 +42,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   appliedFilters,
   resetPager,
   defaultFilters,
+  savedSearch,
 }) => {
   return (
     <React.Fragment>
@@ -54,6 +56,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             }}
             actionButtonText="Add Client"
             actionHandler={add}
+            savedSearch={savedSearch}
           />
           <PageBody>
             <ClientsList listData={clients} edit={edit} remove={remove} />

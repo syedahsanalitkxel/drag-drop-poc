@@ -192,6 +192,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           filterHandler={filterHandler}
           pageDetails={state.pageDetails || defaultPageDetail}
           resetPager={state.resetPager}
+          savedSearch={state.filters.Search}
           handleDelete={deleteInstrument}
         />
       </FilterContext.Provider>
