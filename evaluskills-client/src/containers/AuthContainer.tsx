@@ -43,13 +43,13 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
 
   const sendPasswordResetEmail = async (userEmail: string) => {
     setIsLoading(true);
-    setEmailSent(false);
+    setEmailSent(true);
     try {
       await resetPassword(userEmail);
       setIsLoading(false);
       setEmailSent(true);
     } catch (e) {
-      errorContext.setError(e);
+      // errorContext.setError(e);
       setIsLoading(false);
     }
   };
