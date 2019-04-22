@@ -8,8 +8,8 @@ import { Initalvalues, initialState } from './AddAssessment/InitialState';
 import AssessmentItem from './AssessmentItem';
 import {
   addAssessment,
+  deleteAssessmentService,
   editAssessmentService,
-  getAssessments,
   getFilteredAssessment,
   updateAssessment,
 } from './assessmentsService';
@@ -257,9 +257,20 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
   const toggleFilterModal = () => {
     setModalVisible(!modalVisible);
   };
-  function deleteAssessment(assessmentId: string) {
-    alert(`deleting => ${assessmentId}`);
+
+  async function deleteAssessment(itemId: any) {
+    try {
+      setState({ ...state, isLoading: true });
+      const assessmentItemData: any = await deleteAssessmentService(itemId);
+      if (assessmentItemData) {
+        fetchAssessments(defaultFilters);
+      }
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
   }
+
   function renderPage() {
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
