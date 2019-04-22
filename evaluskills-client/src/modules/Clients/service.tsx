@@ -72,3 +72,14 @@ export async function editClient(client: FormData, id: any) {
     }
   );
 }
+
+export async function deleteClient(id: any) {
+  return api.delete(CLIENTS, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
