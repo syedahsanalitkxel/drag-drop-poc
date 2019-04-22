@@ -8,6 +8,7 @@ import Pager from '../../components/molecules/Pager';
 import ClientFilter from './filter';
 import ClientsList from './listCard';
 import { PageDetailsInterface } from '../../api/ResponseInterface';
+import EmptyPage from '../../components/atoms/EmptyPage';
 
 interface Props {
   clients: ClientList[];
@@ -59,7 +60,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
-            <ClientsList listData={clients} edit={edit} remove={remove} />
+            {clients.length > 0 ? <ClientsList listData={clients} edit={edit} remove={remove} /> : <EmptyPage />}
             <Pager
               pageSize={pageDetails.pageSize || 0}
               totalRecords={pageDetails.totalCount || 0}

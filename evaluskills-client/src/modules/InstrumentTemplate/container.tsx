@@ -33,6 +33,7 @@ const instrumentTemplate: InstrumentTemplateInterface = {
 const defaultFilters: InstrumentTemplateFilterInterface = {
   PageNumber: 1,
   PageSize: 10,
+  recommendedApplicationId: '',
   type: 'all',
 };
 
@@ -85,12 +86,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (!filters.PageNumber) {
       newFilterState.resetPager = true;
       newFilterState.filters.PageNumber = 1;
-    }
-    if (!filters.Search) {
-      delete newFilterState.filters.Search;
-    }
-    if (!filters.recommendedApplicationId) {
-      delete newFilterState.filters.recommendedApplicationId;
     }
     if (USER_ROLE.isSuperAdmin()) {
       delete newFilterState.filters.type;
@@ -194,6 +189,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           resetPager={state.resetPager}
           savedSearch={state.filters.Search}
           handleDelete={deleteInstrument}
+          defaultFilters={defaultFilters}
         />
       </FilterContext.Provider>
     );

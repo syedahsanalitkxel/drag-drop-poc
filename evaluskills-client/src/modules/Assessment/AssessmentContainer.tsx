@@ -212,29 +212,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
       newFilterState.resetPager = true;
       newFilterState.filters.PageNumber = 1;
     }
-    if (!filters.accreditation) {
-      delete newFilterState.filters.accreditation;
-    }
-    if (!filters.application) {
-      delete newFilterState.filters.application;
-    }
-    if (!filters.accreditation) {
-      delete newFilterState.filters.accreditation;
-    }
-
-    if (!filters.categoryId) {
-      delete newFilterState.filters.categoryId;
-    }
-    if (!filters.competencyId) {
-      delete newFilterState.filters.competencyId;
-    }
-
-    if (!filters.categoryId) {
-      delete newFilterState.filters.categoryId;
-    }
-    if (!filters.search) {
-      delete newFilterState.filters.search;
-    }
     setState(newFilterState);
   };
 
