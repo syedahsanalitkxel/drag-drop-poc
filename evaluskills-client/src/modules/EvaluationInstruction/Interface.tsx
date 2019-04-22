@@ -1,14 +1,15 @@
 export interface Instructions {
   title?: string;
-  instructions?: string;
+  instructions: string;
   id?: number;
 }
 export interface AddInstructionsInterface {
   title?: string;
-  instructions?: string;
+  instructions?: any;
   isActive?: boolean;
   isSystemDefined?: boolean;
-  clientId?: boolean;
+  clientId?: number;
+  versionNo?: number;
 }
 export interface EditInstructionsInterface extends AddInstructionsInterface {
   id?: number;

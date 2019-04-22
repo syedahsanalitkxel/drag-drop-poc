@@ -1,0 +1,1 @@
+module 'draftjs-to-html';

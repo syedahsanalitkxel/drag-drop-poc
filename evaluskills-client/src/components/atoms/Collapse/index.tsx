@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 interface Props {
-  title: string;
-  children: ReactNode;
+  title?: string;
+  children?: ReactNode;
   onChange?: (event: any) => void;
   edit: (instrumentTemplateId: number) => void;
 }

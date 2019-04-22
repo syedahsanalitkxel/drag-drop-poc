@@ -11,7 +11,7 @@ import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
 
-import { AddInstructionsInterface, Instructions } from './interface';
+//import { AddInstructionsInterface, Instructions } from './interface';
 import {
   addInstrumentTemplates,
   deleteInstrumentTemplate,
@@ -19,7 +19,7 @@ import {
   getInstrumentTemplates,
   updateInstrumentTemplates,
 } from '../InstrumentTemplate/service';
-
+import { getInstructions, addInstructions } from './Service';
 const InstrumentTemplate = lazy(() => import('./InstructionListTemplate'));
 const AddEditInstrumentTemplate = lazy(() => import('./AddInstructions'));
 
@@ -101,7 +101,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   async function fetchAllInstruments(filters?: any) {
     try {
       setState({ ...state, isLoading: true });
-      const allTemplates = await getInstrumentTemplates(filters);
+      const allTemplates = await getInstructions(filters);
       setState({
         ...state,
         instrumentTemplates: allTemplates.data,
@@ -141,7 +141,14 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       errorContext.setError(e, true);
     }
   }
-
+  async function AddInstructiondata(values: any, type?: string) {
+    try {
+      const data = await addInstructions(values);
+      console.log(data);
+    } catch (error) {
+      errorContext.setError(error, true);
+    }
+  }
   async function deleteInstrument(id: string) {
     try {
       await deleteInstrumentTemplate(id);
@@ -155,7 +162,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (root) {
       history.push(path);
     } else {
-      history.push(`/instrument-templates${path}`);
+      history.push(`/evaluation-instructions${path}`);
     }
   }
 
@@ -164,14 +171,22 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <Spinner lightBg={true} />;
     }
 
-    if (isCopy(match.path)) {
-      return <AddEditInstrumentTemplate />;
-    } else if (isEdit(match.params, match.path)) {
-      return <AddEditInstrumentTemplate />;
+    if (isEdit(match.params, match.path)) {
+      return <AddEditInstrumentTemplate submitInstrument={AddInstructiondata} />;
     } else if (isAdd(match.path)) {
-      return <AddEditInstrumentTemplate />;
+      return <AddEditInstrumentTemplate submitInstrument={AddInstructiondata} />;
     }
-    return <InstrumentTemplate />;
+    return (
+      <InstrumentTemplate
+        Instructions={state.instrumentTemplates}
+        filterHandler={filterHandler}
+        pageDetails={state.pageDetails || defaultPageDetail}
+        resetPager={state.resetPager}
+        savedSearch={state.filters.Search}
+        edit={(value: any) => {}}
+        navigate={navigate}
+      />
+    );
   }
 
   return (
