@@ -117,17 +117,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     );
   }
 
-  return (
-    <React.Fragment>
-      {listData.length > 0 ? (
-        listData && listData.map(renderAllCards)
-      ) : (
-        <PageBody card={true} wrapper={true} className="m-t-15">
-          <EmptyPage />
-        </PageBody>
-      )}
-    </React.Fragment>
-  );
+  return <React.Fragment>{listData.length > 0 ? listData && listData.map(renderAllCards) : null}</React.Fragment>;
 };
 
 export default ListCardItems;

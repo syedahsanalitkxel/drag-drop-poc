@@ -1,7 +1,7 @@
 import React from 'react';
-import { AssessmentTemplateFilterInterface } from '../../../interfaces/AssessmentFilters';
+import { AssessmentTemplateFilterInterface } from '../interface';
 const FilterContext = React.createContext<{ activeFilters: AssessmentTemplateFilterInterface }>({
-  activeFilters: {},
+  activeFilters: { TypeIds: [] },
 });
 
 export default FilterContext;
