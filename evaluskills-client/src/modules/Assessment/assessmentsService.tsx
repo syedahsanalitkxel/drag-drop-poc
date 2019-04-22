@@ -48,8 +48,20 @@ export async function updateAssessment(assessment: any, id: string) {
     }
   );
 }
+
 export async function editAssessmentService(id: string): Promise<any> {
   return api.get(ASSESSMENTS, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function deleteAssessmentService(id: any): Promise<any> {
+  return api.delete(ASSESSMENTS, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },
