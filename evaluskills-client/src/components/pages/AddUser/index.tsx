@@ -45,12 +45,14 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
       .email(),
     firstName: Yup.string()
       .min(2, 'Too Short!')
-      .max(250, 'Too Long!')
-      .required('Required'),
+      .max(50, 'Too Long!')
+      .matches(/^[a-zA-Z ]+$/, 'Name Must be in Alphabets')
+      .required('Required Field'),
     lastName: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
-      .required('Required'),
+      .matches(/^[a-zA-Z ]+$/, 'Name Must be in Alphabets')
+      .required('Required Field'),
     role: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')

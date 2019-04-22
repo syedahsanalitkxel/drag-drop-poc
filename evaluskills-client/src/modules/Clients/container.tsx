@@ -3,13 +3,14 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 const ClientsList = lazy(() => import('./list'));
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
-import IClientList, { ClientUserInterface, ContactInterface } from './clientListInterface';
+import IClientList from './clientListInterface';
 import { ClientFilters } from './clientFilterInterface';
-import { getClients, getFilteredClient } from './service';
-import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
+import { deleteClient, getFilteredClient } from './service';
+import { isList } from '../../utils/routerUtils';
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import FilterContext from './context';
 import Spinner from '../../components/atoms/Spinner';
+import { isWhiteSpace } from 'tslint';
 
 const clients: IClientList[] = [];
 
@@ -109,8 +110,17 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
     history.push(`/clients/edit/${clientId}`);
   }
 
-  function deleteClient(clientId: number) {
-    alert(`deleting => ${clientId}`);
+  async function removeClient(clientId: number) {
+    try {
+      setState({ ...state, isLoading: true });
+      const clientData: any = await deleteClient(clientId);
+      if (clientData) {
+        fetchAllClients(defaultFilters);
+      }
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
   }
 
   function renderPage() {
@@ -124,7 +134,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
           clients={state.clients}
           filterClients={filterClients}
           add={addClient}
-          remove={deleteClient}
+          remove={removeClient}
           edit={editClient}
           applyFilters={applyFilterClients}
           modalVisible={modalVisible}

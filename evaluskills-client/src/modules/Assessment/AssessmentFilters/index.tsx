@@ -38,11 +38,9 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
   });
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    debugger;
     setFormState({ ...formState, [event.target.name]: event.target.value });
   }
   function lookupchangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    debugger;
     setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
   }
   function checkboxChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
