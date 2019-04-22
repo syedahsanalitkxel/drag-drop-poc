@@ -54,31 +54,23 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
 
   return (
     <React.Fragment>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {listData.length > 0 ? (
-            listData && listData.map(renderUserItem)
-          ) : (
-            <tr>
-              <td colSpan={5} style={{ textAlign: 'center' }}>
-                <span className="label" style={{ textAlign: 'center' }}>
-                  No Record Found
-                </span>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <div className="ibox m-b-15">
+        <div className="table-holder">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>{listData && listData.map(renderUserItem)}</tbody>
+          </table>
+        </div>
+      </div>
     </React.Fragment>
   );
 };

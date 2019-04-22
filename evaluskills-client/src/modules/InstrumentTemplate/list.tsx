@@ -21,6 +21,7 @@ interface Props {
   resetPager: boolean;
   handleDelete: (id: string) => void;
   savedSearch?: string;
+  defaultFilters?: any;
 }
 
 const InstrumentTemplate: React.FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   resetPager,
   handleDelete,
   savedSearch,
+  defaultFilters,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState({
@@ -125,6 +127,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         primaryText="Apply"
         secondaryText="Reset"
         secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <InstrumentTemplateFilters />
       </ESModal>

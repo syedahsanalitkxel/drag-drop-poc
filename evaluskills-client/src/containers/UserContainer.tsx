@@ -6,12 +6,11 @@ import UsersList from '../components/pages/User';
 import ErrorContext from '../context/ErrorContext';
 import UsersInterface from '../interfaces/UserList';
 import UsersFilterInterface from '../interfaces/UserFilter';
-import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import { isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
-import { addUser, clientLookUps, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
+import { addUser, clientLookUps, editUser, getFilteredUser } from '../services/userService';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/organisms/UserFilter/context';
-import { LookupInterface } from '../modules/Lookup/interface';
 
 const users: any[] = [];
 const clientLookup: any = [];
@@ -48,6 +47,7 @@ interface State {
 
 const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
+  const [name, setName] = useState('');
   const [state, setState] = useState<State>({
     clientLookup,
     filters: defaultFilters,
@@ -62,7 +62,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     if (isList(match.path)) {
       fetchAllUsers(state.filters);
     }
-  }, [match.path, state.filters]);
+  }, [!match.path, state.filters]);
 
   function filterHandler(filters: UsersFilterInterface) {
     const newFilterState = {
@@ -76,9 +76,6 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     if (!filters.pageNumber) {
       newFilterState.resetPager = true;
       newFilterState.filters.pageNumber = 1;
-    }
-    if (!filters.search) {
-      delete newFilterState.filters.search;
     }
     setState(newFilterState);
   }
@@ -104,18 +101,20 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   async function submitForm(values: any, action: string, id?: string) {
     if (action === 'Add') {
       try {
+        setName(action);
         const data = await addUser(values);
-        setState({ ...state, users: { ...state.users, values } });
+        await setState({ ...state, users: { ...state.users, data } });
         location.reload();
       } catch (error) {
-        errorContext.setError(error);
+        errorContext.setError(error, true);
       }
     } else if (action === 'Edit' && id) {
       try {
+        setName(action);
         const data = await editUser(values, id);
         location.reload();
       } catch (error) {
-        errorContext.setError(error);
+        errorContext.setError(error, true);
       }
     }
   }
@@ -127,16 +126,18 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
 
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
-        <UsersList
-          Users={state.users}
-          filterHandler={filterHandler}
-          submitForm={submitForm}
-          pageDetails={state.pageDetails || defaultPageDetail}
-          resetPager={state.resetPager}
-          savedSearch={state.filters.search}
-          defaultFilters={defaultFilters}
-          clientLookup={state.clientLookup}
-        />
+        {(name === 'Add' ? state.users.length > 0 : state.users) && (
+          <UsersList
+            Users={state.users}
+            filterHandler={filterHandler}
+            submitForm={submitForm}
+            pageDetails={state.pageDetails || defaultPageDetail}
+            resetPager={state.resetPager}
+            savedSearch={state.filters.search}
+            defaultFilters={defaultFilters}
+            clientLookup={state.clientLookup}
+          />
+        )}
       </FilterContext.Provider>
     );
   }
