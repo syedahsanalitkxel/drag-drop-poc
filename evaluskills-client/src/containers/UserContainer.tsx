@@ -47,7 +47,6 @@ interface State {
 
 const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({ history, match }) => {
   const errorContext = useContext(ErrorContext);
-  const [name, setName] = useState('');
   const [state, setState] = useState<State>({
     clientLookup,
     filters: defaultFilters,
@@ -62,7 +61,7 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
     if (isList(match.path)) {
       fetchAllUsers(state.filters);
     }
-  }, [!match.path, state.filters]);
+  }, [match.path, state.filters]);
 
   function filterHandler(filters: UsersFilterInterface) {
     const newFilterState = {
@@ -101,18 +100,19 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   async function submitForm(values: any, action: string, id?: string) {
     if (action === 'Add') {
       try {
-        setName(action);
-        const data = await addUser(values);
-        await setState({ ...state, users: { ...state.users, data } });
-        location.reload();
+        const userData: any = await addUser(values);
+        if (userData) {
+          fetchAllUsers(defaultFilters);
+        }
       } catch (error) {
         errorContext.setError(error, true);
       }
     } else if (action === 'Edit' && id) {
       try {
-        setName(action);
         const data = await editUser(values, id);
-        location.reload();
+        if (data) {
+          fetchAllUsers(defaultFilters);
+        }
       } catch (error) {
         errorContext.setError(error, true);
       }
@@ -126,18 +126,16 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
 
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
-        {(name === 'Add' ? state.users.length > 0 : state.users) && (
-          <UsersList
-            Users={state.users}
-            filterHandler={filterHandler}
-            submitForm={submitForm}
-            pageDetails={state.pageDetails || defaultPageDetail}
-            resetPager={state.resetPager}
-            savedSearch={state.filters.search}
-            defaultFilters={defaultFilters}
-            clientLookup={state.clientLookup}
-          />
-        )}
+        <UsersList
+          Users={state.users}
+          filterHandler={filterHandler}
+          submitForm={submitForm}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+          savedSearch={state.filters.search}
+          defaultFilters={defaultFilters}
+          clientLookup={state.clientLookup}
+        />
       </FilterContext.Provider>
     );
   }
