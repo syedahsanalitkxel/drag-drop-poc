@@ -22,19 +22,6 @@ interface Props extends RouteComponentProps {
   submitInstrument: (value: InstructionsInterface, buttonType?: string) => void;
 }
 
-const initialState: InstructionsInterface = {
-  // instructionTitle: '',
-  // editorState: '',
-  // componentName: 'Add Instructions',
-  title: '',
-  instructions: '',
-  isActive: true,
-  isSystemDefined: true,
-  clientId: 1,
-  versionNo: 0,
-  // editorState:
-  //   "Lorem Ipsum is simply  dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with Remaining essentially unchanged Make a type specimen bookUnknown printer",
-};
 const editorstate: any = {
   editorState: '',
 };
@@ -82,7 +69,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({
   }
 
   function onEditorStateChange(editorState: any) {
-    let cont = convertToRaw(editorState.getCurrentContent());
+    //let cont = convertToRaw(editorState.getCurrentContent());
 
     let editorSourceHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     console.log(editorSourceHTML);
