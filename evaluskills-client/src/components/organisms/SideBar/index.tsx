@@ -39,7 +39,7 @@ const Sidebar: React.FunctionComponent<RouteComponentProps> = () => (
         {getNavItem('/assessment-items', 'edit', 'Assessment Items')}
         {getNavItem('/instrument-templates', 'sitemap', 'Instrument Template')}
         {USER_ROLE.isSuperAdmin() && getNavItem('/clients', 'user', 'Clients')}
-        {USER_ROLE.isClientAdmin() && getNavItem('/evaluation-instructions', 'user', 'Instructions')}
+        {getNavItem('/evaluation-instructions', 'user', 'Instructions')}
         {USER_ROLE.isClientAdmin() && getNavItem('/instrument', 'sitemap', 'Instrument')}
         <NavItem to="" icon="cog" label="Setting">
           <ul className="nav metismenu collapse-menu" id="side-menu">

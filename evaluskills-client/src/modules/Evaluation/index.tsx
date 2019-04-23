@@ -3,12 +3,12 @@ import EvaluationComment from './comment';
 import EvaluationList from './list';
 import EvaluationQuesetion from './question';
 import EvaluationResult from './result';
-import EvaluationStart from './start';
+import EvaluationStart from './StartEvaluation/start';
 import EvaluationSummary from './summary';
 
 export const EvaluationRoutes = [
   {
-    Component: lazy(() => import('./start')),
+    Component: lazy(() => import('./StartEvaluation/start')),
     path: '/evaluation/start',
   },
   {

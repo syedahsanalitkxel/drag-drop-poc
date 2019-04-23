@@ -6,13 +6,14 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 interface Props {
-  title: string;
-  children: ReactNode;
+  title?: string;
+  index: number;
+  children?: ReactNode;
   onChange?: (event: any) => void;
   edit: (instrumentTemplateId: number) => void;
 }
 
-const CollapseComponent: React.FunctionComponent<Props> = ({ edit, title, children, onChange }) => {
+const CollapseComponent: React.FunctionComponent<Props> = ({ index, edit, title, children, onChange }) => {
   const [collapse, setcollapse] = useState(false);
 
   const mouseEvent = (event: any) => {
@@ -33,7 +34,7 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ edit, title, childr
     margin-top: 12px;
   `;
   const editEvent = (event: any) => {
-    edit(2);
+    edit(index);
   };
   return (
     <Fragment>
