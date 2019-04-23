@@ -6,12 +6,11 @@ import UsersList from '../components/pages/User';
 import ErrorContext from '../context/ErrorContext';
 import UsersInterface from '../interfaces/UserList';
 import UsersFilterInterface from '../interfaces/UserFilter';
-import { isAdd, isEdit, isList } from '../utils/routerUtils';
+import { isList } from '../utils/routerUtils';
 import RouteParamsInterface from '../interfaces/RouteParams';
-import { addUser, clientLookUps, editUser, getFilteredUser, getUserById, getUsers } from '../services/userService';
+import { addUser, clientLookUps, editUser, getFilteredUser } from '../services/userService';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/organisms/UserFilter/context';
-import { LookupInterface } from '../modules/Lookup/interface';
 
 const users: any[] = [];
 const clientLookup: any = [];
@@ -77,9 +76,6 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
       newFilterState.resetPager = true;
       newFilterState.filters.pageNumber = 1;
     }
-    if (!filters.search) {
-      delete newFilterState.filters.search;
-    }
     setState(newFilterState);
   }
 
@@ -104,18 +100,21 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   async function submitForm(values: any, action: string, id?: string) {
     if (action === 'Add') {
       try {
-        const data = await addUser(values);
-        setState({ ...state, users: { ...state.users, values } });
-        location.reload();
+        const userData: any = await addUser(values);
+        if (userData) {
+          fetchAllUsers(defaultFilters);
+        }
       } catch (error) {
-        errorContext.setError(error);
+        errorContext.setError(error, true);
       }
     } else if (action === 'Edit' && id) {
       try {
         const data = await editUser(values, id);
-        location.reload();
+        if (data) {
+          fetchAllUsers(defaultFilters);
+        }
       } catch (error) {
-        errorContext.setError(error);
+        errorContext.setError(error, true);
       }
     }
   }

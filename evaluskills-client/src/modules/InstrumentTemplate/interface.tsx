@@ -23,7 +23,7 @@ export interface InstrumentTemplateFilterInterface {
   Search?: string;
   PageNumber?: number;
   PageSize?: number;
-  recommendedApplicationId?: number;
+  recommendedApplicationId?: string;
   type?: string;
   TotalRecords?: number;
 }

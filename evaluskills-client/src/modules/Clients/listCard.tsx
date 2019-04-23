@@ -114,19 +114,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
                 <th />
               </tr>
             </thead>
-            <tbody>
-              {listData.length > 0 ? (
-                listData && listData.map(renderClientItem)
-              ) : (
-                <tr>
-                  <td colSpan={9} style={{ textAlign: 'center' }}>
-                    <span className="label" style={{ textAlign: 'center' }}>
-                      No Record Found
-                    </span>
-                  </td>
-                </tr>
-              )}
-            </tbody>
+            <tbody>{listData && listData.map(renderClientItem)}</tbody>
           </table>
         </div>
       </div>

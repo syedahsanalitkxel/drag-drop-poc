@@ -15,6 +15,8 @@ import UserFilterInterface from '../../../interfaces/UserFilter';
 import { getUserById } from '../../../services/userService';
 
 import { PageDetailsInterface } from '../../../api/ResponseInterface';
+import EmptyPage from '../../atoms/EmptyPage';
+import ClientsList from '../../../modules/Clients/list';
 
 interface Props {
   Users: any;
@@ -128,11 +130,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
-            <div className="ibox m-b-15">
-              <div className="table-holder">
-                <UsersList listData={Users} edit={editAction} remove={removeAction} />
-              </div>
-            </div>
+            {Users.length > 0 ? <UsersList listData={Users} edit={editAction} remove={removeAction} /> : <EmptyPage />}
             <Pager
               pageSize={pageDetails.pageSize || 0}
               totalRecords={pageDetails.totalCount || 0}

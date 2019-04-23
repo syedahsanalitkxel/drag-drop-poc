@@ -1,13 +1,25 @@
 export interface AddEmailInterface {
   title?: string;
-  type?: string;
+  body?: any;
+  emailTypeId?: string;
+  isSystemDefined?: boolean;
   subject?: string;
   editorState?: any;
-  componentName: string;
 }
-export interface emailListing {
+export interface EmailListingInterface {
+  body?: string;
+  clientId?: number;
+  title: string;
+  emailTypeId: number;
+  subject: string;
+  isSystemDefined?: boolean;
+  id: number;
+}
+
+export interface EmailFiterInterface {
   title?: string;
-  type?: string;
-  systemName?: string;
-  id?: number;
+  emailTypeId?: string;
+  pageSize?: number;
+  totalRecords?: number;
+  pageNumber?: number;
 }

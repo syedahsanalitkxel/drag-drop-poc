@@ -8,6 +8,7 @@ import ErrorContext from '../../../context/ErrorContext';
 import { ResetPasswordInterface } from '../../../interfaces/Login';
 
 import './styles.scss';
+import { NavLink } from 'react-router-dom';
 
 const ButtonSpinner = styled(Spinner)`
   margin-left: 35px;
@@ -91,7 +92,6 @@ const Reset: React.FunctionComponent<Props> = ({
   if (email && token) {
     return (
       <Form className="form w-100 pl-22" onSubmit={submitForm}>
-        {renderError()}
         <h1 className="font-bold mb-4 mt-0">Reset Password</h1>
         <div className="input-holder mb-4">
           <Input
@@ -130,7 +130,6 @@ const Reset: React.FunctionComponent<Props> = ({
   return (
     <Form className="form w-100 pl-22" onSubmit={getPasswordLink}>
       <h1 className="font-bold mb-4 mt-0">Reset Password</h1>
-      {renderError()}
       {emailSent ? (
         <span className="txt d-block success-element clr-green font-size-20 mb-4">
           Instructions to reset password has been sent to your email.
@@ -166,6 +165,13 @@ const Reset: React.FunctionComponent<Props> = ({
         >
           Submit
           {isLoading && <ButtonSpinner />}
+        </Button>
+      )}
+      {!emailSent && (
+        <Button color="primary" size="lg" type="submit" className="btn-rounded font-size-18 pl-5 pr-5 m-l-5">
+          <NavLink className="forget-password d-inline-block clr-inherit" to="/account/login">
+            Back to Sign In
+          </NavLink>
         </Button>
       )}
     </Form>

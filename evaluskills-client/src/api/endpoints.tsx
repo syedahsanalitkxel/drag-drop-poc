@@ -1,6 +1,7 @@
 export const BASE_URL = 'http://10.0.0.217:7002/api/';
 // export const BASE_URL = 'http://5c9223ebe7b1a00014078cc7.mockapi.io/api/v1/';
 export const ASSESSMENTS = 'Items';
+export const EMAIL = 'EmailTemplates';
 export const CLIENTS = 'Clients';
 export const USERS = 'Users';
 export const INSTRUMENT_TEMPLATES = 'InstrumentTemplates';
