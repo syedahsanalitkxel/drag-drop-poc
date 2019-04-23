@@ -1,78 +1,71 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { emailListing } from '../../../interfaces/Email';
-import DashboardTemplate from '../../templates/DashboardTemplate';
+import { EmailFiterInterface, EmailListingInterface } from '../../../interfaces/Email';
 import PageBody from '../../atoms/PageBody';
 import PageHeader from '../../atoms/PageHeader';
 import Pager from '../../molecules/Pager';
-import IconButton from '../../atoms/IconButton';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
+import ListEmailTemplateCards from '../../molecules/EmailTemplateCard/index';
+import EmptyPage from '../../atoms/EmptyPage';
+
 interface Props {
-  emailTemplates: emailListing[];
+  emailTemplates: EmailListingInterface[];
   add: () => void;
-  filteremailTemplates: (searchQuery: string) => void;
-  edit: (instrumentTemplateId: number) => void;
-  remove: (instrumentTemplateId: string) => void;
+  pageDetails: PageDetailsInterface;
+  resetPager: boolean;
+  filterHandler: (filters: EmailFiterInterface) => void;
+  edit: (emailTemplateId: number) => void;
+  remove: (emailTemplateId: number) => void;
+  savedSearch?: string;
 }
-const EmailListing: React.FunctionComponent<Props> = ({ filteremailTemplates, emailTemplates, add, edit }) => {
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const renderEmailData = (email: emailListing) => {
-    return (
-      <React.Fragment key={email.id}>
-        <tr>
-          <td>{email.title}</td>
-          <td>{email.type}</td>
+const EmailListing: React.FunctionComponent<Props> = ({
+  filterHandler,
+  pageDetails,
+  resetPager,
+  emailTemplates,
+  add,
+  edit,
+  remove,
+  savedSearch,
+}) => {
+  const applyFilters = (filters: EmailFiterInterface) => {
+    filterHandler(filters);
+  };
 
-          <td>
-            <IconButton id="delete" icon="trash" className="btn-default" actionHandler={() => {}}>
-              Delete
-            </IconButton>
-            <IconButton
-              id="edit"
-              icon="edit"
-              className="btn-default"
-              actionHandler={() => edit(email.id ? email.id : 1)}
-            >
-              Edit
-            </IconButton>
-          </td>
-        </tr>
-      </React.Fragment>
-    );
+  const onPageChange = (pageNumber: number) => {
+    filterHandler({ pageNumber });
   };
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
             title="Email"
-            searchHandler={filteremailTemplates}
+            searchHandler={(title: string) => {
+              applyFilters({ title });
+            }}
             actionButtonText="Add Email"
             actionHandler={add}
+            savedSearch={savedSearch}
           />
           <PageBody>
-            <div className="ibox m-b-15">
-              <div className="ibox-content">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Email Template Title</th>
-                      <th>Type</th>
-
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>{emailTemplates.map(renderEmailData)}</tbody>
-                </table>
-              </div>
-            </div>
-            {/*<Pager />*/}
+            {emailTemplates.length > 0 ? (
+              <ListEmailTemplateCards emailTemplates={emailTemplates} edit={edit} remove={remove} />
+            ) : (
+              <EmptyPage />
+            )}
+            <Pager
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
+              pageNumber={pageDetails.currentPage}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

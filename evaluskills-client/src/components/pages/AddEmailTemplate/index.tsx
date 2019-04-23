@@ -1,5 +1,5 @@
-import { Field, Formik, FormikActions, FormikValues } from 'formik';
-import React, { Fragment, useEffect, useState } from 'react';
+import { Field, Formik, FormikActions, FormikValues, ErrorMessage } from 'formik';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
 import { AddEmailInterface } from '../../../interfaces/Email';
@@ -7,64 +7,118 @@ import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
 import DashboardTemplate from '../../templates/DashboardTemplate';
 import emailFormSchema from './emailFormSchema';
+
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, Modifier } from 'draft-js';
+
+import { convertFromHTML, convertFromRaw, convertToRaw, ContentState, EditorState } from 'draft-js';
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
+import { lookups } from '../../../modules/Lookup/enum';
+import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
+
 interface Props {
   changeListener?: (formValues: AddEmailInterface) => void;
   edit?: boolean;
   list?: any;
+  submitEmailTemplate: (value: AddEmailInterface, buttonType?: string) => void;
 }
 
+const editorstate: any = {
+  editorState: '',
+};
+
 const initialState: AddEmailInterface = {
+  // instructionTitle: '',
+  // editorState: '',
+  body: '',
+  componentName: 'Add Email',
+  emailTypeId: '',
+  isSystemDefined: true,
   subject: '',
   title: '',
-  type: '',
-  editorState: '',
-  componentName: 'Add Email',
-  // editorState:
-  //   "Lorem Ipsum is simply  dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with Remaining essentially unchanged Make a type specimen bookUnknown printer",
 };
+
+// const initialState: AddEmailInterface = {
+//   title: '',
+//   type: '',
+//   componentName: 'Add Email',
+// };
 
 const StyledButton = styled(Button)`
   margin-left: 5px;
   margin-right: 5px;
 `;
 
-export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, changeListener }) => {
+export const AddEmailTemplate: React.FunctionComponent<Props> = ({
+  list,
+  edit,
+  changeListener,
+  submitEmailTemplate,
+}) => {
+  const { findKey } = useContext(LookupContext);
   const [formState, setFormState] = useState(initialState);
+  const [formeditorState, setedoitorFormState] = useState(editorstate);
 
   useEffect(() => {
     if (changeListener) {
       changeListener(formState);
     }
+
+    // const sampleMarkup =
+    //     '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
+    // const blocksFromHtml = htmlToDraft(sampleMarkup);
+    // const { contentBlocks, entityMap } = blocksFromHtml;
+    // const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    // const editorState = EditorState.createWithContent(contentState);
+    // setedoitorFormState({ ...formeditorState, editorState: editorState });
+
     if (edit) {
-      setFormState({ ...formState, subject: 'update subject' });
-      setFormState({ ...formState, subject: 'update title' });
-      setFormState({ ...formState, type: 'billing-1' });
-      setFormState({ ...formState, editorState: 'billing-1' });
-      setFormState({ ...formState, componentName: 'Edit Email' });
+      // setFormState({ ...formState, subject: 'update subject' });
+      // setFormState({ ...formState, subject: 'update title' });
+      // setFormState({ ...formState, type: 'billing-1' });
+      // setFormState({ ...formState, editorState: 'billing-1' });
+      // setFormState({ ...formState, componentName: 'Edit Email' });
     }
   }, []);
 
-  function submitForm(values: AddEmailInterface, formikActions: FormikActions<AddEmailInterface>) {
+  function submitForm(values: AddEmailInterface, formikActions: FormikActions<any>) {
+    submitEmailTemplate(values, 'b');
     setFormState({ ...formState, ...values });
   }
 
   function onEditorStateChange(editorState: any) {
-    const contentState = Modifier.replaceText(
-      editorState.getCurrentContent(),
-      editorState.getSelection(),
-      '⭐',
-      editorState.getCurrentInlineStyle()
-    );
-    setFormState({ ...formState, editorState });
+    let cont = convertToRaw(editorState.getCurrentContent());
+
+    let editorSourceHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    console.log(editorSourceHTML);
+    setFormState({ ...formState, body: editorSourceHTML });
+    setedoitorFormState({ ...formeditorState, editorState: editorState });
+  }
+
+  function onContentStateChange(content: any) {
+    var input = JSON.stringify(content);
+    console.log('state', input);
+  }
+
+  function renderEmailTypeDropdown() {
+    if (findKey) {
+      return findKey(lookups.emailTypesLookUp).map(application => {
+        return (
+          <option value={application.value} key={application.value}>
+            {application.text}
+          </option>
+        );
+      });
+    }
   }
 
   const renderForm = (formikprops: FormikBag) => {
-    // TODO: Create render from group component and suppoert select, radio and checkbox
-    const { editorState } = formState;
+    const { body } = formState;
+    const { editorState } = formeditorState;
     const StyledPageBody = styled(PageBody)`
       height: 355px;
     `;
@@ -93,14 +147,14 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, c
             <div className="col-md-6">
               <FormElement
                 label="Type"
-                name="type"
+                name="emailTypeId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Biling 1</option>
-                <option value="billing-2">Biling 2</option>
+                <option value="">Select One</option>
+                {renderEmailTypeDropdown()}
               </FormElement>
             </div>
           </div>
@@ -118,12 +172,26 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, c
           </div>
         </PageBody>
         <StyledPageBody card={true} className="m-t-15">
+          <label className="col-sm-3 col-form-label font-bold">Body</label>
           <Editor
+            initialContentState={editorState}
+            editorState={editorState}
             toolbarClassName="toolbarClassName"
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
+            onEditorStateChange={onEditorStateChange}
+            onContentStateChange={onContentStateChange}
           />
         </StyledPageBody>
+        <ErrorMessage
+          name={`body`}
+          render={msg => (
+            <div className="isa_error">
+              <span className="error text-danger">{msg}</span>
+            </div>
+          )}
+        />
+
         <PageBody card={true} className="m-t-15">
           <div className="row m-b-25">
             <StyledButton type="button" size="lg">
@@ -140,7 +208,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, c
   };
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <Formik
         initialValues={formState}
         enableReinitialize={true}
@@ -149,7 +217,7 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({ list, edit, c
       >
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 
