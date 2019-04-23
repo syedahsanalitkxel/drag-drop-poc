@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import API from '../api';
-import { LOGIN, RESET_PASSWORD } from '../api/endpoints';
+import { CONFIRM_EMAIL, LOGIN, RESET_PASSWORD } from '../api/endpoints';
 import LoginInterface, { ResetPasswordInterface } from '../interfaces/Login';
 
 const api = new API();
@@ -23,4 +23,7 @@ export async function changePassword(details: ResetPasswordInterface) {
 
 export async function resetPassword(email: string) {
   return api.get(RESET_PASSWORD, undefined, { email });
+}
+export async function verifyUserAPi(userId: string, code: string, password: string) {
+  return api.post(CONFIRM_EMAIL, { userId, code, password });
 }

@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import qs from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
-
 import Login from '../components/pages/Auth/Login';
 import Reset from '../components/pages/Auth/Reset';
+import SetPassword from '../components/pages/Auth/SetPassword';
 import LoginTemplate from '../components/templates/LoginTemplate';
 import ErrorContext from '../context/ErrorContext';
 import LoginInterface, { ResetPasswordInterface } from '../interfaces/Login';
 import { AuthContext } from '../modules/Auth/authContext';
-import { changePassword, login, resetPassword } from '../services/authService';
+import { changePassword, login, resetPassword, verifyUserAPi } from '../services/authService';
 
 const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location, match }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   const errorContext = useContext(ErrorContext);
   const authContext = useContext(AuthContext);
 
-  const query = qs.parse(location.search) as { email: string; token: string };
+  const query = qs.parse(location.search) as { email: string; token: string; UserId: string; Code: string };
 
   useEffect(() => {
     setEmailSent(false);
@@ -53,6 +53,13 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
       setIsLoading(false);
     }
   };
+  const emailConfirmation = async (userId: string, code: string, password: string) => {
+    try {
+      await verifyUserAPi(userId, code, password);
+    } catch (e) {
+      errorContext.setError(e);
+    }
+  };
 
   function renderElement() {
     if (match.path === '/account/reset-password') {
@@ -66,6 +73,8 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
           emailSent={emailSent}
         />
       );
+    } else if (query.UserId && query.Code) {
+      return <SetPassword userId={query.UserId} code={query.Code} verifyUser={emailConfirmation} />;
     }
     return <Login handleLogin={handleLogin} />;
   }

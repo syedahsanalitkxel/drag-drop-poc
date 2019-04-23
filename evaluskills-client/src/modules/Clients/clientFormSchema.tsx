@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { alphabetsValidation, imageValidation, numberValidation, stringValidation } from '../../utils/validations';
+import { alphabetsValidation, numberValidation, stringValidation } from '../../utils/validations';
 
 const clientFormSchema = Yup.object().shape({
   address1: stringValidation(2, 250, true),
@@ -15,7 +15,6 @@ const clientFormSchema = Yup.object().shape({
       title: stringValidation(1, 250, true),
     })
   ),
-  clientLogo: imageValidation(),
   clientName: stringValidation(1, 250, true),
   clientTypeId: numberValidation(1, 1, true),
   clientUser: Yup.object().shape({
