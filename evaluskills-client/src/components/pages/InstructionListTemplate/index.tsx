@@ -28,7 +28,7 @@ const InstructionListing: React.FunctionComponent<Props> = ({
     return (
       <Fragment>
         <StyledPageBody>
-          <Collapse edit={edit} title="Instructions Title Click Arrow At Right To Expand Instructions">
+          <Collapse index={1} edit={edit} title="Instructions Title Click Arrow At Right To Expand Instructions">
             <div className="card">
               <div className="ibox-content">
                 <p>

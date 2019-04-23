@@ -39,6 +39,7 @@ const defaultFilters: any = {
 interface State {
   instrumentTemplates: any[];
   instrumentTemplate: any;
+
   filters: any;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
@@ -183,7 +184,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         pageDetails={state.pageDetails || defaultPageDetail}
         resetPager={state.resetPager}
         savedSearch={state.filters.Search}
-        edit={(value: any) => {}}
+        edit={(id: any) => {
+          navigate(`/edit/${id}`);
+        }}
         navigate={navigate}
       />
     );

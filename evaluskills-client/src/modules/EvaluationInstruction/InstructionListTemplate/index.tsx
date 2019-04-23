@@ -75,11 +75,11 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
 
   let html =
     "<h3>Bold text,<strong> Italic text..... this is</strong><span style='color:rgb(209,72,65)'><strong>  ali zain javed</strong></span><br><br></h3>";
-  const renderInstructionData = (instructions: Instructions) => {
+  const renderInstructionData = (instructions: Instructions, index: number) => {
     return (
       <Fragment>
         <StyledPageBody>
-          <Collapse edit={edit} title={instructions && instructions.title}>
+          <Collapse index={instructions.id} edit={edit} title={instructions && instructions.title}>
             <div className="card">
               <div className="ibox-content">{Parser(instructions && instructions.instructions)}</div>
             </div>

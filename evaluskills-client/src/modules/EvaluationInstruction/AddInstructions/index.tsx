@@ -55,7 +55,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 const StyledPageBody = styled(PageBody)`
-  height: 355px;
+  min-height: 250px;
 `;
 
 export const AddInstructions: React.FunctionComponent<Props> = ({ submitInstrument, list, edit, changeListener }) => {

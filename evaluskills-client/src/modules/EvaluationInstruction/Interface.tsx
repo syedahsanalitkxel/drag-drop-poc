@@ -1,7 +1,7 @@
 export interface Instructions {
   title?: string;
   instructions: string;
-  id?: number;
+  id: number;
 }
 export interface AddInstructionsInterface {
   title?: string;
