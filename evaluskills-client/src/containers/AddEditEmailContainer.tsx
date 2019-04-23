@@ -81,10 +81,14 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   async function fetchEditEmailTemplate(id: any) {
     setState({ ...state, isLoading: true });
     const editTemplate: any = await getEmailById(id);
-    console.log(editTemplate);
+
+    editTemplate.body = unescape(editTemplate.body);
     setState({
       ...state,
-      emailTemplate: editTemplate,
+      emailTemplate: {
+        ...editTemplate,
+        body: unescape(editTemplate.body),
+      },
       isLoading: false,
     });
   }
@@ -122,6 +126,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   }
 
   async function AddEmaildata(values: any, type?: string, id?: string) {
+    values.body = escape(values.body);
     if (type === 'Add') {
       try {
         const emailData: any = await addEmail(values);
