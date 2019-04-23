@@ -13,13 +13,13 @@ interface Props {
   add?: () => void;
   edit: (assessmentId: number) => void;
   remove?: (assessmentId: string) => void;
-  filterHandler?: (filters: any) => void;
+  filterHandler: (filters: any) => void;
   appliedFilters?: any;
   resetPager: boolean;
   defaultFilters?: any;
   copy?: (assessmentId: string) => void;
-  pageDetails?: any;
-  savedSearch?: string;
+  pageDetails: any;
+  savedSearch: string;
   navigate: (path: string, root?: boolean) => void;
 }
 
@@ -38,7 +38,7 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
   navigate,
 }) => {
   const onPageChange = (PageNumber: number) => {
-    //filterHandler({ PageNumber });
+    filterHandler({ PageNumber });
   };
   const StyledPageBody = styled.div`
     padding-bottom: 6px;
@@ -62,8 +62,8 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
 
   const [modalVisible, setModalVisible] = useState(false);
   const applyFilters = (filters: any) => {
-    // filterHandler(filters);
-    // setModalVisible(false);
+    filterHandler(filters);
+    setModalVisible(false);
   };
   // const HtmlRender = (Html: any) => {
   //   var htmlToReactParser = new HtmlToReactParser();
@@ -93,9 +93,9 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
-            title="Assessment Items"
-            searchHandler={(search: string) => {
-              applyFilters({ search });
+            title="Instructions Items"
+            searchHandler={(Search: string) => {
+              applyFilters({ Search });
             }}
             actionButtonText="Add Instruction"
             actionHandler={() => navigate('/add')}

@@ -3,14 +3,12 @@ export interface Instructions {
   instructions: string;
   id: number;
 }
-export interface AddInstructionsInterface {
+export interface InstructionsInterface {
+  id?: number;
   title?: string;
   instructions?: any;
   isActive?: boolean;
   isSystemDefined?: boolean;
   clientId?: number;
   versionNo?: number;
-}
-export interface EditInstructionsInterface extends AddInstructionsInterface {
-  id?: number;
 }

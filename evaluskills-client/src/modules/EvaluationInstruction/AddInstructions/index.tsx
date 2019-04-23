@@ -2,7 +2,7 @@ import { Field, Formik, FormikActions, FormikValues, ErrorMessage } from 'formik
 import React, { Fragment, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import styled from 'styled-components';
-import { AddInstructionsInterface } from '../Interface';
+import { InstructionsInterface } from '../Interface';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../../components/atoms/PageBody';
 import DashboardTemplate from '../../../components/templates/DashboardTemplate';
@@ -13,27 +13,16 @@ import { EditorState, convertToRaw, convertFromHTML, convertFromRaw, ContentStat
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
-interface Props {
+import { RouteComponentProps, withRouter } from 'react-router';
+interface Props extends RouteComponentProps {
   changeListener?: (formValues: any) => void;
   edit?: boolean;
   list?: any;
-  submitInstrument: (value: AddInstructionsInterface, buttonType?: string) => void;
+  Instructiondata: InstructionsInterface;
+  submitInstrument: (value: InstructionsInterface, buttonType?: string) => void;
 }
-const content = {
-  entityMap: {},
-  blocks: [
-    {
-      key: '637gr',
-      text: 'Initialized from content state.',
-      type: 'unstyled',
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {},
-    },
-  ],
-};
-const initialState: AddInstructionsInterface = {
+
+const initialState: InstructionsInterface = {
   // instructionTitle: '',
   // editorState: '',
   // componentName: 'Add Instructions',
@@ -58,8 +47,15 @@ const StyledPageBody = styled(PageBody)`
   min-height: 250px;
 `;
 
-export const AddInstructions: React.FunctionComponent<Props> = ({ submitInstrument, list, edit, changeListener }) => {
-  const [formState, setFormState] = useState(initialState);
+export const AddInstructions: React.FunctionComponent<Props> = ({
+  Instructiondata,
+  history,
+  submitInstrument,
+  list,
+  edit,
+  changeListener,
+}) => {
+  const [formState, setFormState] = useState(Instructiondata);
   const [formeditorState, setedoitorFormState] = useState(editorstate);
   function titlechangeHandler(event: any) {
     setFormState({ ...formState, title: event.target.value });
@@ -68,35 +64,19 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ submitInstrume
     if (changeListener) {
       changeListener(formState);
     }
-    // const content = {
-    //   entityMap: {},
-    //   blocks: [
-    //     {
-    //       key: '637gr',
-    //       text: 'Initialized from content state.',
-    //       type: 'unstyled',
-    //       depth: 0,
-    //       inlineStyleRanges: [],
-    //       entityRanges: [],
-    //       data: {},
-    //     },
-    //   ],
-    // };
-    const sampleMarkup =
-      '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
-    const blocksFromHtml = htmlToDraft(sampleMarkup);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    const editorState = EditorState.createWithContent(contentState);
-    setedoitorFormState({ ...formeditorState, editorState: editorState });
+
     if (edit) {
-      // setFormState({ ...formState, instructionTitle: 'update subject' });
-      // // setFormState({ ...formState, editorState: content });
-      // setFormState({ ...formState, componentName: 'Edit Instructions' });
+      const sampleMarkup =
+        '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
+      const blocksFromHtml = htmlToDraft(Instructiondata.instructions);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const editorState = EditorState.createWithContent(contentState);
+      setedoitorFormState({ ...formeditorState, editorState: editorState });
     }
   }, []);
 
-  function submitForm(values: AddInstructionsInterface, formikActions: FormikActions<any>) {
+  function submitForm(values: InstructionsInterface, formikActions: FormikActions<any>) {
     submitInstrument(values, 'b');
     setFormState({ ...formState, ...values });
   }
@@ -168,7 +148,14 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ submitInstrume
         />
         <PageBody card={true}>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              type="button"
+              size="lg"
+              onClick={(e: React.MouseEvent) => {
+                e.preventDefault();
+                history.push('/evaluation-instructions');
+              }}
+            >
               Cancel
             </StyledButton>
 
@@ -193,4 +180,4 @@ export const AddInstructions: React.FunctionComponent<Props> = ({ submitInstrume
   );
 };
 
-export default AddInstructions;
+export default withRouter(AddInstructions);

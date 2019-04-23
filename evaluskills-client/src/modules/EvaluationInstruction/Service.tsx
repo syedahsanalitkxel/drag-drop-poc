@@ -3,13 +3,13 @@ import { identity, pickBy } from 'lodash-es';
 import API from '../../api';
 import { ASSESSMENTS, INSTRUCTIONS } from '../../api/endpoints';
 import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
-
+import { InstructionsInterface, Instructions } from './Interface';
 const api = new API();
 
 export async function getInstructions(
   filters?: any
 ): Promise<{
-  data: any;
+  data: Instructions[];
   pageDetails?: PageDetailsInterface;
 }> {
   return api.get(INSTRUCTIONS, undefined, pickBy(filters, identity)).then(
@@ -25,7 +25,7 @@ export async function getInstructions(
   );
 }
 
-export async function addInstructions(instruments: any) {
+export async function addInstructions(instruments: InstructionsInterface) {
   return api.post(INSTRUCTIONS, instruments).then(
     (res: AxiosResponse) => {
       return res.data;
@@ -35,20 +35,8 @@ export async function addInstructions(instruments: any) {
     }
   );
 }
-export async function updateAssessment(assessment: any, id: string) {
-  return api.put(ASSESSMENTS, assessment, id).then(
-    (res: AxiosResponse) => {
-      return {
-        data: res.data,
-      };
-    },
-    (error: AxiosError) => {
-      throw error;
-    }
-  );
-}
-export async function editAssessmentService(id: string): Promise<any> {
-  return api.get(ASSESSMENTS, id).then(
+export async function editInstrctionsService(id: string): Promise<InstructionsInterface> {
+  return api.get(INSTRUCTIONS, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },
@@ -57,13 +45,11 @@ export async function editAssessmentService(id: string): Promise<any> {
     }
   );
 }
-
-export async function getFilteredAssessment(filters?: any): Promise<{ data: any; pageDetails?: PageDetailsInterface }> {
-  return api.get(ASSESSMENTS, undefined, filters).then(
-    (res: ResponseInterface) => {
+export async function updateInstructions(instruction: InstructionsInterface, id: string) {
+  return api.put(INSTRUCTIONS, instruction, id).then(
+    (res: AxiosResponse) => {
       return {
         data: res.data,
-        pageDetails: res.pageDetails,
       };
     },
     (error: AxiosError) => {

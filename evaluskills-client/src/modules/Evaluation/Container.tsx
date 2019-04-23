@@ -10,37 +10,36 @@ import { actionTypes } from '../../enums';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
-import { InstructionsInterface, Instructions } from './Interface';
-//import { AddInstructionsInterface, Instructions } from './interface';
+// import FilterContext from './context';
+//import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import {
   addInstrumentTemplates,
   deleteInstrumentTemplate,
   getInstrumentTemplateById,
   getInstrumentTemplates,
   updateInstrumentTemplates,
-} from '../InstrumentTemplate/service';
-import { getInstructions, addInstructions, updateInstructions, editInstrctionsService } from './Service';
-const InstrumentTemplate = lazy(() => import('./InstructionListTemplate'));
-const AddEditInstrumentTemplate = lazy(() => import('./AddInstructions'));
+  getStartEvaluation,
+} from './service';
 
-const InstructionsTemplate: Instructions[] = [];
-const AddEditInstructionsInterface: InstructionsInterface = {
-  title: '',
-  instructions: '',
-  isActive: true,
-  isSystemDefined: true,
+const InstrumentTemplate = lazy(() => import('./list'));
+const AddEditInstrumentTemplate = lazy(() => import('./StartEvaluation/start'));
+
+const instrumentTemplates: any[] = [];
+const instrumentTemplate: any = {
   clientId: 1,
-  versionNo: 0,
+  isSystemDefined: false,
+  recommendedApplicationId: 1,
+  title: '',
 };
 const defaultFilters: any = {
   PageNumber: 1,
   PageSize: 10,
+  type: 'all',
 };
 
 interface State {
-  InstructionsTemplate: any[];
-  AddEditInstructionsInterface: any;
-
+  instrumentTemplates: any[];
+  instrumentTemplate: any;
   filters: any;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
@@ -59,8 +58,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   const errorContext = useContext(ErrorContext);
   const [state, setState] = useState<State>({
     filters: defaultFilters,
-    InstructionsTemplate,
-    AddEditInstructionsInterface,
+    instrumentTemplate,
+    instrumentTemplates,
     isLoading: false,
     pageDetails: defaultPageDetail,
     resetPager: false,
@@ -69,9 +68,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   useEffect(() => {
     if (isEdit(match.params) || isCopy(match.path)) {
       setState({ ...state, isLoading: true });
-      fetchInstruction(match.params.id);
+      fetchInstrument(match.params.id);
     } else if (isList(match.path)) {
-      fetchAllInstruction(state.filters);
+      fetchAllInstruments(state.filters);
     }
   }, [match.path, state.filters]);
 
@@ -91,20 +90,22 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (!filters.Search) {
       delete newFilterState.filters.Search;
     }
-
+    if (!filters.recommendedApplicationId) {
+      delete newFilterState.filters.recommendedApplicationId;
+    }
     if (USER_ROLE.isSuperAdmin()) {
       delete newFilterState.filters.type;
     }
     setState(newFilterState);
   }
 
-  async function fetchAllInstruction(filters?: any) {
+  async function fetchAllInstruments(filters?: any) {
     try {
       setState({ ...state, isLoading: true });
-      const allTemplates = await getInstructions(filters);
+      const allTemplates = await getInstrumentTemplates(filters);
       setState({
         ...state,
-        InstructionsTemplate: allTemplates.data,
+        instrumentTemplates: allTemplates.data,
         isLoading: false,
         pageDetails: allTemplates.pageDetails,
       });
@@ -114,33 +115,38 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     }
   }
 
-  async function fetchInstruction(id: string) {
+  async function fetchInstrument(id: string) {
     setState({ ...state, isLoading: true });
     try {
-      const data = await editInstrctionsService(id);
-      setState({ ...state, AddEditInstructionsInterface: data, isLoading: false });
+      const data = await getInstrumentTemplateById(id);
+      setState({ ...state, instrumentTemplate: data, isLoading: false });
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
     }
   }
 
-  async function AddInstructiondata(values: InstructionsInterface) {
+  async function dataManipulationAction(instrument: any, mode: actionTypes) {
     try {
-      // var newobj = JSON.stringify(values);
-      // console.log(newobj);
-      const data = await addInstructions(values);
-      console.log(data);
+      if (mode === actionTypes.NEW) {
+        await addInstrumentTemplates(instrument);
+      } else {
+        if (instrument.id) {
+          if (typeof instrument.id === 'number') {
+            await updateInstrumentTemplates(instrument, instrument.id);
+          }
+        }
+      }
       navigate('');
-    } catch (error) {
-      errorContext.setError(error, true);
+    } catch (e) {
+      errorContext.setError(e, true);
     }
   }
-  async function updateInstructiondata(values: InstructionsInterface) {
+
+  async function deleteInstrument(id: string) {
     try {
-      const data = await updateInstructions(values, match.params.id);
-      console.log(data);
-      navigate('');
+      await deleteInstrumentTemplate(id);
+      await fetchAllInstruments(state.filters);
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -150,44 +156,46 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (root) {
       history.push(path);
     } else {
-      history.push(`/evaluation-instructions${path}`);
+      history.push(`/instrument-templates${path}`);
     }
   }
 
   function renderPage() {
-    if (state.isLoading) {
-      return <Spinner lightBg={true} />;
-    }
+    return <Spinner lightBg={true} />;
 
-    if (isEdit(match.params, match.path)) {
-      return (
-        <AddEditInstrumentTemplate
-          edit={true}
-          Instructiondata={state.AddEditInstructionsInterface}
-          submitInstrument={updateInstructiondata}
-        />
-      );
-    } else if (isAdd(match.path)) {
-      return (
-        <AddEditInstrumentTemplate
-          Instructiondata={state.AddEditInstructionsInterface}
-          submitInstrument={AddInstructiondata}
-        />
-      );
-    }
-    return (
-      <InstrumentTemplate
-        Instructions={state.InstructionsTemplate}
-        navigate={navigate}
-        filterHandler={filterHandler}
-        pageDetails={state.pageDetails || defaultPageDetail}
-        resetPager={state.resetPager}
-        savedSearch={state.filters.Search}
-        edit={(id: any) => {
-          navigate(`/edit/${id}`);
-        }}
-      />
-    );
+    // if (isCopy(match.path)) {
+    //   return (
+    //     <AddEditInstrumentTemplate
+    //       defaultValue={state.instrumentTemplate}
+    //       copy={true}
+    //       handleAction={dataManipulationAction}
+    //       handleDelete={deleteInstrument}
+    //     />
+    //   );
+    // } else if (isEdit(match.params, match.path)) {
+    //   return (
+    //     <AddEditInstrumentTemplate
+    //       defaultValue={state.instrumentTemplate}
+    //       handleAction={dataManipulationAction}
+    //       handleDelete={deleteInstrument}
+    //     />
+    //   );
+    // } else if (isAdd(match.path)) {
+    //   return <AddEditInstrumentTemplate handleAction={dataManipulationAction} />;
+    // }
+    // return (
+    //   <FilterContext.Provider value={{ activeFilters: state.filters }}>
+    //     <InstrumentTemplate
+    //       instrumentTemplates={state.instrumentTemplates}
+    //       navigate={navigate}
+    //       filterHandler={filterHandler}
+    //       pageDetails={state.pageDetails || defaultPageDetail}
+    //       resetPager={state.resetPager}
+    //       savedSearch={state.filters.Search}
+    //       handleDelete={deleteInstrument}
+    //     />
+    //   </FilterContext.Provider>
+    // );
   }
 
   return (
