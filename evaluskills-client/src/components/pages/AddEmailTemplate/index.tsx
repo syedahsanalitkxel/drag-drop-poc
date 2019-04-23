@@ -1,52 +1,39 @@
-import { Field, Formik, FormikActions, FormikValues, ErrorMessage } from 'formik';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Button, Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Field, Formik, FormikActions } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Form, FormFeedback, Input } from 'reactstrap';
 import styled from 'styled-components';
 import { AddEmailInterface } from '../../../interfaces/Email';
 import FormikBag from '../../../interfaces/FormikBag';
 import PageBody from '../../atoms/PageBody';
-import DashboardTemplate from '../../templates/DashboardTemplate';
 import emailFormSchema from './emailFormSchema';
-
-import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-
 import { Editor } from 'react-draft-wysiwyg';
-
-import { convertFromHTML, convertFromRaw, convertToRaw, ContentState, EditorState } from 'draft-js';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import { lookups } from '../../../modules/Lookup/enum';
-import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
+import LookupContext from '../../../modules/Lookup/context';
 
 interface Props {
   changeListener?: (formValues: AddEmailInterface) => void;
+  cancelHandler?: () => void;
   edit?: boolean;
   list?: any;
-  submitEmailTemplate: (value: AddEmailInterface, buttonType?: string) => void;
+  name?: string;
+  submitEmailTemplate: (value: AddEmailInterface, buttonType?: string, id?: string) => void;
 }
 
-const editorstate: any = {
+const editorState: any = {
   editorState: '',
 };
 
 const initialState: AddEmailInterface = {
-  // instructionTitle: '',
-  // editorState: '',
   body: '',
-  componentName: 'Add Email',
   emailTypeId: '',
-  isSystemDefined: true,
   subject: '',
   title: '',
 };
-
-// const initialState: AddEmailInterface = {
-//   title: '',
-//   type: '',
-//   componentName: 'Add Email',
-// };
 
 const StyledButton = styled(Button)`
   margin-left: 5px;
@@ -58,50 +45,49 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
   edit,
   changeListener,
   submitEmailTemplate,
+  cancelHandler,
+  name,
 }) => {
   const { findKey } = useContext(LookupContext);
-  const [formState, setFormState] = useState(initialState);
-  const [formeditorState, setedoitorFormState] = useState(editorstate);
+  const [formState, setFormState] = useState(name === 'Edit' ? list : initialState);
+  const [formEditorState, setEditorFormState] = useState(editorState);
+
+  function titleChangeHandler(event: any) {
+    if (event.target.name === 'emailTypeId') {
+      setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
+    } else {
+      setFormState({ ...formState, [event.target.name]: event.target.value });
+    }
+  }
 
   useEffect(() => {
     if (changeListener) {
       changeListener(formState);
     }
-
-    // const sampleMarkup =
-    //     '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
-    // const blocksFromHtml = htmlToDraft(sampleMarkup);
-    // const { contentBlocks, entityMap } = blocksFromHtml;
-    // const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    // const editorState = EditorState.createWithContent(contentState);
-    // setedoitorFormState({ ...formeditorState, editorState: editorState });
-
-    if (edit) {
-      // setFormState({ ...formState, subject: 'update subject' });
-      // setFormState({ ...formState, subject: 'update title' });
-      // setFormState({ ...formState, type: 'billing-1' });
-      // setFormState({ ...formState, editorState: 'billing-1' });
-      // setFormState({ ...formState, componentName: 'Edit Email' });
+    if (name === 'Edit') {
+      const sampleMarkup = list.body;
+      const blocksFromHtml = htmlToDraft(sampleMarkup);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const editEditorState = EditorState.createWithContent(contentState);
+      setEditorFormState({ ...formEditorState, editorState: editEditorState });
     }
   }, []);
 
   function submitForm(values: AddEmailInterface, formikActions: FormikActions<any>) {
-    submitEmailTemplate(values, 'b');
-    setFormState({ ...formState, ...values });
+    if (name === 'Edit') {
+      submitEmailTemplate(values, name, list.id);
+      setFormState({ ...formState, ...values });
+    } else {
+      submitEmailTemplate(values, name);
+      setFormState({ ...formState, ...values });
+    }
   }
 
   function onEditorStateChange(editorState: any) {
-    let cont = convertToRaw(editorState.getCurrentContent());
-
-    let editorSourceHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    console.log(editorSourceHTML);
+    const editorSourceHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setFormState({ ...formState, body: editorSourceHTML });
-    setedoitorFormState({ ...formeditorState, editorState: editorState });
-  }
-
-  function onContentStateChange(content: any) {
-    var input = JSON.stringify(content);
-    console.log('state', input);
+    setEditorFormState({ ...formEditorState, editorState: editorState });
   }
 
   function renderEmailTypeDropdown() {
@@ -118,59 +104,78 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
 
   const renderForm = (formikprops: FormikBag) => {
     const { body } = formState;
-    const { editorState } = formeditorState;
+    const { editorState } = formEditorState;
     const StyledPageBody = styled(PageBody)`
-      height: 355px;
+      min-height: 355px;
     `;
     return (
       <Form onSubmit={formikprops.handleSubmit} className="form">
         <div className="PageHeader">
           <div className="row">
             <div className="col-lg-12 col-md-12">
-              <h2 className="font-weight-light">{formState.componentName}</h2>
+              <h2 className="font-weight-light">{name} Email</h2>
             </div>
           </div>
         </div>
         <PageBody card={true} className="m-t-15">
           <div className="row">
             <div className="col-md-6">
-              <FormElement
-                label="Title"
-                name="title"
-                placeholder="Add Email Title"
-                formikprops={formikprops}
-                inline={true}
-                last={true}
-              />
+              <label className="col-sm-2 col-form-label font-bold">Title</label>
+              <div className="col-sm-12">
+                <Input
+                  type="text"
+                  name="title"
+                  className="form-control"
+                  placeholder="Add Title"
+                  tag={Field}
+                  id={'title'}
+                  onChange={titleChangeHandler}
+                  invalid={!!(formikprops.touched.title && formikprops.errors.title)}
+                />
+                <FormFeedback tooltip={true}>{formikprops.errors.title}</FormFeedback>
+              </div>
             </div>
 
             <div className="col-md-6">
-              <FormElement
-                label="Type"
-                name="emailTypeId"
-                formikprops={formikprops}
-                type={FormElementTypes.SELECT}
-                inline={true}
-                last={true}
-              >
-                <option value="">Select One</option>
-                {renderEmailTypeDropdown()}
-              </FormElement>
+              <label className="col-sm-12 col-form-label font-bold">Type</label>
+              <div className="col-sm-16">
+                <Input
+                  type="select"
+                  name="emailTypeId"
+                  className="form-control m-b col-sm-8"
+                  value={formState.emailTypeId}
+                  id={'emailTypeId'}
+                  onChange={titleChangeHandler}
+                  invalid={!!(formikprops.touched.emailTypeId && formikprops.errors.emailTypeId)}
+                >
+                  <option value="">Select One</option>
+                  {renderEmailTypeDropdown()}
+                </Input>
+                <FormFeedback tooltip={true}>{formikprops.errors.emailTypeId}</FormFeedback>
+              </div>
             </div>
           </div>
+
           <div className="row">
             <div className="col-md-6">
-              <FormElement
-                label="Subject"
-                name="subject"
-                placeholder="Subject"
-                formikprops={formikprops}
-                inline={true}
-                last={true}
-              />
+              <label className="col-sm-12 col-form-label font-bold">Subject</label>
+              <div className="col-sm-12">
+                <Input
+                  type="text"
+                  name="subject"
+                  className="form-control"
+                  placeholder="Add Subject"
+                  tag={Field}
+                  id={'subject'}
+                  onChange={titleChangeHandler}
+                  invalid={!!(formikprops.touched.subject && formikprops.errors.subject)}
+                />
+                <FormFeedback tooltip={true}>{formikprops.errors.subject}</FormFeedback>
+              </div>
             </div>
           </div>
         </PageBody>
+
         <StyledPageBody card={true} className="m-t-15">
           <label className="col-sm-3 col-form-label font-bold">Body</label>
           <Editor
@@ -180,21 +185,12 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
             onEditorStateChange={onEditorStateChange}
-            onContentStateChange={onContentStateChange}
           />
         </StyledPageBody>
-        <ErrorMessage
-          name={`body`}
-          render={msg => (
-            <div className="isa_error">
-              <span className="error text-danger">{msg}</span>
-            </div>
-          )}
-        />
 
         <PageBody card={true} className="m-t-15">
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton type="button" size="lg" onClick={cancelHandler}>
               Cancel
             </StyledButton>
 
