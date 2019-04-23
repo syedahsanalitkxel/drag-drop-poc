@@ -15,7 +15,6 @@ const clientFormSchema = Yup.object().shape({
       title: stringValidation(1, 250, true),
     })
   ),
-  // clientLogo: imageValidation(),
   clientName: stringValidation(1, 250, true),
   clientTypeId: numberValidation(1, 1, true),
   clientUser: Yup.object().shape({
