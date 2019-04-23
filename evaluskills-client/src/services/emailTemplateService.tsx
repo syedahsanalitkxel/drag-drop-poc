@@ -43,7 +43,7 @@ export async function getFilteredEmails(filters?: EmailFiterInterface) {
 }
 
 export async function addEmail(email: any) {
-  return api.post(EMAIL, email).then(
+  return api.post(EMAIL, JSON.stringify(email)).then(
     (res: AxiosResponse) => {
       return res.data;
     },
@@ -53,8 +53,8 @@ export async function addEmail(email: any) {
   );
 }
 
-export async function editUser(user: any, id: any) {
-  return api.put(EMAIL, user, id).then(
+export async function editEmail(email: any, id: any) {
+  return api.put(EMAIL, email, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },

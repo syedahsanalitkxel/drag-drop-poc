@@ -5,7 +5,6 @@ export interface AddEmailInterface {
   isSystemDefined?: boolean;
   subject?: string;
   editorState?: any;
-  componentName: string;
 }
 export interface EmailListingInterface {
   body?: string;

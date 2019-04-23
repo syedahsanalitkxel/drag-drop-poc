@@ -6,14 +6,19 @@ const EmailListing = lazy(() => import('../components/pages/EmailListing'));
 import ErrorContext from '../context/ErrorContext';
 import { AddEmailInterface, EmailFiterInterface, EmailListingInterface } from '../interfaces/Email';
 import RouterPropsInterface from '../interfaces/RouteParams';
-import { addEmail, getFilteredEmails } from '../services/emailTemplateService';
+import { addEmail, editEmail, getFilteredEmails, getEmailById } from '../services/emailTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/pages/EmailListing/context';
 
 import Spinner from '../components/atoms/Spinner';
 import DashboardTemplate from '../components/templates/DashboardTemplate';
+import { addUser } from '../services/userService';
+import { async } from 'q';
+import { func } from 'prop-types';
+
 const emailTemplates: EmailListingInterface[] = [];
+const emailTemplate = {};
 
 const defaultFilters: EmailFiterInterface = {
   pageNumber: 1,
@@ -28,6 +33,7 @@ const defaultPageDetail = {
 
 interface State {
   emailTemplates: EmailListingInterface[];
+  emailTemplate: any;
   filters: EmailFiterInterface;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
@@ -40,6 +46,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
 }) => {
   const errorContext = useContext(ErrorContext);
   const [state, setState] = useState<State>({
+    emailTemplate,
     emailTemplates,
     filters: defaultFilters,
     isLoading: false,
@@ -49,6 +56,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
 
   useEffect(() => {
     if (isEdit(match.params)) {
+      fetchEditEmailTemplate(match.params.id);
     } else if (isList(match.path)) {
       fetchEmailTemplates(state.filters);
     }
@@ -68,6 +76,17 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
       newFilterState.filters.pageNumber = 1;
     }
     setState(newFilterState);
+  }
+
+  async function fetchEditEmailTemplate(id: any) {
+    setState({ ...state, isLoading: true });
+    const editTemplate: any = await getEmailById(id);
+    console.log(editTemplate);
+    setState({
+      ...state,
+      emailTemplate: editTemplate,
+      isLoading: false,
+    });
   }
 
   async function fetchEmailTemplates(filters: EmailFiterInterface) {
@@ -102,23 +121,49 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
     alert(`deleting => ${instrumentTemplate}`);
   }
 
-  async function AddEmaildata(values: any, type?: string) {
-    try {
-      const data = await addEmail(values);
-      console.log(data);
-    } catch (error) {
-      errorContext.setError(error, true);
+  async function AddEmaildata(values: any, type?: string, id?: string) {
+    if (type === 'Add') {
+      try {
+        const emailData: any = await addEmail(values);
+        if (!emailData.fail) {
+          history.push('/email');
+        }
+      } catch (error) {
+        errorContext.setError(error, true);
+      }
+    } else if (type === 'Edit' && id) {
+      try {
+        const emailData: any = await editEmail(values, id);
+        if (!emailData.fail) {
+          history.push('/email');
+        }
+      } catch (error) {
+        errorContext.setError(error, true);
+      }
     }
   }
+
+  function cancelForm() {
+    history.push('/email');
+  }
+
   function renderPage() {
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
     }
 
     if (isEdit(match.params)) {
-      return <AddEmailTemplate edit={true} submitEmailTemplate={AddEmaildata} />;
+      return (
+        <AddEmailTemplate
+          edit={true}
+          list={state.emailTemplate}
+          submitEmailTemplate={AddEmaildata}
+          cancelHandler={cancelForm}
+          name="Edit"
+        />
+      );
     } else if (isAdd(match.path)) {
-      return <AddEmailTemplate submitEmailTemplate={AddEmaildata} />;
+      return <AddEmailTemplate submitEmailTemplate={AddEmaildata} cancelHandler={cancelForm} name="Add" />;
     }
     return (
       <FilterContext.Provider value={{ activeFilters: state.filters }}>
