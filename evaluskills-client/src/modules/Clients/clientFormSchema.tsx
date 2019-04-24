@@ -24,7 +24,7 @@ const clientFormSchema = Yup.object().shape({
     firstName: alphabetsValidation(1, 250, true),
     lastName: alphabetsValidation(1, 250, true),
   }),
-  countryId: numberValidation(1, 1, true),
+  // CountryId: numberValidation(1, 1, true),
   stateId: numberValidation(1, 1, true),
   subsidiary: stringValidation(2, 250, true),
   zip: stringValidation(2, 50, true),

@@ -157,10 +157,9 @@ export const AddClient: React.FunctionComponent<Props> = ({
     };
     async function getStatesfunc(countryId: number) {
       const result = await getStates(countryId);
-      setFormState({ ...formState, states: result });
+      setFormState({ ...formState, states: result, CountryId: countryId });
     }
     function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-      setFormState({ ...formState, [event.target.name]: event.target.value });
       getStatesfunc(parseInt(event.target.value, 10));
     }
 
@@ -255,7 +254,14 @@ export const AddClient: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-md-6">
               <Label className="col-md-5 col-form-label font-bold">Country</Label>
-              <Input type="select" value={formState.countryId} name="countryId" id="countryId" onChange={changeHandler}>
+              <Input
+                type="select"
+                value={formState.CountryId}
+                formikprops={formikprops}
+                name="CountryId"
+                id="countryId"
+                onChange={changeHandler}
+              >
                 <option value=""> Select One</option>
                 <LookupContextConsumer>{renderCountriesDropdown}</LookupContextConsumer>
               </Input>
@@ -417,6 +423,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
     <DashboardTemplate>
       {formState && (
         <Formik
+          enableReinitialize={true}
           initialValues={formState}
           validationSchema={action === 'Edit' ? clientEditFormSchema : clientFormSchema}
           onSubmit={submitForm}
