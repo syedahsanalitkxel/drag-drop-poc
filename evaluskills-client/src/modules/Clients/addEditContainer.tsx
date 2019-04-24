@@ -35,9 +35,11 @@ const ClientList = {
   clientName: '',
   clientTypeId: '',
   clientUser: user,
+  CountryId: 0,
   id: 1,
   phone: '',
   stateId: '',
+  states: [],
   subsidiary: '',
   zip: '',
 };
