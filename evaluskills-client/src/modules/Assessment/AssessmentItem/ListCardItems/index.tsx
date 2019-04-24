@@ -54,7 +54,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     }
   };
 
-  const renderContent = (category: string, type: string, competency: string) => (
+  const renderContent = (category: string, type: string, competency: string, itemStatus: string) => (
     <React.Fragment>
       <div className="col-md-3 p-l-0">
         <LabelGroup label="Category" value={category} />
@@ -62,8 +62,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       <div className="col-md-3 border-left text-center">
         <LabelGroup label="Type" value={type} badge={BadgeTypes.PRIMARY} />
       </div>
+      <div className="col-md-3 border-left text-center">
+        <LabelGroup label="Status" value={itemStatus} badge={BadgeTypes.PRIMARY} />
+      </div>
       {competency.length > 0 && (
-        <div className="col-md-4 border-left text-center">
+        <div className="col-md-3 border-left text-center">
           <LabelGroup label="Competency" value={competency} />
         </div>
       )}
@@ -108,7 +111,8 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
 
   function renderAllCards(item: any) {
     const content =
-      (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
+      (item.category || item.type || item.competency) &&
+      renderContent(item.category, item.type, item.competency, item.itemStatus);
 
     const actions = renderActions(item.id || item.itemId, item);
 
