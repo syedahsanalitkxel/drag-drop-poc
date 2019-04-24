@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 const AddEmailTemplate = lazy(() => import('../components/pages/AddEmailTemplate'));
 const EmailListing = lazy(() => import('../components/pages/EmailListing'));
 import ErrorContext from '../context/ErrorContext';
-import { AddEmailInterface, EmailFiterInterface, EmailListingInterface } from '../interfaces/Email';
+import { EmailFiterInterface, EmailListingInterface } from '../interfaces/Email';
 import RouterPropsInterface from '../interfaces/RouteParams';
 import { addEmail, editEmail, getFilteredEmails, getEmailById } from '../services/emailTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
@@ -13,9 +13,6 @@ import FilterContext from '../components/pages/EmailListing/context';
 
 import Spinner from '../components/atoms/Spinner';
 import DashboardTemplate from '../components/templates/DashboardTemplate';
-import { addUser } from '../services/userService';
-import { async } from 'q';
-import { func } from 'prop-types';
 
 const emailTemplates: EmailListingInterface[] = [];
 const emailTemplate = {};
@@ -40,7 +37,7 @@ interface State {
   isLoading: boolean;
 }
 
-const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<RouterPropsInterface>> = ({
+const EmailTemplateContainer: React.FunctionComponent<RouteComponentProps<RouterPropsInterface>> = ({
   history,
   match,
 }) => {
@@ -107,10 +104,6 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
     }
-  }
-
-  function filterInstrumentTemplates(searchQuery: string) {
-    alert(searchQuery);
   }
 
   function addInstrumentTemplate() {
@@ -193,4 +186,4 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   );
 };
 
-export default withRouter(InstrumentTemplateContainer);
+export default withRouter(EmailTemplateContainer);
