@@ -10,6 +10,7 @@ export const SELECT_CLIENT = 'Accounts/SelectClient';
 export const RESET_PASSWORD = 'Accounts/ResetPassword';
 export const CONFIRM_EMAIL = 'Accounts/ConfirmEmail';
 export const LOOK_UPS = 'Lookups';
+export const STATE_LOOK_UPS = '/Lookups/States';
 export const INSTRUCTIONS = 'Instructions';
 export const EVALUATION = 'evaluation';
 export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/StartEvaluation`;
