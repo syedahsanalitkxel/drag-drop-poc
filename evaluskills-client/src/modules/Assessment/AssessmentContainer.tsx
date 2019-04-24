@@ -14,6 +14,7 @@ import {
   updateAssessment,
 } from './assessmentsService';
 import AssessmentItemInterface, { AddAssessmentItemInterface, AssessmentTemplateFilterInterface } from './interface';
+import { getActiveClient, USER_ROLE } from '../../utils';
 
 import FilterContext from './AssessmentFilters/context';
 
@@ -87,6 +88,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     try {
       setState({ ...state, isLoading: true });
       const Assessdata = await getFilteredAssessment(filter);
+      console.log(Assessdata);
       setState({
         ...state,
         assessments: Assessdata.data,
@@ -127,6 +129,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     }
   }
   async function updateAssessmentdata(data: any, type?: string) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        data.clientId = getActiveClient();
+      }
+    }
     try {
       if (copy) {
         await copyAssessment(data);
@@ -166,6 +173,11 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     }
   }
   async function AddAssessmentdata(values: AddAssessmentItemInterface, type?: string) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+      }
+    }
     try {
       if (type === 'd') {
         assessmenListItems();
