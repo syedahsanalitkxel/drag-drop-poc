@@ -120,8 +120,10 @@ const EmailTemplateContainer: React.FunctionComponent<RouteComponentProps<Router
   }
 
   async function AddEmaildata(values: any, type?: string, id?: string) {
-    if (USER_ROLE.isClientAdmin()) {
-      values.clientId = getActiveClient();
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+      }
     }
     values.body = escape(values.body);
     if (type === 'Add') {
