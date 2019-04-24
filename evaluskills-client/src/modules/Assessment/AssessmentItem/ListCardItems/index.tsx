@@ -10,6 +10,7 @@ import EmptyPage from '../../../../components/atoms/EmptyPage';
 import LabelGroup from '../../../../components/atoms/LabelGroup';
 import ItemCard from '../../../../components/molecules/ItemCard';
 import { TemplateItem } from '../../../InstrumentTemplate/interface';
+import { getActiveClient, USER_ROLE } from '../../../../utils';
 
 interface ListCardProps {
   listData: any[];
@@ -97,13 +98,27 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       );
     }
 
-    return (
-      <React.Fragment>
-        {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
-        {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
-        {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
-      </React.Fragment>
-    );
+    if (USER_ROLE.isSuperAdmin() && item.isSystemDefined) {
+      return (
+        <React.Fragment>
+          {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
+          {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+          {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
+      );
+    } else if (USER_ROLE.isClientAdmin() && item.isSystemDefined) {
+      return (
+        <React.Fragment>{edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}</React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
+          {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+          {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
+      );
+    }
   };
 
   function renderAllCards(item: any) {
