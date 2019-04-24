@@ -11,5 +11,7 @@ export const RESET_PASSWORD = 'Accounts/ResetPassword';
 export const CONFIRM_EMAIL = 'Accounts/ConfirmEmail';
 export const LOOK_UPS = 'Lookups';
 export const INSTRUCTIONS = 'Instructions';
-export const EVALUATION = 'evaluation';
+export const EVALUATION = 'Evaluations';
+
 export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/StartEvaluation`;
+export const QUESTION_EVALUATION = (token: string) => `${EVALUATION}/${token}/SaveAndNext`;

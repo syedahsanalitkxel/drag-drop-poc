@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Modal, ModalBody } from 'reactstrap';
-import Pager from '../../components/molecules/Pager';
-import EvaluationClientHolder from '../../components/organisms/ClientHolder';
-import EvaluatorAssessmentItem from '../../components/organisms/EvaluationCommentItem';
-import GuestTemplate from '../../components/templates/GuestTemplate';
-import FooterGuest from '../../components/organisms/FooterGuest';
+import Pager from '../../../components/molecules/Pager';
+import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
+import EvaluatorAssessmentItem from '../../../components/organisms/EvaluationCommentItem';
+import GuestTemplate from '../../../components/templates/GuestTemplate';
+import FooterGuest from '../../../components/organisms/FooterGuest';
 import { withRouter } from 'react-router-dom';
 
 const EvaluationSummary = (props: any) => {

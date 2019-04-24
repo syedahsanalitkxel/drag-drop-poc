@@ -10,6 +10,7 @@ import { actionTypes } from '../../enums';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
+import { StartEvaluationInterface, QuestionEvaluationInterface } from './interface';
 // import FilterContext from './context';
 //import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import {
@@ -19,11 +20,31 @@ import {
   getInstrumentTemplates,
   updateInstrumentTemplates,
   getStartEvaluation,
+  getQuestionEvaluation,
 } from './service';
 
-const InstrumentTemplate = lazy(() => import('./list'));
-const AddEditInstrumentTemplate = lazy(() => import('./StartEvaluation/start'));
+const StartEvaluation = lazy(() => import('./StartEvaluation/start'));
+const QuestionEvaluation = lazy(() => import('./QuestionEvaluation/question'));
+const SummeryEvaluation = lazy(() => import('./SummaryEvaluation/summary'));
+const ResultEvaluation = lazy(() => import('./ResultEvaluation/result'));
+const ListEvaluation = lazy(() => import('./ListEvaluation/list'));
+const CommentEvaluation = lazy(() => import('./CommentEvaluation/comment'));
 
+const StartEvaluationTemplate: StartEvaluationInterface = {
+  instrumentTitle: '360° Leadership Assessment',
+  // instructionId?: ;
+  instructionTitle: 'Instructions',
+  instructionDescription:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
+  // participantsId?: number;
+  participantsFirstName: 'ali',
+  participantsLastName: 'zain',
+  // participantsEmail?: string;
+  // participantRoleId?: number;
+  imagePath: 'https://pbs.twimg.com/profile_images/839596277163831296/QXw9XvF5.jpg',
+  // clientName?: string;
+};
+const QuestionEvaluationTemplate: QuestionEvaluationInterface = {};
 const instrumentTemplates: any[] = [];
 const instrumentTemplate: any = {
   clientId: 1,
@@ -36,7 +57,10 @@ const defaultFilters: any = {
   PageSize: 10,
   type: 'all',
 };
-
+interface StartState {
+  StartEvaluationTemplate: StartEvaluationInterface;
+  QuestionEvaluationTemplate: QuestionEvaluationInterface;
+}
 interface State {
   instrumentTemplates: any[];
   instrumentTemplate: any;
@@ -45,7 +69,7 @@ interface State {
   pageDetails?: PageDetailsInterface;
   isLoading: boolean;
 }
-
+const token = '36011897-e1fe-4311-9fc0-59908a49c5b4';
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,
   pageSize: 25,
@@ -56,6 +80,12 @@ const defaultPageDetail = {
 const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInterface>> = props => {
   const { history, match } = props;
   const errorContext = useContext(ErrorContext);
+
+  const [startState, setStartState] = useState<StartState>({
+    StartEvaluationTemplate,
+    QuestionEvaluationTemplate,
+  });
+
   const [state, setState] = useState<State>({
     filters: defaultFilters,
     instrumentTemplate,
@@ -66,11 +96,15 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   });
 
   useEffect(() => {
-    if (isEdit(match.params) || isCopy(match.path)) {
+    if (match.path.includes('start')) {
       setState({ ...state, isLoading: true });
-      fetchInstrument(match.params.id);
+      fetchStartInstruction();
+    }
+    if (match.path.includes('questions')) {
+      setState({ ...state, isLoading: true });
+      fetchQuestionAsessment();
     } else if (isList(match.path)) {
-      fetchAllInstruments(state.filters);
+      fetchStartInstruction();
     }
   }, [match.path, state.filters]);
 
@@ -99,22 +133,28 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     setState(newFilterState);
   }
 
-  async function fetchAllInstruments(filters?: any) {
+  async function fetchStartInstruction() {
     try {
       setState({ ...state, isLoading: true });
-      const allTemplates = await getInstrumentTemplates(filters);
-      setState({
-        ...state,
-        instrumentTemplates: allTemplates.data,
-        isLoading: false,
-        pageDetails: allTemplates.pageDetails,
-      });
+      const startdata: any = await getStartEvaluation(token);
+      setStartState({ ...startState, StartEvaluationTemplate: startdata });
+      setState({ ...state, isLoading: false });
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
     }
   }
-
+  async function fetchQuestionAsessment() {
+    try {
+      setState({ ...state, isLoading: true });
+      const startdata: any = await getQuestionEvaluation(token);
+      setStartState({ ...startState, QuestionEvaluationTemplate: startdata });
+      setState({ ...state, isLoading: false });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
   async function fetchInstrument(id: string) {
     setState({ ...state, isLoading: true });
     try {
@@ -146,7 +186,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   async function deleteInstrument(id: string) {
     try {
       await deleteInstrumentTemplate(id);
-      await fetchAllInstruments(state.filters);
     } catch (error) {
       errorContext.setError(error, true);
     }
@@ -161,8 +200,25 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   function renderPage() {
-    return <Spinner lightBg={true} />;
-
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
+    if (match.path.includes('start')) {
+      return <StartEvaluation listdata={startState.StartEvaluationTemplate} />;
+    }
+    if (match.path.includes('questions')) {
+      return <QuestionEvaluation Questiondata={startState.QuestionEvaluationTemplate} />;
+    }
+    if (match.path.includes('summary')) {
+      return <SummeryEvaluation />;
+    }
+    if (match.path.includes('result')) {
+      return <ResultEvaluation />;
+    }
+    if (match.path.includes('comment')) {
+      return <CommentEvaluation />;
+    }
+    return <ListEvaluation />;
     // if (isCopy(match.path)) {
     //   return (
     //     <AddEditInstrumentTemplate
@@ -198,11 +254,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     // );
   }
 
-  return (
-    <DashboardTemplate>
-      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
-    </DashboardTemplate>
-  );
+  return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;
 };
 
 export default withRouter(InstrumentTemplateContainer);

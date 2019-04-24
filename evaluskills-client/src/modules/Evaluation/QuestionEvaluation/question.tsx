@@ -1,13 +1,16 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import ProgressBar from '../../components/atoms/ProgressBar';
-import EvaluationClientHolder from '../../components/organisms/ClientHolder';
-import QuestionItem from '../../components/organisms/EvaluationQuestionItem';
-import FooterGuest from '../../components/organisms/FooterGuest';
-import GuestTemplate from '../../components/templates/GuestTemplate';
-
-const EvaluatorQuestion = (props: any) => {
+import ProgressBar from '../../../components/atoms/ProgressBar';
+import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
+import QuestionItem from '../../../components/organisms/EvaluationQuestionItem';
+import FooterGuest from '../../../components/organisms/FooterGuest';
+import GuestTemplate from '../../../components/templates/GuestTemplate';
+import { QuestionEvaluationInterface } from '../interface';
+interface Props extends RouteComponentProps {
+  Questiondata: QuestionEvaluationInterface;
+}
+const EvaluatorQuestion: React.FunctionComponent<Props> = ({ Questiondata, history }) => {
   const questionArray = [
     {
       isSelected: false,
@@ -102,7 +105,6 @@ const EvaluatorQuestion = (props: any) => {
   ];
 
   function handleNext() {
-    const { history } = props;
     history.push('/evaluation/summary');
   }
   return (
