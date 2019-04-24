@@ -148,6 +148,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
     const renderStatesDropdown = () => {
       return (
         formState &&
+        formState.states &&
         formState.states.map((item: any) => (
           <option key={item.value} value={item.value}>
             {item.text}
