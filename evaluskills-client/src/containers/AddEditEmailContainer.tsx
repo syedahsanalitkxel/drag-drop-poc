@@ -1,5 +1,6 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { getActiveClient, USER_ROLE } from '../utils';
 
 const AddEmailTemplate = lazy(() => import('../components/pages/AddEmailTemplate'));
 const EmailListing = lazy(() => import('../components/pages/EmailListing'));
@@ -119,6 +120,11 @@ const EmailTemplateContainer: React.FunctionComponent<RouteComponentProps<Router
   }
 
   async function AddEmaildata(values: any, type?: string, id?: string) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+      }
+    }
     values.body = escape(values.body);
     if (type === 'Add') {
       try {
