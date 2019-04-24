@@ -154,6 +154,16 @@ export const AddClient: React.FunctionComponent<Props> = ({
         ));
       }
     };
+    const renderCountriesDropdown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.countriesLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
 
     return (
       <Form onSubmit={formikprops.handleSubmit.bind(formikprops)} className="form" encType="multipart/form-data">
@@ -223,6 +233,30 @@ export const AddClient: React.FunctionComponent<Props> = ({
             </div>
             <div className="col-md-6">
               <FormElement
+                label="Address2"
+                name="address2"
+                placeholder="Add Address"
+                formikprops={formikprops}
+                inline={true}
+                type={FormElementTypes.TEXT}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <FormElement
+                label="Country"
+                name="countryId"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+              >
+                <option value=""> Select One</option>
+                <LookupContextConsumer>{renderCountriesDropdown}</LookupContextConsumer>
+              </FormElement>
+            </div>
+            <div className="col-md-6">
+              <FormElement
                 label="City"
                 name="city"
                 placeholder="Add City"
@@ -232,7 +266,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
               />
             </div>
           </div>
-
           <div className="row">
             <div className="col-md-6">
               <FormElement
