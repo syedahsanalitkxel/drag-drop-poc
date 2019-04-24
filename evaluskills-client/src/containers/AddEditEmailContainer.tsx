@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 const AddEmailTemplate = lazy(() => import('../components/pages/AddEmailTemplate'));
 const EmailListing = lazy(() => import('../components/pages/EmailListing'));
 import ErrorContext from '../context/ErrorContext';
-import { AddEmailInterface, EmailFiterInterface, EmailListingInterface } from '../interfaces/Email';
+import { EmailFiterInterface, EmailListingInterface } from '../interfaces/Email';
 import RouterPropsInterface from '../interfaces/RouteParams';
 import { addEmail, editEmail, getFilteredEmails, getEmailById } from '../services/emailTemplateService';
 import { isAdd, isEdit, isList } from '../utils/routerUtils';
@@ -13,9 +13,6 @@ import FilterContext from '../components/pages/EmailListing/context';
 
 import Spinner from '../components/atoms/Spinner';
 import DashboardTemplate from '../components/templates/DashboardTemplate';
-import { addUser } from '../services/userService';
-import { async } from 'q';
-import { func } from 'prop-types';
 
 const emailTemplates: EmailListingInterface[] = [];
 const emailTemplate = {};
@@ -40,7 +37,7 @@ interface State {
   isLoading: boolean;
 }
 
-const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<RouterPropsInterface>> = ({
+const EmailTemplateContainer: React.FunctionComponent<RouteComponentProps<RouterPropsInterface>> = ({
   history,
   match,
 }) => {
@@ -81,10 +78,14 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   async function fetchEditEmailTemplate(id: any) {
     setState({ ...state, isLoading: true });
     const editTemplate: any = await getEmailById(id);
-    console.log(editTemplate);
+
+    editTemplate.body = unescape(editTemplate.body);
     setState({
       ...state,
-      emailTemplate: editTemplate,
+      emailTemplate: {
+        ...editTemplate,
+        body: unescape(editTemplate.body),
+      },
       isLoading: false,
     });
   }
@@ -105,10 +106,6 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
     }
   }
 
-  function filterInstrumentTemplates(searchQuery: string) {
-    alert(searchQuery);
-  }
-
   function addInstrumentTemplate() {
     history.push('/email/add');
   }
@@ -122,6 +119,7 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   }
 
   async function AddEmaildata(values: any, type?: string, id?: string) {
+    values.body = escape(values.body);
     if (type === 'Add') {
       try {
         const emailData: any = await addEmail(values);
@@ -188,4 +186,4 @@ const InstrumentTemplateContainer: React.FunctionComponent<RouteComponentProps<R
   );
 };
 
-export default withRouter(InstrumentTemplateContainer);
+export default withRouter(EmailTemplateContainer);

@@ -64,9 +64,8 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
     if (changeListener) {
       changeListener(formState);
     }
-    if (name === 'Edit') {
-      const sampleMarkup = list.body;
-      const blocksFromHtml = htmlToDraft(sampleMarkup);
+    if (name === 'Edit' && list.body) {
+      const blocksFromHtml = htmlToDraft(list.body);
       const { contentBlocks, entityMap } = blocksFromHtml;
       const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
       const editEditorState = EditorState.createWithContent(contentState);
