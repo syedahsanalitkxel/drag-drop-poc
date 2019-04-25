@@ -11,6 +11,8 @@ import LabelGroup from '../../../../components/atoms/LabelGroup';
 import ItemCard from '../../../../components/molecules/ItemCard';
 import { TemplateItem } from '../../../InstrumentTemplate/interface';
 import { getActiveClient, USER_ROLE } from '../../../../utils';
+import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ListCardProps {
   listData: any[];
@@ -27,6 +29,10 @@ const CheckboxContainer = styled.div`
   position: absolute;
   right: 0;
   top: 30%;
+`;
+
+const StyledButton = styled.button`
+  margin-left: 154px;
 `;
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({
@@ -78,6 +84,14 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       </IconButton>
     );
 
+    const renderCopyActionButton = (name: string, text: string, icon: IconProp, className: string) => (
+      <StyledButton name={name} className={classNames(['btn', className])} onClick={actionHandler(id)} id={id}>
+        {icon && <FontAwesomeIcon icon={icon} />}
+        &nbsp;
+        {text}
+      </StyledButton>
+    );
+
     if (checkbox) {
       return (
         <CheckboxContainer className="pull-right">
@@ -108,7 +122,9 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       );
     } else if (USER_ROLE.isClientAdmin() && item.isSystemDefined) {
       return (
-        <React.Fragment>{edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}</React.Fragment>
+        <React.Fragment>
+          {edit && renderCopyActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
       );
     } else {
       return (
