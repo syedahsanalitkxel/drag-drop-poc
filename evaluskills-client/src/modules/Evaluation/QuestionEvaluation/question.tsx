@@ -1,90 +1,17 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import ProgressBar from '../../../components/atoms/ProgressBar';
 import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
-import QuestionItem from '../../../components/organisms/EvaluationQuestionItem';
+import QuestionItem from './EvaluationQuestionItem';
 import FooterGuest from '../../../components/organisms/FooterGuest';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
 import { QuestionEvaluationInterface } from '../interface';
-interface Props extends RouteComponentProps {
+interface PropsInterface extends RouteComponentProps {
   Questiondata: QuestionEvaluationInterface;
 }
-const EvaluatorQuestion: React.FunctionComponent<Props> = ({ Questiondata, history }) => {
-  const questionArray = [
-    {
-      isSelected: false,
-      text: 'Level of proficiency significantly exceeds expectations.',
-      statement:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      behaviour:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-    },
-    {
-      isSelected: false,
-      text:
-        'Good attentiveness to speaker with thoughtful &amp; reflective responses. Level\n' +
-        '                    of proficiency with competency is higher than expected &amp; clearly above\n' +
-        '                    average.',
-      statement:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      behaviour:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-    },
-    {
-      isSelected: true,
-      text:
-        'Good attentiveness to speaker with thoughtful &amp; reflective responses. Level\n' +
-        '                    of proficiency with competency is higher than expected &amp; clearly above\n' +
-        '                    average.',
-      statement:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      behaviour:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-    },
-    {
-      isSelected: false,
-      text:
-        'Good attentiveness to speaker with thoughtful &amp; reflective responses. Level\n' +
-        '                    of proficiency with competency is higher than expected &amp; clearly above\n' +
-        '                    average.',
-      statement:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      behaviour:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-    },
-    {
-      isSelected: false,
-      text:
-        'Good attentiveness to speaker with thoughtful &amp; reflective responses. Level\n' +
-        '                    of proficiency with competency is higher than expected &amp; clearly above\n' +
-        '                    average.',
-      statement:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      behaviour:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-    },
-  ];
+const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({ Questiondata, history }) => {
+  const [State, SetState] = useState(Questiondata);
   const clientHolderObj = {
     name: 'Jasmine Rassol',
     designation: '(Manager) From Tkxel',
@@ -107,6 +34,12 @@ const EvaluatorQuestion: React.FunctionComponent<Props> = ({ Questiondata, histo
   function handleNext() {
     history.push('/evaluation/summary');
   }
+  function handleSelect(Elementindex: number, Elementobjectindex: number) {
+    let data = State.itemElements;
+    data[Elementindex].selectedValue = Elementobjectindex;
+    SetState({ ...State, itemElements: data });
+  }
+
   return (
     <GuestTemplate>
       <div>
@@ -118,11 +51,11 @@ const EvaluatorQuestion: React.FunctionComponent<Props> = ({ Questiondata, histo
             <div className="col-sm-6">
               <div className="row mt-3">
                 <div className="col-sm-8">
-                  <ProgressBar progress={20} />
+                  <ProgressBar progress={State.progress} />
                 </div>
                 <div className="col-sm-4 mt-3">
                   <span className="font-bold">
-                    Assessment Item <a href="#">1</a> of 20
+                    Assessment Item <a href="#">{State.currentEvaluationItemNo}</a> of {State.totalNoOfEvaluationItems}
                   </span>
                 </div>
               </div>
@@ -130,14 +63,27 @@ const EvaluatorQuestion: React.FunctionComponent<Props> = ({ Questiondata, histo
           </div>
         </div>
         <div className="ques-container">
-          <h2 className="font-bold mb-4">
-            1- Contributes to and operates within a team to accomplish tasks and complete assignments within a
-            collaborate and professional environment.
-          </h2>
-          {questionArray.map((item, i) => {
-            return <QuestionItem key={i} count={i + 1} {...item} />;
+          {State.itemElements.map((item: any, i) => {
+            return (
+              <div>
+                <h2 className="font-bold mb-4">1- {State.itemElements[i].title}</h2>,
+                {item.itemElementOptions.map((item2: any, j: number) => {
+                  return (
+                    <div>
+                      <QuestionItem
+                        handleSelect={handleSelect}
+                        selectedIndex={item.selectedValue}
+                        elementIndex={i}
+                        key={j}
+                        count={j}
+                        {...item2}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            );
           })}
-
           <h2 className="font-bold mb-3">Comments</h2>
           <div className="form-group">
             <textarea className="form-control" placeholder="Add Comments" defaultValue={''} />

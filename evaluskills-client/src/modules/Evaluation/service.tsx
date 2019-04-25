@@ -48,7 +48,7 @@ export async function getStartEvaluation(token: string): Promise<{ data: StartEv
 export async function getQuestionEvaluation(token: string): Promise<{ data: QuestionEvaluationInterface }> {
   return api.post(QUESTION_EVALUATION(token), postobj).then(
     (res: ResponseInterface) => {
-      return res.data;
+      return { data: res.data };
     },
     (error: AxiosError) => {
       throw error;

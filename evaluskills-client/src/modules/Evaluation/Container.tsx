@@ -44,7 +44,10 @@ const StartEvaluationTemplate: StartEvaluationInterface = {
   imagePath: 'https://pbs.twimg.com/profile_images/839596277163831296/QXw9XvF5.jpg',
   // clientName?: string;
 };
-const QuestionEvaluationTemplate: QuestionEvaluationInterface = {};
+const QuestionEvaluationTemplate: QuestionEvaluationInterface = {
+  progress: 0,
+  itemElements: [],
+};
 const instrumentTemplates: any[] = [];
 const instrumentTemplate: any = {
   clientId: 1,
@@ -147,8 +150,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   async function fetchQuestionAsessment() {
     try {
       setState({ ...state, isLoading: true });
-      const startdata: any = await getQuestionEvaluation(token);
-      setStartState({ ...startState, QuestionEvaluationTemplate: startdata });
+      const startdata = await getQuestionEvaluation(token);
+      setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data });
       setState({ ...state, isLoading: false });
     } catch (error) {
       errorContext.setError(error, true);
