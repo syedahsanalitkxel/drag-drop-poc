@@ -6,7 +6,6 @@ import Collapse from '../../../components/atoms/Collapse';
 import PageBody from '../../../components/atoms/PageBody';
 import PageHeader from '../../../components/atoms/PageHeader';
 import Pager from '../../../components/molecules/Pager';
-import DashboardTemplate from '../../../components/templates/DashboardTemplate';
 import EmptyPage from '../../../components/atoms/EmptyPage';
 interface Props {
   Instructions?: Instructions[];

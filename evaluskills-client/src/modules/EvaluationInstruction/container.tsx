@@ -1,6 +1,7 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { getActiveClient, USER_ROLE } from '../../utils';
 
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
@@ -8,17 +9,8 @@ import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import { actionTypes } from '../../enums';
 import RouteParamsInterface from '../../interfaces/RouteParams';
-import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
 import { InstructionsInterface, Instructions } from './Interface';
-//import { AddInstructionsInterface, Instructions } from './interface';
-import {
-  addInstrumentTemplates,
-  deleteInstrumentTemplate,
-  getInstrumentTemplateById,
-  getInstrumentTemplates,
-  updateInstrumentTemplates,
-} from '../InstrumentTemplate/service';
 import { getInstructions, addInstructions, updateInstructions, editInstrctionsService } from './Service';
 const InstrumentTemplate = lazy(() => import('./InstructionListTemplate'));
 const AddEditInstrumentTemplate = lazy(() => import('./AddInstructions'));
@@ -27,9 +19,8 @@ const InstructionsTemplate: Instructions[] = [];
 const AddEditInstructionsInterface: InstructionsInterface = {
   title: '',
   instructions: '',
-  isActive: true,
   isSystemDefined: true,
-  clientId: 1,
+  isActive: true,
   versionNo: 0,
 };
 const defaultFilters: any = {
@@ -126,6 +117,12 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   async function AddInstructiondata(values: InstructionsInterface) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+        values.isSystemDefined = false;
+      }
+    }
     try {
       // var newobj = JSON.stringify(values);
       // console.log(newobj);
@@ -137,6 +134,12 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     }
   }
   async function updateInstructiondata(values: InstructionsInterface) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+        values.isSystemDefined = false;
+      }
+    }
     try {
       const data = await updateInstructions(values, match.params.id);
       console.log(data);
