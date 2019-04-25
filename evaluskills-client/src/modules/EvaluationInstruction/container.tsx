@@ -11,6 +11,7 @@ import RouteParamsInterface from '../../interfaces/RouteParams';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
 import { InstructionsInterface, Instructions } from './Interface';
 import { getInstructions, addInstructions, updateInstructions, editInstrctionsService } from './Service';
+import AddAssessmentComponenet from '../Assessment/AssessmentContainer';
 const InstrumentTemplate = lazy(() => import('./InstructionListTemplate'));
 const AddEditInstrumentTemplate = lazy(() => import('./AddInstructions'));
 
@@ -176,7 +177,16 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           submitInstrument={AddInstructiondata}
         />
       );
+    } else if (isCopy(match.path)) {
+      return (
+        <AddEditInstrumentTemplate
+          copy={true}
+          Instructiondata={state.AddEditInstructionsInterface}
+          submitInstrument={AddInstructiondata}
+        />
+      );
     }
+
     return (
       <InstrumentTemplate
         Instructions={state.InstructionsTemplate}
@@ -185,6 +195,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         pageDetails={state.pageDetails || defaultPageDetail}
         resetPager={state.resetPager}
         savedSearch={state.filters.Search}
+        copy={(id: any) => {
+          navigate(`/copy/${id}`);
+        }}
         edit={(id: any) => {
           navigate(`/edit/${id}`);
         }}

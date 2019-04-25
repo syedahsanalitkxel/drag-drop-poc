@@ -17,6 +17,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 interface Props extends RouteComponentProps {
   changeListener?: (formValues: any) => void;
   edit?: boolean;
+  copy?: boolean;
   list?: any;
   Instructiondata: InstructionsInterface;
   submitInstrument: (value: InstructionsInterface, buttonType?: string) => void;
@@ -40,6 +41,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({
   submitInstrument,
   list,
   edit,
+  copy,
   changeListener,
 }) => {
   const [formState, setFormState] = useState(Instructiondata);
@@ -52,7 +54,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({
       changeListener(formState);
     }
 
-    if (edit && Instructiondata.instructions) {
+    if ((edit || copy) && Instructiondata.instructions) {
       const sampleMarkup =
         '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
       const blocksFromHtml = htmlToDraft(Instructiondata.instructions);

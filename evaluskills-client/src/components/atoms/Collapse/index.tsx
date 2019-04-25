@@ -14,6 +14,7 @@ interface Props {
   onChange?: (event: any) => void;
   edit: (instrumentTemplateId: number) => void;
   instructions?: any;
+  copy?: (instrumentTemplateId: number) => void;
 }
 
 const CollapseComponent: React.FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ const CollapseComponent: React.FunctionComponent<Props> = ({
   title,
   children,
   onChange,
+  copy,
   instructions,
 }) => {
   const [collapse, setcollapse] = useState(false);
@@ -46,23 +48,32 @@ const CollapseComponent: React.FunctionComponent<Props> = ({
   const editEvent = (event: any) => {
     edit(index);
   };
+  const copyEvent = (event: any) => {
+    if (copy) {
+      copy(index);
+    }
+  };
 
   function renderEditAction(instruction: any) {
     if (USER_ROLE.isSuperAdmin() && instruction.isSystemDefined) {
       return (
-        <div onClick={editEvent}>
-          <button className="btn">
-            <StyleFontAwesomeIcon2 icon={'edit'} />
-          </button>
-        </div>
+        <React.Fragment>
+          <div onClick={editEvent}>
+            <button className="btn">
+              <StyleFontAwesomeIcon2 icon={'edit'} />
+            </button>
+          </div>
+        </React.Fragment>
       );
     } else if (USER_ROLE.isClientAdmin() && (!instruction.isSystemDefined || instruction.clientId)) {
       return (
-        <div onClick={editEvent}>
-          <button className="btn">
-            <StyleFontAwesomeIcon2 icon={'edit'} />
-          </button>
-        </div>
+        <React.Fragment>
+          <div onClick={editEvent}>
+            <button className="btn">
+              <StyleFontAwesomeIcon2 icon={'edit'} />
+            </button>
+          </div>
+        </React.Fragment>
       );
     }
   }
@@ -79,6 +90,11 @@ const CollapseComponent: React.FunctionComponent<Props> = ({
           <div className="col-lg-4 col-md-4 text-right p-r-30">
             <div className="form-group row d-flex justify-content-end">
               {renderEditAction(instructions)}
+              <div onClick={copyEvent}>
+                <button className="btn">
+                  <StyleFontAwesomeIcon2 icon={'copy'} />
+                </button>
+              </div>
               <div onClick={mouseEvent}>
                 <button className="btn">
                   <StyleFontAwesomeIcon icon={collapse ? faChevronUp : faChevronDown} />

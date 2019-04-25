@@ -16,7 +16,7 @@ interface Props {
   appliedFilters?: any;
   resetPager: boolean;
   defaultFilters?: any;
-  copy?: (assessmentId: string) => void;
+  copy?: (assessmentId: number) => void;
   pageDetails: any;
   savedSearch: string;
   navigate: (path: string, root?: boolean) => void;
@@ -83,6 +83,7 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
             edit={edit}
             title={instructions && instructions.title}
             instructions={instructions}
+            copy={copy}
           >
             <div className="card">
               <div className="ibox-content">{Parser(instructions && instructions.instructions)}</div>
