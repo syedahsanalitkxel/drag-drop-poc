@@ -263,7 +263,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 id="countryId"
                 onChange={changeHandler}
               >
-                <option value=""> Select One</option>
+                <option value="0"> Select One</option>
                 <LookupContextConsumer>{renderCountriesDropdown}</LookupContextConsumer>
               </Input>
             </div>
