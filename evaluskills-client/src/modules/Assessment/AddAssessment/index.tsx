@@ -10,7 +10,6 @@ import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lo
 import Checkbox from '../../../components/atoms/CheckBox';
 import RadioButton from '../../../components/atoms/RadioButton';
 import Assessmentelement from '../AssesmentElement';
-import DashboardTemplate from '../../../components/templates/DashboardTemplate';
 import { Initalvalues, initialState } from './InitialState';
 import { AddAssessmentSchema } from './validationSchema';
 

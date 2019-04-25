@@ -22,7 +22,7 @@ export interface Elementobj {
 export interface AddAssessmentItemInterface {
   componenetName?: string;
   isSystemDefined: boolean;
-  clientId: number | null | string;
+  clientId?: number | null | string;
   itemsStatusId?: number | string;
   definition: string;
   typeId?: number | string;
@@ -42,7 +42,7 @@ export interface EditAssessmentItemInterface {
   versionId: number;
   versionNo: number;
   isSystemDefined: boolean;
-  clientId: number | null;
+  clientId?: number | null;
   itemsStatusId: number | null;
   definition: string;
   typeId: number;
