@@ -5,15 +5,27 @@ import './CheckBox.scss';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { getActiveClient, USER_ROLE } from '../../../utils';
+
 interface Props {
   title?: string;
   index: number;
   children?: ReactNode;
   onChange?: (event: any) => void;
   edit: (instrumentTemplateId: number) => void;
+  instructions?: any;
+  copy?: (instrumentTemplateId: number) => void;
 }
 
-const CollapseComponent: React.FunctionComponent<Props> = ({ index, edit, title, children, onChange }) => {
+const CollapseComponent: React.FunctionComponent<Props> = ({
+  index,
+  edit,
+  title,
+  children,
+  onChange,
+  copy,
+  instructions,
+}) => {
   const [collapse, setcollapse] = useState(false);
 
   const mouseEvent = (event: any) => {
@@ -36,6 +48,36 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ index, edit, title,
   const editEvent = (event: any) => {
     edit(index);
   };
+  const copyEvent = (event: any) => {
+    if (copy) {
+      copy(index);
+    }
+  };
+
+  function renderEditAction(instruction: any) {
+    if (USER_ROLE.isSuperAdmin() && instruction.isSystemDefined) {
+      return (
+        <React.Fragment>
+          <div onClick={editEvent}>
+            <button className="btn">
+              <StyleFontAwesomeIcon2 icon={'edit'} />
+            </button>
+          </div>
+        </React.Fragment>
+      );
+    } else if (USER_ROLE.isClientAdmin() && (!instruction.isSystemDefined || instruction.clientId)) {
+      return (
+        <React.Fragment>
+          <div onClick={editEvent}>
+            <button className="btn">
+              <StyleFontAwesomeIcon2 icon={'edit'} />
+            </button>
+          </div>
+        </React.Fragment>
+      );
+    }
+  }
+
   return (
     <Fragment>
       <div className="card">
@@ -47,9 +89,10 @@ const CollapseComponent: React.FunctionComponent<Props> = ({ index, edit, title,
           </div>
           <div className="col-lg-4 col-md-4 text-right p-r-30">
             <div className="form-group row d-flex justify-content-end">
-              <div onClick={editEvent}>
+              {renderEditAction(instructions)}
+              <div onClick={copyEvent}>
                 <button className="btn">
-                  <StyleFontAwesomeIcon2 icon={'edit'} />
+                  <StyleFontAwesomeIcon2 icon={'copy'} />
                 </button>
               </div>
               <div onClick={mouseEvent}>
