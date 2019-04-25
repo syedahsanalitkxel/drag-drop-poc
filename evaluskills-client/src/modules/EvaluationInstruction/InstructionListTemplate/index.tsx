@@ -6,7 +6,6 @@ import Collapse from '../../../components/atoms/Collapse';
 import PageBody from '../../../components/atoms/PageBody';
 import PageHeader from '../../../components/atoms/PageHeader';
 import Pager from '../../../components/molecules/Pager';
-import DashboardTemplate from '../../../components/templates/DashboardTemplate';
 import EmptyPage from '../../../components/atoms/EmptyPage';
 interface Props {
   Instructions?: Instructions[];
@@ -79,7 +78,12 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
     return (
       <Fragment>
         <StyledPageBody>
-          <Collapse index={instructions.id} edit={edit} title={instructions && instructions.title}>
+          <Collapse
+            index={instructions.id}
+            edit={edit}
+            title={instructions && instructions.title}
+            instructions={instructions}
+          >
             <div className="card">
               <div className="ibox-content">{Parser(instructions && instructions.instructions)}</div>
             </div>
