@@ -78,7 +78,12 @@ const InstructionTemplate: React.FunctionComponent<Props> = ({
     return (
       <Fragment>
         <StyledPageBody>
-          <Collapse index={instructions.id} edit={edit} title={instructions && instructions.title}>
+          <Collapse
+            index={instructions.id}
+            edit={edit}
+            title={instructions && instructions.title}
+            instructions={instructions}
+          >
             <div className="card">
               <div className="ibox-content">{Parser(instructions && instructions.instructions)}</div>
             </div>

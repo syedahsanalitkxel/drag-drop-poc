@@ -52,7 +52,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({
       changeListener(formState);
     }
 
-    if (edit) {
+    if (edit && Instructiondata.instructions) {
       const sampleMarkup =
         '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' + '<a href="http://www.facebook.com">Example link</a>';
       const blocksFromHtml = htmlToDraft(Instructiondata.instructions);

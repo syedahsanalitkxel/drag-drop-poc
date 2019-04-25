@@ -117,12 +117,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   }
 
   async function AddInstructiondata(values: InstructionsInterface) {
-    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
-      if (getActiveClient()) {
-        values.clientId = getActiveClient();
-        values.isSystemDefined = false;
-      }
-    }
     try {
       // var newobj = JSON.stringify(values);
       // console.log(newobj);
@@ -134,12 +128,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     }
   }
   async function updateInstructiondata(values: InstructionsInterface) {
-    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
-      if (getActiveClient()) {
-        values.clientId = getActiveClient();
-        values.isSystemDefined = false;
-      }
-    }
     try {
       const data = await updateInstructions(values, match.params.id);
       console.log(data);
