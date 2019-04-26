@@ -130,7 +130,11 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
-            {Users.length > 0 ? <UsersList listData={Users} edit={editAction} remove={removeAction} /> : <EmptyPage />}
+            {Users && Users.length > 0 ? (
+              <UsersList listData={Users} edit={editAction} remove={removeAction} />
+            ) : (
+              <EmptyPage />
+            )}
             <Pager
               pageSize={pageDetails.pageSize || 0}
               totalRecords={pageDetails.totalCount || 0}
@@ -162,6 +166,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         FormValues={user}
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
+        clientLookup={clientLookup}
       />
 
       <Editcomponent
@@ -171,6 +176,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         FormValues={selectedUser}
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
+        clientLookup={clientLookup}
       />
     </React.Fragment>
   );

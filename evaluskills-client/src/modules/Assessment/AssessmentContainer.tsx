@@ -88,7 +88,6 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     try {
       setState({ ...state, isLoading: true });
       const Assessdata = await getFilteredAssessment(filter);
-      console.log(Assessdata);
       setState({
         ...state,
         assessments: Assessdata.data,
@@ -132,6 +131,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
       if (getActiveClient()) {
         data.clientId = getActiveClient();
+        data.isSystemDefined = false;
       }
     }
     try {
@@ -176,6 +176,7 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
       if (getActiveClient()) {
         values.clientId = getActiveClient();
+        values.isSystemDefined = false;
       }
     }
     try {
