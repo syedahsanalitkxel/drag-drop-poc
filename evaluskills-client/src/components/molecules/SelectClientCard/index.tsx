@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Api from './../../../api';
 const api = new Api();
+import { AuthContext } from '../../../modules/Auth/authContext';
 interface Props {
   clientLogo: string;
   clientId: string;
   clientName: string;
 }
 const SelectClientCard: React.FunctionComponent<Props> = ({ clientId, clientName, clientLogo }) => {
+  const authContext = useContext(AuthContext);
   function handleClick() {
-    console.log(clientId);
     getSelectedClient();
   }
   async function getSelectedClient() {
     const result = await api.get('Accounts/SelectClient', undefined, { clientId: clientId });
-    console.log(result);
+    authContext.authenticate(result.data.token, JSON.stringify(result.data));
   }
   return (
     <div className="client-item mb-3">

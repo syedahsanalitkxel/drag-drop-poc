@@ -57,7 +57,6 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
   );
 
   const renderUserItem = (userItem: any) => {
-    debugger;
     const content = renderContent(
       userItem.id,
       userItem.firstName,

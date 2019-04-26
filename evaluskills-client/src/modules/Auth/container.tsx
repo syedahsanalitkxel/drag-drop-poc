@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { AuthContextProvider } from './authContext';
 import { userType } from '../../enums';
+import { AuthContextProvider } from './authContext';
 
 const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({ history, children }) => {
   const [state, setState] = useState({
@@ -31,6 +31,16 @@ const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({ hi
       localStorage.setItem('token', token);
       setState({ isAuthenticated: true });
       history.push('/account/select-client?role=' + userType.SUPER_ADMIN);
+    } else if (
+      authDetails.roles.length &&
+      authDetails.roles[0] === userType.CLIENT_ADMIN &&
+      authDetails.activeClientId &&
+      authDetails.clients.length === 1
+    ) {
+      localStorage.setItem('user', user);
+      localStorage.setItem('token', token);
+      setState({ isAuthenticated: true });
+      history.push('/');
     }
   };
 

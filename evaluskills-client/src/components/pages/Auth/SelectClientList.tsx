@@ -15,7 +15,18 @@ const selectClientList = (props: any) => {
   return (
     <form className="form w-100 pl-22">
       <h1 className="font-bold mb-4 mt-0">Select Client</h1>
-      {query.role === userType.SUPER_ADMIN ? <button onClick={goToLogin}>Continue as Super Admin</button> : null}
+      {query.role === userType.SUPER_ADMIN ? (
+        <div className="client-item mb-3">
+          <a className="clr-inherit" onClick={goToLogin}>
+            <div className="row ibox-content shadow">
+              <div className="col-sm-12">
+                <img className="d-inline-block mr-2" src="/img/Logo.svg" alt="client" />
+                <p className="assesment-item-title d-inline-block mt-1">Continue as super admin</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      ) : null}
       {clientArray.map((item: any, i: number) => {
         return <SelectClientCard key={i} {...item} />;
       })}
