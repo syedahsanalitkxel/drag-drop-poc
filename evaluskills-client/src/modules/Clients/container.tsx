@@ -5,14 +5,12 @@ import DashboardTemplate from '../../components/templates/DashboardTemplate';
 import ErrorContext from '../../context/ErrorContext';
 import IClientList from './clientListInterface';
 import { ClientFilters } from './clientFilterInterface';
-import { deleteClient, getFilteredClient } from './service';
+import { deleteClient, getFilteredClient, getSelectedClient } from './service';
 import { isList } from '../../utils/routerUtils';
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import FilterContext from './context';
 import Spinner from '../../components/atoms/Spinner';
 import { isWhiteSpace } from 'tslint';
-import Api from '../../api';
-const api = new Api();
 import { AuthContext } from '../../modules/Auth/authContext';
 
 const clients: IClientList[] = [];
@@ -128,7 +126,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
   }
   async function loginAsClient(clientId: number) {
     try {
-      const result = await api.get('Accounts/SelectClient', undefined, { clientId: clientId });
+      const result = await getSelectedClient(clientId);
       authContext.authenticate(result.data.token, JSON.stringify(result.data));
     } catch (error) {
       errorContext.setError(error, true);
