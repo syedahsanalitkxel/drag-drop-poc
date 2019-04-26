@@ -60,7 +60,11 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
-            {clients.length > 0 ? <ClientsList listData={clients} edit={edit} remove={remove} /> : <EmptyPage />}
+            {clients && clients.length > 0 ? (
+              <ClientsList listData={clients} edit={edit} remove={remove} />
+            ) : (
+              <EmptyPage />
+            )}
             <Pager
               pageSize={pageDetails.pageSize || 0}
               totalRecords={pageDetails.totalCount || 0}
