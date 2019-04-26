@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Api from './../../../api';
 const api = new Api();
 import { AuthContext } from '../../../modules/Auth/authContext';
+import { getSelectedClient } from './../../../modules/Clients/service';
 interface Props {
   clientLogo: string;
   clientId: string;
@@ -10,11 +11,15 @@ interface Props {
 const SelectClientCard: React.FunctionComponent<Props> = ({ clientId, clientName, clientLogo }) => {
   const authContext = useContext(AuthContext);
   function handleClick() {
-    getSelectedClient();
+    getClient();
   }
-  async function getSelectedClient() {
-    const result = await api.get('Accounts/SelectClient', undefined, { clientId: clientId });
-    authContext.authenticate(result.data.token, JSON.stringify(result.data));
+  async function getClient() {
+    try {
+      const result = await getSelectedClient(clientId);
+      authContext.authenticate(result.data.token, JSON.stringify(result.data));
+    } catch (e) {
+      console.log('Something went wrong');
+    }
   }
   return (
     <div className="client-item mb-3">
