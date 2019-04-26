@@ -162,6 +162,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         FormValues={user}
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
+        clientLookup={clientLookup}
       />
 
       <Editcomponent
@@ -171,6 +172,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
         FormValues={selectedUser}
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
+        clientLookup={clientLookup}
       />
     </React.Fragment>
   );
