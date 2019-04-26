@@ -32,62 +32,7 @@ const AssessmentItems: AssessmentItemInterface[] = [
 ];
 
 const participantsList: ParticipantInterface[] = [];
-
-const EvaluatorList: EvaluatorInterface[] = [
-  {
-    email: 'robbyrash@gmail.com',
-    id: '1',
-    name: 'Robby Rash',
-    progress: '20%',
-    role: 'UI/UX Leader',
-    status: 'InProgress',
-  },
-  {
-    email: 'maraymrassol@gmail.com',
-    id: '2',
-    name: 'Mariyam Rassal',
-    progress: '100%',
-    role: 'Department Head',
-    status: 'Completed',
-  },
-  {
-    email: 'robbyrash@gmail.com',
-    id: '3',
-    name: 'Robby Rash',
-    progress: '50%',
-    role: 'Team Lead',
-    status: 'InProgress',
-  },
-  {
-    email: 'robbyrash@gmail.com',
-    id: '4',
-    name: 'Robby Rash',
-    progress: '20%',
-    role: 'Senior Designer',
-    status: 'InProgress',
-  },
-];
-
-const InstrumentList: ClientInstruments[] = [
-  {
-    completedAssessments: '26',
-    id: 1,
-    status: 'drafted',
-    title: '360° Leadership Instrument',
-    totalAssessmentItems: '25',
-    totalAssessments: '30',
-    totalEvaluations: '28',
-  },
-  {
-    completedAssessments: '26',
-    id: 2,
-    status: 'published',
-    title: '210° Leadership Instrument',
-    totalAssessmentItems: '25',
-    totalAssessments: '30',
-    totalEvaluations: '28',
-  },
-];
+const InstrumentList: ClientInstruments[] = [];
 
 interface State {
   AssessmentItems: AssessmentItemInterface[];

@@ -1,62 +1,116 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import InstrumentCLientTemplate from '../components/pages/InstrumentClient';
 import { ClientInstruments } from '../interfaces/Instruments';
 import RouteParamsInterface from '../interfaces/RouteParams';
+import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
+import { PageDetailsInterface } from '../api/ResponseInterface';
+import ErrorContext from '../context/ErrorContext';
+import { isList } from '../utils/routerUtils';
+import { getFilteredInstruments } from '../services/instrumentService';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
+import Spinner from '../components/atoms/Spinner';
+import FilterContext from '../components/organisms/InstrumentClientFilter/context';
+import UsersList from './UserContainer';
 
-const InstrumentList: ClientInstruments[] = [
-  {
-    id: '1',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
-    title: '360° Leadership Instrument',
-  },
-  {
-    id: '2',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
-    title: '210° Leadership Instrument',
-  },
-];
+const Instruments: ClientInstruments[] = [];
+
+interface State {
+  Instruments: ClientInstruments[];
+  filters: InstrumentFiltersInterface;
+  resetPager: boolean;
+  pageDetails?: PageDetailsInterface;
+  isLoading: boolean;
+}
+const defaultFilters: InstrumentFiltersInterface = {
+  pageNumber: 1,
+  pageSize: 10,
+  type: '',
+};
+
+const defaultPageDetail = {
+  currentPage: defaultFilters.pageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
+};
 
 const InstrumentClientContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
   history,
   match,
 }) => {
-  const [Instruments, setInstruments] = useState(InstrumentList);
-  const [filters, setFilters] = useState({});
+  const errorContext = useContext(ErrorContext);
+  const [state, setState] = useState<State>({
+    Instruments,
+    filters: defaultFilters,
+    isLoading: false,
+    pageDetails: defaultPageDetail,
+    resetPager: false,
+  });
 
   useEffect(() => {
-    // fetchClients();
-    return function cleanup() {
-      setInstruments(InstrumentList);
-      setFilters({});
-    };
-  }, []);
+    if (isList(match.path)) {
+      fetchInstrumentTemplates(state.filters);
+    }
+  }, [match.path, state.filters]);
 
-  async function fetchInstrumentTemplates() {
-    // alert('Clicked Filter')
-    // try {
-    //     const data = await getInstrumentTemplates();
-    //     setInstrumentTemplates(data);
-    // } catch (error) {
-    //     // TODO: Implement Error boundary in future;
-    //     errorContext.setError(error);
-    // }
+  async function fetchInstrumentTemplates(filters: InstrumentFiltersInterface) {
+    try {
+      setState({ ...state, isLoading: true });
+      const data: any = await getFilteredInstruments(filters);
+      console.log(data);
+      setState({ ...state, Instruments: data.instrumentData, isLoading: false, pageDetails: data.pageDetails });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
   }
+
+  async function filterHandler(filters: InstrumentFiltersInterface) {
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.pageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.pageNumber = 1;
+    }
+    setState(newFilterState);
+  }
+
   function viewAssessmentDetail(id: string) {
     history.push(`/client-assessment-detail/${id}`);
   }
 
+  function renderPage() {
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
+
+    return (
+      <FilterContext.Provider value={{ activeFilters: state.filters }}>
+        <InstrumentCLientTemplate
+          instruments={state.Instruments}
+          filterInstruments={fetchInstrumentTemplates}
+          filterHandler={filterHandler}
+          view={viewAssessmentDetail}
+          pageDetails={state.pageDetails || defaultPageDetail}
+          resetPager={state.resetPager}
+          savedSearch={state.filters.search}
+          defaultFilters={defaultFilters}
+        />
+      </FilterContext.Provider>
+    );
+  }
+
   return (
-    <InstrumentCLientTemplate
-      instruments={Instruments}
-      filterInstruments={fetchInstrumentTemplates}
-      view={viewAssessmentDetail}
-    />
+    <DashboardTemplate>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
+    </DashboardTemplate>
   );
 };
 

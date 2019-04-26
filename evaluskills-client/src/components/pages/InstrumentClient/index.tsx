@@ -8,15 +8,29 @@ import ESModal from '../../molecules/Modal';
 import Pager from '../../molecules/Pager';
 import InstrumentClientFilters from '../../organisms/InstrumentClientFilter';
 import InstrumentListCard from '../../organisms/InstrumentListCard';
-import DashboardTemplate from '../../templates/DashboardTemplate';
+import EmptyPage from '../../atoms/EmptyPage';
+import { PageDetailsInterface } from '../../../api/ResponseInterface';
 
 interface Props {
   instruments: ClientInstruments[];
-  filterInstruments: (searchQuery: string) => void;
-  view?: (instrumentTemplateId: string) => void;
+  filterInstruments: (filter: InstrumentFiltersInterface) => void;
+  pageDetails: PageDetailsInterface;
+  filterHandler: (filters: InstrumentFiltersInterface) => void;
+  resetPager: boolean;
+  defaultFilters: any;
+  savedSearch?: string;
+  view: (instrumentTemplateId: string) => void;
 }
 
-const InstrumentTemplate: React.FunctionComponent<Props> = ({ instruments, filterInstruments, view }) => {
+const InstrumentTemplate: React.FunctionComponent<Props> = ({
+  savedSearch,
+  filterHandler,
+  resetPager,
+  pageDetails,
+  instruments,
+  filterInstruments,
+  view,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleFilterModal = () => {
@@ -29,17 +43,39 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({ instruments, filte
   };
 
   const applyFilters = (filters: InstrumentFiltersInterface) => {
-    console.log(filters);
+    filterHandler(filters);
+    setModalVisible(false);
+  };
+
+  const onPageChange = (pageNumber: number) => {
+    filterHandler({ pageNumber });
   };
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
-          <PageHeader title="Instrument" filterAction={filtersClickHandler} searchHandler={filterInstruments} />
+          <PageHeader
+            title="Instrument"
+            filterAction={filtersClickHandler}
+            searchHandler={(search: string) => {
+              applyFilters({ search });
+            }}
+            savedSearch={savedSearch}
+          />
           <PageBody>
-            <InstrumentListCard titleKey="title" listData={instruments} view={view} />
-            {/*<Pager />*/}
+            {instruments && instruments.length > 0 ? (
+              <InstrumentListCard titleKey="title" listData={instruments} view={view} />
+            ) : (
+              <EmptyPage />
+            )}
+            <Pager
+              pageSize={pageDetails.pageSize || 0}
+              totalRecords={pageDetails.totalCount || 0}
+              pageNumber={pageDetails.currentPage}
+              onPageChanged={onPageChange}
+              shouldReset={resetPager}
+            />
           </PageBody>
         </div>
       </div>
@@ -55,7 +91,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({ instruments, filte
       >
         <InstrumentClientFilters />
       </ESModal>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

@@ -1,9 +1,7 @@
 export default interface InstrumentFiltersInterface {
-  query?: string;
+  search?: string;
   type?: string;
-  page?: {
-    number: number;
-    size: number;
-    total: number;
-  };
+  pageSize?: number;
+  totalRecords?: number;
+  pageNumber?: number;
 }
