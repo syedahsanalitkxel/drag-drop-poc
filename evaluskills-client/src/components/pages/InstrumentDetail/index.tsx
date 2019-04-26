@@ -18,18 +18,15 @@ interface Props {
   instruments: any;
   view?: (evaluationId: string) => void;
   participants: ParticipantInterface[];
-  evaluator: EvaluatorInterface[];
-  assessmentItems: AssessmentItemInterface[];
+  AssessmentItems: any;
 }
 
 const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   instruments,
   view,
   participants,
-  evaluator,
-  assessmentItems,
+  AssessmentItems,
 }) => {
-  console.log(instruments.title);
   const activateClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     // toggleFilterModal();
@@ -56,7 +53,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   };
 
   return (
-    <DashboardTemplate>
+    <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
           <PageHeader
@@ -77,24 +74,24 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
               </NavItem>
               <NavItem>
                 <NavLink id="2" className={classnames({ active: activeTab === '2' })} onClick={toggle}>
-                  Assessments Items {assessmentItems.length}
+                  Assessments Items {AssessmentItems.length}
                 </NavLink>
               </NavItem>
             </Nav>
 
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                <InstrumentDetailCard titleKey="title" participants={participants} evaluator={evaluator} view={view} />
+                <InstrumentDetailCard titleKey="title" participants={participants} view={view} />
               </TabPane>
               <TabPane tabId="2">
-                <ListCardItems titleKey="definition" listData={assessmentItems} />
+                <ListCardItems titleKey="definition" listData={AssessmentItems} />
               </TabPane>
             </TabContent>
             {/*<Pager />*/}
           </PageBody>
         </div>
       </div>
-    </DashboardTemplate>
+    </React.Fragment>
   );
 };
 

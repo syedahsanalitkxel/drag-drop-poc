@@ -4,12 +4,11 @@ import ParticipantInterface from '../../../interfaces/Participant';
 
 interface ListCardProps {
   participants: ParticipantInterface[];
-  evaluator: any[];
   titleKey: string;
   view?: (evaluationId: string) => void;
 }
 
-const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, participants, evaluator, view }) => {
+const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, participants, view }) => {
   return (
     <React.Fragment>
       <div className="ibox ">
@@ -28,9 +27,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
             </thead>
             <tbody>
               {participants &&
-                participants.map((list, index) => (
-                  <InstrumentCard key={index} item={list} evaluatorData={evaluator} view={view} />
-                ))}
+                participants.map((list, index) => <InstrumentCard key={index} item={list} view={view} />)}
             </tbody>
           </table>
         </div>
