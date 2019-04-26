@@ -38,8 +38,6 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
   );
 
   const calculateProgress = (items: any) => {
-    items.completedAssessments = 10;
-    items.totalEvaluations = 12;
     if (items.totalEvaluations > 0) {
       return {
         width: ((items.completedAssessments / items.totalEvaluations) * 100).toString().concat('%'),
