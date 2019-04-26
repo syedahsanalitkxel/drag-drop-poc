@@ -11,6 +11,9 @@ import { PageDetailsInterface } from '../../api/ResponseInterface';
 import FilterContext from './context';
 import Spinner from '../../components/atoms/Spinner';
 import { isWhiteSpace } from 'tslint';
+import Api from '../../api';
+const api = new Api();
+import { AuthContext } from '../../modules/Auth/authContext';
 
 const clients: IClientList[] = [];
 
@@ -37,6 +40,7 @@ const defaultPageDetail = {
 };
 
 const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ history, match }) => {
+  const authContext = useContext(AuthContext);
   const errorContext = useContext(ErrorContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState<State>({
@@ -122,7 +126,15 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
       setState({ ...state, isLoading: false });
     }
   }
-
+  async function loginAsClient(clientId: number) {
+    try {
+      const result = await api.get('Accounts/SelectClient', undefined, { clientId: clientId });
+      authContext.authenticate(result.data.token, JSON.stringify(result.data));
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
   function renderPage() {
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
@@ -135,6 +147,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
           filterClients={filterClients}
           add={addClient}
           remove={removeClient}
+          login={loginAsClient}
           edit={editClient}
           applyFilters={applyFilterClients}
           modalVisible={modalVisible}

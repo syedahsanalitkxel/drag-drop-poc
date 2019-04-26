@@ -28,6 +28,7 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   const handleLogin = async (loginDetails: LoginInterface) => {
     try {
       const authDetails = await login(loginDetails);
+      authDetails.clients.pop();
       authContext.authenticate(authDetails.token, JSON.stringify(authDetails));
     } catch (e) {
       errorContext.setError(e);
