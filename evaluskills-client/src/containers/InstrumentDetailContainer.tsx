@@ -112,18 +112,22 @@ const EvaluatorList: EvaluatorInterface[] = [
 
 const InstrumentList: ClientInstruments[] = [
   {
-    id: '1',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
+    completedAssessments: '26',
+    id: 1,
+    status: 'drafted',
     title: '360° Leadership Instrument',
+    totalAssessmentItems: '25',
+    totalAssessments: '30',
+    totalEvaluations: '28',
   },
   {
-    id: '2',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
+    completedAssessments: '26',
+    id: 2,
+    status: 'published',
     title: '210° Leadership Instrument',
+    totalAssessmentItems: '25',
+    totalAssessments: '30',
+    totalEvaluations: '28',
   },
 ];
 
@@ -148,7 +152,7 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     console.log(evaluationId);
   }
 
-  const InstrumentData: any = InstrumentList.find(instrument => instrument.id === match.params.id);
+  const InstrumentData: any = InstrumentList.find(instrument => instrument.id.toString() === match.params.id);
 
   return (
     InstrumentData && (

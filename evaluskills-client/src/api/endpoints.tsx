@@ -5,6 +5,7 @@ export const EMAIL = 'EmailTemplates';
 export const CLIENTS = 'Clients';
 export const USERS = 'Users';
 export const INSTRUMENT_TEMPLATES = 'InstrumentTemplates';
+export const INSTRUMENTS = 'Instruments';
 export const LOGIN = 'Accounts/Login';
 export const SELECT_CLIENT = 'Accounts/SelectClient';
 export const RESET_PASSWORD = 'Accounts/ResetPassword';
