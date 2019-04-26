@@ -9,6 +9,7 @@ export enum lookups {
   questionTypesLookUp = 'questionTypesLookUp',
   recommendedApplicationsLookUp = 'recommendedApplicationsLookUp',
   statesLookUp = 'statesLookUp',
+  countriesLookUp = 'countriesLookUp',
   testTypesLookUp = 'testTypesLookUp',
   userRolesLookUp = 'userRolesLookUp',
   clientTypesLookUp = 'clientTypesLookUp',

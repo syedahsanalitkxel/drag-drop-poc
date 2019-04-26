@@ -33,6 +33,7 @@ export const lookupInitialState: LookupInterface = {
   categoriesLookUp: [],
   clientTypesLookUp: [],
   competenciesLookUp: [],
+  countriesLookUp: [],
   emailTypesLookUp: [],
   entitiesLookUp: [],
   evaluationRolesLookUp: [],

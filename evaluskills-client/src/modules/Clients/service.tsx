@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { CLIENTS } from '../../api/endpoints';
+import { CLIENTS, STATE_LOOK_UPS } from '../../api/endpoints';
 
 import API from '../../api';
 import ClientInterface from './clientListInterface';
@@ -75,6 +75,16 @@ export async function editClient(client: FormData, id: any) {
 
 export async function deleteClient(id: any) {
   return api.delete(CLIENTS, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+export async function getStates(id: any) {
+  return api.get(STATE_LOOK_UPS, undefined, { countryId: id }).then(
     (res: AxiosResponse) => {
       return res.data;
     },
