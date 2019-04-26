@@ -3,6 +3,7 @@ import React from 'react';
 import Client from './clientListInterface';
 import IconButton from '../../components/atoms/IconButton';
 import ClientCard from '../../components/molecules/ClientListCard';
+import { userType } from '../../enums';
 
 interface Props {
   listData: Client[];
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove, login }) => {
+  const user = JSON.parse(localStorage.getItem('user') || '');
   const actionHandler = (clientId: number) => (event: React.MouseEvent) => {
     if (event.currentTarget.id === 'edit') {
       edit(clientId);
@@ -64,9 +66,11 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove, l
           )}
         </td>
         <td>
-          <IconButton id="login" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
-            Open Client Portal
-          </IconButton>
+          {user && user.roles && user.roles[0] === userType.SUPER_ADMIN ? (
+            <IconButton id="login" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
+              Open Client Portal
+            </IconButton>
+          ) : null}
           <IconButton id="edit" icon="edit" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
             Edit
           </IconButton>
