@@ -10,38 +10,31 @@ const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({ hi
   });
 
   const authenticate = (token: string, user: string) => {
+    let route = '';
     const authDetails = JSON.parse(user);
     if (
-      authDetails.roles.length &&
-      authDetails.roles[0] === userType.SUPER_ADMIN &&
-      !authDetails.activeClientId &&
-      !authDetails.clients.length
+      (authDetails.roles.length &&
+        authDetails.roles[0] === userType.SUPER_ADMIN &&
+        !authDetails.activeClientId &&
+        !authDetails.clients.length) ||
+      (authDetails.roles.length &&
+        authDetails.roles[0] === userType.CLIENT_ADMIN &&
+        authDetails.activeClientId &&
+        authDetails.clients.length === 1)
     ) {
-      localStorage.setItem('user', user);
-      localStorage.setItem('token', token);
-      setState({ isAuthenticated: true });
-      history.push('/');
+      route = '/';
     } else if (
       authDetails.roles.length &&
       authDetails.roles[0] === userType.SUPER_ADMIN &&
       !authDetails.activeClientId &&
       authDetails.clients.length
     ) {
-      localStorage.setItem('user', user);
-      localStorage.setItem('token', token);
-      setState({ isAuthenticated: true });
-      history.push('/account/select-client?role=' + userType.SUPER_ADMIN);
-    } else if (
-      authDetails.roles.length &&
-      authDetails.roles[0] === userType.CLIENT_ADMIN &&
-      authDetails.activeClientId &&
-      authDetails.clients.length === 1
-    ) {
-      localStorage.setItem('user', user);
-      localStorage.setItem('token', token);
-      setState({ isAuthenticated: true });
-      history.push('/');
+      route = '/account/select-client?role=' + userType.SUPER_ADMIN;
     }
+    localStorage.setItem('user', user);
+    localStorage.setItem('token', token);
+    setState({ isAuthenticated: true });
+    history.push(route);
   };
 
   const logout = () => {
