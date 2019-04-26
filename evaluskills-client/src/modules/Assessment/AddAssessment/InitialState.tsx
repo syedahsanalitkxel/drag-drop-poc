@@ -1,8 +1,7 @@
-import { AddAssessmentItemInterface } from '../../../interfaces/AssessmentItem';
+import { AddAssessmentItemInterface } from '../interface';
 
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
-  clientId: 2,
   isFaithBased: undefined,
   definition: '',
   typeId: 1,
@@ -67,7 +66,6 @@ export const initialState = {
   itemRecomendedApplications: [1],
   categoryId: 1,
   isFaithBased: false,
-  clientId: 2,
   definition: 'abc',
   competency: '',
   competencyId: 1,

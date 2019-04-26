@@ -9,6 +9,7 @@ import FormikBag from '../../../interfaces/FormikBag';
 import { lookups } from '../../../modules/Lookup/enum';
 import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
+// import Select from 'react-select';
 
 interface ModalProps {
   visible?: boolean;
@@ -17,6 +18,7 @@ interface ModalProps {
   name?: string;
   FormValues: any;
   cancelHandler: () => void;
+  clientLookup?: any;
 }
 
 const StyledButton = styled(Button)`
@@ -31,12 +33,20 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
   FormValues,
   submitHandler,
   cancelHandler,
+  clientLookup,
 }) => {
   const { findKey } = useContext(LookupContext);
   const [disabled, setDisabled] = useState(false);
+  // const [selectOption, setSelectOption] = useState(FormValues.clients || []);
 
   function submitForm(values: any) {
+    // values.clients = selectOption;
     submitHandler(values);
+  }
+
+  function cancelForm() {
+    cancelHandler();
+    // setSelectOption([]);
   }
 
   const addUserSchema = Yup.object().shape({
@@ -70,6 +80,28 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
       });
     }
   }
+
+  // function renderClientTypeDropdown() {
+  //   const options: any = [];
+  //   clientLookup.map( (application: any)  => {
+  //     options.push({ value: application.value, label: application.text})
+  //   });
+  //   if (options.length > 0) {
+  //     return (
+  //         <Select
+  //             value={selectOption}
+  //             onChange={handleChange}
+  //             options={options}
+  //             isMulti={true}
+  //         />
+  //     );
+  //   }
+  // }
+
+  // const handleChange = (selectedOption: any) => {
+  //   setSelectOption( selectedOption );
+  //   console.log(`Option selected:`, selectedOption);
+  // };
 
   const renderForm = (formikprops: FormikBag) => (
     <form onSubmit={formikprops.handleSubmit} className={'form'}>
@@ -136,6 +168,7 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
                 <FormFeedback tooltip={true}>{formikprops.errors.email}</FormFeedback>
               </div>
             </div>
+
             <div className="col-sm-6">
               <div className="col-sm-10">
                 <FormElement
@@ -152,12 +185,27 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
               </div>
             </div>
           </div>
+          {/*{*/}
+          {/*clientLookup.length > 0 && (*/}
+          {/*<React.Fragment>*/}
+          {/*<div className="hr-line-dashed" />*/}
+          {/*<div className="form-group row">*/}
+          {/*<div className="col-sm-6">*/}
+          {/*<label className="col-sm-10 col-form-label font-bold">Clients</label>*/}
+          {/*<div className="col-sm-10">*/}
+          {/*{renderClientTypeDropdown()}*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*</React.Fragment>*/}
+          {/*)*/}
+          {/*}*/}
         </div>
       </div>
 
       <PageBody>
         <div className="row m-b-25">
-          <StyledButton type="button" size="lg" onClick={cancelHandler}>
+          <StyledButton type="button" size="lg" onClick={cancelForm}>
             Cancel
           </StyledButton>
           <StyledButton type="submit" color="primary" size="lg">

@@ -62,7 +62,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
             savedSearch={savedSearch}
           />
           <PageBody>
-            {clients.length > 0 ? (
+            {clients && clients.length > 0 ? (
               <ClientsList listData={clients} login={login} edit={edit} remove={remove} />
             ) : (
               <EmptyPage />
