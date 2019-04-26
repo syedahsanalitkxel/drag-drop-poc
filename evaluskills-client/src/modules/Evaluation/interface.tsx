@@ -30,16 +30,16 @@ export interface evaluationItemElements {
   evaluationItemElementId?: number;
   statusId?: number;
   title?: string;
-  ItemElementOptions: ItemElementOptions[];
+  itemElementOptions: ItemElementOptions[];
 }
 export interface SelectedItemElement {
-  selectedValue: number;
-  selectedText: string;
-  evaluationItemElementId: number;
+  selectedValue?: number;
+  selectedText?: string;
+  instrumentItemElementId?: number;
 }
-export interface QuestionSave {
+export interface QuestionSaveInterface {
   instrumentId: number;
-  evaluationItemId: number;
+  instrumentItemId?: number;
   isSkipped: boolean;
   comments: string;
   evaluationItemElements: SelectedItemElement[];

@@ -10,7 +10,12 @@ import { actionTypes } from '../../enums';
 import RouteParamsInterface from '../../interfaces/RouteParams';
 import { USER_ROLE } from '../../utils';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
-import { StartEvaluationInterface, QuestionEvaluationInterface } from './interface';
+import {
+  StartEvaluationInterface,
+  SelectedItemElement,
+  QuestionEvaluationInterface,
+  QuestionSaveInterface,
+} from './interface';
 // import FilterContext from './context';
 //import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import {
@@ -48,6 +53,13 @@ const QuestionEvaluationTemplate: QuestionEvaluationInterface = {
   progress: 0,
   itemElements: [],
 };
+const SaveQuestion: QuestionSaveInterface = {
+  instrumentId: 0,
+  instrumentItemId: 0,
+  isSkipped: true,
+  comments: 'string',
+  evaluationItemElements: [],
+};
 const instrumentTemplates: any[] = [];
 const instrumentTemplate: any = {
   clientId: 1,
@@ -63,6 +75,7 @@ const defaultFilters: any = {
 interface StartState {
   StartEvaluationTemplate: StartEvaluationInterface;
   QuestionEvaluationTemplate: QuestionEvaluationInterface;
+  SaveQuestion: QuestionSaveInterface;
 }
 interface State {
   instrumentTemplates: any[];
@@ -72,7 +85,7 @@ interface State {
   pageDetails?: PageDetailsInterface;
   isLoading: boolean;
 }
-const token = '36011897-e1fe-4311-9fc0-59908a49c5b4';
+const token = '0fd43180-de34-4546-b736-0e5796d37c2a';
 const defaultPageDetail = {
   currentPage: defaultFilters.PageNumber || 1,
   pageSize: 25,
@@ -87,6 +100,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   const [startState, setStartState] = useState<StartState>({
     StartEvaluationTemplate,
     QuestionEvaluationTemplate,
+    SaveQuestion,
   });
 
   const [state, setState] = useState<State>({
@@ -140,7 +154,10 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     try {
       setState({ ...state, isLoading: true });
       const startdata: any = await getStartEvaluation(token);
-      setStartState({ ...startState, StartEvaluationTemplate: startdata });
+      let savequestion = startState.SaveQuestion;
+      savequestion.instrumentId = startdata.instrumentId;
+
+      setStartState({ ...startState, StartEvaluationTemplate: startdata, SaveQuestion: savequestion });
       setState({ ...state, isLoading: false });
     } catch (error) {
       errorContext.setError(error, true);
@@ -150,8 +167,57 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   async function fetchQuestionAsessment() {
     try {
       setState({ ...state, isLoading: true });
-      const startdata = await getQuestionEvaluation(token);
-      setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data });
+      const startdata = await getQuestionEvaluation(token, startState.SaveQuestion);
+      let number = startdata.data.itemElements.length;
+      startState.SaveQuestion.evaluationItemElements = [];
+      startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
+      startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
+      const obj: SelectedItemElement = {
+        selectedValue: 0,
+        selectedText: '',
+        instrumentItemElementId: 0,
+      };
+      for (let i = 0; i < number; i++) {
+        const obj2 = JSON.parse(JSON.stringify(obj));
+        obj2.selectedValue = startdata.data.itemElements[i].selectedValue;
+        obj2.selectedText = startdata.data.itemElements[i].selectedText;
+        obj2.instrumentItemElementId = startdata.data.itemElements[i].id;
+        startState.SaveQuestion.evaluationItemElements.push(obj2);
+      }
+      let skipchange = startState.SaveQuestion;
+      skipchange.isSkipped = false;
+      setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data, SaveQuestion: skipchange });
+      setState({ ...state, isLoading: false });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
+  async function saveQuestionAsessment(saveData: QuestionSaveInterface) {
+    console.log('saveData');
+    console.log(saveData);
+    console.log('saveData');
+    try {
+      setState({ ...state, isLoading: true });
+      const startdata = await getQuestionEvaluation(token, saveData);
+      let number = startdata.data.itemElements.length;
+      startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
+      startState.SaveQuestion.evaluationItemElements = [];
+      const obj: SelectedItemElement = {
+        selectedValue: 0,
+        selectedText: '',
+        instrumentItemElementId: 0,
+      };
+      for (let i = 0; i < number; i++) {
+        const obj2 = JSON.parse(JSON.stringify(obj));
+        obj2.selectedValue = startdata.data.itemElements[i].selectedValue;
+        obj2.selectedText = startdata.data.itemElements[i].selectedText;
+        obj2.instrumentItemElementId = startdata.data.itemElements[i].id;
+        startState.SaveQuestion.evaluationItemElements.push(obj2);
+      }
+      let skipchange = startState.SaveQuestion;
+      skipchange.isSkipped = false;
+      setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data, SaveQuestion: skipchange });
       setState({ ...state, isLoading: false });
     } catch (error) {
       errorContext.setError(error, true);
@@ -210,7 +276,13 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <StartEvaluation listdata={startState.StartEvaluationTemplate} />;
     }
     if (match.path.includes('questions')) {
-      return <QuestionEvaluation Questiondata={startState.QuestionEvaluationTemplate} />;
+      return (
+        <QuestionEvaluation
+          saveNextQuestionAsessment={saveQuestionAsessment}
+          SaveandNextData={startState.SaveQuestion}
+          Questiondata={startState.QuestionEvaluationTemplate}
+        />
+      );
     }
     if (match.path.includes('summary')) {
       return <SummeryEvaluation />;

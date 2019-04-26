@@ -6,12 +6,20 @@ import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
 import QuestionItem from './EvaluationQuestionItem';
 import FooterGuest from '../../../components/organisms/FooterGuest';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
-import { QuestionEvaluationInterface } from '../interface';
+import { QuestionEvaluationInterface, QuestionSaveInterface } from '../interface';
 interface PropsInterface extends RouteComponentProps {
   Questiondata: QuestionEvaluationInterface;
+  SaveandNextData: QuestionSaveInterface;
+  saveNextQuestionAsessment: (saveData: QuestionSaveInterface) => void;
 }
-const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({ Questiondata, history }) => {
+const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
+  saveNextQuestionAsessment,
+  SaveandNextData,
+  Questiondata,
+  history,
+}) => {
   const [State, SetState] = useState(Questiondata);
+  const [SaveState, SaveSetState] = useState(SaveandNextData);
   const clientHolderObj = {
     name: 'Jasmine Rassol',
     designation: '(Manager) From Tkxel',
@@ -20,7 +28,7 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({ Questionda
     {
       text: 'Skip for now',
       src: '',
-      callback: handleNext,
+      callback: handleSkip,
       classes: 'btn btn-dark',
     },
     {
@@ -30,13 +38,32 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({ Questionda
       classes: 'btn btn-primary',
     },
   ];
-
+  function handleSkip() {
+    SaveState.isSkipped = true;
+  }
   function handleNext() {
-    history.push('/evaluation/summary');
+    const result =
+      SaveState.evaluationItemElements.length > 0 &&
+      SaveState.evaluationItemElements.filter(obj => obj.selectedText === null);
+    if (result && result.length > 0) {
+      alert('Please Select All items Answer');
+    } else {
+      saveNextQuestionAsessment(SaveState);
+    }
+    // history.push('/evaluation/summary');
   }
   function handleSelect(Elementindex: number, Elementobjectindex: number) {
     let data = State.itemElements;
+    let value = data[Elementindex].itemElementOptions[Elementobjectindex].value;
+    let text = data[Elementindex].itemElementOptions[Elementobjectindex].statement;
+    let id = data[Elementindex].id;
     data[Elementindex].selectedValue = Elementobjectindex;
+    let saveData = SaveState.evaluationItemElements;
+
+    saveData[Elementindex].selectedValue = value;
+    saveData[Elementindex].selectedText = text;
+    saveData[Elementindex].instrumentItemElementId = id;
+    SaveSetState({ ...SaveState, evaluationItemElements: saveData });
     SetState({ ...State, itemElements: data });
   }
 
@@ -86,7 +113,7 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({ Questionda
           })}
           <h2 className="font-bold mb-3">Comments</h2>
           <div className="form-group">
-            <textarea className="form-control" placeholder="Add Comments" defaultValue={''} />
+            <textarea className="form-control" placeholder="Add Comments" defaultValue={State.comments} />
           </div>
           <FooterGuest buttonsConfig={buttonsConfig} />
         </div>

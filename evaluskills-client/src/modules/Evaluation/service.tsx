@@ -4,18 +4,18 @@ import API from '../../api';
 import { INSTRUMENT_TEMPLATES, START_EVALUATION, QUESTION_EVALUATION } from '../../api/endpoints';
 import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
 //import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
-import { StartEvaluationInterface, QuestionEvaluationInterface } from './interface';
+import { StartEvaluationInterface, QuestionEvaluationInterface, QuestionSaveInterface } from './interface';
 
 const api = new API();
 const postobj = {
-  instrumentId: 1,
+  instrumentId: 1002,
   evaluationItemId: 0,
   isSkipped: true,
   comments: 'string',
   evaluationItemElements: [
     {
       selectedValue: 0,
-      selectedText: 'string',
+      selectedText: null,
       evaluationItemElementId: 0,
     },
   ],
@@ -45,8 +45,12 @@ export async function getStartEvaluation(token: string): Promise<{ data: StartEv
     }
   );
 }
-export async function getQuestionEvaluation(token: string): Promise<{ data: QuestionEvaluationInterface }> {
-  return api.post(QUESTION_EVALUATION(token), postobj).then(
+export async function getQuestionEvaluation(
+  token: string,
+  saveNext: QuestionSaveInterface
+): Promise<{ data: QuestionEvaluationInterface }> {
+  console.log('save', saveNext);
+  return api.post(QUESTION_EVALUATION(token), saveNext).then(
     (res: ResponseInterface) => {
       return { data: res.data };
     },
