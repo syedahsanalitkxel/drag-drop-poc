@@ -16,6 +16,7 @@ export interface InstrumentTemplateInterface {
   influential?: number;
   isFaithBased?: number;
   rational?: number;
+  templateStatus?: string;
 }
 
 // Instrument Filter

@@ -4,6 +4,7 @@ import qs from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Login from '../components/pages/Auth/Login';
 import Reset from '../components/pages/Auth/Reset';
+import SelectClientList from '../components/pages/Auth/SelectClientList';
 import SetPassword from '../components/pages/Auth/SetPassword';
 import LoginTemplate from '../components/templates/LoginTemplate';
 import ErrorContext from '../context/ErrorContext';
@@ -75,6 +76,8 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
       );
     } else if (query.UserId && query.Code) {
       return <SetPassword userId={query.UserId} code={query.Code} verifyUser={emailConfirmation} />;
+    } else if (match.path === '/account/select-client') {
+      return <SelectClientList />;
     }
     return <Login handleLogin={handleLogin} />;
   }
