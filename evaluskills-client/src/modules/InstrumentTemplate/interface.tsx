@@ -8,7 +8,7 @@ export interface TemplateItem extends AssessmentItemShort {
 export interface InstrumentTemplateInterface {
   id?: number | string;
   title: string;
-  recommendedApplicationId: number;
+  recommendedApplicationIds: number[];
   isSystemDefined?: boolean;
   clientId?: number;
   templateItems?: TemplateItem[];

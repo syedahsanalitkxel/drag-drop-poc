@@ -27,7 +27,7 @@ const instrumentTemplates: InstrumentTemplateInterface[] = [];
 const instrumentTemplate: InstrumentTemplateInterface = {
   clientId: 1,
   isSystemDefined: false,
-  recommendedApplicationId: 1,
+  recommendedApplicationIds: [1],
   title: '',
 };
 const defaultFilters: InstrumentTemplateFilterInterface = {
