@@ -12,7 +12,9 @@ const SelectClientCard: React.FunctionComponent<Props> = ({ clientId, clientName
   async function handleClick() {
     try {
       const result = await getSelectedClient(clientId);
-      authContext.authenticate(result.token, JSON.stringify(result));
+      if (result && result.token) {
+        authContext.authenticate(result.token, JSON.stringify(result));
+      }
     } catch (e) {
       console.log('Something went wrong');
     }
