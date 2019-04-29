@@ -14,4 +14,8 @@ export const INSTRUCTIONS = 'Instructions';
 export const EVALUATION = 'Evaluations';
 
 export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/StartEvaluation`;
-export const QUESTION_EVALUATION = (token: string) => `${EVALUATION}/${token}/SaveAndNext`;
+export const QUESTION_EVALUATION = (token: string) => `${EVALUATION}/${token}/SaveResult`;
+export const FETCH_EVALUATION = (token: string, instrumentid: string, itemid: string) =>
+  `${EVALUATION}/${token}/FetchItem/${instrumentid}/${itemid}`;
+export const FETCH_SUMMARY = (token: string) => `${EVALUATION}/${token}/EvaluationReport`;
+export const SUBMIT_EVALUATION = (token: string) => `${EVALUATION}/${token}/SubmitEvaluation`;

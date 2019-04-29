@@ -4,11 +4,13 @@ import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
 import { StartEvaluationInterface } from '../interface';
 import Parser from 'html-react-parser';
-interface PropsInterface {
+import { RouteComponentProps, withRouter } from 'react-router';
+import RouteParamsInterface from '../../../interfaces/RouteParams';
+interface PropsInterface extends RouteComponentProps {
   listdata: StartEvaluationInterface;
 }
 
-const EvaluatorHome: React.FunctionComponent<PropsInterface> = ({ listdata }) => {
+const EvaluatorHome: React.FC<PropsInterface> = ({ listdata, match }) => {
   const clientHolderObj = {
     designation: '(Engineer) From Tkxel',
     imagePath: listdata.imagePath,
@@ -30,11 +32,14 @@ const EvaluatorHome: React.FunctionComponent<PropsInterface> = ({ listdata }) =>
               : ''
           )}
         </p>
-        <NavLink to="/evaluation/questions" className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3">
+        <NavLink
+          to={'/evaluation/' + listdata.token + '/questions/' + listdata.instrumentId + '/' + listdata.instrumentItemId}
+          className="btn btn-primary font-size-20 font-bold mb-4 pr-3 pl-3"
+        >
           START EVALUATION <img src="/img/icons/arrow.svg" alt="arrow" />
         </NavLink>
       </div>
     </GuestTemplate>
   );
 };
-export default EvaluatorHome;
+export default withRouter(EvaluatorHome);

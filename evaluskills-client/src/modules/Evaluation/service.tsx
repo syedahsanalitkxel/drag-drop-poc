@@ -1,10 +1,17 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import API from '../../api';
-import { INSTRUMENT_TEMPLATES, START_EVALUATION, QUESTION_EVALUATION } from '../../api/endpoints';
+import {
+  INSTRUMENT_TEMPLATES,
+  FETCH_SUMMARY,
+  FETCH_EVALUATION,
+  START_EVALUATION,
+  QUESTION_EVALUATION,
+  SUBMIT_EVALUATION,
+} from '../../api/endpoints';
 import ResponseInterface, { PageDetailsInterface } from '../../api/ResponseInterface';
 //import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
-import { StartEvaluationInterface, QuestionEvaluationInterface, QuestionSaveInterface } from './interface';
+import { StartEvaluationInterface, Summary, QuestionEvaluationInterface, QuestionSaveInterface } from './interface';
 
 const api = new API();
 const postobj = {
@@ -45,11 +52,17 @@ export async function getStartEvaluation(token: string): Promise<{ data: StartEv
     }
   );
 }
-export async function getQuestionEvaluation(
-  token: string,
-  saveNext: QuestionSaveInterface
-): Promise<{ data: QuestionEvaluationInterface }> {
-  console.log('save', saveNext);
+export async function fetchSummary(token: string): Promise<{ data: Summary }> {
+  return api.get(FETCH_SUMMARY(token), undefined, undefined).then(
+    (res: ResponseInterface) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+export async function getQuestionEvaluation(token: string, saveNext: QuestionSaveInterface): Promise<{ data: string }> {
   return api.post(QUESTION_EVALUATION(token), saveNext).then(
     (res: ResponseInterface) => {
       return { data: res.data };
@@ -59,38 +72,25 @@ export async function getQuestionEvaluation(
     }
   );
 }
-export async function getInstrumentTemplateById(id: string): Promise<any> {
-  return api.get(INSTRUMENT_TEMPLATES, id).then(
-    (res: AxiosResponse) => res.data,
-    (error: AxiosError) => {
-      throw error;
-    }
-  );
-}
-
-export async function deleteInstrumentTemplate(id: string): Promise<any> {
-  return api.delete(INSTRUMENT_TEMPLATES, id).then(
-    (res: AxiosResponse) => res.data,
-    (error: AxiosError) => {
-      throw error;
-    }
-  );
-}
-
-export async function addInstrumentTemplates(instruments: any) {
-  return api.post(INSTRUMENT_TEMPLATES, instruments).then(
-    (res: AxiosResponse) => {
-      return res.data;
+export async function submitEvaluation(token: string): Promise<{ data: string }> {
+  return api.post(SUBMIT_EVALUATION(token), undefined).then(
+    (res: ResponseInterface) => {
+      return { data: res.data };
     },
     (error: AxiosError) => {
       throw error;
     }
   );
 }
-
-export async function updateInstrumentTemplates(instrument: any, id: number) {
-  return api.put(INSTRUMENT_TEMPLATES + '/' + id, instrument).then(
-    (res: AxiosResponse) => res.data,
+export async function fetchQuestionEvaluation(
+  token: string,
+  instrumentid: string,
+  Itemid: string
+): Promise<{ data: QuestionEvaluationInterface }> {
+  return api.post(FETCH_EVALUATION(token, instrumentid, Itemid), undefined).then(
+    (res: ResponseInterface) => {
+      return { data: res.data };
+    },
     (error: AxiosError) => {
       throw error;
     }

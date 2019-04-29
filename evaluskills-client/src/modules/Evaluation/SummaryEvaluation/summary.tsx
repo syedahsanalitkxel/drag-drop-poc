@@ -3,62 +3,39 @@ import { NavLink } from 'react-router-dom';
 import { Modal, ModalBody } from 'reactstrap';
 import Pager from '../../../components/molecules/Pager';
 import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
-import EvaluatorAssessmentItem from '../../../components/organisms/EvaluationCommentItem';
+import EvaluatorAssessmentItem from './EvaluationCommentItem';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
 import FooterGuest from '../../../components/organisms/FooterGuest';
-import { withRouter } from 'react-router-dom';
+import RouteParamsInterface from '../../../interfaces/RouteParams';
+import { Summary } from '../interface';
+import { RouteComponentProps, withRouter } from 'react-router';
+interface Props extends RouteComponentProps {
+  data: Summary;
+  pageDetails: any;
+  filterHandler: (filters: any) => void;
+  resetPager: boolean;
+  match: any;
+  submitSummarydata: () => void;
+}
 
-const EvaluationSummary = (props: any) => {
+const EvaluationSummary: React.FunctionComponent<Props> = ({
+  filterHandler,
+  pageDetails,
+  resetPager,
+  data,
+  history,
+  match,
+  submitSummarydata,
+}) => {
   const [displayModal, setDisplayModal] = useState(false);
   const toggleModal = () => {
     setDisplayModal(!displayModal);
   };
   const clientHolderObj = {
-    name: 'Jasmine Rassol',
+    name: data.participantsFirstName + ' ' + data.participantsLastName,
     designation: '(Manager) From Tkxel',
   };
-  const assessmentArray = [
-    {
-      isInProgress: false,
-      text: 'Receives feedback from others and uses the feedback to improve performance.',
-      comment:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      score: '02',
-      classes: 'inline number mr-2',
-    },
-    {
-      isInProgress: false,
-      text: 'Receives feedback from others and uses the feedback to improve performance.',
-      comment:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      score: '02',
-      classes: 'inline number mr-2',
-    },
-    {
-      isInProgress: false,
-      text: 'Receives feedback from others and uses the feedback to improve performance.',
-      comment:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      score: '02',
-      classes: 'inline number mr-2',
-    },
-    {
-      isInProgress: true,
-      text: 'Receives feedback from others and uses the feedback to improve performance.',
-      comment:
-        'Very attentive to the speaker and highly thoughtful and reflective with responses. Level\n' +
-        '            of proficiency with this competency is much higher than expected and very much higher\n' +
-        '            than average.',
-      score: '02',
-      classes: 'inline number mr-2',
-    },
-  ];
+
   const buttonsConfig = [
     {
       text: 'Back',
@@ -73,9 +50,14 @@ const EvaluationSummary = (props: any) => {
       classes: 'btn btn-primary',
     },
   ];
+  function handleSubmit() {
+    setDisplayModal(!displayModal);
+    submitSummarydata();
+    //history.push('/evaluation/' + match.params.token + '/start');
+  }
   function handleBack() {
-    const { history } = props;
-    history.push('/evaluation/questions');
+    history.goBack();
+    //history.push('/evaluation/' + match.params.token + '/start');
   }
   return (
     <GuestTemplate>
@@ -97,7 +79,7 @@ const EvaluationSummary = (props: any) => {
                   <a href="#">360° Leadership Assessment</a>
                 </li>
                 <li className="breadcrumb-item active">
-                  <strong>Jasmine Rassol</strong>
+                  <strong>{data.participantsFirstName + ' ' + data.participantsLastName}</strong>
                 </li>
               </ol>
             </div>
@@ -110,16 +92,23 @@ const EvaluationSummary = (props: any) => {
             </div>
             <div className="col-md-6 text-right">
               <strong className="count">
-                Overall Scale <strong className="font-bold">4.5</strong>
+                Overall Scale <strong className="font-bold">{data.overallScore}</strong>
               </strong>
             </div>
           </div>
           <div className="row">
-            {assessmentArray.map((item, i) => {
+            {data.evaluationItemElements.map((item, i) => {
               return <EvaluatorAssessmentItem key={i} {...item} />;
             })}
           </div>
-          {/*<Pager />*/}
+
+          <Pager
+            pageSize={pageDetails.pageSize || 5}
+            totalRecords={pageDetails.totalCount || 5}
+            pageNumber={pageDetails.currentPage}
+            onPageChanged={number => filterHandler({ number })}
+            shouldReset={resetPager}
+          />
         </div>
         <FooterGuest buttonsConfig={buttonsConfig} />
         <Modal isOpen={displayModal}>
@@ -134,12 +123,12 @@ const EvaluationSummary = (props: any) => {
               </div>
             </div>
             <div className="modal-footer text-center justify-content-center border-0 pt-0">
-              <a onClick={toggleModal} href="#" className="btn btn-default pr-4 pl-4" data-dismiss="modal">
+              <a href="#" className="btn btn-default pr-4 pl-4" data-dismiss="modal">
                 No
               </a>
-              <NavLink to="/evaluation/result" className="btn btn-primary pr-4 pl-4">
+              <a onClick={handleSubmit} href="#" className="btn btn-default pr-4 pl-4" data-dismiss="modal">
                 Yes
-              </NavLink>
+              </a>
             </div>
           </ModalBody>
         </Modal>

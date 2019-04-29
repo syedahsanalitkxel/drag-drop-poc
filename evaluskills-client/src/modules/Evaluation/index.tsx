@@ -4,15 +4,15 @@ import Container from './Container';
 export const EvaluationRoutes = [
   {
     Component: lazy(() => import('./Container')),
-    path: '/evaluation/start',
+    path: '/evaluation/:token/start',
   },
   {
     Component: lazy(() => import('./Container')),
-    path: '/evaluation/questions',
+    path: '/evaluation/:token/questions/:instrumentId/:instrumentItemId',
   },
   {
     Component: lazy(() => import('./Container')),
-    path: '/evaluation/summary',
+    path: '/evaluation/:token/summary',
   },
   {
     Component: lazy(() => import('./Container')),

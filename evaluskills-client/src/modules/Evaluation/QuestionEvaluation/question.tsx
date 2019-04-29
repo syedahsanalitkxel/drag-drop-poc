@@ -6,6 +6,7 @@ import EvaluationClientHolder from '../../../components/organisms/ClientHolder';
 import QuestionItem from './EvaluationQuestionItem';
 import FooterGuest from '../../../components/organisms/FooterGuest';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
+import { FormFeedback, Input } from 'reactstrap';
 import { QuestionEvaluationInterface, QuestionSaveInterface } from '../interface';
 interface PropsInterface extends RouteComponentProps {
   Questiondata: QuestionEvaluationInterface;
@@ -24,6 +25,9 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
     name: 'Jasmine Rassol',
     designation: '(Manager) From Tkxel',
   };
+  function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
+    SaveSetState({ ...SaveState, comments: event.target.value });
+  }
   const buttonsConfig = [
     {
       text: 'Skip for now',
@@ -113,7 +117,14 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
           })}
           <h2 className="font-bold mb-3">Comments</h2>
           <div className="form-group">
-            <textarea className="form-control" placeholder="Add Comments" defaultValue={State.comments} />
+            <Input
+              className="assesmentTextarea"
+              aria-multiline="true"
+              type="textarea"
+              placeholder="Add Comments"
+              onChange={handleOnChange}
+              defaultValue={State.comments}
+            />
           </div>
           <FooterGuest buttonsConfig={buttonsConfig} />
         </div>

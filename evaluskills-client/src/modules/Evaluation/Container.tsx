@@ -1,7 +1,10 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-
+//var base64 = require('base-64');
+//var utf8 = require('utf8');
+import base64 from 'base-64';
+// import utf8 from 'utf8';
 import { PageDetailsInterface } from '../../api/ResponseInterface';
 import Spinner from '../../components/atoms/Spinner';
 import DashboardTemplate from '../../components/templates/DashboardTemplate';
@@ -15,18 +18,18 @@ import {
   SelectedItemElement,
   QuestionEvaluationInterface,
   QuestionSaveInterface,
+  Summary,
 } from './interface';
 // import FilterContext from './context';
 //import { InstrumentTemplateFilterInterface, InstrumentTemplateInterface } from './interface';
 import {
-  addInstrumentTemplates,
-  deleteInstrumentTemplate,
-  getInstrumentTemplateById,
-  getInstrumentTemplates,
-  updateInstrumentTemplates,
   getStartEvaluation,
+  submitEvaluation,
+  fetchSummary,
   getQuestionEvaluation,
+  fetchQuestionEvaluation,
 } from './service';
+import summary from './SummaryEvaluation/summary';
 
 const StartEvaluation = lazy(() => import('./StartEvaluation/start'));
 const QuestionEvaluation = lazy(() => import('./QuestionEvaluation/question'));
@@ -38,20 +41,25 @@ const CommentEvaluation = lazy(() => import('./CommentEvaluation/comment'));
 const StartEvaluationTemplate: StartEvaluationInterface = {
   instrumentTitle: '360° Leadership Assessment',
   // instructionId?: ;
-  instructionTitle: 'Instructions',
-  instructionDescription:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
+  //instructionTitle: 'Instructions',
+  //instructionDescription:
+  //'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
   // participantsId?: number;
-  participantsFirstName: 'ali',
-  participantsLastName: 'zain',
+  //participantsFirstName: 'ali',
+  //participantsLastName: 'zain',
   // participantsEmail?: string;
   // participantRoleId?: number;
-  imagePath: 'https://pbs.twimg.com/profile_images/839596277163831296/QXw9XvF5.jpg',
+  //imagePath: 'https://pbs.twimg.com/profile_images/839596277163831296/QXw9XvF5.jpg',
   // clientName?: string;
 };
 const QuestionEvaluationTemplate: QuestionEvaluationInterface = {
   progress: 0,
   itemElements: [],
+};
+const SummaryTemplate: Summary = {
+  itemElements: [],
+  evaluationItemElements: [],
+  progress: 0,
 };
 const SaveQuestion: QuestionSaveInterface = {
   instrumentId: 0,
@@ -76,6 +84,8 @@ interface StartState {
   StartEvaluationTemplate: StartEvaluationInterface;
   QuestionEvaluationTemplate: QuestionEvaluationInterface;
   SaveQuestion: QuestionSaveInterface;
+  SummaryTemplate: Summary;
+  token: string;
 }
 interface State {
   instrumentTemplates: any[];
@@ -101,6 +111,8 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     StartEvaluationTemplate,
     QuestionEvaluationTemplate,
     SaveQuestion,
+    SummaryTemplate,
+    token,
   });
 
   const [state, setState] = useState<State>({
@@ -117,46 +129,28 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       setState({ ...state, isLoading: true });
       fetchStartInstruction();
     }
+    if (match.path.includes('summary')) {
+      setState({ ...state, isLoading: true });
+      fetchSummarydata();
+    }
     if (match.path.includes('questions')) {
       setState({ ...state, isLoading: true });
       fetchQuestionAsessment();
     } else if (isList(match.path)) {
       fetchStartInstruction();
     }
-  }, [match.path, state.filters]);
-
-  function filterHandler(filters: any) {
-    const newFilterState = {
-      ...state,
-      filters: {
-        ...state.filters,
-        ...filters,
-      },
-      resetPager: false,
-    };
-    if (!filters.PageNumber) {
-      newFilterState.resetPager = true;
-      newFilterState.filters.PageNumber = 1;
-    }
-    if (!filters.Search) {
-      delete newFilterState.filters.Search;
-    }
-    if (!filters.recommendedApplicationId) {
-      delete newFilterState.filters.recommendedApplicationId;
-    }
-    if (USER_ROLE.isSuperAdmin()) {
-      delete newFilterState.filters.type;
-    }
-    setState(newFilterState);
-  }
+  }, [match.path, match.params]);
 
   async function fetchStartInstruction() {
     try {
       setState({ ...state, isLoading: true });
-      const startdata: any = await getStartEvaluation(token);
+      const startdata: any = await getStartEvaluation(match.params.token);
       let savequestion = startState.SaveQuestion;
-      savequestion.instrumentId = startdata.instrumentId;
-
+      const idencoded = base64.encode(startdata.instrumentId);
+      const itemidencoded = base64.encode(startdata.instrumentItemId);
+      startdata.instrumentId = idencoded;
+      startdata.instrumentItemId = itemidencoded;
+      startdata.token = match.params.token;
       setStartState({ ...startState, StartEvaluationTemplate: startdata, SaveQuestion: savequestion });
       setState({ ...state, isLoading: false });
     } catch (error) {
@@ -167,11 +161,13 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   async function fetchQuestionAsessment() {
     try {
       setState({ ...state, isLoading: true });
-      const startdata = await getQuestionEvaluation(token, startState.SaveQuestion);
+      const iddeccoded = base64.decode(match.params.instrumentId);
+      const itemidecoded = base64.decode(match.params.instrumentItemId);
+      const startdata = await fetchQuestionEvaluation(match.params.token, iddeccoded, itemidecoded);
       let number = startdata.data.itemElements.length;
       startState.SaveQuestion.evaluationItemElements = [];
       startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
-      startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
+      startState.SaveQuestion.instrumentId = startdata.data.instrumentId;
       const obj: SelectedItemElement = {
         selectedValue: 0,
         selectedText: '',
@@ -194,78 +190,76 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     }
   }
   async function saveQuestionAsessment(saveData: QuestionSaveInterface) {
-    console.log('saveData');
-    console.log(saveData);
-    console.log('saveData');
     try {
       setState({ ...state, isLoading: true });
-      const startdata = await getQuestionEvaluation(token, saveData);
-      let number = startdata.data.itemElements.length;
-      startState.SaveQuestion.instrumentItemId = startdata.data.instrumentItemId;
-      startState.SaveQuestion.evaluationItemElements = [];
-      const obj: SelectedItemElement = {
-        selectedValue: 0,
-        selectedText: '',
-        instrumentItemElementId: 0,
-      };
-      for (let i = 0; i < number; i++) {
-        const obj2 = JSON.parse(JSON.stringify(obj));
-        obj2.selectedValue = startdata.data.itemElements[i].selectedValue;
-        obj2.selectedText = startdata.data.itemElements[i].selectedText;
-        obj2.instrumentItemElementId = startdata.data.itemElements[i].id;
-        startState.SaveQuestion.evaluationItemElements.push(obj2);
-      }
-      let skipchange = startState.SaveQuestion;
-      skipchange.isSkipped = false;
-      setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data, SaveQuestion: skipchange });
-      setState({ ...state, isLoading: false });
-    } catch (error) {
-      errorContext.setError(error, true);
-      setState({ ...state, isLoading: false });
-    }
-  }
-  async function fetchInstrument(id: string) {
-    setState({ ...state, isLoading: true });
-    try {
-      const data = await getInstrumentTemplateById(id);
-      setState({ ...state, instrumentTemplate: data, isLoading: false });
+      const startdata = await getQuestionEvaluation(match.params.token, saveData);
+      startState.SaveQuestion.instrumentItemId = startdata.data ? startdata.data : undefined;
+
+      navigate(startdata.data);
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
     }
   }
 
-  async function dataManipulationAction(instrument: any, mode: actionTypes) {
-    try {
-      if (mode === actionTypes.NEW) {
-        await addInstrumentTemplates(instrument);
-      } else {
-        if (instrument.id) {
-          if (typeof instrument.id === 'number') {
-            await updateInstrumentTemplates(instrument, instrument.id);
-          }
-        }
-      }
-      navigate('');
-    } catch (e) {
-      errorContext.setError(e, true);
-    }
-  }
-
-  async function deleteInstrument(id: string) {
-    try {
-      await deleteInstrumentTemplate(id);
-    } catch (error) {
-      errorContext.setError(error, true);
-    }
-  }
-
-  function navigate(path: string, root?: boolean) {
-    if (root) {
-      history.push(path);
+  function navigate(instruemntID: string) {
+    if (instruemntID == '0') {
+      history.push(`/evaluation/${match.params.token}/summary`);
+      fetchSummarydata();
     } else {
-      history.push(`/instrument-templates${path}`);
+      const idencoded = base64.encode(instruemntID);
+      history.push(`/evaluation/${match.params.token}/questions/${match.params.instrumentId}/${idencoded}`);
     }
+
+    //'/evaluation/' + listdata.token + '/questions/' + listdata.instrumentId + '/' + listdata.instrumentItemId
+  }
+
+  async function submitSummarydata() {
+    try {
+      debugger;
+      setState({ ...state, isLoading: true });
+      const startdata: any = await submitEvaluation(match.params.token);
+
+      setState({ ...state, isLoading: false });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
+
+  async function fetchSummarydata() {
+    try {
+      setState({ ...state, isLoading: true });
+      const startdata: any = await fetchSummary(match.params.token);
+
+      setStartState({ ...startState, SummaryTemplate: startdata });
+      setState({ ...state, isLoading: false });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
+  function filterHandler(filters: any) {
+    const newFilterState = {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
+      resetPager: false,
+    };
+    if (!filters.PageNumber) {
+      newFilterState.resetPager = true;
+      newFilterState.filters.PageNumber = 1;
+    }
+    if (!filters.Search) {
+      delete newFilterState.filters.Search;
+    }
+
+    if (USER_ROLE.isSuperAdmin()) {
+      delete newFilterState.filters.type;
+    }
+    setState(newFilterState);
   }
 
   function renderPage() {
@@ -285,7 +279,15 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       );
     }
     if (match.path.includes('summary')) {
-      return <SummeryEvaluation />;
+      return (
+        <SummeryEvaluation
+          data={startState.SummaryTemplate}
+          filterHandler={filterHandler}
+          pageDetails={state.pageDetails}
+          resetPager={state.resetPager}
+          submitSummarydata={submitSummarydata}
+        />
+      );
     }
     if (match.path.includes('result')) {
       return <ResultEvaluation />;
@@ -294,39 +296,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       return <CommentEvaluation />;
     }
     return <ListEvaluation />;
-    // if (isCopy(match.path)) {
-    //   return (
-    //     <AddEditInstrumentTemplate
-    //       defaultValue={state.instrumentTemplate}
-    //       copy={true}
-    //       handleAction={dataManipulationAction}
-    //       handleDelete={deleteInstrument}
-    //     />
-    //   );
-    // } else if (isEdit(match.params, match.path)) {
-    //   return (
-    //     <AddEditInstrumentTemplate
-    //       defaultValue={state.instrumentTemplate}
-    //       handleAction={dataManipulationAction}
-    //       handleDelete={deleteInstrument}
-    //     />
-    //   );
-    // } else if (isAdd(match.path)) {
-    //   return <AddEditInstrumentTemplate handleAction={dataManipulationAction} />;
-    // }
-    // return (
-    //   <FilterContext.Provider value={{ activeFilters: state.filters }}>
-    //     <InstrumentTemplate
-    //       instrumentTemplates={state.instrumentTemplates}
-    //       navigate={navigate}
-    //       filterHandler={filterHandler}
-    //       pageDetails={state.pageDetails || defaultPageDetail}
-    //       resetPager={state.resetPager}
-    //       savedSearch={state.filters.Search}
-    //       handleDelete={deleteInstrument}
-    //     />
-    //   </FilterContext.Provider>
-    // );
   }
 
   return <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>;

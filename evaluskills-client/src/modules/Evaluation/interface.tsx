@@ -1,5 +1,6 @@
 export interface StartEvaluationInterface {
-  instrumentId?: number;
+  instrumentId?: number | string;
+  instrumentItemId?: number | string;
   instrumentTitle?: string;
   instructionId?: number;
   instructionTitle?: string;
@@ -12,6 +13,7 @@ export interface StartEvaluationInterface {
   imagePath?: string;
   clientName?: string;
   evaluationStatusId?: number;
+  token?: string;
 }
 export interface ItemElementOptions {
   id?: number;
@@ -38,14 +40,15 @@ export interface SelectedItemElement {
   instrumentItemElementId?: number;
 }
 export interface QuestionSaveInterface {
-  instrumentId: number;
-  instrumentItemId?: number;
+  token?: string;
+  instrumentId?: number | string;
+  instrumentItemId?: number | string;
   isSkipped: boolean;
   comments: string;
   evaluationItemElements: SelectedItemElement[];
 }
 export interface QuestionEvaluationInterface {
-  instrumentId?: number;
+  instrumentId?: number | string;
   instrumentTitle?: string;
   participantsId?: number;
   participantsFirstName?: string;
@@ -54,14 +57,23 @@ export interface QuestionEvaluationInterface {
   participantRoleId?: 0;
   imagePath?: string;
   clientName?: string;
-  overallScore?: 0;
-
+  overallScore?: number | string;
   itemElements: evaluationItemElements[];
-
-  instrumentItemId?: number;
+  instrumentItemId?: number | string;
   comments?: string;
   totalNoOfEvaluationItems?: number;
   currentEvaluationItemNo?: number;
   progress: number;
   isCommentRequired?: boolean;
+}
+export interface items {
+  comments?: string;
+  selectedValue?: string;
+  selectedText?: string;
+  evaluationItemElementId?: number;
+  statusId?: number;
+  status?: string;
+}
+export interface Summary extends QuestionEvaluationInterface {
+  evaluationItemElements: items[];
 }
