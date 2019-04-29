@@ -127,7 +127,7 @@ const ClientListContainer: React.FunctionComponent<RouteComponentProps> = ({ his
   async function loginAsClient(clientId: number) {
     try {
       const result = await getSelectedClient(clientId);
-      authContext.authenticate(result.data.token, JSON.stringify(result.data));
+      authContext.authenticate(result.token, JSON.stringify(result));
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
