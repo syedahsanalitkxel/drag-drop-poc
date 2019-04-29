@@ -47,6 +47,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
   match,
 }) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
+  const [isDraft, setIsDraft] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState({
     id: '',
@@ -94,7 +95,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
       ...values,
       templateItems: formState.templateItems,
     };
-
+    newFormState.templateStatusId = isDraft ? 1 : 2;
     setFormState(newFormState);
 
     if (!defaultValue || copy) {
@@ -215,8 +216,23 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             >
               Cancel
             </StyledButton>
-            <StyledButton color="primary" type="submit">
-              {isAdd(match.path) ? 'Save' : 'Save Changes'}
+            <StyledButton
+              color="primary"
+              onClick={() => {
+                setIsDraft(true);
+              }}
+              type="submit"
+            >
+              {'Save'}
+            </StyledButton>
+            <StyledButton
+              color="primary"
+              onClick={() => {
+                setIsDraft(false);
+              }}
+              type="submit"
+            >
+              {'Save and publish'}
             </StyledButton>
           </div>
         </div>
