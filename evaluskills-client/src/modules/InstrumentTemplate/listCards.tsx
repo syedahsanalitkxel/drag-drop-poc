@@ -28,7 +28,8 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
     competencyCount: number,
     influentialCount: number,
     rationalCount: number,
-    faithBasedCount: number
+    faithBasedCount: number,
+    templateStatus: string
   ) => (
     <React.Fragment>
       <div className="d-inline-flex m-r-15">
@@ -46,6 +47,9 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
         </div>
         <div>
           <LabelGroup label="FaithBased" value={faithBasedCount} />
+        </div>
+        <div>
+          <LabelGroup label="Status" value={templateStatus} />
         </div>
       </div>
     </React.Fragment>
@@ -92,7 +96,8 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
       instrumentTemplate.competency || 0,
       instrumentTemplate.influential || 0,
       instrumentTemplate.rational || 0,
-      instrumentTemplate.isFaithBased || 0
+      instrumentTemplate.isFaithBased || 0,
+      instrumentTemplate.templateStatus || ''
     );
 
     return (

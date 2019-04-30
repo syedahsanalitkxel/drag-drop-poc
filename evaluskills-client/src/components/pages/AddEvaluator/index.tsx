@@ -1,16 +1,14 @@
-import { Field, Formik } from 'formik';
-import React, { useContext, useState } from 'react';
-import { Button, FormFeedback, Input, Modal, ModalFooter, ModalHeader } from 'reactstrap';
+import { ErrorMessage, Field, Formik } from 'formik';
+import React, { useContext } from 'react';
+import { Button, FormFeedback, Input, Modal, ModalHeader } from 'reactstrap';
 import * as Yup from 'yup';
-import { styles } from './style';
+import { styles } from '../AddUser/style';
 import PageBody from '../../atoms/PageBody';
 import styled from 'styled-components';
 import FormikBag from '../../../interfaces/FormikBag';
 import { lookups } from '../../../modules/Lookup/enum';
 import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
-// import Select from 'react-select';
-
 interface ModalProps {
   visible?: boolean;
   toggle: () => void;
@@ -26,30 +24,22 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const AddUser: React.FunctionComponent<ModalProps> = ({
+export const AddEvaluator: React.FunctionComponent<ModalProps> = ({
   visible,
   toggle,
   name,
   FormValues,
   submitHandler,
   cancelHandler,
-  clientLookup,
 }) => {
   const { findKey } = useContext(LookupContext);
-  const [disabled, setDisabled] = useState(false);
-  // const [selectOption, setSelectOption] = useState(FormValues.clients || []);
-
   function submitForm(values: any) {
-    // values.clients = selectOption;
     submitHandler(values);
   }
-
   function cancelForm() {
     cancelHandler();
-    // setSelectOption([]);
   }
-
-  const addUserSchema = Yup.object().shape({
+  const addEvaluatorSchema = Yup.object().shape({
     email: Yup.string()
       .required()
       .email(),
@@ -63,45 +53,20 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
       .max(50, 'Too Long!')
       .matches(/^[a-zA-Z ]+$/, 'Name Must be in Alphabets')
       .required('Required Field'),
-    role: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
+    roleId: Yup.string().required('Required'),
   });
 
-  function renderUserRoleDropdown() {
+  function renderEvaluatorRoleDropdown() {
     if (findKey) {
-      return findKey(lookups.userRolesLookUp).map(application => {
+      return findKey(lookups.evaluationRolesLookUp).map(application => {
         return (
-          <option value={application.text} key={application.value}>
+          <option value={application.value} key={application.value}>
             {application.text}
           </option>
         );
       });
     }
   }
-
-  // function renderClientTypeDropdown() {
-  //   const options: any = [];
-  //   clientLookup.map( (application: any)  => {
-  //     options.push({ value: application.value, label: application.text})
-  //   });
-  //   if (options.length > 0) {
-  //     return (
-  //         <Select
-  //             value={selectOption}
-  //             onChange={handleChange}
-  //             options={options}
-  //             isMulti={true}
-  //         />
-  //     );
-  //   }
-  // }
-
-  // const handleChange = (selectedOption: any) => {
-  //   setSelectOption( selectedOption );
-  //   console.log(`Option selected:`, selectedOption);
-  // };
 
   const renderForm = (formikprops: FormikBag) => (
     <form onSubmit={formikprops.handleSubmit} className={'form'}>
@@ -144,62 +109,34 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
             <div className="col-sm-6">
               <label className="col-sm-10 col-form-label font-bold">Email</label>
               <div className="col-sm-10">
-                {name === 'Edit' ? (
-                  <Input
-                    type="text"
-                    name="email"
-                    className="form-control"
-                    disabled={true}
-                    placeholder="Email"
-                    tag={Field}
-                    invalid={!!(formikprops.touched.email && formikprops.errors.email)}
-                  />
-                ) : (
-                  <Input
-                    type="text"
-                    name="email"
-                    className="form-control"
-                    placeholder="Email"
-                    tag={Field}
-                    invalid={!!(formikprops.touched.email && formikprops.errors.email)}
-                  />
-                )}
-
+                <Input
+                  type="text"
+                  name="email"
+                  className="form-control"
+                  placeholder="Email"
+                  tag={Field}
+                  invalid={!!(formikprops.touched.email && formikprops.errors.email)}
+                />
                 <FormFeedback tooltip={true}>{formikprops.errors.email}</FormFeedback>
               </div>
             </div>
 
             <div className="col-sm-6">
-              <div className="col-sm-10">
+              <div className="col-sm-10 m-t-7">
                 <FormElement
                   label="Role"
-                  name="role"
+                  name="roleId"
                   formikprops={formikprops}
                   type={FormElementTypes.SELECT}
                   inline={true}
                   last={true}
                 >
                   <option value=""> Select One</option>
-                  {renderUserRoleDropdown()}
+                  {renderEvaluatorRoleDropdown()}
                 </FormElement>
               </div>
             </div>
           </div>
-          {/*{*/}
-          {/*clientLookup.length > 0 && (*/}
-          {/*<React.Fragment>*/}
-          {/*<div className="hr-line-dashed" />*/}
-          {/*<div className="form-group row">*/}
-          {/*<div className="col-sm-6">*/}
-          {/*<label className="col-sm-10 col-form-label font-bold">Clients</label>*/}
-          {/*<div className="col-sm-10">*/}
-          {/*{renderClientTypeDropdown()}*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*</React.Fragment>*/}
-          {/*)*/}
-          {/*}*/}
         </div>
       </div>
 
@@ -218,11 +155,11 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
 
   return (
     <Modal isOpen={visible} toggle={toggle} style={styles.modal_width}>
-      <ModalHeader toggle={toggle}>{name} User</ModalHeader>
+      <ModalHeader toggle={toggle}>{name} Evaluator</ModalHeader>
       <Formik
         enableReinitialize={true}
         initialValues={FormValues}
-        validationSchema={addUserSchema}
+        validationSchema={addEvaluatorSchema}
         onSubmit={submitForm}
       >
         {formikprops => renderForm(formikprops)}
@@ -231,8 +168,8 @@ export const AddUser: React.FunctionComponent<ModalProps> = ({
   );
 };
 
-AddUser.defaultProps = {
+AddEvaluator.defaultProps = {
   visible: false,
 };
 
-export default AddUser;
+export default AddEvaluator;

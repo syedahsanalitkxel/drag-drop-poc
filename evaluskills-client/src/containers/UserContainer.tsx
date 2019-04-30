@@ -11,6 +11,7 @@ import RouteParamsInterface from '../interfaces/RouteParams';
 import { addUser, clientLookUps, editUser, getFilteredUser } from '../services/userService';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import FilterContext from '../components/organisms/UserFilter/context';
+import { getActiveClient, USER_ROLE } from '../utils';
 
 const users: any[] = [];
 const clientLookup: any = [];
@@ -82,15 +83,25 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   async function fetchAllUsers(filters?: UsersFilterInterface) {
     try {
       setState({ ...state, isLoading: true });
-      const lookup = await clientLookUps();
-      const data: any = await getFilteredUser(filters);
-      setState({
-        ...state,
-        clientLookup: lookup,
-        isLoading: false,
-        pageDetails: data.pageDetails,
-        users: data.userData,
-      });
+      if (USER_ROLE.isSuperAdmin()) {
+        const lookup = await clientLookUps();
+        const data: any = await getFilteredUser(filters);
+        setState({
+          ...state,
+          clientLookup: lookup,
+          isLoading: false,
+          pageDetails: data.pageDetails,
+          users: data.userData,
+        });
+      } else {
+        const data: any = await getFilteredUser(filters);
+        setState({
+          ...state,
+          isLoading: false,
+          pageDetails: data.pageDetails,
+          users: data.userData,
+        });
+      }
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
@@ -98,6 +109,12 @@ const UserListContainer: React.FunctionComponent<RouteComponentProps<RouteParams
   }
 
   async function submitForm(values: any, action: string, id?: string) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+        // values.clients[0].clientId = getActiveClient();
+      }
+    }
     if (action === 'Add') {
       try {
         const userData: any = await addUser(values);

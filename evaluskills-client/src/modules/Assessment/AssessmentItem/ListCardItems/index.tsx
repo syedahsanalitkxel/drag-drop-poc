@@ -10,6 +10,9 @@ import EmptyPage from '../../../../components/atoms/EmptyPage';
 import LabelGroup from '../../../../components/atoms/LabelGroup';
 import ItemCard from '../../../../components/molecules/ItemCard';
 import { TemplateItem } from '../../../InstrumentTemplate/interface';
+import { getActiveClient, USER_ROLE } from '../../../../utils';
+import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ListCardProps {
   listData: any[];
@@ -26,6 +29,10 @@ const CheckboxContainer = styled.div`
   position: absolute;
   right: 0;
   top: 30%;
+`;
+
+const StyledButton = styled.button`
+  margin-left: 154px;
 `;
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({
@@ -54,7 +61,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     }
   };
 
-  const renderContent = (category: string, type: string, competency: string) => (
+  const renderContent = (category: string, type: string, competency: string, itemStatus: string) => (
     <React.Fragment>
       <div className="col-md-3 p-l-0">
         <LabelGroup label="Category" value={category} />
@@ -62,8 +69,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       <div className="col-md-3 border-left text-center">
         <LabelGroup label="Type" value={type} badge={BadgeTypes.PRIMARY} />
       </div>
+      <div className="col-md-3 border-left text-center">
+        <LabelGroup label="Status" value={itemStatus} badge={BadgeTypes.PRIMARY} />
+      </div>
       {competency.length > 0 && (
-        <div className="col-md-4 border-left text-center">
+        <div className="col-md-3 border-left text-center">
           <LabelGroup label="Competency" value={competency} />
         </div>
       )}
@@ -75,6 +85,14 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       <IconButton name={name} icon={icon} className={className} actionHandler={actionHandler(id)}>
         {text}
       </IconButton>
+    );
+
+    const renderCopyActionButton = (name: string, text: string, icon: IconProp, className: string) => (
+      <StyledButton name={name} className={classNames(['btn', className])} onClick={actionHandler(id)} id={id}>
+        {icon && <FontAwesomeIcon icon={icon} />}
+        &nbsp;
+        {text}
+      </StyledButton>
     );
 
     if (checkbox) {
@@ -97,18 +115,35 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       );
     }
 
-    return (
-      <React.Fragment>
-        {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
-        {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
-        {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
-      </React.Fragment>
-    );
+    if (USER_ROLE.isSuperAdmin() && item.isSystemDefined) {
+      return (
+        <React.Fragment>
+          {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
+          {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+          {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
+      );
+    } else if (USER_ROLE.isClientAdmin() && item.isSystemDefined) {
+      return (
+        <React.Fragment>
+          {edit && renderCopyActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
+          {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+          {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
+        </React.Fragment>
+      );
+    }
   };
 
   function renderAllCards(item: any) {
     const content =
-      (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
+      (item.category || item.type || item.competency) &&
+      renderContent(item.category, item.type, item.competency, item.itemStatus);
 
     const actions = renderActions(item.id || item.itemId, item);
 

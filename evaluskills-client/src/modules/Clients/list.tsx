@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ClientList from './clientListInterface';
 import { ClientFilters } from './clientFilterInterface';
 import PageBody from '../../components/atoms/PageBody';
@@ -16,6 +16,7 @@ interface Props {
   add: () => void;
   edit: (clientId: number) => void;
   remove: (clientId: number) => void;
+  login: (clientId: number) => void;
   applyFilters: (filters: ClientFilters) => void;
   filtersClickHandler: (event: React.MouseEvent) => void;
   onPageChange: (pageNumber: number) => void;
@@ -33,6 +34,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
   filterClients,
   add,
   edit,
+  login,
   remove,
   applyFilters,
   filtersClickHandler,
@@ -61,7 +63,7 @@ const DashboardHome: React.FunctionComponent<Props> = ({
           />
           <PageBody>
             {clients && clients.length > 0 ? (
-              <ClientsList listData={clients} edit={edit} remove={remove} />
+              <ClientsList listData={clients} login={login} edit={edit} remove={remove} />
             ) : (
               <EmptyPage />
             )}

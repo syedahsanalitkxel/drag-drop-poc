@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { ErrorMessage, Field, Formik } from 'formik';
-import { Button, Form, FormFeedback } from 'reactstrap';
+import { Button, Form, FormFeedback, Label } from 'reactstrap';
 import styled from 'styled-components';
 import { FormGroup, Input } from 'reactstrap';
 
@@ -19,6 +19,7 @@ import PageBody from '../../components/atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../components/molecules/FormElement';
 import clientFormSchema, { clientEditFormSchema } from './clientFormSchema';
 import styles from '../../components/molecules/FormElement/FormElement.module.scss';
+import { getStates } from './service';
 
 interface Props {
   changeListener: (formValues: any) => void;
@@ -144,10 +145,29 @@ export const AddClient: React.FunctionComponent<Props> = ({
       }
     };
 
-    const renderStatesDropdown = (props: LookupContextInterface) => {
+    const renderStatesDropdown = () => {
+      return (
+        formState &&
+        formState.states &&
+        formState.states.map((item: any) => (
+          <option key={item.value} value={item.value}>
+            {item.text}
+          </option>
+        ))
+      );
+    };
+    async function getStatesfunc(countryId: number) {
+      const result = await getStates(countryId);
+      setFormState({ ...formState, states: result, CountryId: countryId });
+    }
+    function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+      getStatesfunc(parseInt(event.target.value, 10));
+    }
+
+    const renderCountriesDropdown = (props: LookupContextInterface) => {
       const { findKey } = props;
       if (findKey) {
-        return findKey(lookups.statesLookUp).map((lookup: LookupItemInterface) => (
+        return findKey(lookups.countriesLookUp).map((lookup: LookupItemInterface) => (
           <option key={lookup.value} value={lookup.value}>
             {lookup.text}
           </option>
@@ -223,6 +243,32 @@ export const AddClient: React.FunctionComponent<Props> = ({
             </div>
             <div className="col-md-6">
               <FormElement
+                label="Address2"
+                name="address2"
+                placeholder="Add Address"
+                formikprops={formikprops}
+                inline={true}
+                type={FormElementTypes.TEXT}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Label className="col-md-5 col-form-label font-bold">Country</Label>
+              <Input
+                type="select"
+                value={formState.CountryId}
+                formikprops={formikprops}
+                name="CountryId"
+                id="countryId"
+                onChange={changeHandler}
+              >
+                <option value="0"> Select One</option>
+                <LookupContextConsumer>{renderCountriesDropdown}</LookupContextConsumer>
+              </Input>
+            </div>
+            <div className="col-md-6">
+              <FormElement
                 label="City"
                 name="city"
                 placeholder="Add City"
@@ -232,7 +278,6 @@ export const AddClient: React.FunctionComponent<Props> = ({
               />
             </div>
           </div>
-
           <div className="row">
             <div className="col-md-6">
               <FormElement
@@ -379,6 +424,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
     <DashboardTemplate>
       {formState && (
         <Formik
+          enableReinitialize={true}
           initialValues={formState}
           validationSchema={action === 'Edit' ? clientEditFormSchema : clientFormSchema}
           onSubmit={submitForm}

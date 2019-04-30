@@ -6,6 +6,7 @@ import { lookups } from '../../../modules/Lookup/enum';
 
 import LookupContext from '../../../modules/Lookup/context';
 import FilterContext from './context';
+import { USER_ROLE } from '../../../utils';
 
 interface Props {
   clientLookUp?: any;
@@ -71,18 +72,20 @@ const UserFilter: React.FunctionComponent<Props> = ({ clientLookUp }) => {
             </Input>
           </div>
         </FormGroup>
-
-        <div className="hr-line-dashed" />
-
-        <FormGroup className="row">
-          <label className="col-sm-4 col-form-label font-bold">Clients</label>
-          <div className="col-sm-8">
-            <Input type="select" name="clientId" id="plan-select" onChange={changeHandler} value={state.clientId}>
-              <option value="">All</option>
-              {renderClientDropdown()}
-            </Input>
-          </div>
-        </FormGroup>
+        {USER_ROLE.isSuperAdmin() && (
+          <React.Fragment>
+            <div className="hr-line-dashed" />
+            <FormGroup className="row">
+              <label className="col-sm-4 col-form-label font-bold">Clients</label>
+              <div className="col-sm-8">
+                <Input type="select" name="clientId" id="plan-select" onChange={changeHandler} value={state.clientId}>
+                  <option value="">All</option>
+                  {renderClientDropdown()}
+                </Input>
+              </div>
+            </FormGroup>
+          </React.Fragment>
+        )}
       </React.Fragment>
     </Form>
   );

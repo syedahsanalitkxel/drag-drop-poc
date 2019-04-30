@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
   item: any;
-  evaluatorData: any;
   view?: (evaluationId: string) => void;
+  addEvaluator?: (evaluationId: string, action: string, token?: string) => void;
 }
 
-const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, view }) => {
+const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluator }) => {
   const [collapse, setCollapse] = useState(false);
 
   const mouseEvent = (event: any) => {
@@ -23,6 +23,16 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
       if (view) {
         view(evaluationId);
       }
+    } else if (event.currentTarget.name === 'add') {
+      event.preventDefault();
+      if (addEvaluator) {
+        addEvaluator(evaluationId, 'add', item.token);
+      }
+    } else if (event.currentTarget.name === 'remove') {
+      event.preventDefault();
+      if (addEvaluator) {
+        addEvaluator(evaluationId, 'remove');
+      }
     }
   };
 
@@ -34,19 +44,36 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
     width: item.progress,
   };
 
+  const calculateEvaluatorsProgress = (items: any) => {
+    if (items.totalEvaluationsCount > 0) {
+      return {
+        width: ((items.completedEevaluationItemsCount / items.totalEvaluationItemsCount) * 100).toString().concat('%'),
+      };
+    } else {
+      return {
+        width: '0%',
+      };
+    }
+  };
+
   const renderContent = (eData: any) => {
     return (
       <React.Fragment key={eData.id}>
         <tr>
-          <td className="font-bold">{eData.name}</td>
+          <td className="font-bold">
+            {eData.firstName} {eData.lastName}
+          </td>
           <td>
             <a href="#">{eData.email}</a>
           </td>
-          <td>{eData.role}</td>
+          <td>{eData.roleId}</td>
           <td>
             <div className="progress">
-              <div style={{ width: eData.progress }} className="progress-bar">
-                {eData.progress}
+              <div style={calculateEvaluatorsProgress(eData)} className="progress-bar">
+                {((eData.completedEevaluationItemsCount / eData.totalEvaluationItemsCount) * 100)
+                  .toFixed(2)
+                  .toString()
+                  .concat('%')}
               </div>
             </div>
             {eData.status === 'InProgress' ? (
@@ -69,14 +96,23 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
           </td>
           <td>
             <button
-              id={item.id}
-              name="view"
+              id={eData.id}
+              name="reminder"
               type="button"
-              onClick={actionHandler(item.id)}
+              onClick={actionHandler(eData.id)}
               className="btn btn-primary clr-white"
               disabled={eData.status === 'Completed'}
             >
               Send Reminder
+            </button>
+            <button
+              id={eData.id}
+              name="remove"
+              type="button"
+              onClick={actionHandler(eData.id)}
+              className="btn btn-primary clr-white m-l-10 position-relative"
+            >
+              Remove Evaluator
             </button>
           </td>
           <td>
@@ -89,18 +125,35 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
     );
   };
 
+  const calculateProgress = (items: any) => {
+    if (items.totalEvaluationsCount > 0) {
+      return {
+        width: ((items.completedEvaluationsCount / items.totalEvaluationsCount) * 100).toString().concat('%'),
+      };
+    } else {
+      return {
+        width: '0%',
+      };
+    }
+  };
+
   return (
     <React.Fragment key={item.id}>
       <tr>
-        <td className="font-bold">{item.name}</td>
+        <td className="font-bold">
+          {item.firstName} {item.lastName}
+        </td>
         <td>
           <a href="#">{item.email}</a>
         </td>
-        <td>05</td>
+        <td>{item.evaluators.length}</td>
         <td>
           <div className="progress">
-            <div style={pStyle} className="progress-bar">
-              {item.progress}
+            <div style={calculateProgress(item)} className="progress-bar">
+              {((item.completedEvaluationsCount / item.totalEvaluationsCount) * 100)
+                .toFixed(2)
+                .toString()
+                .concat('%')}
             </div>
           </div>
           {item.status === 'InProgress' ? (
@@ -130,6 +183,15 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
           >
             View Evaluation
           </button>
+          <button
+            id={item.id}
+            name="add"
+            type="button"
+            onClick={actionHandler(item.id)}
+            className="btn btn-primary clr-white position-relative m-l-5"
+          >
+            Add Evaluator
+          </button>
         </td>
         <td>
           <div id={item.id} onClick={mouseEvent}>
@@ -155,7 +217,7 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, evaluatorData, v
                   <th />
                 </tr>
               </thead>
-              <tbody>{evaluatorData && evaluatorData.map(renderContent)}</tbody>
+              <tbody>{item.evaluators && item.evaluators.map(renderContent)}</tbody>
             </table>
           </td>
         </tr>

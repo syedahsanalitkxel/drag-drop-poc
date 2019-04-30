@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-import { Formik } from 'formik';
+import { ErrorMessage, Formik } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import styled from 'styled-components';
 
+import Checkbox from '../../components/atoms/CheckBox';
 import PageBody from '../../components/atoms/PageBody';
 import PageHeader from '../../components/atoms/PageHeader';
 import DeleteModal from '../../components/molecules/DeleteModal';
@@ -28,7 +29,7 @@ interface Props extends RouteComponentProps {
 }
 
 const initialState: InstrumentTemplateInterface = {
-  recommendedApplicationId: 0,
+  recommendedApplicationIds: [],
   templateItems: [],
   title: '',
 };
@@ -46,19 +47,57 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
   match,
 }) => {
   const [formState, setFormState] = useState(defaultValue || initialState);
+  const [isDraft, setIsDraft] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState({
     id: '',
     visible: false,
   });
 
+  function checkboxChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    const number = parseInt(event.target.value, 10);
+    let arr = formState.recommendedApplicationIds;
+    const check = arr.includes(number);
+
+    if (check) {
+      const index = arr.indexOf(number);
+      arr.splice(index, 1);
+    } else {
+      arr.push(number);
+    }
+
+    setFormState({
+      ...formState,
+      recommendedApplicationIds: arr,
+    });
+  }
+  const recommendedApplicationsLookUp = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface, index) => (
+        <Checkbox
+          key={index}
+          name="recommendedApplicationIds"
+          value={lookup.value}
+          isChecked={
+            lookup.value && formState && formState.recommendedApplicationIds.includes(lookup.value) ? true : false
+          }
+          onChange={checkboxChangeHandler}
+        >
+          {lookup.text}
+        </Checkbox>
+      ));
+    }
+  };
   function submitForm(values: InstrumentTemplateInterface) {
     const newFormState = {
       ...formState,
       ...values,
       templateItems: formState.templateItems,
     };
-
+    const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
+    newFormState.clientId = activeClientId;
+    newFormState.templateStatusId = isDraft ? 1 : 2;
     setFormState(newFormState);
 
     if (!defaultValue || copy) {
@@ -92,17 +131,6 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
 
     return <PageHeader title="Instrument Template" />;
   }
-
-  const renderInstrumentDropdown = (props: LookupContextInterface) => {
-    const { findKey } = props;
-    if (findKey) {
-      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface) => (
-        <option key={lookup.value} value={lookup.value}>
-          {lookup.text}
-        </option>
-      ));
-    }
-  };
 
   const renderAssessmentList = (assessments: TemplateItem[]) => (
     <React.Fragment>
@@ -141,20 +169,21 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             fullLength={true}
             formikprops={formikprops}
           />
-
-          <FormElement
-            label="Instrument Application"
-            name="recommendedApplicationId"
-            fullLength={true}
-            formikprops={formikprops}
-            type={FormElementTypes.SELECT}
-            last={
-              defaultValue && defaultValue.templateItems && defaultValue.templateItems.length !== 0 && !!defaultValue
-            }
-          >
-            <option value="">Select One</option>
-            <LookupContextConsumer>{renderInstrumentDropdown}</LookupContextConsumer>
-          </FormElement>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label font-bold">Recomended Application</label>
+            <div className="col-sm-10">
+              <LookupContextConsumer>{recommendedApplicationsLookUp}</LookupContextConsumer>
+              <ErrorMessage
+                name={`recommendedApplicationIds`}
+                render={msg => (
+                  <div className="isa_error">
+                    <span className="error text-danger">{msg}</span>
+                  </div>
+                )}
+              />
+            </div>
+          </div>
+          <div className="hr-line-dashed" />
 
           {((defaultValue && defaultValue.templateItems && defaultValue.templateItems.length === 0) ||
             !defaultValue) && (
@@ -189,8 +218,23 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             >
               Cancel
             </StyledButton>
-            <StyledButton color="primary" type="submit">
-              {isAdd(match.path) ? 'Save' : 'Save Changes'}
+            <StyledButton
+              color="primary"
+              onClick={() => {
+                setIsDraft(true);
+              }}
+              type="submit"
+            >
+              {'Save'}
+            </StyledButton>
+            <StyledButton
+              color="primary"
+              onClick={() => {
+                setIsDraft(false);
+              }}
+              type="submit"
+            >
+              {'Save and publish'}
             </StyledButton>
           </div>
         </div>

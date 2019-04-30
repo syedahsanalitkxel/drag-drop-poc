@@ -3,19 +3,24 @@ import React from 'react';
 import Client from './clientListInterface';
 import IconButton from '../../components/atoms/IconButton';
 import ClientCard from '../../components/molecules/ClientListCard';
+import { userType } from '../../enums';
 
 interface Props {
   listData: Client[];
   edit: (clientId: number) => void;
   remove: (clientId: number) => void;
+  login: (clientId: number) => void;
 }
 
-const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove }) => {
+const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove, login }) => {
+  const user = JSON.parse(localStorage.getItem('user') || '');
   const actionHandler = (clientId: number) => (event: React.MouseEvent) => {
     if (event.currentTarget.id === 'edit') {
       edit(clientId);
     } else if (event.currentTarget.id === 'delete') {
       remove(clientId);
+    } else if (event.currentTarget.id === 'login') {
+      login(clientId);
     }
   };
 
@@ -61,6 +66,11 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove })
           )}
         </td>
         <td>
+          {user && user.roles && user.roles[0] === userType.SUPER_ADMIN ? (
+            <IconButton id="login" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
+              Open Client Portal
+            </IconButton>
+          ) : null}
           <IconButton id="edit" icon="edit" className="btn-outline btn-primary" actionHandler={actionHandler(id)}>
             Edit
           </IconButton>

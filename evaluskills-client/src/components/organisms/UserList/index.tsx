@@ -20,7 +20,14 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
     }
   };
 
-  const renderContent = (id: string, firstName: string, lastName: string, email: string, role: string) => (
+  const renderContent = (
+    id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    role: string,
+    status: string
+  ) => (
     <React.Fragment>
       <tr>
         <td>{id}</td>
@@ -32,6 +39,9 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
         </td>
         <td>
           <strong>{role}</strong>
+        </td>
+        <td>
+          <strong>{status}</strong>
         </td>
         <td>{email}</td>
         <td>
@@ -47,7 +57,14 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
   );
 
   const renderUserItem = (userItem: any) => {
-    const content = renderContent(userItem.id, userItem.firstName, userItem.lastName, userItem.email, userItem.role);
+    const content = renderContent(
+      userItem.id,
+      userItem.firstName,
+      userItem.lastName,
+      userItem.email,
+      userItem.role,
+      userItem.status
+    );
 
     return <UserCard key={userItem.id}>{{ content }}</UserCard>;
   };
@@ -63,6 +80,7 @@ const UsersList: React.FunctionComponent<Props> = ({ listData, edit, remove }) =
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th>Email</th>
                 <th />
               </tr>

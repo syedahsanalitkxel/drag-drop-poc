@@ -67,7 +67,6 @@ export const initialState = {
   itemRecomendedApplications: [1],
   categoryId: 1,
   isFaithBased: false,
-  clientId: 2,
   definition: 'abc',
   competency: '',
   competencyId: 1,

@@ -22,6 +22,14 @@
   }
 }
 
+.clr-inherit div{
+  color: inherit;
+}
+
+.clr-inherit:hover div{
+  color: #0056b3;
+}
+
 .bordered-card {
   border-top: 6px solid #cfd1d48c;
 }
