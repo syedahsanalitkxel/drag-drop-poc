@@ -14,6 +14,8 @@ interface Props {
   viewButtonActionHandler?: (event: MouseEvent) => void;
   cancelButtonText?: string;
   cancelButtonActionHandler?: (event: MouseEvent) => void;
+  addAssessmentButtonText?: string;
+  addAssessmentActionHandler?: (event: MouseEvent) => void;
   savedSearch?: any;
 }
 
@@ -30,6 +32,8 @@ const PageHeader: React.FunctionComponent<Props> = ({
   cancelButtonText,
   savedSearch,
   cancelButtonActionHandler,
+  addAssessmentButtonText,
+  addAssessmentActionHandler,
 }) => {
   const [searchString, setSearchString] = useState(savedSearch || '');
   const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +87,12 @@ const PageHeader: React.FunctionComponent<Props> = ({
     </button>
   );
 
+  const renderAddAssessmentButton = () => (
+    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
+      <a onClick={addAssessmentActionHandler}>{addAssessmentButtonText}</a>
+    </button>
+  );
+
   return (
     <div className="PageHeader">
       <div className="row">
@@ -92,6 +102,7 @@ const PageHeader: React.FunctionComponent<Props> = ({
         <div className="col-lg-8 col-md-8 text-right p-r-30">
           <div className="form-group row d-flex justify-content-end">
             {filterAction && renderFilters()}
+            {addAssessmentButtonText && addAssessmentActionHandler && renderAddAssessmentButton()}
             {searchHandler && <label className="col-lg-1 col-form-label">Search:</label>}
             {searchHandler && <div className="col-lg-3 p-l-0">{renderSearch()}</div>}
             {actionButtonText && actionHandler && renderActionButton()}

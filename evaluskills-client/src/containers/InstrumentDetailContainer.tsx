@@ -11,8 +11,7 @@ import Spinner from '../components/atoms/Spinner';
 import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import ErrorContext from '../context/ErrorContext';
-import { isEdit, isList } from '../utils/routerUtils';
-import { getInstrumentById } from '../services/instrumentService';
+import { addEvaluator, getInstrumentById } from '../services/instrumentService';
 
 const AssessmentItems: AssessmentItemInterface[] = [
   {
@@ -32,12 +31,12 @@ const AssessmentItems: AssessmentItemInterface[] = [
 ];
 
 const participantsList: ParticipantInterface[] = [];
-const InstrumentList: ClientInstruments[] = [];
+const InstrumentList: any[] = [];
 
 interface State {
   AssessmentItems: AssessmentItemInterface[];
   participantsList: ParticipantInterface[];
-  InstrumentList: ClientInstruments[];
+  InstrumentList: any[];
   filters: InstrumentFiltersInterface;
   resetPager: boolean;
   pageDetails?: PageDetailsInterface;
@@ -78,6 +77,9 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     try {
       setState({ ...state, isLoading: true });
       const data: any = await getInstrumentById(id);
+      data.instrumentItems.map((assessmentItem: any) => {
+        assessmentItem.definition = assessmentItem.title;
+      });
       setState({
         ...state,
         AssessmentItems: data,
@@ -96,6 +98,26 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     console.log(evaluationId);
   }
 
+  async function actionHandler(values?: any, evaluationId?: string, action?: string, token?: string) {
+    try {
+      if (action === 'add' && values && token) {
+        const data: any = await addEvaluator(values, token);
+        if (data) {
+          fetchInstrumentById(match.params.id);
+        }
+      } else if (action === 'remove' && evaluationId) {
+        console.log(evaluationId);
+      } else if (action === 'addAssessment' && values) {
+        history.push(`/client-assessment-detail/${match.params.id}`);
+        setState({ ...state, isLoading: false, AssessmentItems: values });
+      }
+      //   // setState({ ...state, isLoading: false });
+    } catch (error) {
+      setState({ ...state, isLoading: false });
+      errorContext.setError(error, true);
+    }
+  }
+
   function renderPage() {
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
@@ -106,7 +128,8 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
         instruments={state.InstrumentList}
         view={viewEvaluation}
         participants={state.participantsList}
-        AssessmentItems={AssessmentItems}
+        AssessmentItems={state.InstrumentList}
+        actionHandler={actionHandler}
       />
     );
   }

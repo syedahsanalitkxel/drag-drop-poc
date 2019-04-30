@@ -21,7 +21,7 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, header, children
   return (
     <React.Fragment>
       <div className="es-card" onClick={viewDetail}>
-        <div className="row">
+        <div className="row clr-inherit">
           <div className="col-md-8">
             <p className="es-card-title">
               {header}&nbsp;<span className="badge badge-warning">{item.status}</span>

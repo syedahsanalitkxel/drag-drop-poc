@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
   item: any;
   view?: (evaluationId: string) => void;
+  addEvaluator?: (evaluationId: string, action: string, token?: string) => void;
 }
 
-const InstrumentCard: React.FunctionComponent<Props> = ({ item, view }) => {
-  console.log(item.evaluators);
+const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluator }) => {
   const [collapse, setCollapse] = useState(false);
 
   const mouseEvent = (event: any) => {
@@ -22,6 +22,16 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view }) => {
     if (event.currentTarget.name === 'view') {
       if (view) {
         view(evaluationId);
+      }
+    } else if (event.currentTarget.name === 'add') {
+      event.preventDefault();
+      if (addEvaluator) {
+        addEvaluator(evaluationId, 'add', item.token);
+      }
+    } else if (event.currentTarget.name === 'remove') {
+      event.preventDefault();
+      if (addEvaluator) {
+        addEvaluator(evaluationId, 'remove');
       }
     }
   };
@@ -86,14 +96,23 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view }) => {
           </td>
           <td>
             <button
-              id={item.id}
-              name="view"
+              id={eData.id}
+              name="reminder"
               type="button"
-              onClick={actionHandler(item.id)}
+              onClick={actionHandler(eData.id)}
               className="btn btn-primary clr-white"
               disabled={eData.status === 'Completed'}
             >
               Send Reminder
+            </button>
+            <button
+              id={eData.id}
+              name="remove"
+              type="button"
+              onClick={actionHandler(eData.id)}
+              className="btn btn-primary clr-white m-l-10 position-relative"
+            >
+              Remove Evaluator
             </button>
           </td>
           <td>
@@ -163,6 +182,15 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view }) => {
             className="btn btn-primary clr-white"
           >
             View Evaluation
+          </button>
+          <button
+            id={item.id}
+            name="add"
+            type="button"
+            onClick={actionHandler(item.id)}
+            className="btn btn-primary clr-white position-relative m-l-5"
+          >
+            Add Evaluator
           </button>
         </td>
         <td>

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { INSTRUMENTS } from '../api/endpoints';
+import { ASSESSMENTITEMS, INSTRUMENTS } from '../api/endpoints';
 
 import API from '../api';
 import { ClientInstruments } from '../interfaces/Instruments';
@@ -43,8 +43,10 @@ export async function getFilteredInstruments(filters?: InstrumentFiltersInterfac
   );
 }
 
-export async function addInstrument(user: any) {
-  return api.post(INSTRUMENTS, user).then(
+export async function addEvaluator(user: any, token: any) {
+  let url: any = ASSESSMENTITEMS;
+  url += `/${token}/AddEvaluator`;
+  return api.put(url, user).then(
     (res: AxiosResponse) => {
       return res.data;
     },
