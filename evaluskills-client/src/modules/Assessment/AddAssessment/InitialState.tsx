@@ -1,5 +1,5 @@
 import { AddAssessmentItemInterface } from '../interface';
-
+const scalingConfig = ['Exceptional', 'Excellent', 'Competent', 'Marginal', 'Unsatisfactory'];
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
   isFaithBased: undefined,
@@ -21,35 +21,35 @@ export const Initalvalues: AddAssessmentItemInterface = {
           title: 'Exceptional',
           statement: '',
           behaviour: '',
-          scaling: '',
+          scaling: scalingConfig[0],
         },
         {
           value: 4,
           title: 'Excellent',
           statement: '',
           behaviour: '',
-          scaling: '',
+          scaling: scalingConfig[1],
         },
         {
           value: 3,
           title: 'Competent',
           statement: '',
           behaviour: '',
-          scaling: '',
+          scaling: scalingConfig[2],
         },
         {
           value: 2,
           title: 'Marginal',
           statement: '',
           behaviour: '',
-          scaling: '',
+          scaling: scalingConfig[3],
         },
         {
           value: 1,
           title: 'Unsatisfactory',
           statement: '',
           behaviour: '',
-          scaling: '',
+          scaling: scalingConfig[4],
         },
       ],
     },

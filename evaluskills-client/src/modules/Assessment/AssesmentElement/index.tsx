@@ -106,6 +106,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
+            disabled={true}
             className="assesmentTextarea"
             aria-multiline="true"
             type="textarea"
@@ -175,6 +176,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
+            disabled={true}
             className="assesmentTextarea"
             aria-multiline="true"
             type="textarea"
@@ -246,6 +248,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
+            disabled={true}
             className="assesmentTextarea"
             aria-multiline="true"
             type="textarea"
@@ -315,6 +318,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
+            disabled={true}
             className="assesmentTextarea"
             aria-multiline="true"
             type="textarea"
@@ -384,6 +388,7 @@ const AssessmentElement: React.FunctionComponent<AssessmentElementProps> = props
         </div>
         <div className="col-sm-3 col-form-label">
           <Input
+            disabled={true}
             className="assesmentTextarea"
             aria-multiline="true"
             type="textarea"
