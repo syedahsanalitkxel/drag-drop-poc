@@ -9,6 +9,7 @@ import FooterGuest from '../../../components/organisms/FooterGuest';
 import RouteParamsInterface from '../../../interfaces/RouteParams';
 import { Summary } from '../interface';
 import { RouteComponentProps, withRouter } from 'react-router';
+import base64 from 'base-64';
 interface Props extends RouteComponentProps {
   data: Summary;
   pageDetails: any;
@@ -33,7 +34,7 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
   };
   const clientHolderObj = {
     name: data.participantsFirstName + ' ' + data.participantsLastName,
-    designation: '(Manager) From Tkxel',
+    designation: data.participantRole,
   };
 
   const buttonsConfig = [
@@ -50,14 +51,17 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
       classes: 'btn btn-primary',
     },
   ];
+  function goQuestion(itemID?: string) {
+    const idencoded = base64.encode(data.instrumentId ? data.instrumentId : '');
+    const itemEncoded = base64.encode(itemID ? itemID : '');
+    history.push('/evaluation/' + match.params.token + '/questions/' + idencoded + '/' + itemEncoded);
+  }
   function handleSubmit() {
     setDisplayModal(!displayModal);
     submitSummarydata();
-    //history.push('/evaluation/' + match.params.token + '/start');
   }
   function handleBack() {
     history.goBack();
-    //history.push('/evaluation/' + match.params.token + '/start');
   }
   return (
     <GuestTemplate>
@@ -98,7 +102,7 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
           </div>
           <div className="row">
             {data.evaluationItemElements.map((item, i) => {
-              return <EvaluatorAssessmentItem key={i} {...item} />;
+              return <EvaluatorAssessmentItem key={i} goQuestion={goQuestion} {...item} />;
             })}
           </div>
 

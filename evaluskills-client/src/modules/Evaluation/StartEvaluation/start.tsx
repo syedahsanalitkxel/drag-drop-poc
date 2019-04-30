@@ -12,7 +12,7 @@ interface PropsInterface extends RouteComponentProps {
 
 const EvaluatorHome: React.FC<PropsInterface> = ({ listdata, match }) => {
   const clientHolderObj = {
-    designation: '(Engineer) From Tkxel',
+    designation: listdata.participantRole,
     imagePath: listdata.imagePath,
     name: `${listdata.participantsFirstName} ${listdata.participantsLastName}`,
   };

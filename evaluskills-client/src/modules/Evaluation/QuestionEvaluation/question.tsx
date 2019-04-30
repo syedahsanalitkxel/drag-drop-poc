@@ -22,11 +22,12 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
   const [State, SetState] = useState(Questiondata);
   const [SaveState, SaveSetState] = useState(SaveandNextData);
   const clientHolderObj = {
-    name: 'Jasmine Rassol',
-    designation: '(Manager) From Tkxel',
+    name: Questiondata.participantsFirstName + ' ' + Questiondata.participantsLastName,
+    designation: Questiondata.participantRole,
   };
   function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
     SaveSetState({ ...SaveState, comments: event.target.value });
+    SetState({ ...State, comments: event.target.value });
   }
   const buttonsConfig = [
     {
@@ -44,6 +45,8 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
   ];
   function handleSkip() {
     SaveState.isSkipped = true;
+    SaveState.evaluationItemElements = [];
+    saveNextQuestionAsessment(SaveState);
   }
   function handleNext() {
     const result =
@@ -61,7 +64,7 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
     let value = data[Elementindex].itemElementOptions[Elementobjectindex].value;
     let text = data[Elementindex].itemElementOptions[Elementobjectindex].statement;
     let id = data[Elementindex].id;
-    data[Elementindex].selectedValue = Elementobjectindex;
+    data[Elementindex].selectedValue = value;
     let saveData = SaveState.evaluationItemElements;
 
     saveData[Elementindex].selectedValue = value;
@@ -98,20 +101,23 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
             return (
               <div>
                 <h2 className="font-bold mb-4">1- {State.itemElements[i].title}</h2>,
-                {item.itemElementOptions.map((item2: any, j: number) => {
-                  return (
-                    <div>
-                      <QuestionItem
-                        handleSelect={handleSelect}
-                        selectedIndex={item.selectedValue}
-                        elementIndex={i}
-                        key={j}
-                        count={j}
-                        {...item2}
-                      />
-                    </div>
-                  );
-                })}
+                {item.itemElementOptions
+                  .sort((a: any, b: any) => (a.value > b.value ? 1 : -1))
+                  .map((item2: any, j: number) => {
+                    return (
+                      <div>
+                        <QuestionItem
+                          handleSelect={handleSelect}
+                          selectedIndex={item.selectedValue}
+                          value={item2.value}
+                          elementIndex={i}
+                          key={j}
+                          count={j}
+                          {...item2}
+                        />
+                      </div>
+                    );
+                  })}
               </div>
             );
           })}

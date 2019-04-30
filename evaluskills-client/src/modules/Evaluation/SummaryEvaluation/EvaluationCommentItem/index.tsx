@@ -4,7 +4,9 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import ScoreBox from '../../../../components/atoms/ScoreBox';
 import { items } from '../../interface';
-interface Props extends items {}
+interface Props extends items {
+  goQuestion: (itemID?: string) => void;
+}
 
 const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({
   comments,
@@ -13,20 +15,25 @@ const EvaluatorAssessmentItem: React.FunctionComponent<Props> = ({
   evaluationItemElementId,
   statusId,
   status,
+  goQuestion,
+  instrumentItemId,
 }) => {
   const [display, setDisplay] = useState(false);
   const toggleComment = (e: any) => {
     e.preventDefault();
     setDisplay(!display);
   };
+  function handleClick() {
+    goQuestion(instrumentItemId);
+  }
   return (
     <div className="col-lg-12">
       {status !== 'Completed' ? (
-        <div className="ibox">
+        <div className="ibox" onClick={handleClick}>
           <div className="ibox-content in-progress m-0">
             <a href="#">
               <div className="float-right">
-                <span className="badge badge-warning">Skip</span>
+                <span className="badge badge-warning">Skiped</span>
               </div>
               <div className="txt">
                 <p className="m-0">{selectedText}</p>

@@ -1,19 +1,22 @@
-export interface StartEvaluationInterface {
+export interface StartEvaluationInterface extends Participant {
   instrumentId?: number | string;
   instrumentItemId?: number | string;
   instrumentTitle?: string;
   instructionId?: number;
   instructionTitle?: string;
   instructionDescription?: string;
+  clientName?: string;
+  evaluationStatusId?: number;
+  token?: string;
+}
+export interface Participant {
   participantsId?: number;
   participantsFirstName?: string;
   participantsLastName?: string;
   participantsEmail?: string;
   participantRoleId?: number;
+  participantRole?: string;
   imagePath?: string;
-  clientName?: string;
-  evaluationStatusId?: number;
-  token?: string;
 }
 export interface ItemElementOptions {
   id?: number;
@@ -44,18 +47,12 @@ export interface QuestionSaveInterface {
   instrumentId?: number | string;
   instrumentItemId?: number | string;
   isSkipped: boolean;
-  comments: string;
+  comments?: string;
   evaluationItemElements: SelectedItemElement[];
 }
-export interface QuestionEvaluationInterface {
-  instrumentId?: number | string;
+export interface QuestionEvaluationInterface extends Participant {
+  instrumentId?: string;
   instrumentTitle?: string;
-  participantsId?: number;
-  participantsFirstName?: string;
-  participantsLastName?: string;
-  participantsEmail?: string;
-  participantRoleId?: 0;
-  imagePath?: string;
   clientName?: string;
   overallScore?: number | string;
   itemElements: evaluationItemElements[];
@@ -73,6 +70,10 @@ export interface items {
   evaluationItemElementId?: number;
   statusId?: number;
   status?: string;
+  instrumentItemId?: string;
+}
+export interface Result extends Participant {
+  overallScore?: number | string;
 }
 export interface Summary extends QuestionEvaluationInterface {
   evaluationItemElements: items[];

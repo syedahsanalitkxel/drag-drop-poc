@@ -1,8 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import GuestTemplate from '../../../components/templates/GuestTemplate';
-
-const EvaluatorResult = () => {
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Result } from '../interface';
+interface PropsInterface extends RouteComponentProps {
+  Reultdata?: Result;
+}
+const EvaluatorResult: React.FunctionComponent<PropsInterface> = ({ Reultdata }) => {
   return (
     <GuestTemplate>
       <div className="invite-container">
@@ -16,7 +20,7 @@ const EvaluatorResult = () => {
               <h1 className="font-bold mt-1 mb-4 font-size-40">
                 360° Leadership Assessment
                 <span className="d-block font-size-30">
-                  <span className="font-normal">of</span> Jasmine Rassol!
+                  <span className="font-normal">of</span> {}
                 </span>
               </h1>
               <NavLink to="/evaluation/comment" className="btn btn-primary font-size-20 font-bold mb-4 pr-4 pl-4">
@@ -37,4 +41,4 @@ const EvaluatorResult = () => {
     </GuestTemplate>
   );
 };
-export default EvaluatorResult;
+export default withRouter(EvaluatorResult);

@@ -29,7 +29,6 @@ import {
   getQuestionEvaluation,
   fetchQuestionEvaluation,
 } from './service';
-import summary from './SummaryEvaluation/summary';
 
 const StartEvaluation = lazy(() => import('./StartEvaluation/start'));
 const QuestionEvaluation = lazy(() => import('./QuestionEvaluation/question'));
@@ -40,17 +39,6 @@ const CommentEvaluation = lazy(() => import('./CommentEvaluation/comment'));
 
 const StartEvaluationTemplate: StartEvaluationInterface = {
   instrumentTitle: '360° Leadership Assessment',
-  // instructionId?: ;
-  //instructionTitle: 'Instructions',
-  //instructionDescription:
-  //'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
-  // participantsId?: number;
-  //participantsFirstName: 'ali',
-  //participantsLastName: 'zain',
-  // participantsEmail?: string;
-  // participantRoleId?: number;
-  //imagePath: 'https://pbs.twimg.com/profile_images/839596277163831296/QXw9XvF5.jpg',
-  // clientName?: string;
 };
 const QuestionEvaluationTemplate: QuestionEvaluationInterface = {
   progress: 0,
@@ -136,8 +124,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     if (match.path.includes('questions')) {
       setState({ ...state, isLoading: true });
       fetchQuestionAsessment();
-    } else if (isList(match.path)) {
-      fetchStartInstruction();
     }
   }, [match.path, match.params]);
 
@@ -182,6 +168,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       }
       let skipchange = startState.SaveQuestion;
       skipchange.isSkipped = false;
+      skipchange.comments = startdata.data.comments;
       setStartState({ ...startState, QuestionEvaluationTemplate: startdata.data, SaveQuestion: skipchange });
       setState({ ...state, isLoading: false });
     } catch (error) {
@@ -205,7 +192,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   function navigate(instruemntID: string) {
     if (instruemntID == '0') {
       history.push(`/evaluation/${match.params.token}/summary`);
-      fetchSummarydata();
     } else {
       const idencoded = base64.encode(instruemntID);
       history.push(`/evaluation/${match.params.token}/questions/${match.params.instrumentId}/${idencoded}`);
@@ -213,14 +199,18 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
 
     //'/evaluation/' + listdata.token + '/questions/' + listdata.instrumentId + '/' + listdata.instrumentItemId
   }
+  function navigateResult() {
+    history.push(`/evaluation/${match.params.token}/result`);
 
+    //'/evaluation/' + listdata.token + '/questions/' + listdata.instrumentId + '/' + listdata.instrumentItemId
+  }
   async function submitSummarydata() {
     try {
-      debugger;
       setState({ ...state, isLoading: true });
       const startdata: any = await submitEvaluation(match.params.token);
 
       setState({ ...state, isLoading: false });
+      navigateResult();
     } catch (error) {
       errorContext.setError(error, true);
       setState({ ...state, isLoading: false });
@@ -231,7 +221,6 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
     try {
       setState({ ...state, isLoading: true });
       const startdata: any = await fetchSummary(match.params.token);
-
       setStartState({ ...startState, SummaryTemplate: startdata });
       setState({ ...state, isLoading: false });
     } catch (error) {
@@ -265,11 +254,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
   function renderPage() {
     if (state.isLoading) {
       return <Spinner lightBg={true} />;
-    }
-    if (match.path.includes('start')) {
+    } else if (match.path.includes('start')) {
       return <StartEvaluation listdata={startState.StartEvaluationTemplate} />;
-    }
-    if (match.path.includes('questions')) {
+    } else if (match.path.includes('questions')) {
       return (
         <QuestionEvaluation
           saveNextQuestionAsessment={saveQuestionAsessment}
@@ -277,8 +264,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           Questiondata={startState.QuestionEvaluationTemplate}
         />
       );
-    }
-    if (match.path.includes('summary')) {
+    } else if (match.path.includes('summary')) {
       return (
         <SummeryEvaluation
           data={startState.SummaryTemplate}
@@ -288,11 +274,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
           submitSummarydata={submitSummarydata}
         />
       );
-    }
-    if (match.path.includes('result')) {
+    } else if (match.path.includes('result')) {
       return <ResultEvaluation />;
-    }
-    if (match.path.includes('comment')) {
+    } else if (match.path.includes('comment')) {
       return <CommentEvaluation />;
     }
     return <ListEvaluation />;

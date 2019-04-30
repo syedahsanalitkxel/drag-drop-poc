@@ -16,7 +16,7 @@ export const EvaluationRoutes = [
   },
   {
     Component: lazy(() => import('./Container')),
-    path: '/evaluation/result',
+    path: '/evaluation/:token/result',
   },
   {
     Component: lazy(() => import('./Container')),
