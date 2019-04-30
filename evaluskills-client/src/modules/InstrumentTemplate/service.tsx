@@ -60,3 +60,11 @@ export async function updateInstrumentTemplates(instrument: InstrumentTemplateIn
     }
   );
 }
+export async function AddInstrument(instrument: any) {
+  return api.post('Instruments', instrument).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}

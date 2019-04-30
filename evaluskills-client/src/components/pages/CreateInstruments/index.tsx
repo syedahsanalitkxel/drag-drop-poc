@@ -14,7 +14,9 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import evaluationFormSchema from './clientFormSchema';
+import { AddInstrument } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
+import Checkbox from '../../atoms/CheckBox';
 interface Props {
   changeListener?: (formValues: AddEvaluationInterface) => void;
   defaultValues?: AddEvaluationInterface;
@@ -22,50 +24,45 @@ interface Props {
 }
 
 const initialState: AddEvaluationInterface = {
-  address: '',
-  billing: '',
-  city: '',
-  clientInformation: '',
-  clientName: '',
-  clientType: '',
-  contact: [
+  title: '',
+  instructionVersionId: 1,
+  instrumentTemplateId: 1,
+  clientId: 0,
+  testTypeId: 1,
+  instrumentApplicationId: 1,
+  recomendedApplicationId: 1,
+  allowParticipantsToAddEvaluators: true,
+  dueDate: '2019-04-30T06:06:04.781Z',
+  minEvaluationsPerParticipant: 0,
+  participantsInvitationEmailTemplateId: 0,
+  evaluatorsInvitationEmailTemplateId: 0,
+  sendInstrument: true,
+  reminders: [
     {
-      email: '',
-      firstName: '',
-      id: '',
-      lastName: '',
-      phone: '',
-      role: '',
+      emailTemplateId: 1,
+      reminderDate: '2019-04-30T06:06:04.781Z',
+    },
+    {
+      emailTemplateId: 1,
+      reminderDate: '2019-04-30T06:06:04.781Z',
+    },
+    {
+      emailTemplateId: 1,
+      reminderDate: '2019-04-30T06:06:04.781Z',
     },
   ],
-  id: '',
-  noOfAssessments: '',
-  noOfEvaluators: '',
-  noOfParticipants: '',
-  phone: '',
-  plan: '',
-  school: '',
-  state: '',
-  status: '',
-  userEmail: '',
-  userFirstName: '',
-  userLastName: '',
-  zip: '',
-  assessmentType: 'active',
-  newParticipant: [
+  participants: [
     {
-      paticipant: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: '',
-      },
+      firstName: '',
+      lastName: '',
+      email: '',
+      roleId: 0,
       evaluator: [
         {
           firstName: '',
           lastName: '',
           email: '',
-          role: '',
+          roleId: 0,
         },
       ],
     },
@@ -87,6 +84,7 @@ const StyledButton = styled(Button)`
 `;
 
 export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action }) => {
+  const [isDraft, setisDraft] = useState(false);
   const [formState, setFormState] = useState(defaultValues || initialState);
   const [contactFormState, setContactFormState] = useState(initialContactState);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
@@ -113,8 +111,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     alert(`deleting => ${contactId}`);
   }
 
-  function submitForm(values: AddEvaluationInterface) {
+  async function submitForm(values: AddEvaluationInterface) {
+    console.log(isDraft);
+    debugger;
     setFormState({ ...formState, ...values });
+    const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
+    const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
+
+    // newState.reminders.push({reminderDate:values.date1,emailTemplateId:0});
+    let result = await AddInstrument(newState);
+    debugger;
   }
   const addNewEvaluator = (id: number) => {
     const newobj = {
@@ -123,42 +129,46 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
       email: '',
       role: '',
     };
-    const { newParticipant } = formState;
-    newParticipant[id].evaluator.push(newobj);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants[id].evaluator.push(newobj);
+    setFormState({ ...formState, participants });
   };
   const removeParticipant = (id: number) => {
-    const { newParticipant } = formState;
-    newParticipant.splice(id, 1);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants.splice(id, 1);
+    setFormState({ ...formState, participants });
   };
   const removeEvaluatior = (index: number, evalindex: number) => {
-    const { newParticipant } = formState;
-    newParticipant[index].evaluator.splice(evalindex, 1);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants[index].evaluator.splice(evalindex, 1);
+    setFormState({ ...formState, participants });
   };
   const onClickAddContact = (event: React.MouseEvent) => {
     const newobj = {
-      paticipant: {
+      participant: {
         firstName: '',
         lastName: '',
         email: '',
-        role: '',
+        roleId: 0,
       },
       evaluator: [
         {
           firstName: '',
           lastName: '',
           email: '',
-          role: '',
+          roleId: 0,
         },
       ],
     };
-    const { newParticipant } = formState;
-    newParticipant.push(newobj);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants.push(newobj);
+    setFormState({ ...formState, participants });
   };
-
+  function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    debugger;
+    let check = formState && formState.allowParticipantsToAddEvaluators;
+    setFormState({ ...formState, allowParticipantsToAddEvaluators: !check });
+  }
   const renderForm = (formikprops: FormikBag) => {
     // const renderParticipantList = (contact: any, index: number) => (
     //   <Fragment key={index}>
@@ -180,46 +190,25 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-6">
               <FormElement label="Title" name="title" placeholder="Add Title" formikprops={formikprops} inline={true} />
             </div>
-            <div className="form-group  col-md-6">
-              <label className="col-sm-2 col-form-label font-bold">Status</label>
-              <div className="col-sm-10 d-flex align-items-center">
-                <RadioButton
-                  name="assessmentType"
-                  value="active"
-                  currentSelection={formState.assessmentType}
-                  onChange={changeHandler}
-                >
-                  Active
-                </RadioButton>
-                <RadioButton
-                  name="assessmentType"
-                  value="inactive"
-                  currentSelection={formState.assessmentType}
-                  onChange={changeHandler}
-                >
-                  inactive
-                </RadioButton>
-              </div>
-            </div>
           </div>
 
           <div className="row">
             <div className="col-md-6">
               <FormElement
                 label="Instrument Application"
-                name="billing"
+                name="instrumentApplicationId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="billing-1">Higher Eduction</option>
-                <option value="billing-2">Option 2</option>
+                <option value="0">Higher Eduction</option>
+                <option value="1">Option 2</option>
               </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
                 label="Due Date"
-                name="date"
+                name="dueDate"
                 formikprops={formikprops}
                 type={FormElementTypes.DATE}
                 inline={true}
@@ -231,7 +220,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-4">
               <FormElement
                 label="Min. Number of Evaluations"
-                name="minEvaluator"
+                name="minEvaluationsPerParticipant"
                 placeholder="Add Min. Number"
                 formikprops={formikprops}
                 inline={true}
@@ -241,30 +230,42 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-4">
               <FormElement
                 label="Participant Invitation Email Template"
-                name="participantEmail"
+                name="participantsInvitationEmailTemplateId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Select Template</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value="0">Select Template</option>
+                <option value="1">Option 2</option>
+                <option value="2">Option 3</option>
               </FormElement>
             </div>
             <div className="col-md-4">
               <FormElement
                 label="Evaluator Invitation Email Template"
-                name="clientType"
+                name="evaluatorsInvitationEmailTemplateId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
                 last={true}
               >
-                <option value="selected">Select Template</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value="0">Select Template</option>
+                <option value="1">Option 2</option>
+                <option value="2">Option 3</option>
               </FormElement>
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-sm-5 d-flex align-items-center">
+              <Checkbox
+                name="allowParticipantsToAddEvaluators"
+                value="allowParticipantsToAddEvaluators"
+                isChecked={formState && formState.allowParticipantsToAddEvaluators}
+                onChange={versionHandler}
+              >
+                Save As New Version
+              </Checkbox>
             </div>
           </div>
         </PageBody>
@@ -283,7 +284,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
         <div>
           <ParticipantList
             formikprops={formikprops}
-            participant={formState.newParticipant}
+            participant={formState.participants}
             addNewEvaluator={addNewEvaluator}
             removeParticipant={removeParticipant}
             removeEvaluatior={removeEvaluatior}
@@ -397,14 +398,28 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <StyledButton type="button" size="lg">
               Cancel
             </StyledButton>
-            <StyledButton type="submit" name="submit" color="primary" size="lg">
+            <StyledButton
+              onClick={() => {
+                setisDraft(false);
+              }}
+              type="submit"
+              name="submit"
+              color="primary"
+              size="lg"
+            >
               Save
             </StyledButton>
-            {/* {!action && (
-              <StyledButton type="button" color="primary" size="lg">
-                Save &amp; Add More
-              </StyledButton>
-            )} */}
+            <StyledButton
+              onClick={() => {
+                setisDraft(true);
+              }}
+              type="submit"
+              name="submit"
+              color="primary"
+              size="lg"
+            >
+              Save and publish
+            </StyledButton>
           </div>
         </PageBody>
       </Form>
@@ -413,7 +428,12 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
 
   return (
     <DashboardTemplate>
-      <Formik initialValues={formState} validationSchema={evaluationFormSchema} onSubmit={submitForm}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={formState}
+        validationSchema={evaluationFormSchema}
+        onSubmit={submitForm}
+      >
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
     </DashboardTemplate>

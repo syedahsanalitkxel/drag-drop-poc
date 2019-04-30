@@ -27,13 +27,13 @@ const Participants: React.FunctionComponent<Props> = ({
   console.log(formikprops);
   function getParticipantField(index: number, key: string) {
     if (index !== undefined) {
-      return `newParticipant[${index}].paticipant.${key}`;
+      return `participants[${index}].participant.${key}`;
     }
     return key;
   }
   function getevalutorField(index: number, evalIndex: number, key: string) {
     if (index !== undefined) {
-      return `newParticipant[${index}].evaluator[${evalIndex}].${key}`;
+      return `participants[${index}].evaluator[${evalIndex}].${key}`;
     }
     return key;
   }
@@ -84,9 +84,9 @@ const Participants: React.FunctionComponent<Props> = ({
               inline={true}
               last={true}
             >
-              <option value="">Select Role</option>
-              <option value="role1">Role 1</option>
-              <option value="role2">Role 2</option>
+              <option value="0">Select Role</option>
+              <option value="1">Role 1</option>
+              <option value="2">Role 2</option>
             </FormElement>
 
             <div className="col-sm-3 ">
@@ -166,9 +166,9 @@ const Participants: React.FunctionComponent<Props> = ({
                 inline={true}
                 last={true}
               >
-                <option value="">Select Role</option>
-                <option value="role1">Role 1</option>
-                <option value="role2">Role 2</option>
+                <option value="0">Select Role</option>
+                <option value="1">Role 1</option>
+                <option value="2">Role 2</option>
               </FormElement>
             </div>
           </div>
