@@ -7,6 +7,7 @@ import InstrumentDetail from './index';
 import AssessmentItemInterface from '../../../interfaces/AssessmentItem';
 import ParticipantInterface from '../../../interfaces/Participant';
 import EvaluatorInterface from '../../../interfaces/Evaluator';
+import InstrumentDetailTemplate from '../../../containers/InstrumentDetailContainer';
 
 const instruments = [
   {
@@ -134,11 +135,5 @@ function viewAssessmentDetail() {
 }
 
 storiesOf('InstrumentDetail', module).add('InstrumentDetail', () => (
-  <InstrumentDetail
-    instruments={instruments}
-    participants={participantsList}
-    evaluator={EvaluatorList}
-    assessmentItems={AssessmentItems}
-    view={viewAssessmentDetail}
-  />
+  <InstrumentDetail instruments={instruments} participants={participantsList} AssessmentItems={AssessmentItems} />
 ));

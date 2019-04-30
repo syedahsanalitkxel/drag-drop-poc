@@ -6,6 +6,12 @@ import { ClientInstruments } from '../interfaces/Instruments';
 import AssessmentItemInterface from '../interfaces/AssessmentItem';
 import EvaluatorInterface from '../interfaces/Evaluator';
 import ParticipantInterface from '../interfaces/Participant';
+import DashboardTemplate from '../components/templates/DashboardTemplate';
+import Spinner from '../components/atoms/Spinner';
+import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
+import { PageDetailsInterface } from '../api/ResponseInterface';
+import ErrorContext from '../context/ErrorContext';
+import { addEvaluator, getInstrumentById } from '../services/instrumentService';
 
 const AssessmentItems: AssessmentItemInterface[] = [
   {
@@ -24,142 +30,114 @@ const AssessmentItems: AssessmentItemInterface[] = [
   },
 ];
 
-const participantsList: ParticipantInterface[] = [
-  {
-    email: 'jasminrasool@gmail.com',
-    id: '1',
-    name: 'jasmin Rasool',
-    noOfEvaluators: '5',
-    progress: '20%',
-    status: 'InProgress',
-  },
-  {
-    email: 'jasminrasool@gmail.com',
-    id: '2',
-    name: 'jasmin Rasool',
-    noOfEvaluators: '2',
-    progress: '50%',
-    status: 'InProgress',
-  },
-  {
-    email: 'jasminrasool@gmail.com',
-    id: '3',
-    name: 'jasmin Rasool',
-    noOfEvaluators: '5',
-    progress: '100%',
-    status: 'Completed',
-  },
-  {
-    email: 'jasminrasool@gmail.com',
-    id: '4',
-    name: 'jasmin Rasool',
-    noOfEvaluators: '5',
-    progress: '0%',
-    status: 'NotStarted',
-  },
-  {
-    email: 'jhonjames@gmail.com',
-    id: '5',
-    name: 'john james',
-    noOfEvaluators: '5',
-    progress: '20%',
-    status: 'InProgress',
-  },
-  {
-    email: 'jasminrasool@gmail.com',
-    id: '6',
-    name: 'jasmin Rasool',
-    noOfEvaluators: '2',
-    progress: '50%',
-    status: 'InProgress',
-  },
-];
+const participantsList: ParticipantInterface[] = [];
+const InstrumentList: any[] = [];
 
-const EvaluatorList: EvaluatorInterface[] = [
-  {
-    email: 'robbyrash@gmail.com',
-    id: '1',
-    name: 'Robby Rash',
-    progress: '20%',
-    role: 'UI/UX Leader',
-    status: 'InProgress',
-  },
-  {
-    email: 'maraymrassol@gmail.com',
-    id: '2',
-    name: 'Mariyam Rassal',
-    progress: '100%',
-    role: 'Department Head',
-    status: 'Completed',
-  },
-  {
-    email: 'robbyrash@gmail.com',
-    id: '3',
-    name: 'Robby Rash',
-    progress: '50%',
-    role: 'Team Lead',
-    status: 'InProgress',
-  },
-  {
-    email: 'robbyrash@gmail.com',
-    id: '4',
-    name: 'Robby Rash',
-    progress: '20%',
-    role: 'Senior Designer',
-    status: 'InProgress',
-  },
-];
+interface State {
+  AssessmentItems: AssessmentItemInterface[];
+  participantsList: ParticipantInterface[];
+  InstrumentList: any[];
+  filters: InstrumentFiltersInterface;
+  resetPager: boolean;
+  pageDetails?: PageDetailsInterface;
+  isLoading: boolean;
+}
+const defaultFilters: InstrumentFiltersInterface = {
+  pageNumber: 1,
+  pageSize: 10,
+  type: '',
+};
 
-const InstrumentList: ClientInstruments[] = [
-  {
-    id: '1',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
-    title: '360° Leadership Instrument',
-  },
-  {
-    id: '2',
-    noOfAssessmentItems: '25',
-    noOfEvaluations: '28',
-    noOfParticipants: '30',
-    title: '210° Leadership Instrument',
-  },
-];
+const defaultPageDetail = {
+  currentPage: defaultFilters.pageNumber || 1,
+  pageSize: 25,
+  totalCount: 10,
+};
 
 const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<RouteParamsInterface>> = ({
   history,
   match,
 }) => {
-  const [instruments, setInstruments] = useState(InstrumentList);
-  const [participants, setParticipants] = useState(participantsList);
-  const [evaluator, setEvaluator] = useState(EvaluatorList);
+  const errorContext = useContext(ErrorContext);
+  const [state, setState] = useState<State>({
+    AssessmentItems,
+    InstrumentList,
+    filters: defaultFilters,
+    isLoading: false,
+    pageDetails: defaultPageDetail,
+    participantsList,
+    resetPager: false,
+  });
 
   useEffect(() => {
-    // fetchClients();
-    return function cleanup() {
-      setInstruments(InstrumentList);
-      setParticipants(participantsList);
-      setEvaluator(EvaluatorList);
-    };
-  }, []);
+    fetchInstrumentById(match.params.id);
+  }, [match.path, state.filters]);
+
+  async function fetchInstrumentById(id: any) {
+    try {
+      setState({ ...state, isLoading: true });
+      const data: any = await getInstrumentById(id);
+      data.instrumentItems.map((assessmentItem: any) => {
+        assessmentItem.definition = assessmentItem.title;
+      });
+      setState({
+        ...state,
+        AssessmentItems: data,
+        InstrumentList: data.instrumentItems,
+        isLoading: false,
+        pageDetails: data.pageDetails,
+        participantsList: data.participants,
+      });
+    } catch (error) {
+      errorContext.setError(error, true);
+      setState({ ...state, isLoading: false });
+    }
+  }
 
   function viewEvaluation(evaluationId: string) {
     console.log(evaluationId);
   }
 
-  const InstrumentData: any = InstrumentList.find(instrument => instrument.id === match.params.id);
+  async function actionHandler(values?: any, evaluationId?: string, action?: string, token?: string) {
+    try {
+      if (action === 'add' && values && token) {
+        const data: any = await addEvaluator(values, token);
+        if (data) {
+          fetchInstrumentById(match.params.id);
+        }
+      } else if (action === 'remove' && evaluationId) {
+        console.log(evaluationId);
+      } else if (action === 'addAssessment' && values) {
+        history.push(`/client-assessment-detail/${match.params.id}`);
+        setState({ ...state, isLoading: false, AssessmentItems: values });
+      }
+      //   // setState({ ...state, isLoading: false });
+    } catch (error) {
+      setState({ ...state, isLoading: false });
+      errorContext.setError(error, true);
+    }
+  }
+
+  function renderPage() {
+    if (state.isLoading) {
+      return <Spinner lightBg={true} />;
+    }
+
+    return (
+      <InstrumentDetailTemplate
+        instruments={state.InstrumentList}
+        view={viewEvaluation}
+        participants={state.participantsList}
+        AssessmentItems={state.InstrumentList}
+        actionHandler={actionHandler}
+      />
+    );
+  }
 
   return (
-    InstrumentData && (
-      <InstrumentDetailTemplate
-        instruments={InstrumentData}
-        view={viewEvaluation}
-        participants={participants}
-        evaluator={evaluator}
-        assessmentItems={AssessmentItems}
-      />
-    )
+    <DashboardTemplate>
+      <React.Suspense fallback={<Spinner />}>{renderPage()}</React.Suspense>
+    </DashboardTemplate>
   );
 };
 

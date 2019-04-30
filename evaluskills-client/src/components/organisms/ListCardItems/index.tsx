@@ -62,9 +62,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       <div className="col-md-3 border-left text-center">
         <LabelGroup label="Type" value={type} badge={BadgeTypes.PRIMARY} />
       </div>
-      <div className="col-md-4 border-left text-center">
-        <LabelGroup label="Competency" value={competency} />
-      </div>
+      {competency && (
+        <div className="col-md-4 border-left text-center">
+          <LabelGroup label="Competency" value={competency} />
+        </div>
+      )}
     </React.Fragment>
   );
 

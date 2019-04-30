@@ -6,29 +6,20 @@ import { ClientInstruments } from '../../../interfaces/Instruments';
 interface ListCardProps {
   listData: ClientInstruments[];
   titleKey: string;
-  view?: (id: string) => void;
+  view: (id: string) => void;
 }
-const pStyle = {
-  width: '50%',
-};
 
 const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, listData, view }) => {
   // TODO: Add checkbox support
   // TODO: Add support remove action handlers and replace them with CheckBox
-  const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (event.currentTarget.name === 'view') {
-      if (view) {
-        view(assessmentId);
-      }
-    }
-  };
 
   const renderContent = (
     title: string,
     noOfAssessmentItems: string,
     noOfEvaluations: string,
     noOfParticipants: string,
-    id: string
+    id: any,
+    status: string
   ) => (
     <React.Fragment>
       <div className="d-inline-flex m-r-15 text-center">
@@ -46,45 +37,48 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
     </React.Fragment>
   );
 
-  const renderProgressBar = (id: string) => (
+  const calculateProgress = (items: any) => {
+    if (items.totalEvaluations > 0) {
+      return {
+        width: ((items.completedAssessments / items.totalEvaluations) * 100).toString().concat('%'),
+      };
+    } else {
+      return {
+        width: '0%',
+      };
+    }
+  };
+
+  const renderProgressBar = (id: any, items: any) => (
     <React.Fragment>
       <div className="progress">
-        <div style={pStyle} className="progress-bar">
-          50%
+        <div style={calculateProgress(items)} className="progress-bar">
+          {((items.completedAssessments / items.totalEvaluations) * 100)
+            .toFixed(2)
+            .toString()
+            .concat('%')}
         </div>
       </div>
-      <span>1 Evaluations Received</span>
+      <span>{items.completedAssessments} Evaluations Received</span>
     </React.Fragment>
   );
-
-  const renderActions = (id: string) => {
-    return (
-      <React.Fragment>
-        {view && (
-          <button id={id} name="view" type="button" onClick={actionHandler(id)} className="btn btn-default">
-            Detail
-          </button>
-        )}
-      </React.Fragment>
-    );
-  };
 
   function renderAllCards(item: ClientInstruments) {
     if (item) {
       const content = renderContent(
         item.title,
-        item.noOfAssessmentItems,
-        item.noOfEvaluations,
-        item.noOfParticipants,
-        item.id
+        item.totalAssessmentItems,
+        item.totalEvaluations,
+        item.totalAssessments,
+        item.id,
+        item.status
       );
 
-      const actions = renderActions(item.id);
-      const bar = renderProgressBar(item.id);
+      const bar = renderProgressBar(item.id, item);
 
       return (
-        <InstrumentCard key={item.id} header={item.title}>
-          {{ content, actions, bar }}
+        <InstrumentCard item={item} key={item.id} header={item.title}>
+          {{ content, bar, view }}
         </InstrumentCard>
       );
     }
