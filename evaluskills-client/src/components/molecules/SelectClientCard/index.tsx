@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
-import Api from './../../../api';
-const api = new Api();
 import { AuthContext } from '../../../modules/Auth/authContext';
-import { getSelectedClient } from './../../../modules/Clients/service';
+import { getSelectedClient } from '../../../modules/Clients/service';
 interface Props {
   clientLogo: string;
   clientId: string;
@@ -10,13 +8,13 @@ interface Props {
 }
 const SelectClientCard: React.FunctionComponent<Props> = ({ clientId, clientName, clientLogo }) => {
   const authContext = useContext(AuthContext);
-  function handleClick() {
-    getClient();
-  }
-  async function getClient() {
+
+  async function handleClick() {
     try {
       const result = await getSelectedClient(clientId);
-      authContext.authenticate(result.token, JSON.stringify(result));
+      if (result && result.token) {
+        authContext.authenticate(result.token, JSON.stringify(result));
+      }
     } catch (e) {
       console.log('Something went wrong');
     }

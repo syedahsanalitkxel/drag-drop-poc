@@ -94,6 +94,7 @@ export async function getStates(id: any) {
   );
 }
 export async function getSelectedClient(id: any) {
+  console.log(api);
   return api.get(SELECT_CLIENT, undefined, { clientId: id }).then(
     (res: AxiosResponse) => {
       return res.data;

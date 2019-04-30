@@ -95,6 +95,8 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
       ...values,
       templateItems: formState.templateItems,
     };
+    const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
+    newFormState.clientId = activeClientId;
     newFormState.templateStatusId = isDraft ? 1 : 2;
     setFormState(newFormState);
 
