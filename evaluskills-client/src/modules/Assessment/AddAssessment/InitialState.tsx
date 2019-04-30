@@ -1,5 +1,11 @@
 import { AddAssessmentItemInterface } from '../interface';
-const scalingConfig = ['Exceptional', 'Excellent', 'Competent', 'Marginal', 'Unsatisfactory'];
+const scalingConfig = [
+  'Level of proficiency significantly exceeds expectations. ',
+  'Level of proficiency exceeds expectations. ',
+  'Level of proficiency is at an expected level. ',
+  'Level of proficiency is slightly below expectations.',
+  'Level of proficiency is significantly below expectations.',
+];
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
   isFaithBased: undefined,
