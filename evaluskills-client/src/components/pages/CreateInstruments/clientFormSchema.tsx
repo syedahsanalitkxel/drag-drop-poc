@@ -23,18 +23,9 @@ const evaluationFormSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  emailTemplate1: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  emailTemplate2: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  emailTemplate3: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+  emailTemplate1: Yup.string().required('Required'),
+  emailTemplate2: Yup.string().required('Required'),
+  emailTemplate3: Yup.string().required('Required'),
   participants: Yup.array().of(
     Yup.object().shape({
       firstName: Yup.string()
