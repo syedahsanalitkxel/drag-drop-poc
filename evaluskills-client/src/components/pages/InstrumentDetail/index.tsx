@@ -16,6 +16,7 @@ import ESModal from '../../../components/molecules/Modal';
 import AssessmentItemsList from '../../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
 import _, { remove } from 'lodash-es';
 import EmptyPage from '../../atoms/EmptyPage';
+import { cancelInstrument } from '../../../modules/InstrumentTemplate/service';
 
 interface Props {
   instruments: any;
@@ -49,8 +50,11 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
     event.preventDefault();
     // toggleFilterModal();
   };
-
+  async function cancel() {
+    await cancelInstrument(instruments.id);
+  }
   const cancelClickHandler = (event: React.MouseEvent) => {
+    cancel();
     event.preventDefault();
     if (sendInstrument) {
       sendInstrument(instruments.id, 'cancel');

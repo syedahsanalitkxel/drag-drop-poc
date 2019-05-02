@@ -136,7 +136,9 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
-
+  function cancel() {
+    history.push('/instrument-templates');
+  }
   async function submitForm(values: any) {
     values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
     values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
@@ -523,7 +525,13 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
 
         <PageBody>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              onClick={() => {
+                cancel();
+              }}
+              type="button"
+              size="lg"
+            >
               Cancel
             </StyledButton>
             <StyledButton
