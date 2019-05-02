@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://10.0.0.217:7002/api/';
+export const BASE_URL = 'http://stage-api-evaluskills.peregrineacademics.com/api/';
 // export const BASE_URL = 'http://5c9223ebe7b1a00014078cc7.mockapi.io/api/v1/';
 export const ASSESSMENTS = 'Items';
 export const ASSESSMENTITEMS = 'Assessments';
