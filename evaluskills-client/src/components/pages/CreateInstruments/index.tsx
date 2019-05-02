@@ -93,7 +93,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.name]: event.target.value });
+    setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
   }
   const toggleAddClientContactModal = () => {
     setContactFormState(initialContactState);
@@ -151,6 +151,21 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
       ));
     }
   };
+  const testTypeLookUp = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.testTypesLookUp).map((lookup: LookupItemInterface, index) => (
+        <RadioButton
+          name="testTypeId"
+          value={lookup.value}
+          currentSelection={formState.testTypeId}
+          onChange={changeHandler}
+        >
+          {lookup.text}
+        </RadioButton>
+      ));
+    }
+  };
   const removeEvaluatior = (index: number, evalindex: number) => {
     const { participants } = formState;
     participants[index].evaluator.splice(evalindex, 1);
@@ -201,6 +216,10 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
           <div className="row">
             <div className="col-md-6">
               <FormElement label="Title" name="title" placeholder="Add Title" formikprops={formikprops} inline={true} />
+            </div>
+            <div className="col-md-6">
+              <label className="col-sm-2 col-form-label font-bold">Test type</label>
+              <LookupContextConsumer>{testTypeLookUp}</LookupContextConsumer>
             </div>
           </div>
 
