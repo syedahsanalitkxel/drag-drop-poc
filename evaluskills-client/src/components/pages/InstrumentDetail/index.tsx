@@ -10,10 +10,12 @@ import ParticipantInterface from '../../../interfaces/Participant';
 import EvaluatorInterface from '../../../interfaces/Evaluator';
 import { Button, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
+import InstrumentReminders from '../../organisms/InstrumentReminders';
 import ListCardItems from '../../organisms/ListCardItems';
 import ESModal from '../../../components/molecules/Modal';
 import AssessmentItemsList from '../../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
 import _ from 'lodash-es';
+import EmptyPage from '../../atoms/EmptyPage';
 
 interface Props {
   instruments: any;
@@ -21,6 +23,7 @@ interface Props {
   participants: ParticipantInterface[];
   AssessmentItems: any;
   actionHandler?: (values?: any, evaluationId?: string, action?: string, token?: string) => void;
+  sendInstrument?: (evaluationId: string, action?: string) => void;
 }
 
 const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
@@ -29,12 +32,16 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   participants,
   AssessmentItems,
   actionHandler,
+  sendInstrument,
 }) => {
+  console.log(instruments);
   const [modalVisible, setModalVisible] = useState(false);
   const [formState, setFormState] = useState(AssessmentItems);
   const activateClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    // toggleFilterModal();
+    if (sendInstrument) {
+      sendInstrument(instruments.id, 'activate');
+    }
   };
 
   const viewClickHandler = (event: React.MouseEvent) => {
@@ -44,24 +51,33 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
 
   const cancelClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    // toggleFilterModal();
+    if (sendInstrument) {
+      sendInstrument(instruments.id, 'cancel');
+    }
   };
 
   const [activeTab, setActiveTab] = useState('1');
 
-  const toggle = () => {
-    if (activeTab === '1') {
-      setActiveTab('2');
-    } else if (activeTab === '2') {
-      setActiveTab('1');
+  function toggle(event: React.MouseEvent) {
+    setActiveTab(event.currentTarget.id);
+  }
+
+  function handleInstrumentReminder(values: any) {
+    if (actionHandler) {
+      const reminders = instruments;
+      delete reminders.instrumentItems;
+      delete reminders.participants;
+      delete reminders.participants;
+      delete reminders.reminders;
+      reminders.reminders = values;
+      actionHandler(reminders, '', 'addReminders');
     }
-  };
+  }
 
   const getAssessment = (values: any) => {
     values.map((val: any) => {
       val.id = val.itemId;
     });
-    console.log(values);
     const valu = _.unionBy(formState, values, 'id');
     setFormState(valu);
     if (actionHandler) {
@@ -74,7 +90,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
     <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
-          {activeTab === '2' ? (
+          {instruments.status === 'Draft' && activeTab === '2' ? (
             <PageHeader
               title={instruments.title}
               activeButtonText="Activate"
@@ -88,11 +104,31 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                 setModalVisible(true);
               }}
             />
-          ) : (
+          ) : instruments.status === 'Draft' && activeTab !== '2' ? (
             <PageHeader
               title={instruments.title}
               activeButtonText="Activate"
               activeButtonActionHandler={activateClickHandler}
+              viewButtonText="View Results"
+              viewButtonActionHandler={viewClickHandler}
+              cancelButtonText="Cancel Assessment"
+              cancelButtonActionHandler={cancelClickHandler}
+            />
+          ) : instruments.status !== 'Draft' && activeTab === '2' ? (
+            <PageHeader
+              title={instruments.title}
+              viewButtonText="View Results"
+              viewButtonActionHandler={viewClickHandler}
+              cancelButtonText="Cancel Assessment"
+              cancelButtonActionHandler={cancelClickHandler}
+              addAssessmentButtonText="Add Assessment Items"
+              addAssessmentActionHandler={() => {
+                setModalVisible(true);
+              }}
+            />
+          ) : (
+            <PageHeader
+              title={instruments.title}
               viewButtonText="View Results"
               viewButtonActionHandler={viewClickHandler}
               cancelButtonText="Cancel Assessment"
@@ -111,6 +147,12 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                   Assessments Items {formState.length > 0 ? formState.length : ''}
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink id="3" className={classnames({ active: activeTab === '3' })} onClick={toggle}>
+                  Reminders{' '}
+                  {instruments.reminders && instruments.reminders.length > 0 ? instruments.reminders.length : ''}
+                </NavLink>
+              </NavItem>
             </Nav>
 
             <TabContent activeTab={activeTab}>
@@ -123,6 +165,9 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                 />
               </TabPane>
               <TabPane tabId="2">{formState && <ListCardItems titleKey="definition" listData={formState} />}</TabPane>
+              <TabPane tabId="3">
+                <InstrumentReminders defaultValues={instruments.reminders} changeListener={handleInstrumentReminder} />
+              </TabPane>
             </TabContent>
 
             <ESModal

@@ -17,14 +17,12 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
     title: string,
     noOfAssessmentItems: string,
     noOfEvaluations: string,
-    noOfParticipants: string,
-    id: any,
-    status: string
+    noOfParticipants: string
   ) => (
     <React.Fragment>
       <div className="d-inline-flex m-r-15 text-center">
         <span className="font-size-12">No of Assessment Items:</span>
-        <span className="font-size-12 font-weight-bold">{noOfAssessmentItems}</span>
+        <span className="font-size-12 font-weight-bold">&nbsp;{noOfAssessmentItems}</span>
       </div>
       <div className="d-inline-flex m-r-15 text-center">
         <span className="font-size-12">No of Participants:</span>
@@ -40,7 +38,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
   const calculateProgress = (items: any) => {
     if (items.totalEvaluations > 0) {
       return {
-        width: ((items.completedAssessments / items.totalEvaluations) * 100).toString().concat('%'),
+        width: ((items.completedEvaluations / items.totalEvaluations) * 100).toString().concat('%'),
       };
     } else {
       return {
@@ -53,13 +51,13 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
     <React.Fragment>
       <div className="progress">
         <div style={calculateProgress(items)} className="progress-bar">
-          {((items.completedAssessments / items.totalEvaluations) * 100)
+          {((items.completedEvaluations / items.totalEvaluations) * 100)
             .toFixed(2)
             .toString()
             .concat('%')}
         </div>
       </div>
-      <span>{items.completedAssessments} Evaluations Received</span>
+      <span>{items.completedEvaluations} Evaluations Received</span>
     </React.Fragment>
   );
 
@@ -69,9 +67,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({ titleKey, 
         item.title,
         item.totalAssessmentItems,
         item.totalEvaluations,
-        item.totalAssessments,
-        item.id,
-        item.status
+        item.totalAssessments
       );
 
       const bar = renderProgressBar(item.id, item);

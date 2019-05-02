@@ -18,7 +18,9 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluat
     setCollapse(value);
   };
 
-  const actionHandler = (evaluationId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const actionHandler = (evaluationId: string, token?: string) => (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     if (event.currentTarget.name === 'view') {
       if (view) {
         view(evaluationId);
@@ -30,8 +32,8 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluat
       }
     } else if (event.currentTarget.name === 'remove') {
       event.preventDefault();
-      if (addEvaluator) {
-        addEvaluator(evaluationId, 'remove');
+      if (addEvaluator && token) {
+        addEvaluator(evaluationId, 'remove', token);
       }
     }
   };
@@ -40,21 +42,6 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluat
     margin-right: 15px;
     margin-top: 12px;
   `;
-  const pStyle = {
-    width: item.progress,
-  };
-
-  const calculateEvaluatorsProgress = (items: any) => {
-    if (items.totalEvaluationsCount > 0) {
-      return {
-        width: ((items.completedEevaluationItemsCount / items.totalEvaluationItemsCount) * 100).toString().concat('%'),
-      };
-    } else {
-      return {
-        width: '0%',
-      };
-    }
-  };
 
   const renderContent = (eData: any) => {
     return (
@@ -69,7 +56,14 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluat
           <td>{eData.roleId}</td>
           <td>
             <div className="progress">
-              <div style={calculateEvaluatorsProgress(eData)} className="progress-bar">
+              <div
+                style={{
+                  width: ((eData.completedEevaluationItemsCount / eData.totalEvaluationItemsCount) * 100)
+                    .toString()
+                    .concat('%'),
+                }}
+                className="progress-bar"
+              >
                 {((eData.completedEevaluationItemsCount / eData.totalEvaluationItemsCount) * 100)
                   .toFixed(2)
                   .toString()
@@ -109,7 +103,7 @@ const InstrumentCard: React.FunctionComponent<Props> = ({ item, view, addEvaluat
               id={eData.id}
               name="remove"
               type="button"
-              onClick={actionHandler(eData.id)}
+              onClick={actionHandler(eData.id, eData.token)}
               className="btn btn-primary clr-white m-l-10 position-relative"
             >
               Remove Evaluator

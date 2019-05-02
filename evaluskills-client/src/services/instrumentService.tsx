@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { ASSESSMENTITEMS, INSTRUMENTS } from '../api/endpoints';
+import { ASSESSMENTITEMS, EVALUATIONS, INSTRUMENTS } from '../api/endpoints';
 
 import API from '../api';
 import { ClientInstruments } from '../interfaces/Instruments';
@@ -56,8 +56,58 @@ export async function addEvaluator(user: any, token: any) {
   );
 }
 
+export async function removeEvaluator(token: any) {
+  let url: any = EVALUATIONS;
+  url += `/${token}`;
+  return api.deleteByToken(url).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function sendInstrument(id: string) {
+  let url: any = INSTRUMENTS;
+  url += `/${id}/SendInstrument`;
+  return api.put(url, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function updateInstrument(id: string) {
+  let url: any = INSTRUMENTS;
+  url += `/${id}/Details`;
+  return api.put(url, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
 export async function editInstrument(user: any, id: any) {
   return api.put(INSTRUMENTS, user, id).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function deleteInstrument(id: any) {
+  return api.delete(INSTRUMENTS, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },

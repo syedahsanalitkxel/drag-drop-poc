@@ -24,9 +24,11 @@ interface State {
   isLoading: boolean;
 }
 const defaultFilters: InstrumentFiltersInterface = {
+  instrumentApplicationId: '',
   pageNumber: 1,
   pageSize: 10,
-  type: '',
+  statusId: '',
+  testTypeId: '',
 };
 
 const defaultPageDetail = {
@@ -58,7 +60,6 @@ const InstrumentClientContainer: React.FunctionComponent<RouteComponentProps<Rou
     try {
       setState({ ...state, isLoading: true });
       const data: any = await getFilteredInstruments(filters);
-      console.log(data);
       setState({ ...state, Instruments: data.instrumentData, isLoading: false, pageDetails: data.pageDetails });
     } catch (error) {
       errorContext.setError(error, true);
