@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
@@ -17,7 +17,7 @@ import evaluationFormSchema from './clientFormSchema';
 import { AddInstrument, instructionLookup, fetchEmailTemplates } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
-import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
 import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
 import { lookups } from '../../../modules/Lookup/enum';
 interface Props {
@@ -77,6 +77,18 @@ const StyledButton = styled(Button)`
 `;
 
 export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action }) => {
+  const contextValue = useContext(LookupContext);
+  if (contextValue && contextValue.findKey) {
+    var InviteEvaluator = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'InviteEvaluator';
+    });
+    var InviteParticipant = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'InviteParticipant';
+    });
+    var AssessmentReminder = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'AssessmentReminder';
+    });
+  }
   const [isDraft, setisDraft] = useState(false);
   const [formState, setFormState] = useState(defaultValues || initialState);
   const [contactFormState, setContactFormState] = useState(initialContactState);
@@ -94,17 +106,25 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
   async function fetchData() {
-    const res = await instructionLookup();
-    const res1 = await fetchEmailTemplates(5);
-    const res2 = await fetchEmailTemplates(6);
-    const res3 = await fetchEmailTemplates(4);
-    setFormState({
-      ...formState,
-      instructions: res,
-      evaluatorInvitationEmailTemplates: res1,
-      participantsInvitationEmailTemplates: res2,
-      reminderTemplates: res3,
-    });
+    setTimeout(async function() {
+      const res = await instructionLookup();
+      if (InviteEvaluator && InviteEvaluator.value) {
+        var res1 = await fetchEmailTemplates(InviteEvaluator.value);
+      }
+      if (InviteParticipant && InviteParticipant.value) {
+        var res2 = await fetchEmailTemplates(InviteParticipant.value);
+      }
+      if (AssessmentReminder && AssessmentReminder.value) {
+        var res3 = await fetchEmailTemplates(AssessmentReminder.value);
+      }
+      setFormState({
+        ...formState,
+        instructions: res,
+        evaluatorInvitationEmailTemplates: res1,
+        participantsInvitationEmailTemplates: res2,
+        reminderTemplates: res3,
+      });
+    }, 1000);
   }
   useEffect(() => {
     fetchData();
