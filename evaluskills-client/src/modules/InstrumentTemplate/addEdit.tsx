@@ -218,15 +218,17 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
             >
               Cancel
             </StyledButton>
-            <StyledButton
-              color="primary"
-              onClick={() => {
-                setIsDraft(true);
-              }}
-              type="submit"
-            >
-              {'Save'}
-            </StyledButton>
+            {((defaultValue && defaultValue.templateStatusId !== 2) || !defaultValue) && (
+              <StyledButton
+                color="primary"
+                onClick={() => {
+                  setIsDraft(true);
+                }}
+                type="submit"
+              >
+                {'Save'}
+              </StyledButton>
+            )}
             <StyledButton
               color="primary"
               onClick={() => {
@@ -234,7 +236,7 @@ const AddEditInstrumentTemplate: React.FunctionComponent<Props> = ({
               }}
               type="submit"
             >
-              {'Save and publish'}
+              {(defaultValue && defaultValue.templateStatusId !== 2) || !defaultValue ? 'Save and Published' : 'Save'}
             </StyledButton>
           </div>
         </div>

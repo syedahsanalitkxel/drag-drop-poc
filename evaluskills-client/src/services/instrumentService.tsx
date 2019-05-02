@@ -5,6 +5,7 @@ import API from '../api';
 import { ClientInstruments } from '../interfaces/Instruments';
 import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
 import ResponseInterface from '../api/ResponseInterface';
+import { values } from 'lodash-es';
 const api = new API();
 
 export async function getInstruments(): Promise<ClientInstruments[]> {
@@ -72,7 +73,7 @@ export async function removeEvaluator(token: any) {
 export async function sendInstrument(id: string) {
   let url: any = INSTRUMENTS;
   url += `/${id}/SendInstrument`;
-  return api.put(url, id).then(
+  return api.putByid(url).then(
     (res: AxiosResponse) => {
       return res.data;
     },
@@ -82,10 +83,23 @@ export async function sendInstrument(id: string) {
   );
 }
 
-export async function updateInstrument(id: string) {
+export async function updateInstrument(id: string, data: any) {
   let url: any = INSTRUMENTS;
   url += `/${id}/Details`;
-  return api.put(url, id).then(
+  return api.put(url, data).then(
+    (res: AxiosResponse) => {
+      return res.data;
+    },
+    (error: AxiosError) => {
+      return error;
+    }
+  );
+}
+
+export async function updateInstrumentAssessments(assessmentValues: any, id: string) {
+  let url: any = INSTRUMENTS;
+  url += `/${id}/AssessmentItems`;
+  return api.putByid(url, assessmentValues).then(
     (res: AxiosResponse) => {
       return res.data;
     },

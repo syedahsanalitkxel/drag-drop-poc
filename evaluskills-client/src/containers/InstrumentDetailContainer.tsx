@@ -18,6 +18,7 @@ import {
   removeEvaluator,
   sendInstrument,
   updateInstrument,
+  updateInstrumentAssessments,
 } from '../services/instrumentService';
 import { getActiveClient, USER_ROLE } from '../utils';
 
@@ -70,6 +71,7 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     try {
       setState({ ...state, isLoading: true });
       const data: any = await getInstrumentById(id);
+      console.log(data);
       data.instrumentItems.map((assessmentItem: any) => {
         assessmentItem.definition = assessmentItem.title;
       });
@@ -106,33 +108,76 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     }
   }
 
+  function filterAssessmentData(values: any) {
+    return values.map((assesment: any) => {
+      delete assesment.definition;
+      delete assesment.category;
+      delete assesment.competency;
+      delete assesment.questionType;
+      delete assesment.title;
+      delete assesment.type;
+      delete assesment.isFaithBased;
+      delete assesment.itemStatus;
+      delete assesment.itemId;
+      delete assesment.isSystemDefined;
+      assesment.commentsRequired = true;
+      return assesment;
+    });
+  }
+
+  async function addingEvaluator(values: any, token: any) {
+    const data: any = await addEvaluator(values, token);
+    if (data) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function addingAssessments(values: any) {
+    const assessmentData = { instrumentItems: values, clientId: 0 };
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        assessmentData.clientId = getActiveClient();
+      }
+    }
+    const filterData = filterAssessmentData(assessmentData.instrumentItems);
+    assessmentData.instrumentItems = filterData;
+    console.log(assessmentData);
+    const data: any = await updateInstrumentAssessments(assessmentData, match.params.id);
+    if (!data.fail) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function removingEvaluator(token: any) {
+    const data: any = await removeEvaluator(token);
+    if (data) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function updatingReminder(values: any) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+      }
+    }
+    // const data: any = await updateInstrument(match.params.id, values);
+    // if (data) {
+    //   fetchInstrumentById(match.params.id);
+    // }
+  }
+
   async function actionHandler(values?: any, evaluationId?: string, action?: string, token?: string) {
     try {
       if (action === 'add' && values && token) {
-        const data: any = await addEvaluator(values, token);
-        if (data) {
-          fetchInstrumentById(match.params.id);
-        }
+        addingEvaluator(values, token);
       } else if (action === 'remove' && evaluationId && token) {
-        const data: any = await removeEvaluator(token);
-        if (data) {
-          fetchInstrumentById(match.params.id);
-        }
+        removingEvaluator(token);
       } else if (action === 'addAssessment' && values) {
-        history.push(`/client-assessment-detail/${match.params.id}`);
-        setState({ ...state, isLoading: false, AssessmentItems: values });
+        addingAssessments(values);
       } else if (action === 'addReminders' && values) {
-        if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
-          if (getActiveClient()) {
-            values.clientId = getActiveClient();
-          }
-        }
-        // const data: any = await updateInstrument(match.params.id);
-        // if (data) {
-        //   fetchInstrumentById(match.params.id);
-        // }
+        updatingReminder(values);
       }
-      //   // setState({ ...state, isLoading: false });
     } catch (error) {
       setState({ ...state, isLoading: false });
       errorContext.setError(error, true);

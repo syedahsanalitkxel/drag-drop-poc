@@ -14,7 +14,7 @@ import InstrumentReminders from '../../organisms/InstrumentReminders';
 import ListCardItems from '../../organisms/ListCardItems';
 import ESModal from '../../../components/molecules/Modal';
 import AssessmentItemsList from '../../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
-import _ from 'lodash-es';
+import _, { remove } from 'lodash-es';
 import EmptyPage from '../../atoms/EmptyPage';
 
 interface Props {
@@ -34,9 +34,10 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   actionHandler,
   sendInstrument,
 }) => {
-  console.log(instruments);
   const [modalVisible, setModalVisible] = useState(false);
   const [formState, setFormState] = useState(AssessmentItems);
+  const [prevFormState, setPrevFormState] = useState([]);
+  const [nextFormState, setNextFormState] = useState(AssessmentItems);
   const activateClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     if (sendInstrument) {
@@ -75,22 +76,27 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   }
 
   const getAssessment = (values: any) => {
-    values.map((val: any) => {
-      val.id = val.itemId;
-    });
-    const valu = _.unionBy(formState, values, 'id');
-    setFormState(valu);
-    if (actionHandler) {
-      actionHandler(valu, '', 'addAssessment');
-    }
+    console.log(values);
+    setFormState(values);
     setModalVisible(false);
+  };
+
+  const removeAssessments = (id: any) => {
+    const assessments = formState.filter((assessmentItems: any) => assessmentItems.itemVersionId !== id);
+    setFormState(assessments);
+  };
+
+  const submittAssessments = () => {
+    if (actionHandler) {
+      actionHandler(formState, '', 'addAssessment');
+    }
   };
 
   return (
     <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
-          {instruments.status === 'Draft' && activeTab === '2' ? (
+          {instruments.status === 'Draft' && activeTab === '3' && (
             <PageHeader
               title={instruments.title}
               activeButtonText="Activate"
@@ -104,29 +110,8 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                 setModalVisible(true);
               }}
             />
-          ) : instruments.status === 'Draft' && activeTab !== '2' ? (
-            <PageHeader
-              title={instruments.title}
-              activeButtonText="Activate"
-              activeButtonActionHandler={activateClickHandler}
-              viewButtonText="View Results"
-              viewButtonActionHandler={viewClickHandler}
-              cancelButtonText="Cancel Assessment"
-              cancelButtonActionHandler={cancelClickHandler}
-            />
-          ) : instruments.status !== 'Draft' && activeTab === '2' ? (
-            <PageHeader
-              title={instruments.title}
-              viewButtonText="View Results"
-              viewButtonActionHandler={viewClickHandler}
-              cancelButtonText="Cancel Assessment"
-              cancelButtonActionHandler={cancelClickHandler}
-              addAssessmentButtonText="Add Assessment Items"
-              addAssessmentActionHandler={() => {
-                setModalVisible(true);
-              }}
-            />
-          ) : (
+          )}
+          {(activeTab === '1' || activeTab === '2' || (instruments.status === 'Published' && activeTab === '3')) && (
             <PageHeader
               title={instruments.title}
               viewButtonText="View Results"
@@ -139,24 +124,26 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
             <Nav tabs={true}>
               <NavItem>
                 <NavLink id="1" className={classnames({ active: activeTab === '1' })} onClick={toggle}>
-                  Participants {participants.length}
+                  Info
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink id="2" className={classnames({ active: activeTab === '2' })} onClick={toggle}>
-                  Assessments Items {formState.length > 0 ? formState.length : ''}
+                  Participants {participants.length}
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink id="3" className={classnames({ active: activeTab === '3' })} onClick={toggle}>
-                  Reminders{' '}
-                  {instruments.reminders && instruments.reminders.length > 0 ? instruments.reminders.length : ''}
+                  Assessments Items {formState.length > 0 ? formState.length : ''}
                 </NavLink>
               </NavItem>
             </Nav>
 
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
+                <InstrumentReminders defaultValues={instruments.reminders} changeListener={handleInstrumentReminder} />
+              </TabPane>
+              <TabPane tabId="2">
                 <InstrumentDetailCard
                   titleKey="title"
                   participants={participants}
@@ -164,9 +151,17 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
                   actionHandler={actionHandler}
                 />
               </TabPane>
-              <TabPane tabId="2">{formState && <ListCardItems titleKey="definition" listData={formState} />}</TabPane>
               <TabPane tabId="3">
-                <InstrumentReminders defaultValues={instruments.reminders} changeListener={handleInstrumentReminder} />
+                {formState && (
+                  <ListCardItems
+                    titleKey="definition"
+                    listData={formState}
+                    remove={removeAssessments}
+                    componentName="instrument"
+                    submittAssessments={submittAssessments}
+                    status={instruments.status}
+                  />
+                )}
               </TabPane>
             </TabContent>
 
@@ -181,7 +176,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
               size="lg"
               parentClass="addassessModal"
             >
-              <AssessmentItemsList mode="edit" />
+              <AssessmentItemsList mode="edit" selectedTemplateItems={formState} />
             </ESModal>
 
             {/*<Pager />*/}

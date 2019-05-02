@@ -60,7 +60,7 @@ const ClientsList: React.FunctionComponent<Props> = ({ listData, edit, remove, l
         <td>{noOfEvaluators || 0}</td>
         <td>
           {isActivated ? (
-            <span className="label label-primary">Activate</span>
+            <span className="label label-primary">Active</span>
           ) : (
             <span className="label label-primary label-inactive">inActive</span>
           )}
