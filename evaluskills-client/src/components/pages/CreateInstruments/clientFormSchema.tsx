@@ -5,14 +5,12 @@ const evaluationFormSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  billing: Yup.string()
+  dueDate: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  date: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+  sendInstrument: Yup.string().required('Required'),
+  allowParticipantsToAddEvaluators: Yup.string().required('Required'),
   date1: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
@@ -22,18 +20,6 @@ const evaluationFormSchema = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   date3: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  minEvaluator: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  participantEmail: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  clientType: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -49,29 +35,23 @@ const evaluationFormSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  newParticipant: Yup.array().of(
+  participants: Yup.array().of(
     Yup.object().shape({
-      paticipant: Yup.object().shape({
-        firstName: Yup.string()
-          .min(2, 'Too Short!')
-          .max(50, 'Too Long!')
-          .required('Required'),
-        lastName: Yup.string()
-          .min(2, 'Too Short!')
-          .max(50, 'Too Long!')
-          .required('Required'),
-        email: Yup.string()
-          .email('Invalid email')
-          .min(2, 'Too Short!')
-          .max(50, 'Too Long!')
-          .required('Required'),
-        role: Yup.string()
-          .email('Invalid email')
-          .min(2, 'Too Short!')
-          .max(50, 'Too Long!')
-          .required('Required'),
-      }),
-      evaluator: Yup.array().of(
+      firstName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      lastName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      email: Yup.string()
+        .email('Invalid email')
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      roleId: Yup.string().required('Required'),
+      evaluators: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string()
             .min(2, 'Too Short!')
@@ -86,10 +66,7 @@ const evaluationFormSchema = Yup.object().shape({
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Required'),
-          role: Yup.string()
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('Required'),
+          roleId: Yup.string().required('Required'),
         })
       ),
     })

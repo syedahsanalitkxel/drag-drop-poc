@@ -60,3 +60,27 @@ export async function updateInstrumentTemplates(instrument: InstrumentTemplateIn
     }
   );
 }
+export async function AddInstrument(instrument: any) {
+  return api.post('Instruments', instrument).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+export async function instructionLookup() {
+  return api.get('Instructions/Lookup', undefined).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}
+export async function fetchEmailTemplates(typeId: any) {
+  return api.get('EmailTemplates/' + typeId + '/Lookup', undefined).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}

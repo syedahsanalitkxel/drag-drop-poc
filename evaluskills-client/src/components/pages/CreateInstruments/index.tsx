@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
@@ -14,58 +14,48 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import evaluationFormSchema from './clientFormSchema';
+import { AddInstrument, instructionLookup, fetchEmailTemplates } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
+import Checkbox from '../../atoms/CheckBox';
+import LookupContext, { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import { lookups } from '../../../modules/Lookup/enum';
 interface Props {
   changeListener?: (formValues: AddEvaluationInterface) => void;
   defaultValues?: AddEvaluationInterface;
   action?: string;
 }
-
 const initialState: AddEvaluationInterface = {
-  address: '',
-  billing: '',
-  city: '',
-  clientInformation: '',
-  clientName: '',
-  clientType: '',
-  contact: [
+  title: '',
+  instructionVersionId: 0,
+  instrumentTemplateId: 0,
+  clientId: 0,
+  testTypeId: 0,
+  instrumentApplicationId: 0,
+  recomendedApplicationId: 0,
+  allowParticipantsToAddEvaluators: true,
+  dueDate: '',
+  minEvaluationsPerParticipant: 0,
+  participantsInvitationEmailTemplateId: 0,
+  evaluatorsInvitationEmailTemplateId: 0,
+  sendInstrument: true,
+  instructions: [],
+  participantsInvitationEmailTemplates: [],
+  evaluatorInvitationEmailTemplates: [],
+  reminderTemplates: [],
+  reminders: [],
+  participants: [
     {
-      email: '',
       firstName: '',
-      id: '',
       lastName: '',
-      phone: '',
-      role: '',
-    },
-  ],
-  id: '',
-  noOfAssessments: '',
-  noOfEvaluators: '',
-  noOfParticipants: '',
-  phone: '',
-  plan: '',
-  school: '',
-  state: '',
-  status: '',
-  userEmail: '',
-  userFirstName: '',
-  userLastName: '',
-  zip: '',
-  assessmentType: 'active',
-  newParticipant: [
-    {
-      paticipant: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: '',
-      },
-      evaluator: [
+      email: '',
+      roleId: 0,
+      evaluators: [
         {
           firstName: '',
           lastName: '',
           email: '',
-          role: '',
+          roleId: 0,
         },
       ],
     },
@@ -87,12 +77,25 @@ const StyledButton = styled(Button)`
 `;
 
 export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action }) => {
+  const contextValue = useContext(LookupContext);
+  if (contextValue && contextValue.findKey) {
+    var InviteEvaluator = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'InviteEvaluator';
+    });
+    var InviteParticipant = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'InviteParticipant';
+    });
+    var AssessmentReminder = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
+      return element.text === 'AssessmentReminder';
+    });
+  }
+  const [isDraft, setisDraft] = useState(false);
   const [formState, setFormState] = useState(defaultValues || initialState);
   const [contactFormState, setContactFormState] = useState(initialContactState);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.name]: event.target.value });
+    setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
   }
   const toggleAddClientContactModal = () => {
     setContactFormState(initialContactState);
@@ -102,19 +105,50 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   const toggleEditClientContactModal = () => {
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
-
+  async function fetchData() {
+    setTimeout(async function() {
+      const res = await instructionLookup();
+      if (InviteEvaluator && InviteEvaluator.value) {
+        var res1 = await fetchEmailTemplates(InviteEvaluator.value);
+      }
+      if (InviteParticipant && InviteParticipant.value) {
+        var res2 = await fetchEmailTemplates(InviteParticipant.value);
+      }
+      if (AssessmentReminder && AssessmentReminder.value) {
+        var res3 = await fetchEmailTemplates(AssessmentReminder.value);
+      }
+      setFormState({
+        ...formState,
+        instructions: res,
+        evaluatorInvitationEmailTemplates: res1,
+        participantsInvitationEmailTemplates: res2,
+        reminderTemplates: res3,
+      });
+    }, 1000);
+  }
   useEffect(() => {
+    fetchData();
     if (changeListener) {
       changeListener(formState);
     }
-  });
+  }, []);
 
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
 
-  function submitForm(values: AddEvaluationInterface) {
+  async function submitForm(values: any) {
+    values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
+    values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
+    values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var id = url.searchParams.get('id');
+    values.instrumentTemplateId = id;
     setFormState({ ...formState, ...values });
+    const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
+    const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
+    await AddInstrument(newState);
   }
   const addNewEvaluator = (id: number) => {
     const newobj = {
@@ -123,42 +157,118 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
       email: '',
       role: '',
     };
-    const { newParticipant } = formState;
-    newParticipant[id].evaluator.push(newobj);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants[id].evaluators.push(newobj);
+    setFormState({ ...formState, participants });
   };
   const removeParticipant = (id: number) => {
-    const { newParticipant } = formState;
-    newParticipant.splice(id, 1);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants.splice(id, 1);
+    setFormState({ ...formState, participants });
+  };
+  const renderInstrumentApplication = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderInstructions = (props: any) => {
+    const { findKey } = props;
+    if (formState.instructions && formState.instructions.length) {
+      return formState.instructions.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderRecomendedApplication = (props: any) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderParticipantEmailInvite = (props: any) => {
+    const { findKey } = props;
+    if (formState.participantsInvitationEmailTemplates && formState.participantsInvitationEmailTemplates.length) {
+      return formState.participantsInvitationEmailTemplates.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderReminderEmailTemplates = (props: any) => {
+    const { findKey } = props;
+    if (formState.reminderTemplates && formState.reminderTemplates.length) {
+      return formState.reminderTemplates.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderEvaluatorEmailInvite = (props: any) => {
+    const { findKey } = props;
+    if (formState.evaluatorInvitationEmailTemplates && formState.evaluatorInvitationEmailTemplates.length) {
+      return formState.evaluatorInvitationEmailTemplates.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const testTypeLookUp = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.testTypesLookUp).map((lookup: LookupItemInterface, index) => (
+        <RadioButton
+          name="testTypeId"
+          value={lookup.value}
+          currentSelection={formState.testTypeId}
+          onChange={changeHandler}
+        >
+          {lookup.text}
+        </RadioButton>
+      ));
+    }
   };
   const removeEvaluatior = (index: number, evalindex: number) => {
-    const { newParticipant } = formState;
-    newParticipant[index].evaluator.splice(evalindex, 1);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants[index].evaluators.splice(evalindex, 1);
+    setFormState({ ...formState, participants });
   };
   const onClickAddContact = (event: React.MouseEvent) => {
     const newobj = {
-      paticipant: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: '',
-      },
-      evaluator: [
+      firstName: '',
+      lastName: '',
+      email: '',
+      roleId: 0,
+      evaluators: [
         {
           firstName: '',
           lastName: '',
           email: '',
-          role: '',
+          roleId: 0,
         },
       ],
     };
-    const { newParticipant } = formState;
-    newParticipant.push(newobj);
-    setFormState({ ...formState, newParticipant });
+    const { participants } = formState;
+    participants.push(newobj);
+    setFormState({ ...formState, participants });
   };
-
+  function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    let check = formState && formState.allowParticipantsToAddEvaluators;
+    setFormState({ ...formState, allowParticipantsToAddEvaluators: !check });
+  }
   const renderForm = (formikprops: FormikBag) => {
     // const renderParticipantList = (contact: any, index: number) => (
     //   <Fragment key={index}>
@@ -180,26 +290,9 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-6">
               <FormElement label="Title" name="title" placeholder="Add Title" formikprops={formikprops} inline={true} />
             </div>
-            <div className="form-group  col-md-6">
-              <label className="col-sm-2 col-form-label font-bold">Status</label>
-              <div className="col-sm-10 d-flex align-items-center">
-                <RadioButton
-                  name="assessmentType"
-                  value="active"
-                  currentSelection={formState.assessmentType}
-                  onChange={changeHandler}
-                >
-                  Active
-                </RadioButton>
-                <RadioButton
-                  name="assessmentType"
-                  value="inactive"
-                  currentSelection={formState.assessmentType}
-                  onChange={changeHandler}
-                >
-                  inactive
-                </RadioButton>
-              </div>
+            <div className="col-md-6">
+              <label className="col-sm-2 col-form-label font-bold">Test type</label>
+              <LookupContextConsumer>{testTypeLookUp}</LookupContextConsumer>
             </div>
           </div>
 
@@ -207,19 +300,19 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-6">
               <FormElement
                 label="Instrument Application"
-                name="billing"
+                name="instrumentApplicationId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="billing-1">Higher Eduction</option>
-                <option value="billing-2">Option 2</option>
+                <option value={0}>Select Instrument Application</option>
+                <LookupContextConsumer>{renderInstrumentApplication}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-6">
               <FormElement
                 label="Due Date"
-                name="date"
+                name="dueDate"
                 formikprops={formikprops}
                 type={FormElementTypes.DATE}
                 inline={true}
@@ -231,7 +324,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-4">
               <FormElement
                 label="Min. Number of Evaluations"
-                name="minEvaluator"
+                name="minEvaluationsPerParticipant"
                 placeholder="Add Min. Number"
                 formikprops={formikprops}
                 inline={true}
@@ -241,30 +334,66 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <div className="col-md-4">
               <FormElement
                 label="Participant Invitation Email Template"
-                name="participantEmail"
+                name="participantsInvitationEmailTemplateId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Select Template</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderParticipantEmailInvite}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-4">
               <FormElement
                 label="Evaluator Invitation Email Template"
-                name="clientType"
+                name="evaluatorsInvitationEmailTemplateId"
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 inline={true}
                 last={true}
               >
-                <option value="selected">Select Template</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderEvaluatorEmailInvite}</LookupContextConsumer>
               </FormElement>
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-4">
+              <FormElement
+                label="Instructions"
+                name="instructionVersionId"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+                last={true}
+              >
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderInstructions}</LookupContextConsumer>
+              </FormElement>
+            </div>
+            <div className="col-md-4">
+              <FormElement
+                label="Recommended Application"
+                name="recomendedApplicationId"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+                last={true}
+              >
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderRecomendedApplication}</LookupContextConsumer>
+              </FormElement>
+            </div>
+            <div className="col-sm-5 d-flex align-items-center">
+              <Checkbox
+                name="allowParticipantsToAddEvaluators"
+                value="allowParticipantsToAddEvaluators"
+                isChecked={formState && formState.allowParticipantsToAddEvaluators}
+                onChange={versionHandler}
+              >
+                Save As New Version
+              </Checkbox>
             </div>
           </div>
         </PageBody>
@@ -283,7 +412,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
         <div>
           <ParticipantList
             formikprops={formikprops}
-            participant={formState.newParticipant}
+            participant={formState.participants}
             addNewEvaluator={addNewEvaluator}
             removeParticipant={removeParticipant}
             removeEvaluatior={removeEvaluatior}
@@ -325,9 +454,8 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value={0}>Select Template</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
@@ -350,9 +478,8 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value={0}>Select Template</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
@@ -375,9 +502,8 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <option value={0}>Select Template</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
@@ -397,14 +523,28 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             <StyledButton type="button" size="lg">
               Cancel
             </StyledButton>
-            <StyledButton type="submit" name="submit" color="primary" size="lg">
+            <StyledButton
+              onClick={() => {
+                setisDraft(false);
+              }}
+              type="submit"
+              name="submit"
+              color="primary"
+              size="lg"
+            >
               Save
             </StyledButton>
-            {/* {!action && (
-              <StyledButton type="button" color="primary" size="lg">
-                Save &amp; Add More
-              </StyledButton>
-            )} */}
+            <StyledButton
+              onClick={() => {
+                setisDraft(true);
+              }}
+              type="submit"
+              name="submit"
+              color="primary"
+              size="lg"
+            >
+              Save and publish
+            </StyledButton>
           </div>
         </PageBody>
       </Form>
@@ -413,7 +553,12 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
 
   return (
     <DashboardTemplate>
-      <Formik initialValues={formState} validationSchema={evaluationFormSchema} onSubmit={submitForm}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={formState}
+        validationSchema={evaluationFormSchema}
+        onSubmit={submitForm}
+      >
         {(formikprops: FormikBag) => renderForm(formikprops)}
       </Formik>
     </DashboardTemplate>

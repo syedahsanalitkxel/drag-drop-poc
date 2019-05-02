@@ -7,42 +7,40 @@ export interface ContactInterface {
   role: string;
 }
 export interface AddEvaluator {
-  paticipant: Participant;
-  evaluator: Evaluator[];
-}
-export interface Participant {
   email?: string;
   firstName?: string;
   lastName?: string;
-  role?: string;
+  roleId?: number;
+  evaluators: Evaluator[];
 }
 export interface Evaluator {
   email?: string;
   firstName?: string;
   lastName?: string;
-  role?: string;
+  roleId?: number;
+}
+export interface Reminder {
+  emailTemplateId?: number;
+  reminderDate: string;
 }
 export default interface EvaluationInterface {
-  id: string;
-  address?: string;
-  billing?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  school?: string;
-  clientInformation?: string;
-  clientName?: string;
-  plan: string;
-  noOfAssessments: string;
-  noOfEvaluators: string;
-  noOfParticipants: string;
-  status: string;
-  phone?: string;
-  clientType?: string;
-  contact?: any;
-  userFirstName?: string;
-  userLastName?: string;
-  userEmail?: string;
-  assessmentType?: string;
-  newParticipant: AddEvaluator[];
+  title: string;
+  instructionVersionId?: number;
+  instrumentTemplateId?: number;
+  clientId?: number;
+  testTypeId?: number;
+  instrumentApplicationId?: number;
+  recomendedApplicationId?: number;
+  allowParticipantsToAddEvaluators: boolean;
+  dueDate: string;
+  minEvaluationsPerParticipant?: number;
+  participantsInvitationEmailTemplateId?: number;
+  evaluatorsInvitationEmailTemplateId?: number;
+  sendInstrument: boolean;
+  participants: AddEvaluator[];
+  reminders: Reminder[];
+  instructions: [];
+  participantsInvitationEmailTemplates: [];
+  evaluatorInvitationEmailTemplates: [];
+  reminderTemplates: [];
 }
