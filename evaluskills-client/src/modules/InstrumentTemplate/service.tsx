@@ -76,3 +76,11 @@ export async function instructionLookup() {
     }
   );
 }
+export async function fetchEmailTemplates(typeId: any) {
+  return api.get('EmailTemplates/' + typeId + '/Lookup', undefined).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}

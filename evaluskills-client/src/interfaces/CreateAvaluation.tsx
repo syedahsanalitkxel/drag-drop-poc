@@ -40,4 +40,6 @@ export default interface EvaluationInterface {
   participants: AddEvaluator[];
   reminders: Reminder[];
   instructions: [];
+  participantsInvitationEmailTemplates: [];
+  evaluatorInvitationEmailTemplates: [];
 }

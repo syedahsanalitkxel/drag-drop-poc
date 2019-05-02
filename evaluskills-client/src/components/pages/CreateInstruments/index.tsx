@@ -14,7 +14,7 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import evaluationFormSchema from './clientFormSchema';
-import { AddInstrument, instructionLookup } from '../../../modules/InstrumentTemplate/service';
+import { AddInstrument, instructionLookup, fetchEmailTemplates } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
@@ -41,6 +41,8 @@ const initialState: AddEvaluationInterface = {
   evaluatorsInvitationEmailTemplateId: 0,
   sendInstrument: true,
   instructions: [],
+  participantsInvitationEmailTemplates: [],
+  evaluatorInvitationEmailTemplates: [],
   reminders: [
     {
       emailTemplateId: 1,
@@ -109,6 +111,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     if (!formState.instructions.length) {
       fetchInstruction();
     }
+    // if(lookups){
+    //   console.log(lookups.emailTypesLookUp);
+    //   debugger
+    // }
+    if (!formState.evaluatorInvitationEmailTemplates.length) {
+      fetchEvaluatorEmailTemplate(5);
+    }
+    if (!formState.participantsInvitationEmailTemplates.length) {
+      fetchParticipantEmailTemplate(6);
+    }
     if (changeListener) {
       changeListener(formState);
     }
@@ -116,6 +128,14 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   async function fetchInstruction() {
     const res = await instructionLookup();
     setFormState({ ...formState, instructions: res });
+  }
+  async function fetchEvaluatorEmailTemplate(id: any) {
+    const res = await fetchEmailTemplates(id);
+    setFormState({ ...formState, evaluatorInvitationEmailTemplates: res });
+  }
+  async function fetchParticipantEmailTemplate(id: any) {
+    const res = await fetchEmailTemplates(id);
+    setFormState({ ...formState, participantsInvitationEmailTemplates: res });
   }
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
@@ -162,6 +182,26 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     const { findKey } = props;
     if (formState.instructions && formState.instructions.length) {
       return formState.instructions.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderParticipantEmailInvite = (props: any) => {
+    const { findKey } = props;
+    if (formState.participantsInvitationEmailTemplates && formState.participantsInvitationEmailTemplates.length) {
+      return formState.participantsInvitationEmailTemplates.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderEvaluatorEmailInvite = (props: any) => {
+    const { findKey } = props;
+    if (formState.evaluatorInvitationEmailTemplates && formState.evaluatorInvitationEmailTemplates.length) {
+      return formState.evaluatorInvitationEmailTemplates.map((lookup: LookupItemInterface) => (
         <option key={lookup.value} value={lookup.value}>
           {lookup.text}
         </option>
@@ -285,8 +325,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 last={true}
               >
                 <option value="0">Select Template</option>
-                <option value="1">Option 2</option>
-                <option value="2">Option 3</option>
+                <LookupContextConsumer>{renderParticipantEmailInvite}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-4">
@@ -299,8 +338,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 last={true}
               >
                 <option value="0">Select Template</option>
-                <option value="1">Option 2</option>
-                <option value="2">Option 3</option>
+                <LookupContextConsumer>{renderEvaluatorEmailInvite}</LookupContextConsumer>
               </FormElement>
             </div>
           </div>
