@@ -2,6 +2,7 @@ import { AddAssessmentItemInterface } from '../interface';
 
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
+
   isFaithBased: undefined,
   definition: '',
   typeId: 1,
