@@ -42,4 +42,5 @@ export default interface EvaluationInterface {
   instructions: [];
   participantsInvitationEmailTemplates: [];
   evaluatorInvitationEmailTemplates: [];
+  reminderTemplates: [];
 }

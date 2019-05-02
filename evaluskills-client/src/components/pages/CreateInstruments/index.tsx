@@ -28,12 +28,12 @@ interface Props {
 
 const initialState: AddEvaluationInterface = {
   title: '',
-  instructionVersionId: 1,
-  instrumentTemplateId: 1,
+  instructionVersionId: 0,
+  instrumentTemplateId: 0,
   clientId: 0,
-  testTypeId: 1,
-  instrumentApplicationId: 1,
-  recomendedApplicationId: 1,
+  testTypeId: 0,
+  instrumentApplicationId: 0,
+  recomendedApplicationId: 0,
   allowParticipantsToAddEvaluators: true,
   dueDate: '2019-04-30T06:06:04.781Z',
   minEvaluationsPerParticipant: 0,
@@ -43,18 +43,11 @@ const initialState: AddEvaluationInterface = {
   instructions: [],
   participantsInvitationEmailTemplates: [],
   evaluatorInvitationEmailTemplates: [],
+  reminderTemplates: [],
   reminders: [
     {
-      emailTemplateId: 1,
-      reminderDate: '2019-04-30T06:06:04.781Z',
-    },
-    {
-      emailTemplateId: 1,
-      reminderDate: '2019-04-30T06:06:04.781Z',
-    },
-    {
-      emailTemplateId: 1,
-      reminderDate: '2019-04-30T06:06:04.781Z',
+      emailTemplateId: 0,
+      reminderDate: '',
     },
   ],
   participants: [
@@ -123,6 +116,9 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     if (!formState.participantsInvitationEmailTemplates.length) {
       fetchParticipantEmailTemplate(6);
     }
+    if (formState && formState.reminderTemplates && formState.reminderTemplates.length === 0) {
+      fetchReminderEmailTemplate(4);
+    }
     if (changeListener) {
       changeListener(formState);
     }
@@ -139,20 +135,28 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     const res = await fetchEmailTemplates(id);
     setFormState({ ...formState, participantsInvitationEmailTemplates: res });
   }
+
+  async function fetchReminderEmailTemplate(id: any) {
+    const res = await fetchEmailTemplates(id);
+    setFormState({ ...formState, reminderTemplates: res });
+  }
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
 
-  async function submitForm(values: AddEvaluationInterface) {
-    console.log(isDraft);
-    debugger;
+  async function submitForm(values: any) {
+    delete values.reminderTemplates;
+    delete values.participantsInvitationEmailTemplates;
+    delete values.evaluatorInvitationEmailTemplates;
+    delete values.instructions;
+    values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
+    values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
+    values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
+
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
     const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
-
-    // newState.reminders.push({reminderDate:values.date1,emailTemplateId:0});
-    let result = await AddInstrument(newState);
-    debugger;
+    await AddInstrument(newState);
   }
   const addNewEvaluator = (id: number) => {
     const newobj = {
@@ -194,6 +198,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     const { findKey } = props;
     if (formState.participantsInvitationEmailTemplates && formState.participantsInvitationEmailTemplates.length) {
       return formState.participantsInvitationEmailTemplates.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderReminderEmailTemplates = (props: any) => {
+    const { findKey } = props;
+    if (formState.reminderTemplates && formState.reminderTemplates.length) {
+      return formState.reminderTemplates.map((lookup: LookupItemInterface) => (
         <option key={lookup.value} value={lookup.value}>
           {lookup.text}
         </option>
@@ -289,7 +303,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="0">Select Instrument Application</option>
+                <option value={0}>Select Instrument Application</option>
                 <LookupContextConsumer>{renderInstrumentApplication}</LookupContextConsumer>
               </FormElement>
             </div>
@@ -426,8 +440,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 last={true}
               >
                 <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
@@ -451,8 +464,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 last={true}
               >
                 <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
@@ -476,8 +488,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 last={true}
               >
                 <option value="billing-1">Higer Education</option>
-                <option value="billing-2">Option 2</option>
-                <option value="billing-2">Option 3</option>
+                <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-6">
