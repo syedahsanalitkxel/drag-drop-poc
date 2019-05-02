@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
+import qs from 'query-string';
 
 import AddEvaluationInterface, { ContactInterface } from '../../../interfaces/CreateAvaluation';
 import FormikBag from '../../../interfaces/FormikBag';
@@ -25,17 +26,17 @@ interface Props {
   defaultValues?: AddEvaluationInterface;
   action?: string;
 }
-
+// const query=qs.parse(location.search) as { id: number };
 const initialState: AddEvaluationInterface = {
   title: '',
   instructionVersionId: 0,
-  instrumentTemplateId: 0,
+  instrumentTemplateId: 3,
   clientId: 0,
   testTypeId: 0,
   instrumentApplicationId: 0,
   recomendedApplicationId: 0,
   allowParticipantsToAddEvaluators: true,
-  dueDate: '2019-04-30T06:06:04.781Z',
+  dueDate: '',
   minEvaluationsPerParticipant: 0,
   participantsInvitationEmailTemplateId: 0,
   evaluatorsInvitationEmailTemplateId: 0,
@@ -153,7 +154,11 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     delete values.emailTemplate1;
     delete values.emailTemplate2;
     delete values.emailTemplate3;
-
+    // var url_string = window.location.href;
+    // var url = new URL(url_string);
+    // var id = url.searchParams.get("id");
+    // alert(id);
+    // ,instrumentApplicationId:parseInt(id || "",10)
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
     const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
@@ -189,6 +194,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     const { findKey } = props;
     if (formState.instructions && formState.instructions.length) {
       return formState.instructions.map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderRecomendedApplication = (props: any) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.recommendedApplicationsLookUp).map((lookup: LookupItemInterface) => (
         <option key={lookup.value} value={lookup.value}>
           {lookup.text}
         </option>
@@ -369,6 +384,19 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
               >
                 <option value="0">Select Template</option>
                 <LookupContextConsumer>{renderInstructions}</LookupContextConsumer>
+              </FormElement>
+            </div>
+            <div className="col-md-4">
+              <FormElement
+                label="Recommended Application"
+                name="recomendedApplicationId"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+                last={true}
+              >
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderRecomendedApplication}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-sm-5 d-flex align-items-center">
