@@ -46,7 +46,7 @@ const Participants: React.FunctionComponent<Props> = ({
   }
   function getevalutorField(index: number, evalIndex: number, key: string) {
     if (index !== undefined) {
-      return `participants[${index}].evaluator[${evalIndex}].${key}`;
+      return `participants[${index}].evaluators[${evalIndex}].${key}`;
     }
     return key;
   }
@@ -198,7 +198,7 @@ const Participants: React.FunctionComponent<Props> = ({
               Add Evaluators {<FontAwesomeIcon icon={'plus'} />}
             </Button>
           </div>
-          {propss.participant.evaluator.map((item: any, index: any) => {
+          {propss.participant.evaluators.map((item: any, index: any) => {
             return renderEvaluator(item, index, propss.index);
           })}
         </div>

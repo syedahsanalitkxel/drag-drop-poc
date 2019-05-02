@@ -11,7 +11,7 @@ export interface AddEvaluator {
   firstName?: string;
   lastName?: string;
   roleId?: number;
-  evaluator: Evaluator[];
+  evaluators: Evaluator[];
 }
 export interface Evaluator {
   email?: string;

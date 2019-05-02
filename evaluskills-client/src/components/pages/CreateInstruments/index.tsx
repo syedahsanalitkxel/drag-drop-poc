@@ -63,7 +63,7 @@ const initialState: AddEvaluationInterface = {
       lastName: '',
       email: '',
       roleId: 0,
-      evaluator: [
+      evaluators: [
         {
           firstName: '',
           lastName: '',
@@ -111,9 +111,11 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     if (!formState.instructions.length) {
       fetchInstruction();
     }
-    // if(lookups){
+    // if(lookups && lookups.emailTypesLookUp && lookups.emailTypesLookUp.length){
     //   console.log(lookups.emailTypesLookUp);
-    //   debugger
+    //   // lookups.emailTypesLookUp.find(function(item) {
+    //   //   return
+    //   // })
     // }
     if (!formState.evaluatorInvitationEmailTemplates.length) {
       fetchEvaluatorEmailTemplate(5);
@@ -160,7 +162,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
       role: '',
     };
     const { participants } = formState;
-    participants[id].evaluator.push(newobj);
+    participants[id].evaluators.push(newobj);
     setFormState({ ...formState, participants });
   };
   const removeParticipant = (id: number) => {
@@ -225,7 +227,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   };
   const removeEvaluatior = (index: number, evalindex: number) => {
     const { participants } = formState;
-    participants[index].evaluator.splice(evalindex, 1);
+    participants[index].evaluators.splice(evalindex, 1);
     setFormState({ ...formState, participants });
   };
   const onClickAddContact = (event: React.MouseEvent) => {
@@ -234,7 +236,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
       lastName: '',
       email: '',
       roleId: 0,
-      evaluator: [
+      evaluators: [
         {
           firstName: '',
           lastName: '',
