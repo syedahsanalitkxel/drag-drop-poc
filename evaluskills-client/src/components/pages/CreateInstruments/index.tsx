@@ -93,55 +93,26 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   const toggleEditClientContactModal = () => {
     setEditClientContactModalVisible(!editClientContactModalVisible);
   };
-
+  async function fetchData() {
+    const res = await instructionLookup();
+    const res1 = await fetchEmailTemplates(5);
+    const res2 = await fetchEmailTemplates(6);
+    const res3 = await fetchEmailTemplates(4);
+    setFormState({
+      ...formState,
+      instructions: res,
+      evaluatorInvitationEmailTemplates: res1,
+      participantsInvitationEmailTemplates: res2,
+      reminderTemplates: res3,
+    });
+  }
   useEffect(() => {
-    if (formState && formState.instructions && formState.instructions.length === 0) {
-      fetchInstruction();
-    }
-    // if(lookups && lookups.emailTypesLookUp && lookups.emailTypesLookUp.length){
-    //   console.log(lookups.emailTypesLookUp);
-    //   lookups.emailTypesLookUp.find(function(item) {
-    //     return
-    //   })
-    // }
-    if (
-      formState &&
-      formState.evaluatorInvitationEmailTemplates &&
-      formState.evaluatorInvitationEmailTemplates.length === 0
-    ) {
-      fetchEvaluatorEmailTemplate(5);
-    }
-    if (
-      formState &&
-      formState.participantsInvitationEmailTemplates &&
-      formState.participantsInvitationEmailTemplates.length === 0
-    ) {
-      fetchParticipantEmailTemplate(6);
-    }
-    if (formState && formState.reminderTemplates && formState.reminderTemplates.length === 0) {
-      fetchReminderEmailTemplate(4);
-    }
+    fetchData();
     if (changeListener) {
       changeListener(formState);
     }
-  });
-  async function fetchInstruction() {
-    const res = await instructionLookup();
-    setFormState({ ...formState, instructions: res });
-  }
-  async function fetchEvaluatorEmailTemplate(id: any) {
-    const res = await fetchEmailTemplates(id);
-    setFormState({ ...formState, evaluatorInvitationEmailTemplates: res });
-  }
-  async function fetchParticipantEmailTemplate(id: any) {
-    const res = await fetchEmailTemplates(id);
-    setFormState({ ...formState, participantsInvitationEmailTemplates: res });
-  }
+  }, []);
 
-  async function fetchReminderEmailTemplate(id: any) {
-    const res = await fetchEmailTemplates(id);
-    setFormState({ ...formState, reminderTemplates: res });
-  }
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
