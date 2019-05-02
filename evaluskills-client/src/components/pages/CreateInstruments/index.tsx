@@ -147,7 +147,9 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
     values.instrumentTemplateId = id;
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
-    const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
+    values.clientId = activeClientId;
+    values.sendInstrument = isDraft;
+    const newState = { ...formState, ...values };
     await AddInstrument(newState);
     history.push('/instrument-templates');
   }
