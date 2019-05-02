@@ -17,6 +17,9 @@ import evaluationFormSchema from './clientFormSchema';
 import { AddInstrument } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import { lookups } from '../../../modules/Lookup/enum';
 interface Props {
   changeListener?: (formValues: AddEvaluationInterface) => void;
   defaultValues?: AddEvaluationInterface;
@@ -138,6 +141,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     participants.splice(id, 1);
     setFormState({ ...formState, participants });
   };
+  const renderInstrumentApplication = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
   const removeEvaluatior = (index: number, evalindex: number) => {
     const { participants } = formState;
     participants[index].evaluator.splice(evalindex, 1);
@@ -165,7 +178,6 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     setFormState({ ...formState, participants });
   };
   function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    debugger;
     let check = formState && formState.allowParticipantsToAddEvaluators;
     setFormState({ ...formState, allowParticipantsToAddEvaluators: !check });
   }
@@ -201,8 +213,8 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 type={FormElementTypes.SELECT}
                 inline={true}
               >
-                <option value="0">Higher Eduction</option>
-                <option value="1">Option 2</option>
+                <option value="0">Select Instrument Application</option>
+                <LookupContextConsumer>{renderInstrumentApplication}</LookupContextConsumer>
               </FormElement>
             </div>
             <div className="col-md-6">
