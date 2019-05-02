@@ -84,3 +84,11 @@ export async function fetchEmailTemplates(typeId: any) {
     }
   );
 }
+export async function cancelInstrument(Id: any) {
+  return api.delete('Instruments', Id).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}

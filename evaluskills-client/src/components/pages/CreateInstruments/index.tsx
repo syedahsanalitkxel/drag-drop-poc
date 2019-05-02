@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
-
+import { withRouter } from 'react-router';
 import AddEvaluationInterface, { ContactInterface } from '../../../interfaces/CreateAvaluation';
 import FormikBag from '../../../interfaces/FormikBag';
 import AddClientContacts from '../../organisms/AddClientContact/index';
@@ -76,7 +76,7 @@ const StyledButton = styled(Button)`
   margin-right: 5px;
 `;
 
-export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListener, defaultValues, action }) => {
+export const CreateInstruments: React.FunctionComponent<any> = ({ history, changeListener, defaultValues, action }) => {
   const contextValue = useContext(LookupContext);
   if (contextValue && contextValue.findKey) {
     var InviteEvaluator = contextValue.findKey(lookups.emailTypesLookUp).find(function(element) {
@@ -136,7 +136,9 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
-
+  function cancel() {
+    history.push('/instrument-templates');
+  }
   async function submitForm(values: any) {
     values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
     values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
@@ -147,8 +149,11 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     values.instrumentTemplateId = id;
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
-    const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };
+    values.clientId = activeClientId;
+    values.sendInstrument = isDraft;
+    const newState = { ...formState, ...values };
     await AddInstrument(newState);
+    history.push('/instrument-templates');
   }
   const addNewEvaluator = (id: number) => {
     const newobj = {
@@ -392,7 +397,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 isChecked={formState && formState.allowParticipantsToAddEvaluators}
                 onChange={versionHandler}
               >
-                Save As New Version
+                Allow Participant to Add Evaluators
               </Checkbox>
             </div>
           </div>
@@ -520,7 +525,13 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
 
         <PageBody>
           <div className="row m-b-25">
-            <StyledButton type="button" size="lg">
+            <StyledButton
+              onClick={() => {
+                cancel();
+              }}
+              type="button"
+              size="lg"
+            >
               Cancel
             </StyledButton>
             <StyledButton
@@ -543,7 +554,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
               color="primary"
               size="lg"
             >
-              Save and publish
+              Save and Publish
             </StyledButton>
           </div>
         </PageBody>
@@ -565,4 +576,4 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   );
 };
 
-export default CreateInstruments;
+export default withRouter(CreateInstruments);

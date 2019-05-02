@@ -16,6 +16,8 @@ import ESModal from '../../../components/molecules/Modal';
 import AssessmentItemsList from '../../../components/pages/AddEditInstrumentTemplate/AssessmentItemsList';
 import _, { remove } from 'lodash-es';
 import EmptyPage from '../../atoms/EmptyPage';
+import { cancelInstrument } from '../../../modules/InstrumentTemplate/service';
+import { withRouter } from 'react-router';
 
 interface Props {
   instruments: any;
@@ -26,7 +28,8 @@ interface Props {
   sendInstrument?: (evaluationId: string, action?: string) => void;
 }
 
-const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
+const InstrumentDetailTemplate: React.FunctionComponent<any> = ({
+  history,
   instruments,
   view,
   participants,
@@ -43,14 +46,18 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
     if (sendInstrument) {
       sendInstrument(instruments.id, 'activate');
     }
+    history.push('/instruments');
   };
 
   const viewClickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
     // toggleFilterModal();
   };
-
+  async function cancel() {
+    await cancelInstrument(instruments.id);
+  }
   const cancelClickHandler = (event: React.MouseEvent) => {
+    cancel();
     event.preventDefault();
     if (sendInstrument) {
       sendInstrument(instruments.id, 'cancel');
@@ -187,4 +194,4 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   );
 };
 
-export default InstrumentDetailTemplate;
+export default withRouter(InstrumentDetailTemplate);
