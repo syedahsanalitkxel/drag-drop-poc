@@ -30,6 +30,9 @@ const AuthContextContainer: React.FunctionComponent<RouteComponentProps> = ({ hi
       authDetails.clients.length
     ) {
       route = '/account/select-client?role=' + userType.SUPER_ADMIN;
+    } else if (route === '/acounts/login') {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
     localStorage.setItem('user', user);
     localStorage.setItem('token', token);

@@ -12,7 +12,7 @@ import LoginInterface, { ResetPasswordInterface } from '../interfaces/Login';
 import { AuthContext } from '../modules/Auth/authContext';
 import { changePassword, login, resetPassword, verifyUserAPi } from '../services/authService';
 
-const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location, match }) => {
+const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ history, location, match }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
@@ -22,6 +22,11 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ location,
   const query = qs.parse(location.search) as { email: string; token: string; UserId: string; Code: string };
 
   useEffect(() => {
+    if (match.path === '/account/login') {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      history.push('/account/login');
+    }
     setEmailSent(false);
   }, [match.path]);
 

@@ -53,6 +53,10 @@ export default class API {
     return this.instance.put(url, body);
   }
 
+  public putByid(url: string, body?: any): AxiosPromise {
+    return this.instance.put(url, body);
+  }
+
   public patch(url: string, body: string): AxiosPromise {
     return this.instance.patch(url, body);
   }

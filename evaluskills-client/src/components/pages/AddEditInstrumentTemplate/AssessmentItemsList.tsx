@@ -45,12 +45,12 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
   const [state, setState] = useState<State>({
     filters: {
       PageNumber: 1,
-      PageSize: 10,
+      PageSize: 1000,
     },
     isLoading: false,
     pageDetails: {
       currentPage: 1,
-      pageSize: 25,
+      pageSize: 1000,
       totalCount: 10,
     },
     shouldReset: false,
@@ -70,11 +70,13 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
      * if not found, push it in both and set state
      */
 
-    if (checkedItem.id && !checkedItem.itemId) {
-      // remove id from checkedItem and add
-      checkedItem.itemId = checkedItem.id;
-      delete checkedItem.id;
-    }
+    // if (checkedItem.id && !checkedItem.itemId) {
+    //   // remove id from checkedItem and add
+    //   checkedItem.itemId = checkedItem.id;
+    //   delete checkedItem.id;
+    // }
+    console.log(checkedItem.itemVersionId);
+    checkedItem.itemId = checkedItem.itemVersionId;
 
     if (checkedItem.itemId) {
       // save context value in temp variable so we don't need to validate undefined checks too much
@@ -118,10 +120,10 @@ const AssessmentItemsList: React.FunctionComponent<Props> = ({ mode, selectedTem
         // find checked items and process them in placeholders
         selectedTemplateItems.forEach(item => {
           const matched = data.find(assessment => {
-            return item.itemId === assessment.id;
+            return item.itemVersionId === assessment.itemVersionId;
           });
-          if (matched) {
-            foundItems.push(matched.id);
+          if (matched && matched.itemVersionId) {
+            foundItems.push(matched.itemVersionId);
             matched.itemId = matched.id;
             delete matched.id;
             defaultModalContext.push(matched);
