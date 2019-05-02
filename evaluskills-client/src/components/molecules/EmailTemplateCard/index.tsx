@@ -9,6 +9,7 @@ interface Props {
 }
 
 const ClientCard: React.FunctionComponent<Props> = ({ edit, remove, emailTemplates }) => {
+  console.log(emailTemplates);
   const actionHandler = (templateId: number) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (event.currentTarget.name === 'edit') {
@@ -23,7 +24,7 @@ const ClientCard: React.FunctionComponent<Props> = ({ edit, remove, emailTemplat
       <React.Fragment key={email.id}>
         <tr>
           <td>{email.title}</td>
-          <td>{email.emailTypeId}</td>
+          <td>{email.emailType}</td>
 
           <td>
             <IconButton

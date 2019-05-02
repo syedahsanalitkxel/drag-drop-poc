@@ -13,6 +13,7 @@ export interface EmailListingInterface {
   emailTypeId: number;
   subject: string;
   isSystemDefined?: boolean;
+  emailType: string;
   id: number;
 }
 

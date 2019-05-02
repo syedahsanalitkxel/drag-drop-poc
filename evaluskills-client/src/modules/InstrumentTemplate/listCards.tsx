@@ -62,7 +62,7 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
     }
   };
 
-  const superAdminActions = (id?: string | number) => (
+  const superAdminActions = (status: any, id?: string | number) => (
     <React.Fragment>
       <IconButton icon="copy" className="btn-outline btn-primary" actionHandler={clickHandler(actionTypes.COPY, id)}>
         Copy
@@ -73,20 +73,30 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
       <IconButton icon="trash" className="btn-default" actionHandler={clickHandler(actionTypes.DELETE, id)}>
         Delete
       </IconButton>
+      {status !== 'Draft' && (
+        <IconButton
+          className="btn btn-primary clr-white btn btn-w-m"
+          actionHandler={clickHandler(actionTypes.START_EVALUATION, id)}
+        >
+          Start Evaluation
+        </IconButton>
+      )}
     </React.Fragment>
   );
 
-  const clientAdminActions = (id?: string | number) => (
+  const clientAdminActions = (status: any, id?: string | number) => (
     <React.Fragment>
       <IconButton icon="copy" className="btn-outline btn-primary" actionHandler={clickHandler(actionTypes.COPY, id)}>
         Copy
       </IconButton>
-      <IconButton
-        className="btn btn-primary clr-white btn btn-w-m"
-        actionHandler={clickHandler(actionTypes.START_EVALUATION, id)}
-      >
-        Start Evaluation
-      </IconButton>
+      {status !== 'Draft' && (
+        <IconButton
+          className="btn btn-primary clr-white btn btn-w-m"
+          actionHandler={clickHandler(actionTypes.START_EVALUATION, id)}
+        >
+          Start Evaluation
+        </IconButton>
+      )}
     </React.Fragment>
   );
 
@@ -105,8 +115,8 @@ const ListInstrumentTemplateCards: React.FunctionComponent<ListCardProps> = ({
         {{
           actions:
             USER_ROLE.isClientAdmin() && instrumentTemplate.isSystemDefined
-              ? clientAdminActions(instrumentTemplate.id)
-              : superAdminActions(instrumentTemplate.id),
+              ? clientAdminActions(instrumentTemplate.templateStatus, instrumentTemplate.id)
+              : superAdminActions(instrumentTemplate.templateStatus, instrumentTemplate.id),
           content,
         }}
       </ItemCard>

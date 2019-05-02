@@ -19,6 +19,7 @@ export interface LookupInterface {
   emailTypesLookUp: LookupItemInterface[];
   entitiesLookUp: LookupItemInterface[];
   evaluationRolesLookUp: LookupItemInterface[];
+  instrumentStatusLookUp: LookupItemInterface[];
   questionTypesLookUp: LookupItemInterface[];
   recommendedApplicationsLookUp: LookupItemInterface[];
   statesLookUp: LookupItemInterface[];
@@ -37,6 +38,7 @@ export const lookupInitialState: LookupInterface = {
   emailTypesLookUp: [],
   entitiesLookUp: [],
   evaluationRolesLookUp: [],
+  instrumentStatusLookUp: [],
   questionTypesLookUp: [],
   recommendedApplicationsLookUp: [],
   statesLookUp: [],

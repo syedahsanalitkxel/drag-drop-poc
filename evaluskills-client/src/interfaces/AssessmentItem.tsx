@@ -7,6 +7,7 @@ export default interface AssessmentItemInterface {
   id: string;
   type?: string;
   itemId?: string;
+  itemVersionId?: string;
 }
 export interface itemElementOptions {
   value: number;

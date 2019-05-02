@@ -11,24 +11,18 @@ import Spinner from '../components/atoms/Spinner';
 import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
 import { PageDetailsInterface } from '../api/ResponseInterface';
 import ErrorContext from '../context/ErrorContext';
-import { addEvaluator, getInstrumentById } from '../services/instrumentService';
+import {
+  addEvaluator,
+  deleteInstrument,
+  getInstrumentById,
+  removeEvaluator,
+  sendInstrument,
+  updateInstrument,
+  updateInstrumentAssessments,
+} from '../services/instrumentService';
+import { getActiveClient, USER_ROLE } from '../utils';
 
-const AssessmentItems: AssessmentItemInterface[] = [
-  {
-    category: 'Character',
-    competency: 'Team Player',
-    definition: 'Receive feedback from others and uses the feedback to improve performance',
-    id: 'uuid-12-321',
-    type: 'Competency',
-  },
-  {
-    category: 'Action',
-    competency: 'Good Coder',
-    definition: 'Has a set of moral principles used in job in accordance with the culture of organization',
-    id: 'uuid-11-111',
-    type: 'Influential',
-  },
-];
+const AssessmentItems: AssessmentItemInterface[] = [];
 
 const participantsList: ParticipantInterface[] = [];
 const InstrumentList: any[] = [];
@@ -77,6 +71,7 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     try {
       setState({ ...state, isLoading: true });
       const data: any = await getInstrumentById(id);
+      console.log(data);
       data.instrumentItems.map((assessmentItem: any) => {
         assessmentItem.definition = assessmentItem.title;
       });
@@ -98,20 +93,91 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
     console.log(evaluationId);
   }
 
+  async function sendInstruments(evaluationId: string, action?: string) {
+    try {
+      if (action === 'activate') {
+        const data: any = await sendInstrument(evaluationId);
+        fetchInstrumentById(evaluationId);
+      } else if (action === 'cancel') {
+        const data: any = await deleteInstrument(evaluationId);
+        history.push('/instrument');
+      }
+    } catch (error) {
+      setState({ ...state, isLoading: false });
+      errorContext.setError(error, true);
+    }
+  }
+
+  function filterAssessmentData(values: any) {
+    return values.map((assesment: any) => {
+      delete assesment.definition;
+      delete assesment.category;
+      delete assesment.competency;
+      delete assesment.questionType;
+      delete assesment.title;
+      delete assesment.type;
+      delete assesment.isFaithBased;
+      delete assesment.itemStatus;
+      delete assesment.itemId;
+      delete assesment.isSystemDefined;
+      assesment.commentsRequired = true;
+      return assesment;
+    });
+  }
+
+  async function addingEvaluator(values: any, token: any) {
+    const data: any = await addEvaluator(values, token);
+    if (data) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function addingAssessments(values: any) {
+    const assessmentData = { instrumentItems: values, clientId: 0 };
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        assessmentData.clientId = getActiveClient();
+      }
+    }
+    const filterData = filterAssessmentData(assessmentData.instrumentItems);
+    assessmentData.instrumentItems = filterData;
+    console.log(assessmentData);
+    const data: any = await updateInstrumentAssessments(assessmentData, match.params.id);
+    if (!data.fail) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function removingEvaluator(token: any) {
+    const data: any = await removeEvaluator(token);
+    if (data) {
+      fetchInstrumentById(match.params.id);
+    }
+  }
+
+  async function updatingReminder(values: any) {
+    if (USER_ROLE.isClientAdmin() || USER_ROLE.isSuperAdmin()) {
+      if (getActiveClient()) {
+        values.clientId = getActiveClient();
+      }
+    }
+    // const data: any = await updateInstrument(match.params.id, values);
+    // if (data) {
+    //   fetchInstrumentById(match.params.id);
+    // }
+  }
+
   async function actionHandler(values?: any, evaluationId?: string, action?: string, token?: string) {
     try {
       if (action === 'add' && values && token) {
-        const data: any = await addEvaluator(values, token);
-        if (data) {
-          fetchInstrumentById(match.params.id);
-        }
-      } else if (action === 'remove' && evaluationId) {
-        console.log(evaluationId);
+        addingEvaluator(values, token);
+      } else if (action === 'remove' && evaluationId && token) {
+        removingEvaluator(token);
       } else if (action === 'addAssessment' && values) {
-        history.push(`/client-assessment-detail/${match.params.id}`);
-        setState({ ...state, isLoading: false, AssessmentItems: values });
+        addingAssessments(values);
+      } else if (action === 'addReminders' && values) {
+        updatingReminder(values);
       }
-      //   // setState({ ...state, isLoading: false });
     } catch (error) {
       setState({ ...state, isLoading: false });
       errorContext.setError(error, true);
@@ -125,11 +191,12 @@ const InstrumentDetailContainer: React.FunctionComponent<RouteComponentProps<Rou
 
     return (
       <InstrumentDetailTemplate
-        instruments={state.InstrumentList}
+        instruments={state.AssessmentItems}
         view={viewEvaluation}
         participants={state.participantsList}
         AssessmentItems={state.InstrumentList}
         actionHandler={actionHandler}
+        sendInstrument={sendInstruments}
       />
     );
   }

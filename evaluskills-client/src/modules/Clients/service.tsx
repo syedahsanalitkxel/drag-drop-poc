@@ -93,12 +93,11 @@ export async function getStates(id: any) {
     }
   );
 }
-function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 export async function getSelectedClient(id: any) {
-  await timeout(1000);
-  return api.get(SELECT_CLIENT, undefined, { clientId: id }).then(
+  const token = window.localStorage.getItem('token');
+  const headers = { contentType: contentType.json, Authorization: token ? `Bearer ${token}` : null };
+  const multipartApi = new API({ headers });
+  return multipartApi.get(SELECT_CLIENT, undefined, { clientId: id }).then(
     (res: AxiosResponse) => {
       return res.data;
     },

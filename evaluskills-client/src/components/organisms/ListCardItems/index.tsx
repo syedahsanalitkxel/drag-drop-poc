@@ -10,6 +10,9 @@ import EmptyPage from '../../atoms/EmptyPage';
 import LabelGroup from '../../atoms/LabelGroup';
 import ItemCard from '../../molecules/ItemCard';
 import { TemplateItem } from '../../../modules/InstrumentTemplate/interface';
+import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'reactstrap';
 
 interface ListCardProps {
   listData: any[];
@@ -18,14 +21,26 @@ interface ListCardProps {
   remove?: (id: string) => void;
   copy?: (id: string) => void;
   checkbox?: boolean;
+  componentName?: string;
   handleCheckbox?: (templateItem: TemplateItem) => void;
+  submittAssessments?: () => void;
   checkedItems?: string[];
+  status?: string;
 }
 
 const CheckboxContainer = styled.div`
   position: absolute;
   right: 0;
   top: 30%;
+`;
+
+const StyledButton = styled.button`
+  margin-left: 154px;
+`;
+
+const StyledButton1 = styled(Button)`
+  margin-left: 15px;
+  margin-right: 5px;
 `;
 
 const ListCardItems: React.FunctionComponent<ListCardProps> = ({
@@ -35,8 +50,11 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
   remove,
   copy,
   checkbox,
+  componentName,
   checkedItems,
   handleCheckbox,
+  submittAssessments,
+  status,
 }) => {
   const actionHandler = (assessmentId: string) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (event.currentTarget.name === 'edit') {
@@ -97,11 +115,19 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
       );
     }
 
+    const renderDeleteActionButton = (name: string, text: string, icon: IconProp, className: string) => (
+      <StyledButton name={name} className={classNames(['btn', className])} onClick={actionHandler(id)} id={id}>
+        {icon && <FontAwesomeIcon icon={icon} />}
+        &nbsp;
+        {text}
+      </StyledButton>
+    );
+
     return (
       <React.Fragment>
         {edit && renderActionButton('copy', 'Copy', 'copy', 'btn-outline btn-primary')}
         {edit && renderActionButton('edit', 'Edit', 'edit', 'btn-outline btn-primary')}
-        {remove && renderActionButton('delete', 'Delete', 'trash', 'btn-default')}
+        {status !== 'Published' && remove && renderDeleteActionButton('delete', 'Delete', 'trash', 'btn-default')}
       </React.Fragment>
     );
   };
@@ -110,7 +136,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
     const content =
       (item.category || item.type || item.competency) && renderContent(item.category, item.type, item.competency);
 
-    const actions = renderActions(item.id || item.itemId, item);
+    const actions = renderActions(item.itemVersionId, item);
 
     return (
       <ItemCard key={item.id || item.itemId} header={item[titleKey]}>
@@ -128,6 +154,17 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
           <EmptyPage />
         </PageBody>
       )}
+      <React.Fragment>
+        {componentName && submittAssessments && status !== 'Published' ? (
+          <div className="row m-b-25">
+            <StyledButton1 type="submit" color="primary" size="lg" onClick={submittAssessments}>
+              Save &amp; Changes
+            </StyledButton1>
+          </div>
+        ) : (
+          <div />
+        )}
+      </React.Fragment>
     </React.Fragment>
   );
 };

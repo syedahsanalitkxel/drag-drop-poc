@@ -8,6 +8,7 @@ const scalingConfig = [
 ];
 export const Initalvalues: AddAssessmentItemInterface = {
   isSystemDefined: false,
+
   isFaithBased: undefined,
   definition: '',
   typeId: 1,
