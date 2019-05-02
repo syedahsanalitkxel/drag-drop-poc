@@ -14,7 +14,7 @@ import EditClientContacts from '../../organisms/AddClientContact/index';
 import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import evaluationFormSchema from './clientFormSchema';
-import { AddInstrument } from '../../../modules/InstrumentTemplate/service';
+import { AddInstrument, instructionLookup } from '../../../modules/InstrumentTemplate/service';
 import RadioButton from '../../atoms/RadioButton';
 import Checkbox from '../../atoms/CheckBox';
 import { LookupContextConsumer } from '../../../modules/Lookup/context';
@@ -40,6 +40,7 @@ const initialState: AddEvaluationInterface = {
   participantsInvitationEmailTemplateId: 0,
   evaluatorsInvitationEmailTemplateId: 0,
   sendInstrument: true,
+  instructions: [],
   reminders: [
     {
       emailTemplateId: 1,
@@ -105,11 +106,17 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   };
 
   useEffect(() => {
+    if (!formState.instructions.length) {
+      fetchInstruction();
+    }
     if (changeListener) {
       changeListener(formState);
     }
   });
-
+  async function fetchInstruction() {
+    const res = await instructionLookup();
+    setFormState({ ...formState, instructions: res });
+  }
   function removeContact(contactId: string) {
     alert(`deleting => ${contactId}`);
   }
@@ -145,6 +152,16 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     const { findKey } = props;
     if (findKey) {
       return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
+  const renderInstructions = (props: any) => {
+    const { findKey } = props;
+    if (formState.instructions && formState.instructions.length) {
+      return formState.instructions.map((lookup: LookupItemInterface) => (
         <option key={lookup.value} value={lookup.value}>
           {lookup.text}
         </option>
@@ -288,6 +305,19 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
             </div>
           </div>
           <div className="form-group row">
+            <div className="col-md-4">
+              <FormElement
+                label="Instructions"
+                name="instructionVersionId"
+                formikprops={formikprops}
+                type={FormElementTypes.SELECT}
+                inline={true}
+                last={true}
+              >
+                <option value="0">Select Template</option>
+                <LookupContextConsumer>{renderInstructions}</LookupContextConsumer>
+              </FormElement>
+            </div>
             <div className="col-sm-5 d-flex align-items-center">
               <Checkbox
                 name="allowParticipantsToAddEvaluators"

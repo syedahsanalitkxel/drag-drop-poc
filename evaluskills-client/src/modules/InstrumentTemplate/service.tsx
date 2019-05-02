@@ -68,3 +68,11 @@ export async function AddInstrument(instrument: any) {
     }
   );
 }
+export async function instructionLookup() {
+  return api.get('Instructions/Lookup', undefined).then(
+    (res: AxiosResponse) => res.data,
+    (error: AxiosError) => {
+      throw error;
+    }
+  );
+}

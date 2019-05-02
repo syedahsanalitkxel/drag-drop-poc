@@ -39,4 +39,5 @@ export default interface EvaluationInterface {
   sendInstrument: boolean;
   participants: AddEvaluator[];
   reminders: Reminder[];
+  instructions: [];
 }
