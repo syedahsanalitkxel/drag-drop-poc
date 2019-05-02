@@ -39,7 +39,7 @@ export const AddAssessmentSchema = Yup.object().shape({
             .required('Required'),
           scaling: Yup.string()
             .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
+            .max(100, 'Too Long!')
             .required('Required'),
         })
       ),
