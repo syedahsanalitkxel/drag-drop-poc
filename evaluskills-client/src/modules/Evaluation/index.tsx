@@ -1,43 +1,33 @@
 import { lazy } from 'react';
-import EvaluationComment from './comment';
-import EvaluationList from './list';
-import EvaluationQuesetion from './question';
-import EvaluationResult from './result';
-import EvaluationStart from './StartEvaluation/start';
-import EvaluationSummary from './summary';
 
+import Container from './Container';
 export const EvaluationRoutes = [
   {
-    Component: lazy(() => import('./StartEvaluation/start')),
-    path: '/evaluation/start',
+    Component: lazy(() => import('./Container')),
+    path: '/evaluation/:token/start',
   },
   {
-    Component: lazy(() => import('./question')),
-    path: '/evaluation/questions',
+    Component: lazy(() => import('./Container')),
+    path: '/evaluation/:token/questions/:instrumentId/:instrumentItemId',
   },
   {
-    Component: lazy(() => import('./summary')),
-    path: '/evaluation/summary',
+    Component: lazy(() => import('./Container')),
+    path: '/evaluation/:token/summary',
   },
   {
-    Component: lazy(() => import('./result')),
-    path: '/evaluation/result',
+    Component: lazy(() => import('./Container')),
+    path: '/evaluation/:token/result',
   },
   {
-    Component: lazy(() => import('./comment')),
+    Component: lazy(() => import('./Container')),
     path: '/evaluation/comment',
   },
   {
-    Component: lazy(() => import('./list')),
+    Component: lazy(() => import('./Container')),
     path: '/evaluation/list',
   },
 ];
 export default {
-  EvaluationComment,
-  EvaluationList,
-  EvaluationQuesetion,
-  EvaluationResult,
+  Container,
   EvaluationRoutes,
-  EvaluationStart,
-  EvaluationSummary,
 };

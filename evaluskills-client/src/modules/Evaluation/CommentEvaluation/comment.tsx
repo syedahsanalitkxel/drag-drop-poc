@@ -1,7 +1,7 @@
 import React from 'react';
-import Pager from '../../components/molecules/Pager';
-import EvaluatorAssessmentItem from '../../components/organisms/EvaluationCommentItem';
-import GuestTemplate from '../../components/templates/GuestTemplate';
+import Pager from '../../../components/molecules/Pager';
+import EvaluatorAssessmentItem from '../../../components/organisms/EvaluationCommentItem';
+import GuestTemplate from '../../../components/templates/GuestTemplate';
 
 const EvaluatorComment = () => {
   const assessmentArray = [
