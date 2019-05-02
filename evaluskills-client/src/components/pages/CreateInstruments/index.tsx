@@ -30,7 +30,7 @@ interface Props {
 const initialState: AddEvaluationInterface = {
   title: '',
   instructionVersionId: 0,
-  instrumentTemplateId: 3,
+  instrumentTemplateId: 0,
   clientId: 0,
   testTypeId: 0,
   instrumentApplicationId: 0,
@@ -154,11 +154,10 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     delete values.emailTemplate1;
     delete values.emailTemplate2;
     delete values.emailTemplate3;
-    // var url_string = window.location.href;
-    // var url = new URL(url_string);
-    // var id = url.searchParams.get("id");
-    // alert(id);
-    // ,instrumentApplicationId:parseInt(id || "",10)
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var id = url.searchParams.get('id');
+    values.instrumentTemplateId = id;
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
     const newState = { ...formState, ...values, clientId: activeClientId, sendInstrument: isDraft };

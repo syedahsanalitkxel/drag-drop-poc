@@ -68,8 +68,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         }
       }
     } else if (mode === actionTypes.START_EVALUATION) {
-      navigate(`/addInstrumental`, true);
-      // navigate(`/addInstrumental?id=${id}`, true);
+      navigate(`/addInstrumental?id=${id}`, true);
     } else {
       navigate(`/${mode}/${id}`);
     }
