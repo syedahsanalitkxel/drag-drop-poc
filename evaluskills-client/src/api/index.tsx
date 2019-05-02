@@ -42,6 +42,10 @@ export default class API {
     return this.instance.delete(`${url}/${id}`);
   }
 
+  public deleteByToken(url: string): AxiosPromise {
+    return this.instance.delete(`${url}`);
+  }
+
   public put(url: string, body: any, id?: string): AxiosPromise {
     if (id) {
       url += `/${id}`;

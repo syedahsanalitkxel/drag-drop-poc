@@ -17,7 +17,7 @@ const selectClientList = (props: any) => {
             <div className="row ibox-content shadow">
               <div className="col-sm-12">
                 <img className="d-inline-block mr-2" src="/img/Logo.svg" alt="client" />
-                <p className="assesment-item-title d-inline-block mt-1">Continue as PGS Admin</p>
+                <h3 className="assesment-item-title d-inline-block font-bold mb-4 mt-0">Continue as PGS Admin</h3>
               </div>
             </div>
           </a>

@@ -25,7 +25,7 @@ const InstrumentListCard: React.FunctionComponent<ListCardProps> = ({
       setEvaluatorModalVisible(true);
       setToken(evalToken);
     } else if (action === 'remove' && actionHandler) {
-      actionHandler({}, id, action);
+      actionHandler({}, id, action, evalToken);
     }
   };
 

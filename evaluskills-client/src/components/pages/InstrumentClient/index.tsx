@@ -28,6 +28,7 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
   resetPager,
   pageDetails,
   instruments,
+  defaultFilters,
   filterInstruments,
   view,
 }) => {
@@ -86,8 +87,9 @@ const InstrumentTemplate: React.FunctionComponent<Props> = ({
         toggle={toggleFilterModal}
         primaryAction={applyFilters}
         primaryText="Save Changes"
-        secondaryText="Close"
+        secondaryText="Reset"
         secondaryAction="reset"
+        defaultFilters={defaultFilters}
       >
         <InstrumentClientFilters />
       </ESModal>

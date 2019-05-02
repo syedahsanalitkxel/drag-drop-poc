@@ -15,4 +15,5 @@ export const LOOK_UPS = 'Lookups';
 export const STATE_LOOK_UPS = '/Lookups/States';
 export const INSTRUCTIONS = 'Instructions';
 export const EVALUATION = 'evaluation';
+export const EVALUATIONS = 'Evaluations';
 export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/StartEvaluation`;

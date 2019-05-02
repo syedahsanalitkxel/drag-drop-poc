@@ -94,8 +94,10 @@ export async function getStates(id: any) {
   );
 }
 export async function getSelectedClient(id: any) {
-  console.log(api);
-  return api.get(SELECT_CLIENT, undefined, { clientId: id }).then(
+  const token = window.localStorage.getItem('token');
+  const headers = { contentType: contentType.json, Authorization: token ? `Bearer ${token}` : null };
+  const multipartApi = new API({ headers });
+  return multipartApi.get(SELECT_CLIENT, undefined, { clientId: id }).then(
     (res: AxiosResponse) => {
       return res.data;
     },

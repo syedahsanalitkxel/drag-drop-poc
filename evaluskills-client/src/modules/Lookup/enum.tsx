@@ -7,6 +7,7 @@ export enum lookups {
   entitiesLookUp = 'entitiesLookUp',
   evaluationRolesLookUp = 'evaluationRolesLookUp',
   questionTypesLookUp = 'questionTypesLookUp',
+  instrumentStatusLookUp = 'instrumentStatusLookUp',
   recommendedApplicationsLookUp = 'recommendedApplicationsLookUp',
   statesLookUp = 'statesLookUp',
   countriesLookUp = 'countriesLookUp',
