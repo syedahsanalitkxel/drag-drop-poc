@@ -16,7 +16,7 @@ export const STATE_LOOK_UPS = '/Lookups/States';
 export const INSTRUCTIONS = 'Instructions';
 export const EVALUATION = 'Evaluations';
 
-export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/StartEvaluation`;
+export const START_EVALUATION = (token: string) => `${EVALUATION}/${token}/EvaluationInfo`;
 export const QUESTION_EVALUATION = (token: string) => `${EVALUATION}/${token}/SaveResult`;
 export const FETCH_EVALUATION = (token: string, instrumentid: string, itemid: string) =>
   `${EVALUATION}/${token}/FetchItem/${instrumentid}/${itemid}`;

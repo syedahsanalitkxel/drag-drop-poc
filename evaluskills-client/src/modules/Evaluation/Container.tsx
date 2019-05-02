@@ -43,11 +43,13 @@ const StartEvaluationTemplate: StartEvaluationInterface = {
 const QuestionEvaluationTemplate: QuestionEvaluationInterface = {
   progress: 0,
   itemElements: [],
+  totalNoOfEvaluationItems: 0,
 };
 const SummaryTemplate: Summary = {
   itemElements: [],
   evaluationItemElements: [],
   progress: 0,
+  totalNoOfEvaluationItems: 0,
 };
 const SaveQuestion: QuestionSaveInterface = {
   instrumentId: 0,
@@ -125,6 +127,10 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       setState({ ...state, isLoading: true });
       fetchQuestionAsessment();
     }
+    if (match.path.includes('result')) {
+      setState({ ...state, isLoading: true });
+      fetchStartInstruction();
+    }
   }, [match.path, match.params]);
 
   async function fetchStartInstruction() {
@@ -137,6 +143,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
       startdata.instrumentId = idencoded;
       startdata.instrumentItemId = itemidencoded;
       startdata.token = match.params.token;
+      startdata.overallScore = parseFloat(startdata.overallScore).toFixed(2);
       setStartState({ ...startState, StartEvaluationTemplate: startdata, SaveQuestion: savequestion });
       setState({ ...state, isLoading: false });
     } catch (error) {
@@ -166,6 +173,9 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         obj2.instrumentItemElementId = startdata.data.itemElements[i].id;
         startState.SaveQuestion.evaluationItemElements.push(obj2);
       }
+      const progress = (startdata.data.progress / startdata.data.totalNoOfEvaluationItems) * 100;
+
+      startdata.data.progress = Math.floor(progress);
       let skipchange = startState.SaveQuestion;
       skipchange.isSkipped = false;
       skipchange.comments = startdata.data.comments;
@@ -275,7 +285,7 @@ const InstrumentTemplateContainer: React.FC<RouteComponentProps<RouteParamsInter
         />
       );
     } else if (match.path.includes('result')) {
-      return <ResultEvaluation />;
+      return <ResultEvaluation listdata={startState.StartEvaluationTemplate} />;
     } else if (match.path.includes('comment')) {
       return <CommentEvaluation />;
     }

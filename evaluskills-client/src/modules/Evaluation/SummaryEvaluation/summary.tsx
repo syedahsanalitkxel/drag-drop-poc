@@ -36,6 +36,7 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
     name: data.participantsFirstName + ' ' + data.participantsLastName,
     designation: data.participantRole,
   };
+  let flag = data.evaluationItemElements && data.evaluationItemElements.filter(obj => obj.status !== 'Completed');
 
   const buttonsConfig = [
     {
@@ -49,6 +50,14 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
       src: '/img/icons/arrow.svg',
       callback: toggleModal,
       classes: 'btn btn-primary',
+    },
+  ];
+  const buttonsConfig2 = [
+    {
+      text: 'Back',
+      src: '',
+      callback: handleBack,
+      classes: 'btn btn-dark',
     },
   ];
   function goQuestion(itemID?: string) {
@@ -114,7 +123,7 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
             shouldReset={resetPager}
           />
         </div>
-        <FooterGuest buttonsConfig={buttonsConfig} />
+        <FooterGuest buttonsConfig={flag.length > 0 ? buttonsConfig2 : buttonsConfig} />
         <Modal isOpen={displayModal}>
           <ModalBody>
             <div className="modal-body pb-0">

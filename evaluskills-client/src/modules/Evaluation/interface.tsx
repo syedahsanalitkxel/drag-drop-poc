@@ -6,6 +6,7 @@ export interface StartEvaluationInterface extends Participant {
   instructionTitle?: string;
   instructionDescription?: string;
   clientName?: string;
+  overallScore?: string;
   evaluationStatusId?: number;
   token?: string;
 }
@@ -58,7 +59,7 @@ export interface QuestionEvaluationInterface extends Participant {
   itemElements: evaluationItemElements[];
   instrumentItemId?: number | string;
   comments?: string;
-  totalNoOfEvaluationItems?: number;
+  totalNoOfEvaluationItems: number;
   currentEvaluationItemNo?: number;
   progress: number;
   isCommentRequired?: boolean;
