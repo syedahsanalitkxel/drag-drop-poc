@@ -17,6 +17,7 @@ import AssessmentItemsList from '../../../components/pages/AddEditInstrumentTemp
 import _, { remove } from 'lodash-es';
 import EmptyPage from '../../atoms/EmptyPage';
 import { cancelInstrument } from '../../../modules/InstrumentTemplate/service';
+import { withRouter } from 'react-router';
 
 interface Props {
   instruments: any;
@@ -27,7 +28,8 @@ interface Props {
   sendInstrument?: (evaluationId: string, action?: string) => void;
 }
 
-const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
+const InstrumentDetailTemplate: React.FunctionComponent<any> = ({
+  history,
   instruments,
   view,
   participants,
@@ -44,6 +46,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
     if (sendInstrument) {
       sendInstrument(instruments.id, 'activate');
     }
+    history.push('/instruments');
   };
 
   const viewClickHandler = (event: React.MouseEvent) => {
@@ -191,4 +194,4 @@ const InstrumentDetailTemplate: React.FunctionComponent<Props> = ({
   );
 };
 
-export default InstrumentDetailTemplate;
+export default withRouter(InstrumentDetailTemplate);
