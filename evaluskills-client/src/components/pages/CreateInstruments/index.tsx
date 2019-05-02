@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Button, Form } from 'reactstrap';
 import styled from 'styled-components';
-import qs from 'query-string';
 
 import AddEvaluationInterface, { ContactInterface } from '../../../interfaces/CreateAvaluation';
 import FormikBag from '../../../interfaces/FormikBag';
@@ -26,7 +25,6 @@ interface Props {
   defaultValues?: AddEvaluationInterface;
   action?: string;
 }
-// const query=qs.parse(location.search) as { id: number };
 const initialState: AddEvaluationInterface = {
   title: '',
   instructionVersionId: 0,
@@ -97,19 +95,27 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   };
 
   useEffect(() => {
-    if (!formState.instructions.length) {
+    if (formState && formState.instructions && formState.instructions.length === 0) {
       fetchInstruction();
     }
     // if(lookups && lookups.emailTypesLookUp && lookups.emailTypesLookUp.length){
     //   console.log(lookups.emailTypesLookUp);
-    //   // lookups.emailTypesLookUp.find(function(item) {
-    //   //   return
-    //   // })
+    //   lookups.emailTypesLookUp.find(function(item) {
+    //     return
+    //   })
     // }
-    if (!formState.evaluatorInvitationEmailTemplates.length) {
+    if (
+      formState &&
+      formState.evaluatorInvitationEmailTemplates &&
+      formState.evaluatorInvitationEmailTemplates.length === 0
+    ) {
       fetchEvaluatorEmailTemplate(5);
     }
-    if (!formState.participantsInvitationEmailTemplates.length) {
+    if (
+      formState &&
+      formState.participantsInvitationEmailTemplates &&
+      formState.participantsInvitationEmailTemplates.length === 0
+    ) {
       fetchParticipantEmailTemplate(6);
     }
     if (formState && formState.reminderTemplates && formState.reminderTemplates.length === 0) {
@@ -141,19 +147,9 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   }
 
   async function submitForm(values: any) {
-    delete values.reminderTemplates;
-    delete values.participantsInvitationEmailTemplates;
-    delete values.evaluatorInvitationEmailTemplates;
-    delete values.instructions;
     values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
     values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
     values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
-    delete values.date1;
-    delete values.date2;
-    delete values.date3;
-    delete values.emailTemplate1;
-    delete values.emailTemplate2;
-    delete values.emailTemplate3;
     var url_string = window.location.href;
     var url = new URL(url_string);
     var id = url.searchParams.get('id');
