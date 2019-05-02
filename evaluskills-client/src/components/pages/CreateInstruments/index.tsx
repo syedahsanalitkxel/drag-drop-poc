@@ -230,12 +230,10 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
   };
   const onClickAddContact = (event: React.MouseEvent) => {
     const newobj = {
-      participant: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        roleId: 0,
-      },
+      firstName: '',
+      lastName: '',
+      email: '',
+      roleId: 0,
       evaluator: [
         {
           firstName: '',

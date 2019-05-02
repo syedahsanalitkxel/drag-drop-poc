@@ -40,7 +40,7 @@ const Participants: React.FunctionComponent<Props> = ({
   };
   function getParticipantField(index: number, key: string) {
     if (index !== undefined) {
-      return `participants[${index}].participant.${key}`;
+      return `participants[${index}].${key}`;
     }
     return key;
   }
