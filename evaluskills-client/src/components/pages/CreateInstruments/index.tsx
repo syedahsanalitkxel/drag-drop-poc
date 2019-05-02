@@ -44,12 +44,7 @@ const initialState: AddEvaluationInterface = {
   participantsInvitationEmailTemplates: [],
   evaluatorInvitationEmailTemplates: [],
   reminderTemplates: [],
-  reminders: [
-    {
-      emailTemplateId: 0,
-      reminderDate: '',
-    },
-  ],
+  reminders: [],
   participants: [
     {
       firstName: '',
@@ -152,6 +147,12 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
     values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
     values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
     values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
+    delete values.date1;
+    delete values.date2;
+    delete values.date3;
+    delete values.emailTemplate1;
+    delete values.emailTemplate2;
+    delete values.emailTemplate3;
 
     setFormState({ ...formState, ...values });
     const { activeClientId } = JSON.parse(localStorage.getItem('user') || '');
@@ -439,7 +440,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
+                <option value={0}>Select Template</option>
                 <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
@@ -463,7 +464,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
+                <option value={0}>Select Template</option>
                 <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
@@ -487,7 +488,7 @@ export const CreateInstruments: React.FunctionComponent<Props> = ({ changeListen
                 inline={true}
                 last={true}
               >
-                <option value="billing-1">Higer Education</option>
+                <option value={0}>Select Template</option>
                 <LookupContextConsumer>{renderReminderEmailTemplates}</LookupContextConsumer>
               </FormElement>
             </div>
