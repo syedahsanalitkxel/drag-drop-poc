@@ -5,6 +5,9 @@ import PageBody from '../../atoms/PageBody';
 import FormElement, { FormElementTypes } from '../../molecules/FormElement';
 import IconButton from '../../atoms/IconButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LookupContextConsumer } from '../../../modules/Lookup/context';
+import { LookupContextInterface, LookupItemInterface } from '../../../modules/Lookup/interface';
+import { lookups } from '../../../modules/Lookup/enum';
 
 interface Props {
   index?: number;
@@ -25,6 +28,16 @@ const Participants: React.FunctionComponent<Props> = ({
   removeEvaluatior,
 }) => {
   console.log(formikprops);
+  const renderRolesDropdown = (props: LookupContextInterface) => {
+    const { findKey } = props;
+    if (findKey) {
+      return findKey(lookups.evaluationRolesLookUp).map((lookup: LookupItemInterface) => (
+        <option key={lookup.value} value={lookup.value}>
+          {lookup.text}
+        </option>
+      ));
+    }
+  };
   function getParticipantField(index: number, key: string) {
     if (index !== undefined) {
       return `participants[${index}].participant.${key}`;
@@ -77,7 +90,7 @@ const Participants: React.FunctionComponent<Props> = ({
           <div className="col-sm-12 p-l-0 p-r-0 d-flex">
             <FormElement
               label=""
-              name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'role')}
+              name={getevalutorField(evalutorProps.index, evalutorProps.evalindex, 'roleId')}
               formikprops={formikprops}
               type={FormElementTypes.SELECT}
               noValidate={true}
@@ -85,8 +98,7 @@ const Participants: React.FunctionComponent<Props> = ({
               last={true}
             >
               <option value="0">Select Role</option>
-              <option value="1">Role 1</option>
-              <option value="2">Role 2</option>
+              <LookupContextConsumer>{renderRolesDropdown}</LookupContextConsumer>
             </FormElement>
 
             <div className="col-sm-3 ">
@@ -159,7 +171,7 @@ const Participants: React.FunctionComponent<Props> = ({
             <div className="col-md-3">
               <FormElement
                 label=""
-                name={getParticipantField(propss.index, 'role')}
+                name={getParticipantField(propss.index, 'roleId')}
                 formikprops={formikprops}
                 type={FormElementTypes.SELECT}
                 noValidate={true}
@@ -167,8 +179,7 @@ const Participants: React.FunctionComponent<Props> = ({
                 last={true}
               >
                 <option value="0">Select Role</option>
-                <option value="1">Role 1</option>
-                <option value="2">Role 2</option>
+                <LookupContextConsumer>{renderRolesDropdown}</LookupContextConsumer>
               </FormElement>
             </div>
           </div>
