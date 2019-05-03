@@ -277,8 +277,71 @@ const Participants: React.FunctionComponent<Props> = ({
             Add Evaluators {<FontAwesomeIcon icon={'plus'} />}
           </Button>
         </div>
-        {participant.evaluators.map((item: any, index: any) => {
-          return renderEvaluator(item, index, index);
+        {participant.evaluators.map((item: any, i: any) => {
+          return (
+            <div className="col-sm-12 row ">
+              <div className="col-md-3 col-sm-3">
+                <FormElement
+                  label=""
+                  name={getevalutorField(index, i, 'email')}
+                  placeholder="Add Email"
+                  formikprops={formikprops}
+                  noValidate={true}
+                  inline={true}
+                  last={true}
+                />
+              </div>
+              <div className="col-md-3 col-sm-3">
+                <FormElement
+                  label=""
+                  name={getevalutorField(index, i, 'firstName')}
+                  placeholder="First Name"
+                  formikprops={formikprops}
+                  noValidate={true}
+                  inline={true}
+                  last={true}
+                />
+              </div>
+              <div className="col-md-3 col-sm-3">
+                <FormElement
+                  label=""
+                  name={getevalutorField(index, i, 'lastName')}
+                  placeholder="Last Name"
+                  formikprops={formikprops}
+                  noValidate={true}
+                  inline={true}
+                  last={true}
+                />
+              </div>
+              <div className="col-md-3  col-sm-3">
+                <div className="col-sm-12 p-l-0 p-r-0 d-flex">
+                  <FormElement
+                    label=""
+                    name={getevalutorField(index, i, 'roleId')}
+                    formikprops={formikprops}
+                    type={FormElementTypes.SELECT}
+                    noValidate={true}
+                    inline={true}
+                    last={true}
+                  >
+                    <option value="0">Select Role</option>
+                    <LookupContextConsumer>{renderRolesDropdown}</LookupContextConsumer>
+                  </FormElement>
+
+                  <div className="col-sm-3 ">
+                    <IconButton
+                      className="btn-danger btn-outline mt-3"
+                      icon="minus"
+                      actionHandler={(id: any) => removeEvaluatior(index, i)}
+                    />
+                    {/* <Button className="btn-danger btn-outline mt-3 " size="sm" type="button">
+                -
+              </Button> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
         })}
       </div>
       <div className="hr-line-dashed" />
