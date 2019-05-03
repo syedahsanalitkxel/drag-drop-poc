@@ -144,6 +144,16 @@ export const AddClient: React.FunctionComponent<Props> = ({
         ));
       }
     };
+    const renderClientTypeDropDown = (props: LookupContextInterface) => {
+      const { findKey } = props;
+      if (findKey) {
+        return findKey(lookups.clientTypesLookUp).map((lookup: LookupItemInterface) => (
+          <option key={lookup.value} value={lookup.value}>
+            {lookup.text}
+          </option>
+        ));
+      }
+    };
 
     const renderStatesDropdown = () => {
       return (
@@ -327,8 +337,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
                 last={true}
               >
                 <option value="">Select One</option>
-                <option value="1">Co-oprate</option>
-                <option value="2">Educational Institute</option>
+                <LookupContextConsumer>{renderClientTypeDropDown}</LookupContextConsumer>
               </FormElement>
             </div>
           </div>
