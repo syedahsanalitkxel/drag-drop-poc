@@ -140,9 +140,15 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
     history.push('/instrument-templates');
   }
   async function submitForm(values: any) {
-    values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
-    values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
-    values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
+    if (values.emailTemplate1 && values.date1) {
+      values.reminders.push({ emailTemplateId: values.emailTemplate1, reminderDate: values.date1 });
+    }
+    if (values.emailTemplate2 && values.date2) {
+      values.reminders.push({ emailTemplateId: values.emailTemplate2, reminderDate: values.date2 });
+    }
+    if (values.emailTemplate3 && values.date3) {
+      values.reminders.push({ emailTemplateId: values.emailTemplate3, reminderDate: values.date3 });
+    }
     var url_string = window.location.href;
     var url = new URL(url_string);
     var id = url.searchParams.get('id');

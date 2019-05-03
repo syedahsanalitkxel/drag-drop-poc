@@ -279,7 +279,7 @@ const Participants: React.FunctionComponent<Props> = ({
         </div>
         {participant.evaluators.map((item: any, i: any) => {
           return (
-            <div className="col-sm-12 row ">
+            <div key={i} className="col-sm-12 row ">
               <div className="col-md-3 col-sm-3">
                 <FormElement
                   label=""
