@@ -207,14 +207,85 @@ const Participants: React.FunctionComponent<Props> = ({
     );
   };
   const renderParticipantList = (participant: any, index: number) => (
-    <Fragment key={index}>
-      <NewParticipant participant={participant} index={index} />
+    <Fragment>
+      <div className="form-group row">
+        <div className="col-sm-6 font-bold align-self-start">
+          <h4>Participant</h4>
+        </div>
+        <div className="col-sm-6">
+          <Button className="mt-3 float-right" color="primary" size="lg" onClick={() => removeParticipant(index)}>
+            Remove Participant {<FontAwesomeIcon icon={'minus'} />}
+          </Button>
+        </div>
+
+        <div className="col-sm-12 row">
+          <div className="col-md-3">
+            <FormElement
+              label=""
+              name={getParticipantField(index, 'email')}
+              placeholder="Add Email"
+              formikprops={formikprops}
+              noValidate={true}
+              inline={true}
+              last={true}
+            />
+          </div>
+          <div className="col-md-3">
+            <FormElement
+              label=""
+              name={getParticipantField(index, 'firstName')}
+              placeholder="First Name"
+              formikprops={formikprops}
+              noValidate={true}
+              inline={true}
+              last={true}
+            />
+          </div>
+          <div className="col-md-3">
+            <FormElement
+              label=""
+              name={getParticipantField(index, 'lastName')}
+              placeholder="Last Name"
+              formikprops={formikprops}
+              noValidate={true}
+              inline={true}
+              last={true}
+            />
+          </div>
+          <div className="col-md-3">
+            <FormElement
+              label=""
+              name={getParticipantField(index, 'roleId')}
+              formikprops={formikprops}
+              type={FormElementTypes.SELECT}
+              noValidate={true}
+              inline={true}
+              last={true}
+            >
+              <option value="0">Select Role</option>
+              <LookupContextConsumer>{renderRolesDropdown}</LookupContextConsumer>
+            </FormElement>
+          </div>
+        </div>
+      </div>
+      <div className="form-group row">
+        <div className="col-sm-6">
+          <h4>Evaluators</h4>
+        </div>
+        <div className="col-sm-6">
+          <Button className="mt-3 float-right" color="primary" size="lg" onClick={() => addNewEvaluator(index)}>
+            Add Evaluators {<FontAwesomeIcon icon={'plus'} />}
+          </Button>
+        </div>
+        {participant.evaluators.map((item: any, index: any) => {
+          return renderEvaluator(item, index, index);
+        })}
+      </div>
+      <div className="hr-line-dashed" />
     </Fragment>
   );
   const renderEvaluator = (participant: any, index: number, listind: number) => (
-    <Fragment key={index}>
-      <AddEvaluator index={listind} evalindex={index} />
-    </Fragment>
+    <AddEvaluator key={index} index={listind} evalindex={index} />
   );
   return (
     <PageBody card={true} className="m-t-15">
