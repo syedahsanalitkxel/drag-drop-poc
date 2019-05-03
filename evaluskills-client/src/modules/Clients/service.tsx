@@ -32,7 +32,10 @@ export async function getClientById(id: string): Promise<AddClientInterface> {
 }
 
 export async function getFilteredClient(filters?: ClientFilters) {
-  return api.get(CLIENTS, undefined, filters).then(
+  const headers = { contentType: contentType.json };
+  const multipartApi = new API({ headers });
+
+  return multipartApi.get(CLIENTS, undefined, filters).then(
     (res: ResponseInterface) => {
       return {
         clientsData: res.data,
