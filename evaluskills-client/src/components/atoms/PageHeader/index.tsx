@@ -64,32 +64,32 @@ const PageHeader: React.FunctionComponent<Props> = ({
   );
 
   const renderActionButton = () => (
-    <button type="button" className="btn btn-w-m btn-primary">
-      <a onClick={actionHandler}>{actionButtonText}</a>
+    <button type="button" onClick={actionHandler} className="btn btn-w-m btn-primary">
+      <a>{actionButtonText}</a>
     </button>
   );
 
   const renderActiveButton = () => (
-    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
-      <a onClick={activeButtonActionHandler}>{activeButtonText}</a>
+    <button type="button" onClick={activeButtonActionHandler} className="btn btn-w-m m-r-5 btn-primary">
+      <a>{activeButtonText}</a>
     </button>
   );
 
   const renderViewButton = () => (
-    <button type="button" className="btn btn-w-m m-r-5 btn-light">
-      <a onClick={viewButtonActionHandler}>{viewButtonText}</a>
+    <button type="button" onClick={viewButtonActionHandler} className="btn btn-w-m m-r-5 btn-light">
+      <a>{viewButtonText}</a>
     </button>
   );
 
   const renderCancelButton = () => (
-    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
-      <a onClick={cancelButtonActionHandler}>{cancelButtonText}</a>
+    <button type="button" onClick={cancelButtonActionHandler} className="btn btn-w-m m-r-5 btn-primary">
+      <a>{cancelButtonText}</a>
     </button>
   );
 
   const renderAddAssessmentButton = () => (
-    <button type="button" className="btn btn-w-m m-r-5 btn-primary">
-      <a onClick={addAssessmentActionHandler}>{addAssessmentButtonText}</a>
+    <button type="button" onClick={addAssessmentActionHandler} className="btn btn-w-m m-r-5 btn-primary">
+      <a>{addAssessmentButtonText}</a>
     </button>
   );
 
