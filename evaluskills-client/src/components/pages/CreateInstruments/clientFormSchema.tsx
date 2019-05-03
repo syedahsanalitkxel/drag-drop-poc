@@ -31,10 +31,16 @@ const evaluationFormSchema = Yup.object().shape({
       firstName: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
+        .matches(/^[A-Za-z]+$/, {
+          message: 'only alphabets allowed',
+        })
         .required('Required'),
       lastName: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
+        .matches(/^[A-Za-z]+$/, {
+          message: 'only alphabets allowed',
+        })
         .required('Required'),
       email: Yup.string()
         .email('Invalid email')
@@ -47,10 +53,16 @@ const evaluationFormSchema = Yup.object().shape({
           firstName: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
+            .matches(/^[A-Za-z]+$/, {
+              message: 'only alphabets allowed',
+            })
             .required('Required'),
           lastName: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
+            .matches(/^[A-Za-z]+$/, {
+              message: 'only alphabets allowed',
+            })
             .required('Required'),
           email: Yup.string()
             .email('Invalid email')
