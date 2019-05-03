@@ -270,9 +270,11 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
     participants.push(newobj);
     setFormState({ ...formState, participants });
   };
-  function versionHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    let check = formState && formState.allowParticipantsToAddEvaluators;
-    setFormState({ ...formState, allowParticipantsToAddEvaluators: !check });
+  function versionHandler(formikprops: any) {
+    setTimeout(function() {
+      let check = formState.allowParticipantsToAddEvaluators;
+      setFormState({ ...formikprops.values, allowParticipantsToAddEvaluators: !check });
+    }, 0);
   }
   const renderForm = (formikprops: FormikBag) => {
     // const renderParticipantList = (contact: any, index: number) => (
@@ -395,7 +397,7 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
                 name="allowParticipantsToAddEvaluators"
                 value="allowParticipantsToAddEvaluators"
                 isChecked={formState && formState.allowParticipantsToAddEvaluators}
-                onChange={versionHandler}
+                onChange={() => versionHandler(formikprops)}
               >
                 Allow Participant to Add Evaluators
               </Checkbox>
