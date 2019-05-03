@@ -38,6 +38,9 @@ export const numberValidation = (min?: number, max?: number, required?: boolean)
 export const imageValidation = () => {
   return Yup.mixed().required('image required');
 };
+export const bodyValidation = () => {
+  return Yup.string().required('Required Field');
+};
 export const emailValidation = (required?: boolean) => {
   if (required) {
     Yup.string()
