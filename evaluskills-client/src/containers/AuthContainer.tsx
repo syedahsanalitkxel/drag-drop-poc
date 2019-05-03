@@ -62,6 +62,7 @@ const AuthContainer: React.FunctionComponent<RouteComponentProps> = ({ history, 
   const emailConfirmation = async (userId: string, code: string, password: string) => {
     try {
       await verifyUserAPi(userId, code, password);
+      history.push('/');
     } catch (e) {
       errorContext.setError(e);
     }
