@@ -6,6 +6,7 @@ import { ClientInstruments } from '../interfaces/Instruments';
 import InstrumentFiltersInterface from '../interfaces/InstrumentFilters';
 import ResponseInterface from '../api/ResponseInterface';
 import { values } from 'lodash-es';
+import { contentType } from '../enums';
 const api = new API();
 
 export async function getInstruments(): Promise<ClientInstruments[]> {
@@ -20,7 +21,9 @@ export async function getInstruments(): Promise<ClientInstruments[]> {
 }
 
 export async function getInstrumentById(id: string): Promise<ClientInstruments> {
-  return api.get(INSTRUMENTS, id).then(
+  const headers = { contentType: contentType.json };
+  const multipartApi = new API({ headers });
+  return multipartApi.get(INSTRUMENTS, id).then(
     (res: AxiosResponse) => {
       return res.data;
     },
@@ -31,7 +34,9 @@ export async function getInstrumentById(id: string): Promise<ClientInstruments> 
 }
 
 export async function getFilteredInstruments(filters?: InstrumentFiltersInterface) {
-  return api.get(INSTRUMENTS, undefined, filters).then(
+  const headers = { contentType: contentType.json };
+  const multipartApi = new API({ headers });
+  return multipartApi.get(INSTRUMENTS, undefined, filters).then(
     (res: ResponseInterface) => {
       return {
         instrumentData: res.data,
