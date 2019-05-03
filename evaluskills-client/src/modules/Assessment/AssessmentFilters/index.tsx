@@ -136,7 +136,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               id="competency-select"
               onChange={lookupchangeHandler}
             >
-              <option value="">Select One</option>
+              <option value="0">Select One</option>
               <LookupContextConsumer>{renderCompitency}</LookupContextConsumer>
             </Input>
           </div>
@@ -151,7 +151,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               id="competency-select"
               onChange={lookupchangeHandler}
             >
-              <option value="">Select One</option>
+              <option value="0">Select One</option>
               <LookupContextConsumer>{renderAssessmentCategory}</LookupContextConsumer>
             </Input>
           </div>

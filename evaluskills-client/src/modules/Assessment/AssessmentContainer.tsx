@@ -20,6 +20,7 @@ import FilterContext from './AssessmentFilters/context';
 
 import AddAssessmentComponenet from './AddAssessment';
 import { isAdd, isCopy, isEdit, isList } from '../../utils/routerUtils';
+import { filter } from 'lodash-es';
 
 const AssessmentItems: AssessmentItemInterface[] = [
   {
@@ -224,6 +225,18 @@ const AssessmentItemContainer: React.FunctionComponent<RouteComponentProps<Route
     if (!filters.PageNumber) {
       newFilterState.resetPager = true;
       newFilterState.filters.PageNumber = 1;
+    }
+    if (filters.ItemsStatusIds === '') {
+      delete newFilterState.filters.ItemsStatusIds;
+    }
+    if (filters.accreditation === '') {
+      delete newFilterState.filters.accreditation;
+    }
+    if (filters.categoryId === 0) {
+      delete newFilterState.filters.categoryId;
+    }
+    if (filters.competencyId === 0) {
+      delete newFilterState.filters.competencyId;
     }
     setState(newFilterState);
   };
