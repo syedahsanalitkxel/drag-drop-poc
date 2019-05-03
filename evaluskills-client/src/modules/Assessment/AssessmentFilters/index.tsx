@@ -28,7 +28,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
     application: activeFilters && activeFilters.application,
     categoryId: activeFilters && activeFilters.categoryId,
     competencyId: activeFilters && activeFilters.competencyId,
-    ItemStatusIds: activeFilters && activeFilters.ItemStatusIds,
+    ItemsStatusIds: activeFilters && activeFilters.ItemsStatusIds,
     TypeIds: activeFilters && activeFilters.TypeIds,
   });
   useEffect(() => {
@@ -192,25 +192,25 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
               <RadioButton
-                name="ItemStatusIds"
+                name="ItemsStatusIds"
                 value=""
-                currentSelection={formState.ItemStatusIds}
+                currentSelection={formState.ItemsStatusIds}
                 onChange={changeHandler}
               >
                 All
               </RadioButton>
               <RadioButton
-                name="ItemStatusIds"
+                name="ItemsStatusIds"
                 value={'1'}
-                currentSelection={formState.ItemStatusIds}
+                currentSelection={formState.ItemsStatusIds}
                 onChange={changeHandler}
               >
                 Drafted
               </RadioButton>
               <RadioButton
-                name="ItemStatusIds"
+                name="ItemsStatusIds"
                 value={'2'}
-                currentSelection={formState.ItemStatusIds}
+                currentSelection={formState.ItemsStatusIds}
                 onChange={changeHandler}
               >
                 Published
