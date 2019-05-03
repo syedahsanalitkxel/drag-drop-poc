@@ -304,7 +304,9 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
               <FormElement label="Title" name="title" placeholder="Add Title" formikprops={formikprops} inline={true} />
             </div>
             <div className="col-md-6">
-              <label className="col-sm-2 col-form-label font-bold">Test type</label>
+              <div>
+                <label className="font-bold">Test Type</label>
+              </div>
               <LookupContextConsumer>{testTypeLookUp}</LookupContextConsumer>
             </div>
           </div>
