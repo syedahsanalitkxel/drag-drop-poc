@@ -60,6 +60,7 @@ const EvaluationSummary: React.FunctionComponent<Props> = ({
       classes: 'btn btn-dark',
     },
   ];
+
   function goQuestion(itemID?: string) {
     const idencoded = base64.encode(data.instrumentId ? data.instrumentId : '');
     const itemEncoded = base64.encode(itemID ? itemID : '');

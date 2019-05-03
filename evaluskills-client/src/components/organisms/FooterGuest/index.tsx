@@ -7,7 +7,7 @@ const FooterGuest = (props: any) => {
         <div className="row">
           <div className="col-sm-12 text-right">
             {props.buttonsConfig.map((item: any, i: number) => {
-              return <Button index={i} {...item} />;
+              return <Button index={i} key={i} {...item} />;
             })}
           </div>
         </div>
