@@ -21,6 +21,7 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
 }) => {
   const [State, SetState] = useState(Questiondata);
   const [SaveState, SaveSetState] = useState(SaveandNextData);
+  const [BtnState, SaveBtnState] = useState(true);
   const clientHolderObj = {
     name: Questiondata.participantsFirstName + ' ' + Questiondata.participantsLastName,
     designation: Questiondata.participantRole,
@@ -35,12 +36,30 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
       src: '',
       callback: handleSkip,
       classes: 'btn btn-dark',
+      disabled: false,
     },
     {
       text: 'Next',
       src: '/img/icons/arrow.svg',
       callback: handleNext,
       classes: 'btn btn-primary',
+      disabled: true,
+    },
+  ];
+  const buttonsConfig2 = [
+    {
+      text: 'Skip for now',
+      src: '',
+      callback: handleSkip,
+      classes: 'btn btn-dark',
+      disabled: false,
+    },
+    {
+      text: 'Next',
+      src: '/img/icons/arrow.svg',
+      callback: handleNext,
+      classes: 'btn btn-primary',
+      disabled: false,
     },
   ];
   function handleSkip() {
@@ -70,6 +89,14 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
     saveData[Elementindex].selectedValue = value;
     saveData[Elementindex].selectedText = text;
     saveData[Elementindex].instrumentItemElementId = id;
+    const result =
+      SaveState.evaluationItemElements.length > 0 &&
+      SaveState.evaluationItemElements.filter(obj => obj.selectedText === null);
+    if (result && result.length > 0) {
+      SaveBtnState(true);
+    } else {
+      SaveBtnState(false);
+    }
     SaveSetState({ ...SaveState, evaluationItemElements: saveData });
     SetState({ ...State, itemElements: data });
   }
@@ -132,7 +159,7 @@ const EvaluatorQuestion: React.FunctionComponent<PropsInterface> = ({
               defaultValue={State.comments}
             />
           </div>
-          <FooterGuest buttonsConfig={buttonsConfig} />
+          <FooterGuest buttonsConfig={BtnState === true ? buttonsConfig : buttonsConfig2} />
         </div>
       </div>
     </GuestTemplate>

@@ -5,11 +5,12 @@ interface Props {
   text: string;
   classes: string;
   src: string;
+  disabled?: boolean;
 }
 
-const Button: React.FunctionComponent<Props> = ({ index, callback, text, classes, src }) => {
+const Button: React.FunctionComponent<Props> = ({ disabled, index, callback, text, classes, src }) => {
   return (
-    <button key={index} onClick={() => callback()} className={classes}>
+    <button key={index} disabled={disabled} onClick={() => callback()} className={classes}>
       {text} {src && <img src={src} alt="arrow" />}
     </button>
   );

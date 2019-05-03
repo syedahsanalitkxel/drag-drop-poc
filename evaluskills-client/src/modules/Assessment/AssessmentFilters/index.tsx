@@ -28,7 +28,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
     application: activeFilters && activeFilters.application,
     categoryId: activeFilters && activeFilters.categoryId,
     competencyId: activeFilters && activeFilters.competencyId,
-    itemStatusIds: activeFilters && activeFilters.itemStatusIds,
+    ItemsStatusIds: activeFilters && activeFilters.ItemsStatusIds,
     TypeIds: activeFilters && activeFilters.TypeIds,
   });
   useEffect(() => {
@@ -136,7 +136,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               id="competency-select"
               onChange={lookupchangeHandler}
             >
-              <option value="">Select One</option>
+              <option value="0">Select One</option>
               <LookupContextConsumer>{renderCompitency}</LookupContextConsumer>
             </Input>
           </div>
@@ -151,7 +151,7 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
               id="competency-select"
               onChange={lookupchangeHandler}
             >
-              <option value="">Select One</option>
+              <option value="0">Select One</option>
               <LookupContextConsumer>{renderAssessmentCategory}</LookupContextConsumer>
             </Input>
           </div>
@@ -192,28 +192,28 @@ const AssessmentFilters: React.FunctionComponent<Props> = ({ changeListener }) =
             <Label className="font-bold">Status</Label>
             <div className="d-flex align-items-center">
               <RadioButton
-                name="itemStatusIds"
+                name="ItemsStatusIds"
                 value=""
-                currentSelection={formState.itemStatusIds}
+                currentSelection={formState.ItemsStatusIds}
                 onChange={changeHandler}
               >
                 All
               </RadioButton>
               <RadioButton
-                name="itemStatusIds"
+                name="ItemsStatusIds"
                 value={'1'}
-                currentSelection={formState.itemStatusIds}
-                onChange={changeHandler}
-              >
-                Published
-              </RadioButton>
-              <RadioButton
-                name="itemStatusIds"
-                value={'2'}
-                currentSelection={formState.itemStatusIds}
+                currentSelection={formState.ItemsStatusIds}
                 onChange={changeHandler}
               >
                 Drafted
+              </RadioButton>
+              <RadioButton
+                name="ItemsStatusIds"
+                value={'2'}
+                currentSelection={formState.ItemsStatusIds}
+                onChange={changeHandler}
+              >
+                Published
               </RadioButton>
             </div>
           </div>

@@ -103,6 +103,17 @@ const InstrumentDetailTemplate: React.FunctionComponent<any> = ({
     <React.Fragment>
       <div className="row">
         <div className="col-lg-12">
+          {instruments.status === 'Draft' && (activeTab === '1' || activeTab === '2') && (
+            <PageHeader
+              title={instruments.title}
+              activeButtonText="Activate"
+              activeButtonActionHandler={activateClickHandler}
+              viewButtonText="View Results"
+              viewButtonActionHandler={viewClickHandler}
+              cancelButtonText="Cancel Assessment"
+              cancelButtonActionHandler={cancelClickHandler}
+            />
+          )}
           {instruments.status === 'Draft' && activeTab === '3' && (
             <PageHeader
               title={instruments.title}
@@ -118,7 +129,7 @@ const InstrumentDetailTemplate: React.FunctionComponent<any> = ({
               }}
             />
           )}
-          {(activeTab === '1' || activeTab === '2' || (instruments.status === 'Published' && activeTab === '3')) && (
+          {instruments.status === 'Published' && (
             <PageHeader
               title={instruments.title}
               viewButtonText="View Results"

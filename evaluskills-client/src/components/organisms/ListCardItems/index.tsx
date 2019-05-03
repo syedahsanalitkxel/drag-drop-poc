@@ -158,7 +158,7 @@ const ListCardItems: React.FunctionComponent<ListCardProps> = ({
         {componentName && submittAssessments && status !== 'Published' ? (
           <div className="row m-b-25">
             <StyledButton1 type="submit" color="primary" size="lg" onClick={submittAssessments}>
-              Save &amp; Changes
+              Save
             </StyledButton1>
           </div>
         ) : (

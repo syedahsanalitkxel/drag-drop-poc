@@ -149,7 +149,7 @@ export const AddInstructions: React.FunctionComponent<Props> = ({
             </StyledButton>
 
             <StyledButton type="submit" color="primary" size="lg">
-              Save &amp; Changes
+              Save
             </StyledButton>
           </div>
         </PageBody>

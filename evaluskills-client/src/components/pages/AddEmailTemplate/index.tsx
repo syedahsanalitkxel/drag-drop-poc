@@ -1,4 +1,4 @@
-import { Field, Formik, FormikActions } from 'formik';
+import { Field, Formik, FormikActions, ErrorMessage } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, FormFeedback, Input } from 'reactstrap';
 import styled from 'styled-components';
@@ -186,7 +186,14 @@ export const AddEmailTemplate: React.FunctionComponent<Props> = ({
             onEditorStateChange={onEditorStateChange}
           />
         </StyledPageBody>
-
+        <ErrorMessage
+          name={`body`}
+          render={msg => (
+            <div className="isa_error">
+              <span className="error text-danger">{msg}</span>
+            </div>
+          )}
+        />
         <PageBody card={true} className="m-t-15">
           <div className="row m-b-25">
             <StyledButton type="button" size="lg" onClick={cancelHandler}>
