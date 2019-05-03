@@ -158,7 +158,7 @@ export const AddClient: React.FunctionComponent<Props> = ({
     };
     async function getStatesfunc(countryId: number) {
       const result = await getStates(countryId);
-      setFormState({ states: result, CountryId: countryId });
+      setFormState({ ...formState, states: result, CountryId: countryId });
     }
     function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
       getStatesfunc(parseInt(event.target.value, 10));
