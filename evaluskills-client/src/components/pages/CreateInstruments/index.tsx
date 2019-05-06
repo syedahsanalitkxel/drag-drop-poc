@@ -94,8 +94,8 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
   const [contactFormState, setContactFormState] = useState(initialContactState);
   const [addClientContactModalVisible, setAddClientContactModalVisible] = useState(false);
   const [editClientContactModalVisible, setEditClientContactModalVisible] = useState(false);
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.name]: parseInt(event.target.value, 10) });
+  function changeHandler(formikprops: any, event: React.ChangeEvent<HTMLInputElement>) {
+    setFormState({ ...formikprops.values, [event.target.name]: parseInt(event.target.value, 10) });
   }
   const toggleAddClientContactModal = () => {
     setContactFormState(initialContactState);
@@ -237,15 +237,16 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
       ));
     }
   };
-  const testTypeLookUp = (props: LookupContextInterface) => {
+  const testTypeLookUp = (props: any, formikprops: any) => {
     const { findKey } = props;
     if (findKey) {
-      return findKey(lookups.testTypesLookUp).map((lookup: LookupItemInterface, index) => (
+      return findKey(lookups.testTypesLookUp).map((lookup: LookupItemInterface, index: any) => (
         <RadioButton
+          key={index}
           name="testTypeId"
           value={lookup.value}
           currentSelection={formState.testTypeId}
-          onChange={changeHandler}
+          onChange={e => changeHandler(formikprops, e)}
         >
           {lookup.text}
         </RadioButton>
@@ -307,7 +308,7 @@ export const CreateInstruments: React.FunctionComponent<any> = ({ history, chang
               <div>
                 <label className="font-bold">Test Type</label>
               </div>
-              <LookupContextConsumer>{testTypeLookUp}</LookupContextConsumer>
+              <LookupContextConsumer>{lookups => testTypeLookUp(lookups, formikprops)}</LookupContextConsumer>
             </div>
           </div>
 
